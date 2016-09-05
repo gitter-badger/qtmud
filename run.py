@@ -30,11 +30,4 @@ if __name__ == '__main__':
         manager.run()
     except KeyboardInterrupt as err:
         manager.log.info('{0} received, shutting down.'.format(err))
-        for service in manager.services:
-            try:
-                service.shutdown()
-                manager.log.info('{0} succesfully shutdown()'.format(service))
-            except Exception:
-                manager.log.info('no shutdown() function for '
-                    '{0}'.format(service))
         exit()

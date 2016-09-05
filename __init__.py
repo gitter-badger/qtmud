@@ -7,40 +7,51 @@ logging.basicConfig(level=logging.DEBUG)
 MUD_ADDR = ('0.0.0.0', 5787)
 
 class Thing(object):
+    """ Everything qtmud.manager handles is a thing or service.
+        Things have qualities applied to them.
+    """
     def __init__(self, **kw):
         self.qualities = []
         return
     
     def update(self, _dict):
+        # Quickly update multiple qualities of a thing.
         for key, value in _dict.items():
             setattr(self, key, value)
 
 class Manager(object):
+    """ referenced across the engine as qtmud.manager, a Manager() instance 
+        is the main driver of the engine, with functions for adding 
+        services and handling the event scheduler.
+    """
     def __init__(self, **kw):
         super(Manager, self).__init__(**kw)
         self.log = logging.getLogger(self.__module__)
-        # list of things that exist
+        # list of all the instanced things
         self.things = []
-        # list of services
+        # dict of key:qualities, value: instanced things with those qualities
+        self.qualities = {}
+        # list of all the instanced services
         self.services = OrderedDict()
         # commands the Manager is looking to pass out
         self.subscriptions = {}
-        # instructions and who gave them
+        # instructions and who gave them, resets every tick()
         self.events = {}
         return
     
     def add_services(self, *services):
         # Add services and their subscriptions
         for service in services:
-            self.log.info('adding {0} as service'.format(service))
+            self.log.info('adding {0} as service'.format(service.__name__))
             service = service(self)
             if not hasattr(service, 'subscriptions'): service.subscriptions = []
             for sub in service.subscriptions:
                 self.subscribe(service,sub)
                 self.log.info('subscribing {0} to event {1}'
-                    ''.format(service, sub))
+                    ''.format(service.__class__.__name__, sub))
             self.services[service] = service
-            self.log.info('{0} successfully added as service'.format(service))
+            self.log.info('{0} successfully added as service'
+                ''.format(service.__class__.__name__))
         return True
                 
     def schedule(self, command, **payload):
@@ -56,12 +67,16 @@ class Manager(object):
     def new_thing(self, *qualities):
         thing = Thing()
         self.things.append(thing)
-        self.log.debug('creating new thing with qualities: '
-            '{0}'.format(qualities))
+        self.log.info('creating new thing...')
         for quality in qualities:
             # this is probably awful
+            # this is probably worse now
+            if not quality in self.qualities:
+                self.qualities[quality] = []
+            self.qualities[quality].append(thing)
             thing = quality().apply(thing)
-        self.log.debug('created a new thing with qualities: '
+            self.log.info('added {0} quality to the new thing'.format(quality.__name__))
+        self.log.info('created a new thing with qualities: '
             '{0}'.format(thing.qualities))
         return thing
 
@@ -74,12 +89,11 @@ class Manager(object):
         events = self.events
         self.events = {}
         for service in self.services:
-            service.tick(events.pop(service, []))
-        #for service in self.services:
-        #    try:
-        #        service.tick(events.pop(services, []))
-        #    except Exception as err:
-        #        self.log.debug('{0} tick failed: {1}'
-        #            ''.format(service, err))
-        #        return False
+            try:
+                service.tick(events.pop(service, []))
+            # service.tick()s shouldn't be failing, but if they do, it 
+            # probably shouldn't be fatal...
+            except Exception as err:
+                self.log.warning('{0} failed to tick: {1}'
+                    ''.format(service.__class__.__name__, err))
         return True
