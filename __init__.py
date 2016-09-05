@@ -59,6 +59,7 @@ class Manager(object):
         self.log.debug('creating new thing with qualities: '
             '{0}'.format(qualities))
         for quality in qualities:
+            # this is probably awful
             thing = quality().apply(thing)
         self.log.debug('created a new thing with qualities: '
             '{0}'.format(thing.qualities))
@@ -73,10 +74,12 @@ class Manager(object):
         events = self.events
         self.events = {}
         for service in self.services:
-            try:
-                service.tick(events.pop(services, []))
-            except Exception as err:
-                self.log.debug('{0} tick failed: {1}'
-                    ''.format(service, err))
-                return False
+            service.tick(events.pop(service, []))
+        #for service in self.services:
+        #    try:
+        #        service.tick(events.pop(services, []))
+        #    except Exception as err:
+        #        self.log.debug('{0} tick failed: {1}'
+        #            ''.format(service, err))
+        #        return False
         return True

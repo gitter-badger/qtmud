@@ -49,16 +49,28 @@ class MUDSocket(object):
                     else:
                         self.clients[conn].recv_buffer += data.decode('utf8',
                             'ignore')
-                        self.manager.log.info('receiving data from {0}: {1}'
-                            ''.format(self.clients[conn],
-                            self.clients[conn].recv_buffer))
-                        self.manager.schedule('parse',
-                            line=self.clients[conn].recv_buffer,
-                            user=self.clients[conn])
+                        if '\n' in self.clients[conn].recv_buffer:
+                            split = self.clients[conn].recv_buffer.rstrip().split('\n', 1)
+                            if len(split) == 2:
+                                line, self.clients[conn].recv_buffer = split
+                            else:
+                                line,                                     self.clients[conn].recv_buffer = split[0], ''
+                            if ' ' in line:
+                                split = line.split(' ', 1)
+                                if len(split) == 2:
+                                    cmd, trailing = split
+                                else:
+                                    cmd, trailing = split[0], ''
+                            else:
+                                cmd, trailing = line, ''
+                        self.manager.schedule('parse', 
+                            client=self.clients[conn],
+                            cmd=cmd, trailing=trailing)
         if w:
             for conn in w:
                 conn.send(self.clients[conn].send_buffer.encode('utf8'))
                 self.manager.log.info('sending data to {0}: {1}'
-                    ''.format(self.clients[conn], send_buffer))
+                    ''.format(self.clients[conn],
+                        self.clients[conn].send_buffer.rstrip('\n')))
                 self.clients[conn].send_buffer = ''
         return
