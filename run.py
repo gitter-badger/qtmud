@@ -7,9 +7,11 @@ import logging
 sys.path.insert(0, os.path.abspath('../'))
 
 import qtmud
+from qtmud.services.mover import Mover
 from qtmud.services.parser import Parser
 from qtmud.services.mudsocket import MUDSocket
 from qtmud.qualities import Client
+from qtmud.qualities import Room
 
 if __name__ == '__main__':
     # Main launch script
@@ -17,13 +19,20 @@ if __name__ == '__main__':
         # Create engine manager
         print('instancing Manager()')
         manager = qtmud.Manager()
+        # set up an alias
         qtmud.manager = manager
         manager.log.info('Manager() instanced @ qtmud.manager')
-        # tell qtmud.manager to add servicese (instance & if applicable start)
-        manager.add_services(MUDSocket, Parser)
+        # instance arguments as tick()able services under qtmud.manager.services
+        manager.log.info('instancing services')
+        manager.add_services(MUDSocket, Parser, Mover)
+        manager.log.info('instancing qtmud.manager.back_room')
+        manager.back_room = manager.new_thing(Room)
         # ---
         # ---
         # testing goes here
+        print('testing block\n\n'
+            '{0} - manager.back_room.contents'
+            ''.format(manager.back_room.contents))
         # ---
         # ---
         # Run engine manager

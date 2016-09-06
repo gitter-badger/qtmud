@@ -21,11 +21,17 @@ class Parser(Service):
                     client.send(client, 'whoops')
             if cmd == 'whoami':
                 try:
-                    client.send(client, '{0}'.format(client))
+                    client.send(client, '{0}'.format(client.identity))
                 except:
                     client.send(client, 'command failed')
             if cmd == 'say':
-                for receipient in self.manager.qualities[Client]:
-                    receipient.send(receipient, '{0} says: {1}'
-                        ''.format(client, trailing))
+                for recipient in client.location.contents:
+                    if recipient in self.manager.qualities[Client]:
+                        recipient.send(recipient, '{0} says: {1}'
+                            ''.format(client.identity, trailing))
+            if cmd == 'whereami':
+                try:
+                    client.send(client, '{0}'.format(client.location.identity))
+                except:
+                    client.send(client, 'you aint nowhere')
         return

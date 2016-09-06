@@ -1,5 +1,6 @@
 import logging
-import threading
+import uuid
+import traceback
 from collections import OrderedDict
 
 logging.basicConfig(level=logging.DEBUG)
@@ -10,7 +11,8 @@ class Thing(object):
     """ Everything qtmud.manager handles is a thing or service.
         Things have qualities applied to them.
     """
-    def __init__(self, **kw):
+    def __init__(self, identity, manager, **kw):
+        self.identity, self.manager = identity, manager
         self.qualities = []
         return
     
@@ -65,20 +67,27 @@ class Manager(object):
         self.subscriptions[event].append(service)
     
     def new_thing(self, *qualities):
-        thing = Thing()
+        while True:
+            thing = uuid.uuid4()
+            if thing not in self.things:
+                break
+        thing = Thing(thing, self)
         self.things.append(thing)
         self.log.info('creating new thing...')
-        for quality in qualities:
-            # this is probably awful
-            # this is probably worse now
-            if not quality in self.qualities:
-                self.qualities[quality] = []
-            self.qualities[quality].append(thing)
-            thing = quality().apply(thing)
-            self.log.info('added {0} quality to the new thing'.format(quality.__name__))
+        self.add_qualities(thing, qualities)
         self.log.info('created a new thing with qualities: '
             '{0}'.format(thing.qualities))
         return thing
+
+    def add_qualities(self, thing, qualities):
+        for quality in qualities:
+            if not quality in self.qualities:
+                self.qualities[quality] = []
+            self.qualities[quality].append(thing)
+            thing.qualities.append(quality)
+            thing = quality().apply(thing)
+            self.log.info('added {0} quality to the new thing'.format(quality.__name__))
+        
 
     def run(self):
         while True:
@@ -96,4 +105,5 @@ class Manager(object):
             except Exception as err:
                 self.log.warning('{0} failed to tick: {1}'
                     ''.format(service.__class__.__name__, err))
+                traceback.print_exc()
         return True

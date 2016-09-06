@@ -1,10 +1,10 @@
 import select
 import socket
 
-
+import qtmud
 from qtmud import MUD_ADDR
 from qtmud.services import Service
-from qtmud.qualities import Client
+from qtmud.qualities import Client, Physical
 
 class MUDSocket(object):
     """ The socket server that handles incoming MUD-style connections.
@@ -43,11 +43,13 @@ class MUDSocket(object):
             for conn in r:
                 if conn is self.socket:
                     new_conn, addr = conn.accept()
-                    client = self.manager.new_thing(Client)
+                    client = self.manager.new_thing(Client, Physical)
                     client.update({'addr': addr, 'send_buffer' : '',
                         'recv_buffer' : ''})
                     self.connections.append(new_conn)
                     self.clients[new_conn] = client
+                    self.manager.schedule('move', thing=client,
+                        destination=qtmud.manager.back_room)
                 else:
                     data = conn.recv(1024)
                     if data == b'':
