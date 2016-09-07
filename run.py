@@ -1,23 +1,35 @@
+""" qtmud's start & run script
+
+    .. module:: qtmud.run
+        :synopsis: will start the engine
+    
+    .. moduleauthor: Morgan Sennhauser <morgan.sennhauser@gmail.com>
+    .. version added:: 0.0.1
+    
+    Instances manager, loads services, subscribes them to events
+"""
+
 #!/usr/bin/python3.5
 
 import sys
 import os
-import logging
 
 sys.path.insert(0, os.path.abspath('../'))
 
+#pylint: disable=wrong-import-position
 import qtmud
 from qtmud.services.mover import Mover
 from qtmud.services.parser import Parser
 from qtmud.services.mudsocket import MUDSocket
-from qtmud.qualities import Client
-from qtmud.qualities import Room
+from qtmud.qualities import Room, Container, Physical
+#plylint: enable=wrong-import position
 
 if __name__ == '__main__':
     # Main launch script
     try:
         # Create engine manager
         print('instancing Manager()')
+        # pylint says manager here is a constant... is it?
         manager = qtmud.Manager()
         # set up an alias
         qtmud.manager = manager
@@ -26,13 +38,16 @@ if __name__ == '__main__':
         manager.log.info('instancing services')
         manager.add_services(MUDSocket, Parser, Mover)
         manager.log.info('instancing qtmud.manager.back_room')
-        manager.back_room = manager.new_thing(Room)
+        manager.back_room = manager.new_thing(Room, Physical, Container)
+        manager.back_room.name = 'the back room'
+        manager.back_room.description = ('you\'re in what looks like a '
+                                         'supply closet or something.  '
+                                         'There\'s a door here but it looks '
+                                         'painted on?  It can\'t be opened '
+                                         'yet.')
         # ---
         # ---
         # testing goes here
-        print('testing block\n\n'
-            '{0} - manager.back_room.contents'
-            ''.format(manager.back_room.contents))
         # ---
         # ---
         # Run engine manager

@@ -5,3 +5,7 @@ add defaults to logging system if error comes from exception
 render description like render.style('{name}\n\n{visual_desc}'.format(**locals()))
 
 implement __slots__
+
+add syntax exception? (rewrite whole command thing)
+
+

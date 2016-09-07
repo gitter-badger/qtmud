@@ -1,22 +1,56 @@
+""" qtmud's main module. contains Thing and Manager
+
+    .. module:: qtmud
+        :synopsis: Contains Thing & Manager classes, used for creating and
+            managing objects.
+    
+    .. moduleauthor: Morgan Sennhauser <morgan.sennhauser@gmail.com>
+    .. version added:: 0.0.1
+    
+    In addition to handling `Thing` and `Manager`, a few global constants 
+    are set in the code below:
+        NAME and VERSION can be whatever you want, but I'd suggest following
+            our versioning pattern, available at docs/versioning.
+        HOST & MUD_PORT are a string and integer representing where the 
+            MUDSocket service will serve to.
+"""
+
 import logging
 import uuid
 import traceback
 from collections import OrderedDict
 
-logging.basicConfig(level=logging.DEBUG)
+NAME        = 'qtmud'
+VERSION     = '0.0.1'
+HOST        = 'localhost'
+MUD_PORT    = 5787
 
-MUD_ADDR = ('0.0.0.0', 5787)
+# Currently set up to record all logging to debug.log, with only INFO 
+# and higher priority messages going to console.
+logging.basicConfig(filename='debug.log', filemode='w', 
+                    format='%(asctime)s %(name)-12s %(levelname)-8s '
+                           '%(message)s',
+                    datefmt='%m-%d %H:%M',
+                    level=logging.DEBUG)
+CONSOLE = logging.StreamHandler()
+# Change this to logging.DEBUG if you want everything on the console
+CONSOLE.setLevel(logging.INFO)
+CONSOLE.setFormatter(logging.Formatter('%(name)-12s %(levelname)-8s '
+                                       '%(message)s'))
 
 class Thing(object):
     """ Everything qtmud.manager handles is a thing or service.
         Things have qualities applied to them.
     """
     def __init__(self, identity, manager, **kw):
+        super(Thing, self).__init__(**kw)
         self.identity, self.manager = identity, manager
         self.qualities = []
         return
     
     def update(self, _dict):
+        """ Add multiple attributes to a thing.
+        """
         # Quickly update multiple qualities of a thing.
         for key, value in _dict.items():
             setattr(self, key, value)
@@ -29,6 +63,7 @@ class Manager(object):
     def __init__(self, **kw):
         super(Manager, self).__init__(**kw)
         self.log = logging.getLogger(self.__module__)
+        self.log.addHandler(CONSOLE)
         # list of all the instanced things
         self.things = []
         # dict of key:qualities, value: instanced things with those qualities
@@ -42,58 +77,81 @@ class Manager(object):
         return
     
     def add_services(self, *services):
+        """ Instance services and subscribe that instance to its subscriptions.
+        """
         # Add services and their subscriptions
         for service in services:
-            self.log.info('adding {0} as service'.format(service.__name__))
+            self.log.debug('adding %s as service', service.__name__)
             service = service(self)
-            if not hasattr(service, 'subscriptions'): service.subscriptions = []
+            if not hasattr(service, 'subscriptions'):
+                service.subscriptions = []
             for sub in service.subscriptions:
                 self.subscribe(service,sub)
-                self.log.info('subscribing {0} to event {1}'
-                    ''.format(service.__class__.__name__, sub))
+                self.log.debug('subscribing %s to event %s'
+                               '', service.__class__.__name__, sub)
             self.services[service] = service
-            self.log.info('{0} successfully added as service'
-                ''.format(service.__class__.__name__))
+            self.log.debug('%s successfully added as service'
+                           '', service.__class__.__name__)
         return True
                 
     def schedule(self, command, **payload):
+        """ schedules a command with manager, to be fired in the upcoming 
+            tick()
+        """
         event = (command, payload)
         for service in self.subscriptions.get(command, []):
-            if service not in self.events: self.events[service] = []
+            if service not in self.events:
+                self.events[service] = []
             self.events[service].append(event)
 
     def subscribe(self, service, event):
-        if service not in self.subscriptions: self.subscriptions[event] = []
+        """ tells the manager that `service` is looking for `event
+        """
+        if service not in self.subscriptions:
+            self.subscriptions[event] = []
         self.subscriptions[event].append(service)
     
     def new_thing(self, *qualities):
+        """ sets up a new thing and gives it any qualities that were passed
+        """
         while True:
-            thing = uuid.uuid4()
-            if thing not in self.things:
+            identity = uuid.uuid4()
+            if identity not in self.things:
                 break
-        thing = Thing(thing, self)
+        thing = Thing(identity, self)
         self.things.append(thing)
-        self.log.info('creating new thing...')
+        self.log.debug('creating new thing...')
         self.add_qualities(thing, qualities)
-        self.log.info('created a new thing with qualities: '
-            '{0}'.format(thing.qualities))
         return thing
 
     def add_qualities(self, thing, qualities):
+        """ adds qualities to a thing. qualities are extra variables or 
+            functions that separate one thing from another, such as the
+            Physical quality giving names and descriptions, Client setting 
+            a thing up to be a client, so on.
+        """
         for quality in qualities:
             if not quality in self.qualities:
                 self.qualities[quality] = []
             self.qualities[quality].append(thing)
             thing.qualities.append(quality)
             thing = quality().apply(thing)
-            self.log.info('added {0} quality to the new thing'.format(quality.__name__))
+            self.log.debug('added %s quality to the thing'
+                           '', quality.__name__)
         
 
     def run(self):
+        """ main game loop right here
+        """
         while True:
             self.tick()
     
     def tick(self):
+        """ main game tick(). pushes out events to subscribers, who then 
+            execute them. For example, the 'move' event goes out to the 
+            Mover service, which does the business of taking things out 
+            of one location and into another.
+        """
         # Main game sequence. Should push events out to subscribers.
         events = self.events
         self.events = {}
@@ -102,8 +160,8 @@ class Manager(object):
                 service.tick(events.pop(service, []))
             # service.tick()s shouldn't be failing, but if they do, it 
             # probably shouldn't be fatal...
-            except Exception as err:
-                self.log.warning('{0} failed to tick: {1}'
-                    ''.format(service.__class__.__name__, err))
+            except Exception as err: #pylint: disable=broad-except
+                self.log.warning('%s failed to tick: %s',
+                                 service.__class__.__name__, err)
                 traceback.print_exc()
         return True
