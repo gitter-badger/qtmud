@@ -5,6 +5,8 @@
     
     .. moduleauthor: Morgan Sennhauser <morgan.sennhauser@gmail.com>
     .. version added:: 0.0.1
+    .. version changed:: 0.02
+        Added `look` and `go` commands
     
     Parser is subscribed to 'parse' events. It expects these events to have:
     
@@ -18,6 +20,9 @@
 
 from qtmud.services import Service
 from qtmud.qualities import Client
+
+# XXX Todo: break up parser into a command loading service - should commands 
+# come from qualities directlY?
 
 class Parser(Service):
     """ The parsing service.
@@ -43,7 +48,8 @@ class Parser(Service):
         for event, payload in events: #pylint: disable=unused-variable
             client = payload['client']
             cmd = payload['cmd']
-            trailing = payload['trailing']
+            if 'trailing' in payload: trailing = payload['trailing']
+            else: trailing = ''
             # XXX Watch for these errors and build proper exceptions as 
             # they're discovered.
             if cmd == 'echo':
@@ -55,30 +61,30 @@ class Parser(Service):
                                              'when %s entered the command '
                                              '%s %s\nerror to follow:%s', 
                                              client.name, cmd, trailing, err)
-                    client.send(client, 'the command failed, check console')
+                    client.send('the command failed, check console')
             elif cmd == 'whoami':
                 try:
-                    client.send(client, '{0}'.format(client.name))
+                    client.send('{0}'.format(client.name))
                 except Exception as err:
                     self.manager.log.warning('unexpected exception caught '
                                              'when %s entered the command '
                                              '%s %s\nerror to follow:%s', 
                                              client.name, cmd, trailing, err)
-                    client.send(client, 'the command failed, check console')
+                    client.send('the command failed, check console')
             elif cmd == 'say':
                 for recipient in client.location.contents:
                     if recipient in self.manager.qualities[Client]:
-                        recipient.send(recipient, '{0} says: {1}'
+                        recipient.send('{0} says: {1}'
                                        ''.format(client.name, trailing))
             elif cmd == 'whereami':
                 try:
-                    client.send(client, '{0}'.format(client.location.name))
+                    client.send('{0}'.format(client.location.name))
                 except Exception as err:
                     self.manager.log.warning('unexpected exception caught '
                                              'when %s entered the command '
                                              '%s %s\nerror to follow:%s', 
                                              client.name, cmd, trailing, err)
-                    client.send(client, 'the command failed, check console')
+                    client.send('the command failed, check console')
             elif cmd == 'set':
                 if trailing == '':
                     client.send('syntax: set <attribute> <value>',
@@ -92,7 +98,45 @@ class Parser(Service):
                                              'when %s entered the command '
                                              '%s %s\nerror to follow:%s', 
                                              client.name, cmd, trailing, err)
-                    client.send(client, 'the command failed, check console')
+                    client.send('the command failed, check console')
+            elif cmd == 'look':
+                try:
+                    client.send(client.look())
+                except Exception as err:
+                    self.manager.log.warning('unexpected exception caught '
+                                             'when %s entered the command '
+                                             '%s %s\nerror to follow:%s', 
+                                             client.identity, cmd, trailing, err)
+                    client.send('the command failed, check console')
+            elif cmd == 'go':
+                try:
+                    if trailing in client.location.exits:
+                        destination = client.location.exits[trailing]
+                        if destination in client.manager.qualities:
+                            destination = client.manager.qualities[destination]
+                            print(destination[0].name)
+                            client.manager.schedule('move',
+                                                    thing=client,
+                                                    destination=destination[0])
+                        else:
+                            try:
+                                destination = self.manager.new_thing(destination)
+                                client.manager.schedule('move',
+                                                        thing=client,
+                                                        destination=destination)
+                            except Exception as err:
+                                client.send('failed to create your destination')
+                                self.manager.log.warning('unexpected exception caught '
+                                             'when %s entered the command '
+                                             '%s %s\nerror to follow:%s', 
+                                             client.identity, cmd, trailing, err)
+                            
+                except Exception as err:
+                    self.manager.log.warning('unexpected exception caught '
+                                             'when %s entered the command '
+                                             '%s %s\nerror to follow:%s', 
+                                             client.identity, cmd, trailing, err)
+                    client.send('the command failed, check console')
             else:
-                client.send(client, '{0} isnt a valid command'.format(cmd))
+                client.send('{0} isnt a valid command'.format(cmd))
         return

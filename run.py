@@ -21,8 +21,14 @@ import qtmud
 from qtmud.services.mover import Mover
 from qtmud.services.parser import Parser
 from qtmud.services.mudsocket import MUDSocket
-from qtmud.qualities import Room, Container, Physical
+from qtmud.qualities import Client, Room, Container, Physical, Sight
+
+# testing imports
+from qtmud.lib import Tavern, Village
+
 #plylint: enable=wrong-import position
+
+
 
 if __name__ == '__main__':
     # Main launch script
@@ -38,13 +44,7 @@ if __name__ == '__main__':
         manager.log.info('instancing services')
         manager.add_services(MUDSocket, Parser, Mover)
         manager.log.info('instancing qtmud.manager.back_room')
-        manager.back_room = manager.new_thing(Room, Physical, Container)
-        manager.back_room.name = 'the back room'
-        manager.back_room.description = ('you\'re in what looks like a '
-                                         'supply closet or something.  '
-                                         'There\'s a door here but it looks '
-                                         'painted on?  It can\'t be opened '
-                                         'yet.')
+        manager.back_room = manager.new_thing(Tavern)
         # ---
         # ---
         # testing goes here
