@@ -19,14 +19,10 @@
     physical things themselves. 
 """
 
-# XXX If the manager instances each quality and applies from there, these 
-# functions can be added to that class.
-# Compare Client.send() and contains()
+# XXX Add in more "if variable already exists" checks because that should 
+# XXX just clearly be a thing.
 
-def contains(self, thing):
-    """ simply check if `thing` is in the contents of `self` (the Container).
-    """
-    return thing in self.contents
+import types
 
 class Client(object):
     """ Turns a bland thing into a fancy Client thing.
@@ -52,10 +48,16 @@ class Client(object):
             recv_buffer:    string received from the client this tick()
             send:           function for formating send_buffer
         """
-        thing.addr = tuple
-        thing.send_buffer = ''
-        thing.recv_buffer = ''
-        thing.send = self.send
+        if not hasattr(thing, 'addr'):
+            thing.addr = tuple
+        if not hasattr(thing, 'send_buffer'):
+            thing.send_buffer = ''
+        if not hasattr(thing, 'recv_buffer'): 
+            thing.recv_buffer = ''              
+        if not hasattr(thing, 'name'):
+            thing.name = str(thing.identity)
+        if not hasattr(thing, 'send'):
+            thing.send = types.MethodType(self.send, thing)  
         return thing
 
 class Physical(object):
@@ -63,20 +65,17 @@ class Physical(object):
             location: where the thing is contained.
     """
     def __init__(self, **kw):
-        """ create the main Client quality instance, so we don't have to 
-            keep creating more of them.
+        """ Create an instance of the Physical quality.
         """
-        # XXX ^^-^^ It might not actually do that, but that is what it 
-        # *should* be doing.
         super(Physical, self).__init__(**kw)
         return
     
     def apply(self, thing):
-        """ adds thing.location as class object
+        """ applies the attributes:
+            location: defaults to object
+            
         """
-        # XXX This might be broken/wrong, but the engine still works and 
-        # this'll end up being rewritten when environments are made a thing.
-        thing.location = object
+        if not hasattr(thing, 'location'): thing.location = object
         return thing
 
 class Renderable(object):
@@ -110,12 +109,36 @@ class Container(object):
         # *should* be doing.
         super(Container, self).__init__(*a, **kw)
         return
-        
+    
+    def add(self, thing):
+        """ Add a thing to the inventory of another, _if_ it isn't already 
+            there.
+        """
+        if thing not in self.contents:
+            return self.contents.append(thing)
+    
+    def contains(self, thing):
+        """ simply check if `thing` is in the contents of `self` '
+            (the Container).
+        """
+        return thing in self.contents
+    
+    def remove(self, thing):
+        """ removes a thing from another thing
+        """
+        if thing in self.contents: self.contents.remove(thing)
+    
     def apply(self, thing):
         """ adds list contents and function contains to thing
         """
-        thing.contents = []
-        thing.contains = contains
+        if not hasattr(thing, 'contents'): thing.contents = []
+        if not hasattr(thing, 'add'): 
+            thing.add = types.MethodType(self.add, thing)
+        if not hasattr(thing, 'contains'):
+            thing.contains = types.MethodType(self.contains, thing)
+        if not hasattr(thing, 'remove'):
+            thing.remove = types.MethodType(self.contains, thing)
+        return thing
 
 class Room(object):
     """ Gives a thing the qualities of a Room
@@ -124,8 +147,6 @@ class Room(object):
         """ create the main Client quality instance, so we don't have to 
             keep creating more of them.
         """
-        # XXX ^^-^^ It might not actually do that, but that is what it 
-        # *should* be doing.
         super(Room, self).__init__(**kw)
         return
     
@@ -133,8 +154,38 @@ class Room(object):
         """ adds dict exits and if non-existent, list contents & function 
             contains
         """
-        thing.exits = {}
+        if not hasattr(thing, 'exits'): thing.exits = {}
         if not hasattr(thing, 'contents'): thing.contents = []
-        if not hasattr(thing, 'contains'): thing.contains = contains
+        if not hasattr(thing, 'add'):
+            thing.add = types.MethodType(Container.add, thing)
+        if not hasattr(thing, 'contains'):
+            thing.contains = types.MethodType(Container.contains, thing)
+        if not hasattr(thing, 'remove'):
+            thing.remove = types.MethodType(Container.remove, thing)
         return thing
         
+class Sight(object):
+    def __init__(self, **kw):
+        super(Sight, self).__init__(**kw)
+        return
+    
+    def look(self, thing, **payload):
+        print('look been called')
+        render = ('- {0} -\n'
+                  '{1}\n'
+                  '[ '.format(thing.location.name,
+                               thing.location.description))
+        for exit in thing.location.exits:
+            render += (exit+', ')
+        render += ' ]\n( '
+        for content in thing.location.contents:
+            render += (content.name+', ')
+        render += ' )'
+        return render
+        
+    
+    def apply(self, thing):
+        print('Sight being applied')
+        if not hasattr(thing, 'look'): 
+            thing.look = types.MethodType(self.look, thing)
+        return thing        

@@ -138,6 +138,7 @@ class Manager(object):
             thing = quality().apply(thing)
             self.log.debug('added %s quality to the thing'
                            '', quality.__name__)
+            return thing
         
 
     def run(self):

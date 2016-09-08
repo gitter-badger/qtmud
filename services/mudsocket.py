@@ -15,8 +15,10 @@ import socket
 
 import qtmud
 from qtmud import HOST, MUD_PORT
-from qtmud.qualities import Client, Physical, Renderable
+from qtmud.qualities import Client, Physical, Renderable, Sight
 
+# Most services use qtmud.services.Service as a parent, but MUDSocket 
+# just inherits object because... actually I can't remember offhand.
 class MUDSocket(object):
     """ The socket server that handles incoming MUD-style connections.
     """
@@ -56,8 +58,10 @@ class MUDSocket(object):
                     new_conn, addr = conn.accept()
                     client = self.manager.new_thing(Client, Physical, 
                                                     Renderable)
+                    client.manager.add_qualities(client, [Sight])
                     client.update({'addr': addr, 'send_buffer' : '',
                                    'recv_buffer' : ''})
+                    print('!!! {0}'.format(client.send_buffer))
                     self.connections.append(new_conn)
                     self.clients[new_conn] = client
                     self.manager.schedule('move', thing=client,
@@ -84,10 +88,10 @@ class MUDSocket(object):
                                     cmd, trailing = split[0], ''
                             else:
                                 cmd, trailing = line, ''
-                        self.manager.schedule('parse', 
-                                              client=self.clients[conn],
-                                              cmd=cmd,
-                                              trailing=trailing)
+                            self.manager.schedule('parse', 
+                                                  client=self.clients[conn],
+                                                  cmd=cmd,
+                                                  trailing=trailing)
         if w:
             for conn in w:
                 conn.send(self.clients[conn].send_buffer.encode('utf8'))

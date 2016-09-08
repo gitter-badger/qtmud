@@ -5,7 +5,7 @@ qtmud is a early alpha engine for maintaining and presenting a text-based MMORPG
 
 ### Core Concepts
 
-In qtmud, a manager controls game `services`, which act upon `things`.
+In qtmud, a `manager` controls game `services`, which act upon `things`.
 
 `services` have `tick()` functions, which get sent any `events` the `service` 
 was `subscribed` to with the `manager`.
@@ -57,4 +57,6 @@ formatted as `Earl says: Good morning!`
 ### Development
 
 At this point in early development the API is quite volatile, so rely on 
-the documentation at the function-level if you're having problems.
+the documentation at the function-level if you're having problems. There's a 
+[todo](todo.md) list available, which has some discussion on immediate 
+development directions.

@@ -39,7 +39,8 @@ class Mover(Service):
             # XXX Rewrite this exception to properly handle things
             except AttributeError:
                 self.manager.log.debug('tried to remove %s from a location '
-                                       'but %s was not in that location')
+                                       'but %s was not in that location', 
+                                       thing.identity, thing.identity)
             except Exception as err:
                 self.manager.log.warning('unexpected exception caught '
                                          'when trying to remove %s '
@@ -51,5 +52,5 @@ class Mover(Service):
                 # XXX Expecting object, need to account for other possibilities,
                 # how to load rooms.
                 thing.location = destination
-                thing.location.contents.append(thing)
+                thing.location.add(thing)
         return True
