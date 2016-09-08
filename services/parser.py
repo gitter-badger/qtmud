@@ -21,6 +21,9 @@
 from qtmud.services import Service
 from qtmud.qualities import Client
 
+# XXX Todo: break up parser into a command loading service - should commands 
+# come from qualities directlY?
+
 class Parser(Service):
     """ The parsing service.
         Subscribed to 'parse' events.

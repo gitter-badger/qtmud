@@ -53,6 +53,9 @@ this will be equivalent to their `identity`, a UUID.
 * `echo <text>` simply echos `text` back to the client.
 * `say <text>` will pass `text` to every `Client` in the client's `location`,
 formatted as `Earl says: Good morning!`
+* `go <direction>` moves the client into a new location.
+* `look` shows the client the `name` and `description` of their `location`,
+plus any `exits` and `contents`.
 
 ### Development
 
