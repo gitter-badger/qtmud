@@ -86,7 +86,7 @@ class Quality(object):
     def womble(self, thing):
         """ An example of a function within a quality.
 
-            .. version added:: 0.0.1-feature/parser
+            .. versionadded:: 0.0.1-feature/parser
 
             Parameters:
                 thing(object):      the :class:`thing <qtmud.Thing>` this

@@ -23,7 +23,8 @@ class Tavern(object):
         return
     
     def apply(self, thing):
-        tavern = thing.manager.add_qualities(thing, [Room, Renderable])
+        tavern = thing.manager.add_qualities(thing, [Room])
+        tavern = thing.manager.add_qualities(thing, [Renderable])
         tavern.name = 'Ye Olde Tavern'
         tavern.description = 'A tavern so normal, it requires no description.'
         tavern.exits = { 'outside' : Village }
@@ -40,7 +41,8 @@ class Village(object):
         return
     
     def apply(self, thing):
-        village = thing.manager.add_qualities(thing, [Room, Renderable])
+        village = thing.manager.add_qualities(thing, [Room])
+        village = thing.manager.add_qualities(village, [Renderable])
         village.name = 'Village Center'
         village.description = ('The center of a small village. Really just '
                                'a tavern in a field, for now.')
@@ -58,7 +60,8 @@ class Field(object):
         return
     
     def apply(self, thing):
-        field = thing.manager.add_qualities(thing, [Room, Renderable])
+        field = thing.manager.add_qualities(thing, [Room])
+        field = thing.manager.add_qualities(village, [Renderable])
         field.name = 'Empty Field'
         field.description = ('A variety of grasses are growing in this '
                              'unused field. You can see a village a short '

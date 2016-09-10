@@ -4,7 +4,7 @@
 
 ## create hearing quality, revise say to match
 
-## move ./services/ and ./qualities/ to ./engine/* ?
+## client aliases
 
 ## add glossary to documentation
 

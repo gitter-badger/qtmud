@@ -19,6 +19,7 @@
 """
 
 from qtmud.services.mover import Mover
+from qtmud.services.renderer import Renderer
 
 class Service(object):
     """ **This class is for API documentation only. Not to be used.**

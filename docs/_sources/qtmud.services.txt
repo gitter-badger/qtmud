@@ -9,6 +9,7 @@ Submodules
    qtmud.services.mover
    qtmud.services.mudsocket
    qtmud.services.parser
+   qtmud.services.renderer
 
 Module contents
 ---------------

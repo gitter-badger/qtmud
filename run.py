@@ -22,6 +22,7 @@ import qtmud
 from qtmud.services.mover import Mover
 from qtmud.services.parser import Parser
 from qtmud.services.mudsocket import MUDSocket
+from qtmud.services import Renderer
 
 # testing imports
 from qtmud.lib import Village
@@ -42,7 +43,7 @@ if __name__ == '__main__':
         manager.log.info('Manager() instanced @ qtmud.manager')
         # instance arguments as tick()able services under qtmud.manager.services
         manager.log.info('instancing services')
-        manager.add_services(MUDSocket, Parser, Mover)
+        manager.add_services(MUDSocket, Parser, Mover, Renderer)
         manager.log.info('instancing qtmud.manager.back_room')
         manager.back_room = manager.new_thing(Village)
         # ---
