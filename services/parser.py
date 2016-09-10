@@ -5,6 +5,10 @@
     
     .. moduleauthor: Morgan Sennhauser <morgan.sennhauser@gmail.com>
     .. version added:: 0.0.1
+    .. version changed:: 0.0.1-feature/organizing
+        Added `look` and `go` commands
+    .. version changed:: 0.0.1-feature/parsing
+        moved commands into their associated qualities
     
     Parser is subscribed to 'parse' events. It expects these events to have:
     
@@ -18,6 +22,9 @@
 
 from qtmud.services import Service
 from qtmud.qualities import Client
+
+# XXX Todo: break up parser into a command loading service - should commands 
+# come from qualities directlY?
 
 class Parser(Service):
     """ The parsing service.
@@ -33,66 +40,21 @@ class Parser(Service):
         # move parser to its own folder, keep commands under there and in 
         # lib/parser?
         self.subscriptions.append('parse')
+        manager.subscribe(self, 'parse')
     
     def tick(self, events=False):
         """ If Parser service has any events, parse them and respond 
             appropriately.
         """
-        if events is False:
+        if events == []:
             return False
-        for event, payload in events: #pylint: disable=unused-variable
+        for __, payload in events: #pylint: disable=unused-variable
             client = payload['client']
             cmd = payload['cmd']
-            trailing = payload['trailing']
-            # XXX Watch for these errors and build proper exceptions as 
-            # they're discovered.
-            if cmd == 'echo':
-                try:
-                    client.send(client, trailing)
-                    break 
-                except Exception as err:
-                    self.manager.log.warning('unexpected exception caught '
-                                             'when %s entered the command '
-                                             '%s %s\nerror to follow:%s', 
-                                             client.name, cmd, trailing, err)
-                    client.send(client, 'the command failed, check console')
-            elif cmd == 'whoami':
-                try:
-                    client.send(client, '{0}'.format(client.name))
-                except Exception as err:
-                    self.manager.log.warning('unexpected exception caught '
-                                             'when %s entered the command '
-                                             '%s %s\nerror to follow:%s', 
-                                             client.name, cmd, trailing, err)
-                    client.send(client, 'the command failed, check console')
-            elif cmd == 'say':
-                for recipient in client.location.contents:
-                    if recipient in self.manager.qualities[Client]:
-                        recipient.send(recipient, '{0} says: {1}'
-                                       ''.format(client.name, trailing))
-            elif cmd == 'whereami':
-                try:
-                    client.send(client, '{0}'.format(client.location.name))
-                except Exception as err:
-                    self.manager.log.warning('unexpected exception caught '
-                                             'when %s entered the command '
-                                             '%s %s\nerror to follow:%s', 
-                                             client.name, cmd, trailing, err)
-                    client.send(client, 'the command failed, check console')
-            elif cmd == 'set':
-                if trailing == '':
-                    client.send('syntax: set <attribute> <value>',
-                                'example: set name Bob')
-                trailing = trailing.split()
-                attribute, value = trailing[0], " ".join(trailing[1:])
-                try:
-                    setattr(client, attribute, value)
-                except Exception as err:
-                    self.manager.log.warning('unexpected exception caught '
-                                             'when %s entered the command '
-                                             '%s %s\nerror to follow:%s', 
-                                             client.name, cmd, trailing, err)
-                    client.send(client, 'the command failed, check console')
+            if 'trailing' in payload: trailing = payload['trailing']
+            else: trailing = ''
+            if cmd in client.commands:
+                client.commands[cmd](trailing)
             else:
-                client.send(client, '{0} isnt a valid command'.format(cmd))
+                client.send('{0} isnt a valid command'.format(cmd))
         return

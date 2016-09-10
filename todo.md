@@ -1,11 +1,73 @@
-add defaults to logging system if error comes from exception
-    syntaxes:   except Exception: manager.warning('something broke')
-                except Exception as err: manager.warning(err)
+## inventory command
 
-render description like render.style('{name}\n\n{visual_desc}'.format(**locals()))
+## split commandable into its own quality
 
-implement __slots__
+## create hearing quality, revise say to match
 
-add syntax exception? (rewrite whole command thing)
+## move ./services/ and ./qualities/ to ./engine/* ?
 
+## add glossary to documentation
 
+## split movement into remove and add
+
+## how to handle the assumed uniqueness of rooms?
+best i think would be to replace the Class that's set to a direction's
+value with the oject (thing) it actually wants, once it's cloned. That way 
+there's no weird "this thing is unique" code spaghetting around - don't 
+assume anything is going to be unique.
+
+it'd clean up the main folder a bit, which might be nice since there 
+will end up being lots of config files there.
+
+## create render service for clients
+change current client.send() functions to qtmud.manager.schedule('render',
+**payload)
+
+## rendering service
+
+for sighted, hearing quality to run their output through??
+probably through the client quality?
+
+## run commands through manager always?
+
+calling command functions directly sometimes means the command happens before 
+the next tick. whoops.
+
+## physical descriptions
+it'd be nice if the description to render it were:
+        output = '{name}\n\n{visual_desc}'.format(**locals())
+        client.send(output)
+or similar - basically, have it be a string where variables are replaced, 
+so users can format their own output.
+    
+## implement __slots__
+ 
+it'd help save on memory in the long term if things used `__slots__` for 
+their qualities, but tihs should probably be done before much work is done 
+in serializing the data
+
+## persistence
+
+how are user accounts and other necessary things going to be persistent?
+        class Persistence:
+        
+            def set_quality(self, quality, value):
+                if quality in self.__slots__:
+                    # save function
+                else:
+                    object.__setattr__(self,quality, value)
+            
+            def apply(self, thing):
+                thing.__setattr_ = self.set_quality
+                
+(no clue if that would work lol)
+It'd be really great if whatever the game saved as was the same format as 
+the library, so admin could just use the latest save *as* the library the 
+next time the engine started.
+            
+## Qualities which add commands must be called in separately
+
+for some reason? if you instance a new_thing() with multiple Qualities adding 
+commands, only the first one will work. I'm sure it's just some syntax error, 
+but for now I'm accepting it as "make sure you don't accidentally add commands 
+to a thing."

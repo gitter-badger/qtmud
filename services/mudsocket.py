@@ -1,27 +1,49 @@
 """ service handling MUD-formatted socket connections.
 
-    .. module:: qtmud.services.mudsocket
-        :synopsis: service handling MUD-formatted socket connections.
-    
     .. moduleauthor: Morgan Sennhauser <morgan.sennhauser@gmail.com>
+    
     .. version added:: 0.0.1
+    .. version changed:: 0.0.1-feature/enviroments
+        Added applying the Sight quality to incoming connections
+    .. version changed:: 0.0.1-feature/parsing
+        Added applying the Container and Speaking qualities to incoming 
+        connections.
     
     The service which provides socket server and basic parsing of incoming 
     and outgoing data.
 """
 
+# TODO write better documentation for qtmud.services.mudsocket
+
 import select
 import socket
 
+
 import qtmud
 from qtmud import HOST, MUD_PORT
-from qtmud.qualities import Client, Physical, Renderable
+# These are all the qualities that are applied to a client's thing to make 
+# it useful.
+from qtmud.qualities import (Client, Physical, Renderable, Container, Sighted,
+                             Speaking)
+
 
 class MUDSocket(object):
-    """ The socket server that handles incoming MUD-style connections.
+    """ A service which handles a socket connection.
+    
+        Parameters:
+            manager(object):        automatically passed by 
+                                    :func:`add_services()  
+                                    <qtmud.Manager.add_services>`, the 
+                                    :class:`manager <qtmud.Manager>`
+        
+        Attributes:
+            manager(object):        The same as the manager above.
+            
+        The MUDSocket service handles the socket connection. It has no 
+        real API for interacting with the rest of qtmud, and needs to be 
+        rewritten and documented once we explore client accounts.
     """
-    def __init__(self, manager, **kw):
-        super(MUDSocket, self).__init__(**kw)
+    def __init__(self, manager):
         self.manager = manager
         self.address = (HOST, MUD_PORT)
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -55,7 +77,10 @@ class MUDSocket(object):
                 if conn is self.socket:
                     new_conn, addr = conn.accept()
                     client = self.manager.new_thing(Client, Physical, 
-                                                    Renderable)
+                                                    Renderable, Container)
+                    client.manager.add_qualities(client, [Physical])
+                    client.manager.add_qualities(client, [Sighted])
+                    client.manager.add_qualities(client, [Speaking])
                     client.update({'addr': addr, 'send_buffer' : '',
                                    'recv_buffer' : ''})
                     self.connections.append(new_conn)
@@ -84,10 +109,10 @@ class MUDSocket(object):
                                     cmd, trailing = split[0], ''
                             else:
                                 cmd, trailing = line, ''
-                        self.manager.schedule('parse', 
-                                              client=self.clients[conn],
-                                              cmd=cmd,
-                                              trailing=trailing)
+                            self.manager.schedule('parse', 
+                                                  client=self.clients[conn],
+                                                  cmd=cmd,
+                                                  trailing=trailing)
         if w:
             for conn in w:
                 conn.send(self.clients[conn].send_buffer.encode('utf8'))
