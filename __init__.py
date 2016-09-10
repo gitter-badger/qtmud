@@ -30,7 +30,7 @@ from collections import OrderedDict
 # Whatever you want your MUD to be called. Should be a string
 NAME        = 'qtmud'
 # The version of your MUD. check docs/versioning. should be a string
-VERSION     = '0.0.1'
+VERSION     = '0.0.2'
 # 'localhost' for development, '0.0.0.0' for production.
 HOST        = 'localhost'
 # the port you want the MUDSocket service to listen over. should be integer
