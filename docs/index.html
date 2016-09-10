@@ -1,0 +1,413 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>qtmud documentation &#8212; qtmud 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="qtmud 0.0.1 documentation" href="#" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="nav-item nav-item-0"><a href="#">qtmud 0.0.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="qtmud-documentation">
+<h1>qtmud documentation<a class="headerlink" href="#qtmud-documentation" title="Permalink to this headline">¶</a></h1>
+<p>qtmud is an early alpha multiplayer text-based real-time virtual world simulator.</p>
+<p>Clients (players) receive verbose descriptions of environments, objects, other
+players, and actions performed in qtmud&#8217;s simulated world. In order to interact
+with the game engine, clients then type out things they want to do, such as
+<code class="docutils literal"><span class="pre">move</span> <span class="pre">outside</span></code> or <code class="docutils literal"><span class="pre">fight</span> <span class="pre">dragon</span></code>.</p>
+<p><strong>Know what you&#8217;re doing?</strong>
+If you want to dive on in, here&#8217;s an overview of game mechanics with links
+to the relevant source code:</p>
+<blockquote>
+<div>In <code class="xref py py-mod docutils literal"><span class="pre">qtmud</span></code>, a <code class="xref py py-class docutils literal"><span class="pre">manager</span></code> controls
+<code class="xref py py-mod docutils literal"><span class="pre">services</span></code> which
+<code class="xref py py-func docutils literal"><span class="pre">subscribe</span></code> to
+<code class="xref py py-attr docutils literal"><span class="pre">events</span></code>. When an event is
+<code class="xref py py-func docutils literal"><span class="pre">scheduled</span></code>, the
+<code class="xref py py-class docutils literal"><span class="pre">manager</span></code> calls it the next
+<code class="xref py py-func docutils literal"><span class="pre">tick</span></code>. These
+<code class="xref py py-attr docutils literal"><span class="pre">events</span></code> act upon
+<code class="xref py py-class docutils literal"><span class="pre">things</span></code> which have had
+<code class="xref py py-mod docutils literal"><span class="pre">qualities</span></code>
+<code class="xref py py-func docutils literal"><span class="pre">applied</span></code> to them.</div></blockquote>
+<p><strong>Less informed?</strong>
+Don&#8217;t worry - one of the main focuses of qtmud is that it be easy to
+understand from just the documentation. If you read through the rest
+of this document, you&#8217;ll end up with a good understanding of what happens
+when you run qtmud, and what&#8217;s happening when players log in and do things.</p>
+<p>But first, it might help to show you what gameplay in qtmud looks like,
+since you may not be familiar with <a class="reference external" href="https://www.wikiwand.com/en/MUD">MUDs</a>.</p>
+<div class="section" id="current-gameplay">
+<h2>Current Gameplay<a class="headerlink" href="#current-gameplay" title="Permalink to this headline">¶</a></h2>
+<img alt="img/current_gameplay.png" src="img/current_gameplay.png" />
+<p>[insert explanation of screenshot here]</p>
+</div>
+<div class="section" id="running-qtmud">
+<h2>Running qtmud<a class="headerlink" href="#running-qtmud" title="Permalink to this headline">¶</a></h2>
+<p>Running qtmud is pretty simple. I&#8217;m going to assume any reader is on a
+<a href="#id1"><span class="problematic" id="id2">*</span></a>nix-type system and is able to do simple tasks like open a terminal.</p>
+<div class="section" id="download-configure">
+<h3>Download &amp; Configure<a class="headerlink" href="#download-configure" title="Permalink to this headline">¶</a></h3>
+<p>The best way to get a copy of qtmud is to <a class="reference external" href="https://help.github.com/articles/cloning-a-repository/">clone the repository</a>.</p>
+<p>Once you&#8217;ve done that, you might want to edit the constants in the main
+<code class="xref py py-mod docutils literal"><span class="pre">qtmud</span></code> module, which is the <code class="docutils literal"><span class="pre">__init__.py</span></code> file in qtmud&#8217;s main
+directory.</p>
+<p>The four constants you might want to change right away are:</p>
+<ul class="simple">
+<li><code class="xref py py-attr docutils literal"><span class="pre">NAME</span></code> - the name that your MUD will go by</li>
+<li><code class="xref py py-attr docutils literal"><span class="pre">VERSION</span></code> - the version of your MUD. Check
+out <a class="reference internal" href="versioning.html"><span class="doc">qtmud Versioning</span></a> for more information.</li>
+<li><code class="xref py py-attr docutils literal"><span class="pre">HOST</span></code> - the hostname your MUD will serve over.</li>
+<li><code class="xref py py-attr docutils literal"><span class="pre">MUD_PORT</span></code> - the port your MUD will serve over.</li>
+</ul>
+<p>Once you&#8217;ve got those set up, you&#8217;re ready to start your MUD.</p>
+</div>
+<div class="section" id="starting-qtmud">
+<h3>Starting qtmud<a class="headerlink" href="#starting-qtmud" title="Permalink to this headline">¶</a></h3>
+<p>After you&#8217;ve set that up, use python3.5 to run execute <code class="docutils literal"><span class="pre">./run.py</span></code>. You
+should see some output that looks similar to this:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">instancing</span> <span class="n">Manager</span><span class="p">()</span>
+<span class="n">qtmud</span>        <span class="n">INFO</span>     <span class="n">Manager</span><span class="p">()</span> <span class="n">instanced</span> <span class="o">@</span> <span class="n">qtmud</span><span class="o">.</span><span class="n">manager</span>
+<span class="n">qtmud</span>        <span class="n">INFO</span>     <span class="n">instancing</span> <span class="n">services</span>
+<span class="n">qtmud</span>        <span class="n">INFO</span>     <span class="n">instancing</span> <span class="n">qtmud</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">back_room</span>
+</pre></div>
+</div>
+<p>The first line, <code class="docutils literal"><span class="pre">instancing</span> <span class="pre">Manager()</span></code>, creates an instance of
+<code class="xref py py-class docutils literal"><span class="pre">qtmud.Manager</span></code>, a class which acts as the main game engine. If
+this were <em>Dungeons &amp; Dragons</em>, <code class="xref py py-class docutils literal"><span class="pre">qtmud.Manager</span></code> would be the
+Dungeon Master. Each moment of the game is divided into
+<code class="xref py py-func docutils literal"><span class="pre">ticks</span></code>, and each <code class="xref py py-func docutils literal"><span class="pre">tick</span></code>, <code class="xref py py-class docutils literal"><span class="pre">qtmud.Manager</span></code> handles telling everything
+what it should be doing.</p>
+<p>After ./run.py sets up <code class="xref py py-class docutils literal"><span class="pre">qtmud.Manager</span></code>, it instances core game
+<code class="xref py py-mod docutils literal"><span class="pre">services</span></code>. The current services are
+<code class="xref py py-class docutils literal"><span class="pre">MUDSocket</span></code> (for handling the sending and
+receiving of data from clients through a socket connection),
+<code class="xref py py-class docutils literal"><span class="pre">Mover</span></code> (for handling things moving between
+rooms), and <code class="xref py py-class docutils literal"><span class="pre">Parser</span></code> (for handling input
+from clients.)</p>
+<p>While each of these services handle very different parts of the game, they
+all work in much the same way, through three functions that
+<code class="xref py py-class docutils literal"><span class="pre">qtmud.Manager</span></code> has:</p>
+<ul class="simple">
+<li><code class="xref py py-func docutils literal"><span class="pre">qtmud.manager.schedule()</span></code> tells the manager to schedule
+the <cite>command</cite> for next tick. For example, when a client logs in,
+<code class="xref py py-class docutils literal"><span class="pre">MUDSocket</span></code> calls
+<code class="xref py py-func docutils literal"><span class="pre">self.manager.schedule('move',</span> <span class="pre">thing=client,</span> <span class="pre">destination=Village)</span></code></li>
+<li><code class="xref py py-func docutils literal"><span class="pre">qtmud.manager.subscribe()</span></code> tells the manager that a
+<code class="xref py py-mod docutils literal"><span class="pre">service</span></code> wants to be informed about any relevant
+<code class="xref py py-attr docutils literal"><span class="pre">events</span></code>. For example, the
+<code class="xref py py-class docutils literal"><span class="pre">Parser</span></code> service does
+<code class="xref py py-func docutils literal"><span class="pre">qtmud.subscribe(self,</span> <span class="pre">'parse')</span></code> when
+it is instanced.</li>
+<li><code class="xref py py-func docutils literal"><span class="pre">qtmud.Manager.tick()</span></code> relies on <code class="xref py py-func docutils literal"><span class="pre">schedule</span></code> and <code class="xref py py-func docutils literal"><span class="pre">subscribe</span></code>.
+For every service subscribed to an event, <code class="xref py py-func docutils literal"><span class="pre">tick</span></code>
+sends every relevant event to that service. For example, on the tick after
+the <code class="xref py py-class docutils literal"><span class="pre">MUDSocket</span></code> schedules the client to
+be moved into the <code class="xref py py-class docutils literal"><span class="pre">Village</span></code>,
+<code class="xref py py-func docutils literal"><span class="pre">tick</span></code> tells the
+<code class="xref py py-class docutils literal"><span class="pre">Mover</span></code> to handle the actual movement.</li>
+</ul>
+<p>After these services are instanced and their subscriptions properly set up,
+<code class="xref py py-class docutils literal"><span class="pre">qtmud.Manager</span></code> sets up what is (inappropriately) being called the
+<code class="xref py py-attr docutils literal"><span class="pre">qtmud.back_room</span></code>. The back room is simply the first room clients are
+put in when they log in. Instancing it now gives us an excuse to talk about how
+objects within qtmud work.</p>
+<p>When you call <code class="xref py py-func docutils literal"><span class="pre">qtmud.Manager.new_thing()</span></code>, a few things happen. First, an object is instanced and given a unique identifier (available through
+thing.identity) and the capacity to have Qualities. Then, any qualities
+you list as an argument are applied to the thing.</p>
+<p>In the case of the back room, we&#8217;re making a new thing with the
+<code class="xref py py-class docutils literal"><span class="pre">Village</span></code> quality. If you look at that class,
+you&#8217;ll see when applied to a thing, it applies the
+<code class="xref py py-class docutils literal"><span class="pre">Room</span></code> and
+<code class="xref py py-class docutils literal"><span class="pre">Renderable</span></code> qualities.</p>
+<ul class="simple">
+<li><code class="xref py py-class docutils literal"><span class="pre">Room</span></code> - Gives a village
+<code class="xref py py-attr docutils literal"><span class="pre">exits</span></code>, such as
+<code class="docutils literal"><span class="pre">{</span> <span class="pre">'inside'</span> <span class="pre">:</span> <span class="pre">Tavern</span> <span class="pre">}</span></code>, where Tavern is a quality to be applied to a
+thing.</li>
+<li><code class="xref py py-class docutils literal"><span class="pre">Renderable</span></code> - Gives the village
+a <code class="xref py py-attr docutils literal"><span class="pre">name</span></code> and
+<code class="xref py py-attr docutils literal"><span class="pre">description</span></code>.</li>
+</ul>
+<p>Once the village has all the attributes it needs, it has them set to the
+specific values for that thing.</p>
+</div>
+<div class="section" id="logging-in">
+<h3>Logging In<a class="headerlink" href="#logging-in" title="Permalink to this headline">¶</a></h3>
+<p>Now qtmud has instanced the manager, added services, and added the
+back_room, you can connect to your MUD. Open up your favorite MUD client
+(or just a terminal) and connect to your server. If you&#8217;re using telnet,
+it&#8217;d be <code class="docutils literal"><span class="pre">telnet://HOST:MUD_PORT</span></code>. (If you didn&#8217;t change HOST or MUD_PORT
+earlier, the terminal command would be <code class="docutils literal"><span class="pre">telnet</span> <span class="pre">localhost</span> <span class="pre">5787</span></code>.</p>
+<p>When the <code class="xref py py-class docutils literal"><span class="pre">MUDSocket</span></code> receives a new
+connection, like it did when you just telnet&#8217;d, it runs the following:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">new_thing</span><span class="p">(</span><span class="n">Client</span><span class="p">,</span>
+                                <span class="n">Physical</span><span class="p">,</span>
+                                <span class="n">Renderable</span><span class="p">,</span>
+                                <span class="n">Container</span><span class="p">,</span>
+                                <span class="n">Sighted</span><span class="p">,</span>
+                                <span class="n">Speaking</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To learn specifically how the <code class="xref py py-func docutils literal"><span class="pre">new_thing</span></code>
+function works, read its source documentation. For now, it&#8217;s enough to
+know it instances a new <code class="xref py py-class docutils literal"><span class="pre">thing</span></code> and applies the listed
+<code class="xref py py-mod docutils literal"><span class="pre">qualities</span></code> to it. Each quality listed is a class,
+imported from (in this case) <code class="xref py py-mod docutils literal"><span class="pre">qtmud.qualities</span></code>. Each quality has an
+<code class="xref py py-func docutils literal"><span class="pre">apply</span></code> function, which adds attributes
+to the <code class="xref py py-class docutils literal"><span class="pre">thing</span></code> that <code class="xref py py-func docutils literal"><span class="pre">new_thing</span></code> created.</p>
+<p>We assigned a lot of qualities to our incoming client, let&#8217;s see what they
+all do:</p>
+<ul class="simple">
+<li><code class="xref py py-class docutils literal"><span class="pre">Commandable</span></code> lets future qualities
+add <code class="xref py py-attr docutils literal"><span class="pre">commands</span></code> to this
+thing.</li>
+<li><code class="xref py py-class docutils literal"><span class="pre">Client</span></code> tells the
+<code class="xref py py-class docutils literal"><span class="pre">MUDSocket</span></code> what socket connection
+the client is associated with, and because the client is
+<code class="xref py py-class docutils literal"><span class="pre">Commandable</span></code>, give it the
+<code class="xref py py-func docutils literal"><span class="pre">echo</span></code>,
+<code class="xref py py-func docutils literal"><span class="pre">whoami</span></code>, and
+<code class="xref py py-func docutils literal"><span class="pre">set</span></code> commands.</li>
+<li><code class="xref py py-class docutils literal"><span class="pre">Physical</span></code> gives the client a
+<code class="xref py py-attr docutils literal"><span class="pre">location</span></code>, and because it&#8217;s
+<code class="xref py py-class docutils literal"><span class="pre">commandable</span></code>, the
+<code class="xref py py-func docutils literal"><span class="pre">whereami</span></code> and
+<code class="xref py py-func docutils literal"><span class="pre">move</span></code> commands.</li>
+<li><code class="xref py py-class docutils literal"><span class="pre">Renderable</span></code> gives the client a
+<code class="xref py py-attr docutils literal"><span class="pre">name</span></code> and
+<code class="xref py py-attr docutils literal"><span class="pre">description</span></code>.</li>
+<li><code class="xref py py-class docutils literal"><span class="pre">Container</span></code> gives the client
+<code class="xref py py-attr docutils literal"><span class="pre">contents</span></code> and the
+<code class="xref py py-func docutils literal"><span class="pre">inventory</span></code> command.</li>
+<li><code class="xref py py-class docutils literal"><span class="pre">Sighted</span></code> gives the client the
+<code class="xref py py-func docutils literal"><span class="pre">look</span></code> command.</li>
+<li><code class="xref py py-class docutils literal"><span class="pre">Speaking</span></code> gives the client the
+<code class="xref py py-func docutils literal"><span class="pre">say</span></code> command.</li>
+</ul>
+<p>The client started as a <code class="xref py py-class docutils literal"><span class="pre">thing</span></code> with only an
+<code class="xref py py-attr docutils literal"><span class="pre">identity</span></code>, but by the end of
+<code class="xref py py-func docutils literal"><span class="pre">new_thing</span></code>, it has all the attributes a
+client needs to interact with the MUD. <code class="xref py py-class docutils literal"><span class="pre">qtmud.Manager</span></code> also has recorded
+in <code class="xref py py-attr docutils literal"><span class="pre">qtmud.Manager.qualities</span></code> that the keys for each Quality applied
+now have our client&#8217;s thing as a value.
+Clients, through their thing, can <code class="xref py py-func docutils literal"><span class="pre">move</span></code> and <code class="xref py py-func docutils literal"><span class="pre">say</span></code> and <code class="xref py py-func docutils literal"><span class="pre">look</span></code> and all that other good stuff. Now that
+the client has all the proper <code class="xref py py-mod docutils literal"><span class="pre">qualities</span></code>,
+<code class="xref py py-class docutils literal"><span class="pre">MUDSocket</span></code> can properly handle receiving data from and sending data to the client. Let&#8217;s bring it back to services, by walking through what happens when you enter a command, such as <code class="docutils literal"><span class="pre">say</span> <span class="pre">hello</span></code>.</p>
+</div>
+<div class="section" id="entering-commands">
+<h3>Entering Commands<a class="headerlink" href="#entering-commands" title="Permalink to this headline">¶</a></h3>
+<p>Each event is broken up into two parts: the <cite>event</cite> and its <cite>payload.</cite> The
+<cite>event</cite> is what subscribers are set to look for. The <cite>payload</cite> is all the
+other data associated with the event.</p>
+<p>When a client hits enter (letting <code class="xref py py-class docutils literal"><span class="pre">MUDSocket</span></code> know there&#8217;s been a command entered,)
+<code class="xref py py-class docutils literal"><span class="pre">MUDSocket</span></code> does some basic parsing,
+breaking the command into its first word (<code class="docutils literal"><span class="pre">cmd</span></code>) and the rest of the
+line (<code class="docutils literal"><span class="pre">trailing</span></code>). Then, <code class="xref py py-class docutils literal"><span class="pre">MUDSocket</span></code>
+does:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">qtmud</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;parse&#39;</span><span class="p">,</span> <span class="c1"># the event that will be scheduled</span>
+                       <span class="n">client</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">clients</span><span class="p">[</span><span class="n">conn</span><span class="p">],</span>  <span class="c1"># payload</span>
+                       <span class="n">cmd</span><span class="o">=</span><span class="n">cmd</span><span class="p">,</span>                    <span class="c1"># payload</span>
+                       <span class="n">trailing</span><span class="o">=</span><span class="n">trailing</span><span class="p">)</span>          <span class="c1"># payload</span>
+</pre></div>
+</div>
+<p>This means that on the next <code class="xref py py-func docutils literal"><span class="pre">tick</span></code>,
+<code class="xref py py-class docutils literal"><span class="pre">qtmud.Manager</span></code> will tell every <code class="xref py py-mod docutils literal"><span class="pre">service</span></code>
+who has <code class="xref py py-func docutils literal"><span class="pre">subscribed</span></code> to the <code class="docutils literal"><span class="pre">parse</span></code> event
+everything in the <code class="docutils literal"><span class="pre">payload</span></code>, through that service&#8217;s own
+<code class="xref py py-func docutils literal"><span class="pre">tick</span></code>. In this case, that means the
+<code class="xref py py-class docutils literal"><span class="pre">Parser</span></code> will get told the <code class="docutils literal"><span class="pre">client</span></code> who
+issued the command, the <code class="docutils literal"><span class="pre">cmd</span></code> itself, and any <code class="docutils literal"><span class="pre">trailing</span></code> arguments the
+<code class="docutils literal"><span class="pre">cmd</span></code> might have.</p>
+<p>So if the client enters the command <code class="docutils literal"><span class="pre">say</span> <span class="pre">hello</span></code>, <code class="xref py py-class docutils literal"><span class="pre">MUDSocket</span></code> turns that input into</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">qtmud</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;parse&#39;</span><span class="p">,</span>
+                       <span class="n">client</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">clients</span><span class="p">[</span><span class="n">conn</span><span class="p">],</span>
+                       <span class="n">cmd</span><span class="o">=</span><span class="s1">&#39;say&#39;</span>
+                       <span class="n">trailing</span><span class="o">=</span><span class="s1">&#39;hello)</span>
+</pre></div>
+</div>
+<p>On the next <code class="xref py py-func docutils literal"><span class="pre">tick</span></code>, <code class="xref py py-class docutils literal"><span class="pre">qtmud.Manager</span></code> tells
+every <code class="xref py py-mod docutils literal"><span class="pre">service</span></code> subscribed to <code class="docutils literal"><span class="pre">'parse'</span></code> about that event. Right now, the only service subscribed to <code class="docutils literal"><span class="pre">'parse'</span></code> is the
+<code class="xref py py-class docutils literal"><span class="pre">Parser</span></code> service.</p>
+<p>The <code class="xref py py-class docutils literal"><span class="pre">Parser</span></code> service, like every other
+service, has its own <code class="xref py py-func docutils literal"><span class="pre">tick</span></code> function,
+which can be given a dict of <cite>events</cite>. If last tick
+<code class="xref py py-class docutils literal"><span class="pre">MUDSocket</span></code> scheduled the parse event for
+the client&#8217;s <code class="docutils literal"><span class="pre">say</span> <span class="pre">hello</span></code>, this tick the manager would pass <code class="xref py py-attr docutils literal"><span class="pre">events</span></code> to the <code class="xref py py-class docutils literal"><span class="pre">Parser</span></code>,
+looking something like this:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[(</span><span class="s1">&#39;parse&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;cmd&#39;</span><span class="p">:</span> <span class="s1">&#39;say&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;client&#39;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">qtmud</span><span class="o">.</span><span class="n">Thing</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7f4dcd0e3a58</span><span class="o">&gt;</span><span class="p">,</span>
+             <span class="s1">&#39;trailing&#39;</span><span class="p">:</span> <span class="s1">&#39;say&#39;</span><span class="p">}</span>
+<span class="p">)]</span>
+</pre></div>
+</div>
+<p>From a Python perspective, <cite>events</cite> is a list of tuples, where the first
+element is the <cite>event</cite> and the second element is the <cite>payload</cite>.</p>
+<p>What each service does with the events it receives is based on what the
+service accomplishes. The <code class="xref py py-class docutils literal"><span class="pre">Mover</span></code> service
+uses the payload it receives to handle <code class="xref py py-func docutils literal"><span class="pre">moving</span></code> things in and out of <code class="xref py py-attr docutils literal"><span class="pre">locations</span></code>. The Parser service uses the payload
+to determine whether what the client input was a valid command, and if so,
+passes the rest of the payload off to that command. (If you remember from
+logging in, commands are added to the client by the qualities
+<code class="xref py py-class docutils literal"><span class="pre">MUDSocket</span></code>
+passed to <code class="xref py py-func docutils literal"><span class="pre">new_thing</span></code> when we logged in.)</p>
+<p>In the case of <code class="docutils literal"><span class="pre">say</span> <span class="pre">hello</span></code>, the <code class="docutils literal"><span class="pre">say</span></code> command is added by the
+<code class="xref py py-class docutils literal"><span class="pre">Speaking</span></code> quality, which also added
+the <code class="xref py py-func docutils literal"><span class="pre">say</span></code> function, to be called when
+the command is used. <code class="xref py py-func docutils literal"><span class="pre">say</span> <span class="pre">,qtmud.qualities.Speaking.say&gt;()</span></code> is pretty
+simple - <code class="xref py py-func docutils literal"><span class="pre">schedule</span></code> service so every client in our
+<code class="xref py py-attr docutils literal"><span class="pre">location</span></code> will have our message
+<code class="xref py py-func docutils literal"><span class="pre">rendered</span></code> during the next
+<code class="xref py py-func docutils literal"><span class="pre">tick</span></code></p>
+<p>Other commands work in much the same way. The <code class="docutils literal"><span class="pre">move</span></code> command is added by
+the <code class="xref py py-class docutils literal"><span class="pre">Physical</span></code> quality, which has the
+func:<cite>move &lt;qtmud.qualities.Physical.move&gt;</cite> function. The <code class="docutils literal"><span class="pre">look</span></code>
+command is added by the <code class="xref py py-class docutils literal"><span class="pre">Sighted</span></code> quality,
+which has the <code class="xref py py-func docutils literal"><span class="pre">look</span></code> function.</p>
+</div>
+<div class="section" id="messing-around">
+<h3>Messing Around<a class="headerlink" href="#messing-around" title="Permalink to this headline">¶</a></h3>
+<p>Walking through what happens when you start qtmud and log in and &#8216;say hello&#8217;,
+we&#8217;ve touched on most of the core functions of the game. I&#8217;d suggest looking
+through the ./quality/ and ./services/ directories to see how more of qtmud&#8217;s
+core features work. In the next section, we&#8217;ll look in the ./lib/ directory,
+and explain how writing content for qtmud works.</p>
+</div>
+</div>
+<div class="section" id="development">
+<h2>Development<a class="headerlink" href="#development" title="Permalink to this headline">¶</a></h2>
+<p>There are two main ways to add content to qtmud. You can build services to
+respond to the events beings scheduled by things and other services, or
+you can build qualities to apply to things.</p>
+<p>The latter, creating qualities, is probably a better starting point for
+learning how to work with qtmud.</p>
+<p><em>there&#8217;s no more explanation, come back later</em></p>
+<div class="section" id="dogma">
+<h3>Dogma<a class="headerlink" href="#dogma" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>every action should be scheduled and tick()ed - no intrafunction changes.</li>
+</ul>
+</div>
+<div class="section" id="versioning">
+<h3>Versioning<a class="headerlink" href="#versioning" title="Permalink to this headline">¶</a></h3>
+<p>qtmud uses semantic versioning. check <a class="reference internal" href="versioning.html"><span class="doc">qtmud Versioning</span></a> for more.</p>
+</div>
+<div class="section" id="debugging">
+<h3>Debugging<a class="headerlink" href="#debugging" title="Permalink to this headline">¶</a></h3>
+<p>By default, only INFO, WARNING and ERROR messages will show up on the console.
+A complete log, featuring every DEBUG message, is written to
+[debug.log](debug.log) (<a href="#id3"><span class="problematic" id="id4">*</span></a>Note: debug.log is overwritten at each boot.)</p>
+<p>Contents:</p>
+<div class="toctree-wrapper compound">
+</div>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
+<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
+<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">qtmud documentation</a><ul>
+<li><a class="reference internal" href="#current-gameplay">Current Gameplay</a></li>
+<li><a class="reference internal" href="#running-qtmud">Running qtmud</a><ul>
+<li><a class="reference internal" href="#download-configure">Download &amp; Configure</a></li>
+<li><a class="reference internal" href="#starting-qtmud">Starting qtmud</a></li>
+<li><a class="reference internal" href="#logging-in">Logging In</a></li>
+<li><a class="reference internal" href="#entering-commands">Entering Commands</a></li>
+<li><a class="reference internal" href="#messing-around">Messing Around</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#development">Development</a><ul>
+<li><a class="reference internal" href="#dogma">Dogma</a></li>
+<li><a class="reference internal" href="#versioning">Versioning</a></li>
+<li><a class="reference internal" href="#debugging">Debugging</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/index.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="nav-item nav-item-0"><a href="#">qtmud 0.0.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, emsenn.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

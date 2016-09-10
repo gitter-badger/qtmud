@@ -3,7 +3,7 @@
 
 qtmud is an early alpha multiplayer text-based real-time virtual world simulator.
 
-The main documentation is located at [docs/index.rst](docs/index.rst), but 
+The main documentation is located at [docs/index.html](docs/index.html), but 
 is intended to be built with Sphinx. You can view the latest Sphinx-built 
 documentation in this repository's gh-pages branch, or build an up-to-date 
 version with [](docs/build_docs.sh).
