@@ -1,0 +1,542 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>qtmud package &#8212; qtmud 0.0.2 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="qtmud 0.0.2 documentation" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="qtmud-package">
+<h1>qtmud package<a class="headerlink" href="#qtmud-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="qtmud.lib.html">qtmud.lib package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="qtmud.lib.html#module-qtmud.lib">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="qtmud.qualities.html">qtmud.qualities package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="qtmud.qualities.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="qtmud.qualities.client.html">qtmud.qualities.client module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qtmud.qualities.container.html">qtmud.qualities.container module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qtmud.qualities.physical.html">qtmud.qualities.physical module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qtmud.qualities.renderable.html">qtmud.qualities.renderable module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qtmud.qualities.room.html">qtmud.qualities.room module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qtmud.qualities.sighted.html">qtmud.qualities.sighted module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qtmud.qualities.speaking.html">qtmud.qualities.speaking module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="qtmud.qualities.html#module-qtmud.qualities">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="qtmud.services.html">qtmud.services package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="qtmud.services.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="qtmud.services.mover.html">qtmud.services.mover module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qtmud.services.mudsocket.html">qtmud.services.mudsocket module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qtmud.services.parser.html">qtmud.services.parser module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="qtmud.services.html#module-qtmud.services">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="qtmud.run.html">qtmud.run module</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="module-qtmud">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-qtmud" title="Permalink to this headline">¶</a></h2>
+<p>qtmud&#8217;s main module contains Manager &amp; Thing, and a few constants.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.0.1.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified">Changed in version 0.0.1-features/parsing: </span>expanded documentation</p>
+</div>
+<p>This is the main module of qtmud. It contains two objects, Thing and
+Manager, as well as several constants.</p>
+<p>qtmud expects to be started by having the
+<a class="reference internal" href="#qtmud.Manager" title="qtmud.Manager"><code class="xref py py-class docutils literal"><span class="pre">Manager</span></code></a> instanced, and then that object having
+the <a class="reference internal" href="#qtmud.Manager.add_services" title="qtmud.Manager.add_services"><code class="xref py py-func docutils literal"><span class="pre">add_services</span></code></a> function called.</p>
+<dl class="attribute">
+<dt id="qtmud.NAME">
+<code class="descclassname">qtmud.</code><code class="descname">NAME</code><a class="headerlink" href="#qtmud.NAME" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>str</em> &#8211; the name of the MUD being presented by qtmud.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="qtmud.VERSION">
+<code class="descclassname">qtmud.</code><code class="descname">VERSION</code><a class="headerlink" href="#qtmud.VERSION" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>str</em> &#8211; the version of the MUD</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="qtmud.HOST">
+<code class="descclassname">qtmud.</code><code class="descname">HOST</code><a class="headerlink" href="#qtmud.HOST" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>str</em> &#8211; the hostname the MUD should be served through</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="qtmud.MUD_PORT">
+<code class="descclassname">qtmud.</code><code class="descname">MUD_PORT</code><a class="headerlink" href="#qtmud.MUD_PORT" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em> &#8211; the port the MUDSocket should bind to.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="qtmud.Manager">
+<em class="property">class </em><code class="descclassname">qtmud.</code><code class="descname">Manager</code><span class="sig-paren">(</span><em>**kw</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud.html#Manager"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.Manager" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>The manager of all qtmud things and services.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.0.1.</span></p>
+</div>
+<p>When qtmud is started, it creates an instance of this class. This
+instance is then used to handle pretty much every game occurence.
+For a design overview, check the main README.</p>
+<dl class="attribute">
+<dt id="qtmud.Manager.log">
+<code class="descname">log</code><a class="headerlink" href="#qtmud.Manager.log" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>object</em> &#8211; an instance of <code class="xref py py-class docutils literal"><span class="pre">Logger</span></code>, is used
+throughout the engine with
+<code class="xref py py-func docutils literal"><span class="pre">qtmud.Manager.log.debug()</span></code>,
+<code class="xref py py-func docutils literal"><span class="pre">qtmud.Manager.log.info()</span></code>,
+<code class="xref py py-func docutils literal"><span class="pre">qtmud.Manager.log.warning()</span></code>,
+<code class="xref py py-func docutils literal"><span class="pre">qtmud.Manager.log.error()</span></code>, and
+<code class="xref py py-func docutils literal"><span class="pre">qtmud.Manager.log.critical()</span></code>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="qtmud.Manager.things">
+<code class="descname">things</code><a class="headerlink" href="#qtmud.Manager.things" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>list</em> &#8211; a list of every thing that the
+manager has instanced this session.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="qtmud.Manager.qualities">
+<code class="descname">qualities</code><a class="headerlink" href="#qtmud.Manager.qualities" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>dict</em> &#8211; every quality which has been applied
+this session, with every thing it
+has been applied to as a value.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="qtmud.Manager.services">
+<code class="descname">services</code><a class="headerlink" href="#qtmud.Manager.services" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>OrderedDict</em> &#8211; an OrderedDict() of every service
+the manager is controlling (sending
+events to during tick()</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="qtmud.Manager.subscriptions">
+<code class="descname">subscriptions</code><a class="headerlink" href="#qtmud.Manager.subscriptions" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>dict</em> &#8211; events and which services are looking
+for them</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="qtmud.Manager.events">
+<code class="descname">events</code><a class="headerlink" href="#qtmud.Manager.events" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>dict</em> &#8211; the events that will occur during
+the next tick().</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="qtmud.Manager.add_qualities">
+<code class="descname">add_qualities</code><span class="sig-paren">(</span><em>thing</em>, <em>qualities</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud.html#Manager.add_qualities"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.Manager.add_qualities" title="Permalink to this definition">¶</a></dt>
+<dd><p>adds qualities to <a class="reference internal" href="#qtmud.Thing" title="qtmud.Thing"><code class="xref py py-class docutils literal"><span class="pre">things</span></code></a></p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.0.1.</span></p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>thing</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><em>object</em></a>) &#8211; The <a class="reference internal" href="#qtmud.Thing" title="qtmud.Thing"><code class="xref py py-class docutils literal"><span class="pre">thing</span></code></a> which
+will have qualities applied to it.</li>
+<li><strong>qualities</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; The <a class="reference internal" href="qtmud.qualities.html#module-qtmud.qualities" title="qtmud.qualities"><code class="xref py py-mod docutils literal"><span class="pre">qualities</span></code></a>
+to be applied to <code class="docutils literal"><span class="pre">thing</span></code></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><dl class="docutils">
+<dt>The thing after having the qualities</dt>
+<dd><p class="first last"><a class="reference internal" href="qtmud.qualities.html#qtmud.qualities.Quality.apply" title="qtmud.qualities.Quality.apply"><code class="xref py py-func docutils literal"><span class="pre">applied</span></code></a>.</p>
+</dd>
+</dl>
+</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)">object</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="qtmud.Manager.add_services">
+<code class="descname">add_services</code><span class="sig-paren">(</span><em>*services</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud.html#Manager.add_services"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.Manager.add_services" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instance services and subscribe them to their subscriptions.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.0.1.</span></p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>*services</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; a list of the classes to be added as
+services.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="docutils">
+<dt>a list of the services which were</dt>
+<dd>successfully instanced</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)">list</a></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<p>qtmud start script after instancing <a class="reference internal" href="#qtmud.Manager" title="qtmud.Manager"><code class="xref py py-class docutils literal"><span class="pre">qtmud.Manager</span></code></a></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">manager</span><span class="o">.</span><span class="n">add_services</span><span class="p">(</span><span class="n">MUDSocket</span><span class="p">,</span> <span class="n">Mover</span><span class="p">,</span> <span class="n">Parser</span><span class="p">)</span>
+<span class="go">[&lt;qtmud.services.mudsocket.MUDSocket object at 0x7f39bbbb10f0&gt;,</span>
+<span class="go">&lt;qtmud.services.parser.Parser object at 0x7f39bce5fdd8&gt;,</span>
+<span class="go">&lt;qtmud.services.mover.Mover object at 0x7f39bce6e668&gt;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="qtmud.Manager.new_thing">
+<code class="descname">new_thing</code><span class="sig-paren">(</span><em>*qualities</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud.html#Manager.new_thing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.Manager.new_thing" title="Permalink to this definition">¶</a></dt>
+<dd><p>create a new thing and passes <a href="#id1"><span class="problematic" id="id2">*</span></a>qualities to
+add_qualities(thing, quality)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>*qualities</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; A list of Qualities (classes) to be
+applied to the new thing.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="docutils">
+<dt>The thing that was created, with all</dt>
+<dd>qualities applied.</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)">object</a></td>
+</tr>
+</tbody>
+</table>
+<p>Creates a new instance of <a class="reference internal" href="#qtmud.Thing" title="qtmud.Thing"><code class="xref py py-class docutils literal"><span class="pre">qtmud.Thing</span></code></a> and gives it an
+<a class="reference internal" href="#qtmud.Thing.identity" title="qtmud.Thing.identity"><code class="xref py py-attr docutils literal"><span class="pre">identity</span></code></a>. Then, adds the thing
+to <a class="reference internal" href="#qtmud.Manager.things" title="qtmud.Manager.things"><code class="xref py py-attr docutils literal"><span class="pre">qtmud.Manager.things</span></code></a>, before calling
+<a class="reference internal" href="#qtmud.Manager.add_qualities" title="qtmud.Manager.add_qualities"><code class="xref py py-func docutils literal"><span class="pre">add_qualities(thing,</span> <span class="pre">qualities)</span></code></a> to apply the desired qualities
+to the thing.</p>
+<p>This function then returns the finished thing, with all of its
+qualities.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="qtmud.Manager.run">
+<code class="descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud.html#Manager.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.Manager.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Keep the manager alive</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.0.1.</span></p>
+</div>
+<p>Until a KeyboardInterrupt is noticed, this function keeps
+qtmud calling the manager&#8217;s <a class="reference internal" href="#qtmud.Manager.tick" title="qtmud.Manager.tick"><code class="xref py py-func docutils literal"><span class="pre">tick()</span></code></a>
+function, keeping the game running.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="qtmud.Manager.schedule">
+<code class="descname">schedule</code><span class="sig-paren">(</span><em>command</em>, <em>**payload</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud.html#Manager.schedule"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.Manager.schedule" title="Permalink to this definition">¶</a></dt>
+<dd><p>schedules a <cite>command</cite> to be fired next <cite>tick()</cite></p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.0.1.</span></p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>command</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; The command that services are
+subscribed to.</li>
+<li><strong>**payload</strong> (<a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; Any additional arguments, collapsed
+into a dict to be handed off to the
+subscribed service.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><dl class="docutils">
+<dt>the event as given to the manager, a</dt>
+<dd><p class="first last">tuple of (command, <a href="#id3"><span class="problematic" id="id4">**</span></a>payload))</p>
+</dd>
+</dl>
+</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#tuple" title="(in Python v2.7)">tuple</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Checks for services that are subscribed to <cite>command</cite>, and
+adds the event to any service which is.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="qtmud.Manager.subscribe">
+<code class="descname">subscribe</code><span class="sig-paren">(</span><em>service</em>, <em>event</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud.html#Manager.subscribe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.Manager.subscribe" title="Permalink to this definition">¶</a></dt>
+<dd><p>subscribes a service to events</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>service</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><em>object</em></a>) &#8211; The service which will be notified of
+the event.</li>
+<li><strong>event</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; The event the service will be notified
+of, such as &#8216;parse&#8217; or &#8216;move&#8217;</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><dl class="docutils">
+<dt>True if the service was successfully</dt>
+<dd><p class="first last">subscribed to the event.</p>
+</dd>
+</dl>
+</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)">bool</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="qtmud.Manager.tick">
+<code class="descname">tick</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud.html#Manager.tick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.Manager.tick" title="Permalink to this definition">¶</a></dt>
+<dd><p>qtmud&#8217;s &#8220;heartbeat&#8221;</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.0.1.</span></p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">True as long as nothing crashes the server.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)">bool</a></td>
+</tr>
+</tbody>
+</table>
+<p>For every <a class="reference internal" href="qtmud.services.html#qtmud.services.Service" title="qtmud.services.Service"><code class="xref py py-class docutils literal"><span class="pre">service</span></code></a> in
+<a class="reference internal" href="qtmud.services.html#module-qtmud.services" title="qtmud.services"><code class="xref py py-attr docutils literal"><span class="pre">qtmud.services</span></code></a>, pass any
+<a class="reference internal" href="#qtmud.Manager.events" title="qtmud.Manager.events"><code class="xref py py-attr docutils literal"><span class="pre">events</span></code></a> they&#8217;re
+<a class="reference internal" href="#qtmud.Manager.subscribe" title="qtmud.Manager.subscribe"><code class="xref py py-func docutils literal"><span class="pre">subscribed</span></code></a> to that service&#8217;s
+<code class="xref py py-func docutils literal"><span class="pre">tick()</span></code> function.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="qtmud.Thing">
+<em class="property">class </em><code class="descclassname">qtmud.</code><code class="descname">Thing</code><span class="sig-paren">(</span><em>identity</em>, <em>manager</em>, <em>**kw</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud.html#Thing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.Thing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>The object to be instanced by manager.new_thing()</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.0.1.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified">Changed in version 0.0.1-features/parsing: </span>added return of successfully changed attributes to Thing.update()</p>
+</div>
+<dl class="attribute">
+<dt id="qtmud.Thing.identity">
+<code class="descname">identity</code><a class="headerlink" href="#qtmud.Thing.identity" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>str</em> &#8211; the unique identifier for the instance,
+assigned by manager.new_thing()</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="qtmud.Thing.manager">
+<code class="descname">manager</code><a class="headerlink" href="#qtmud.Thing.manager" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>object</em> &#8211; the thing&#8217;s manager, the same object that
+called new_thing()</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="qtmud.Thing.qualities">
+<code class="descname">qualities</code><a class="headerlink" href="#qtmud.Thing.qualities" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>list</em> &#8211; the instances of
+<code class="xref py py-class docutils literal"><span class="pre">qualities</span></code> which
+have been applied to the thing.</p>
+</dd></dl>
+
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>identity</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; a UUID created automatically by the
+manager.new_thing() function</li>
+<li><strong>manager</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><em>object</em></a>) &#8211; the manager instance which is instancing the
+thing.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Thing anticipates being instanced by the
+<a class="reference internal" href="#qtmud.Manager.new_thing" title="qtmud.Manager.new_thing"><code class="xref py py-func docutils literal"><span class="pre">new_thing()</span></code></a>, which is why it
+expects the <cite>identity</cite> and <cite>manage</cite> parameters.</p>
+<dl class="method">
+<dt id="qtmud.Thing.update">
+<code class="descname">update</code><span class="sig-paren">(</span><em>_dict</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud.html#Thing.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.Thing.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Modify multiple attributes of the thing at once.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.0.1.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified">Changed in version 0.0.1-features/parsing: </span>added return of successfully updated attributes.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>_dict</strong> (<a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; a dict of <cite>{attr : value}</cite> where attr is
+an attribute of the thing.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="docutils">
+<dt>a dict of successfully modified attributes and</dt>
+<dd>the value they were changed to.</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)">dict</a></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<p>MUDSocket after creating a qualified thing for a new client</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">client</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;addr&#39;</span><span class="p">:</span> <span class="n">addr</span><span class="p">,</span>
+<span class="go">                   &#39;send_buffer&#39; : &#39;&#39;,</span>
+<span class="go">                   &#39;recv_buffer&#39; : &#39;&#39;})</span>
+<span class="go">{&#39;addr&#39;: (&#39;127.0.0.1&#39;, 40440), &#39;recv_buffer&#39;: &#39;&#39;,</span>
+<span class="go">&#39;send_buffer&#39;: &#39;&#39;}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">qtmud package</a><ul>
+<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-qtmud">Module contents</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/qtmud.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, emsenn.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+      |
+      <a href="_sources/qtmud.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,7 +1,7 @@
 #!/bin/bash
 
-sphinx-apidoc -f -e -o ./ ../
+sphinx-apidoc -f -e -o ./source/ ../
 make html
 
-rm modules.rst
-rm qtmud*rst
+rm ./source/modules.rst
+rm ./source/qtmud*rst

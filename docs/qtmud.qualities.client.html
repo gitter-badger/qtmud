@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>qtmud.qualities.client module &#8212; qtmud 0.0.2 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="qtmud 0.0.2 documentation" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-qtmud.qualities.client">
+<span id="qtmud-qualities-client-module"></span><h1>qtmud.qualities.client module<a class="headerlink" href="#module-qtmud.qualities.client" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="qtmud.qualities.client.Client">
+<em class="property">class </em><code class="descclassname">qtmud.qualities.client.</code><code class="descname">Client</code><span class="sig-paren">(</span><em>**kw</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/qualities/client.html#Client"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.client.Client" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>Turns a bland thing into a fancy Client thing.</p>
+<dl class="method">
+<dt id="qtmud.qualities.client.Client.apply">
+<code class="descname">apply</code><span class="sig-paren">(</span><em>thing</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/qualities/client.html#Client.apply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.client.Client.apply" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies the Client quality to <cite>thing</cite></p>
+<p>addr:           tuple representing the client&#8217;s address
+send_buffer:    string going to be send to the client next tick()
+recv_buffer:    string received from the client this tick()
+send:           function for formating send_buffer
+whoami:         function for telling Client its name &amp; identity
+echo:           function for testing Client&#8217;s send/receive parsing
+set:            function for setting Client&#8217;s attributes.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="qtmud.qualities.client.Client.echo">
+<code class="descname">echo</code><span class="sig-paren">(</span><em>thing</em>, <em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/qualities/client.html#Client.echo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.client.Client.echo" title="Permalink to this definition">¶</a></dt>
+<dd><p>echo some text to the client)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="qtmud.qualities.client.Client.send">
+<code class="descname">send</code><span class="sig-paren">(</span><em>thing</em>, <em>data</em>, <em>end='\n'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/qualities/client.html#Client.send"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.client.Client.send" title="Permalink to this definition">¶</a></dt>
+<dd><p>prepare data to be sent to a client.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.0.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="qtmud.qualities.client.Client.set">
+<code class="descname">set</code><span class="sig-paren">(</span><em>thing</em>, <em>trailing</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/qualities/client.html#Client.set"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.client.Client.set" title="Permalink to this definition">¶</a></dt>
+<dd><p>sets an attribute in the client, meant to be used with the
+set command</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="qtmud.qualities.client.Client.whoami">
+<code class="descname">whoami</code><span class="sig-paren">(</span><em>thing</em>, <em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/qualities/client.html#Client.whoami"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.client.Client.whoami" title="Permalink to this definition">¶</a></dt>
+<dd><p>tells the thing their name and identity</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/qtmud.qualities.client.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, emsenn.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+      |
+      <a href="_sources/qtmud.qualities.client.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

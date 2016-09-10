@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 #
 # qtmud documentation build configuration file, created by
-# sphinx-quickstart on Fri Sep  9 01:09:30 2016.
+# sphinx-quickstart on Fri Sep  9 23:26:26 2016.
 #
 # This file is execfile()d with the current directory set to its
 # containing dir.
@@ -19,7 +19,8 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../../'))
+sys.path.insert(0, os.path.abspath('../../../'))
+print(sys.path)
 
 # -- General configuration ------------------------------------------------
 
@@ -32,15 +33,13 @@ sys.path.insert(0, os.path.abspath('../../'))
 # ones.
 extensions = [
     'sphinx.ext.autodoc',
-    'sphinx.ext.doctest',
     'sphinx.ext.intersphinx',
     'sphinx.ext.todo',
     'sphinx.ext.coverage',
-    'sphinx.ext.mathjax',
     'sphinx.ext.ifconfig',
     'sphinx.ext.viewcode',
     'sphinx.ext.githubpages',
-    'sphinx.ext.napoleon'
+    'sphinx.ext.napoleon',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -69,7 +68,7 @@ author = 'emsenn'
 # built documents.
 #
 # The short X.Y version.
-version = '0.0.1'
+version = '0.0.2'
 # The full version, including alpha/beta/rc tags.
 release = '0.0.2'
 
@@ -131,7 +130,7 @@ todo_include_todos = True
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'nature'
+html_theme = 'alabaster'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -145,7 +144,7 @@ html_theme = 'nature'
 # The name for this set of Sphinx documents.
 # "<project> v<release> documentation" by default.
 #
-# html_title = 'qtmud v0.0.1'
+# html_title = 'qtmud v0.0.2'
 
 # A shorter title for the navigation bar.  Default is the same as html_title.
 #

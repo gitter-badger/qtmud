@@ -1,0 +1,210 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>qtmud.services.mudsocket &#8212; qtmud 0.0.2 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="qtmud 0.0.2 documentation" href="../../../index.html" />
+    <link rel="up" title="qtmud.services" href="../services.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for qtmud.services.mudsocket</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; service handling MUD-formatted socket connections.</span>
+
+<span class="sd">    .. moduleauthor: Morgan Sennhauser &lt;morgan.sennhauser@gmail.com&gt;</span>
+<span class="sd">    </span>
+<span class="sd">    .. version added:: 0.0.1</span>
+<span class="sd">    .. version changed:: 0.0.1-feature/enviroments</span>
+<span class="sd">        Added applying the Sight quality to incoming connections</span>
+<span class="sd">    .. version changed:: 0.0.1-feature/parsing</span>
+<span class="sd">        Added applying the Container and Speaking qualities to incoming </span>
+<span class="sd">        connections.</span>
+<span class="sd">    </span>
+<span class="sd">    The service which provides socket server and basic parsing of incoming </span>
+<span class="sd">    and outgoing data.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1"># TODO write better documentation for qtmud.services.mudsocket</span>
+
+<span class="kn">import</span> <span class="nn">select</span>
+<span class="kn">import</span> <span class="nn">socket</span>
+
+
+<span class="kn">import</span> <span class="nn">qtmud</span>
+<span class="kn">from</span> <span class="nn">qtmud</span> <span class="k">import</span> <span class="n">HOST</span><span class="p">,</span> <span class="n">MUD_PORT</span>
+<span class="c1"># These are all the qualities that are applied to a client&#39;s thing to make </span>
+<span class="c1"># it useful.</span>
+<span class="kn">from</span> <span class="nn">qtmud.qualities</span> <span class="k">import</span> <span class="p">(</span><span class="n">Client</span><span class="p">,</span> <span class="n">Physical</span><span class="p">,</span> <span class="n">Renderable</span><span class="p">,</span> <span class="n">Container</span><span class="p">,</span> <span class="n">Sighted</span><span class="p">,</span>
+                             <span class="n">Speaking</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="MUDSocket"><a class="viewcode-back" href="../../../qtmud.services.mudsocket.html#qtmud.services.mudsocket.MUDSocket">[docs]</a><span class="k">class</span> <span class="nc">MUDSocket</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; A service which handles a socket connection.</span>
+<span class="sd">    </span>
+<span class="sd">        Parameters:</span>
+<span class="sd">            manager(object):        automatically passed by </span>
+<span class="sd">                                    :func:`add_services()  </span>
+<span class="sd">                                    &lt;qtmud.Manager.add_services&gt;`, the </span>
+<span class="sd">                                    :class:`manager &lt;qtmud.Manager&gt;`</span>
+<span class="sd">        </span>
+<span class="sd">        Attributes:</span>
+<span class="sd">            manager(object):        The same as the manager above.</span>
+<span class="sd">            </span>
+<span class="sd">        The MUDSocket service handles the socket connection. It has no </span>
+<span class="sd">        real API for interacting with the rest of qtmud, and needs to be </span>
+<span class="sd">        rewritten and documented once we explore client accounts.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">manager</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">manager</span> <span class="o">=</span> <span class="n">manager</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">address</span> <span class="o">=</span> <span class="p">(</span><span class="n">HOST</span><span class="p">,</span> <span class="n">MUD_PORT</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">socket</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SOCK_STREAM</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">socket</span><span class="o">.</span><span class="n">setsockopt</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">SOL_SOCKET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SO_REUSEADDR</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">socket</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">address</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> failed to bind on </span><span class="si">%s</span><span class="s1">: </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> 
+                                   <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> 
+                                   <span class="bp">self</span><span class="o">.</span><span class="n">address</span><span class="p">,</span>
+                                   <span class="n">err</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="s1">&#39;this is fatal, exit()ing&#39;</span><span class="p">)</span>
+            <span class="n">exit</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">socket</span><span class="o">.</span><span class="n">listen</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connections</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">socket</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clients</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">return</span>
+    
+<div class="viewcode-block" id="MUDSocket.tick"><a class="viewcode-back" href="../../../qtmud.services.mudsocket.html#qtmud.services.mudsocket.MUDSocket.tick">[docs]</a>    <span class="k">def</span> <span class="nf">tick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">events</span><span class="p">):</span> <span class="c1">#pylint: disable=unused-variable</span>
+        <span class="c1"># XXX go back in and fix some long code names, repeated references, etc.</span>
+        <span class="sd">&quot;&quot;&quot; Each tick, parse the incoming and outgoing data and handle it</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">r</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">e</span> <span class="o">=</span> <span class="n">select</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connections</span><span class="p">,</span> <span class="c1">#pylint: disable=invalid-name</span>
+                                <span class="p">[</span><span class="n">conn</span> <span class="k">for</span> <span class="n">conn</span><span class="p">,</span>
+                                 <span class="n">client</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">clients</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span>
+                                 <span class="n">client</span><span class="o">.</span><span class="n">send_buffer</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">],</span>
+                                <span class="p">[],</span>
+                                <span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">r</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">conn</span> <span class="ow">in</span> <span class="n">r</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">conn</span> <span class="ow">is</span> <span class="bp">self</span><span class="o">.</span><span class="n">socket</span><span class="p">:</span>
+                    <span class="n">new_conn</span><span class="p">,</span> <span class="n">addr</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span>
+                    <span class="n">client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">new_thing</span><span class="p">(</span><span class="n">Client</span><span class="p">,</span> <span class="n">Physical</span><span class="p">,</span> 
+                                                    <span class="n">Renderable</span><span class="p">,</span> <span class="n">Container</span><span class="p">)</span>
+                    <span class="n">client</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">add_qualities</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="p">[</span><span class="n">Physical</span><span class="p">])</span>
+                    <span class="n">client</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">add_qualities</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="p">[</span><span class="n">Sighted</span><span class="p">])</span>
+                    <span class="n">client</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">add_qualities</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="p">[</span><span class="n">Speaking</span><span class="p">])</span>
+                    <span class="n">client</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;addr&#39;</span><span class="p">:</span> <span class="n">addr</span><span class="p">,</span> <span class="s1">&#39;send_buffer&#39;</span> <span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+                                   <span class="s1">&#39;recv_buffer&#39;</span> <span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">})</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_conn</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">clients</span><span class="p">[</span><span class="n">new_conn</span><span class="p">]</span> <span class="o">=</span> <span class="n">client</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;move&#39;</span><span class="p">,</span> <span class="n">thing</span><span class="o">=</span><span class="n">client</span><span class="p">,</span>
+                                          <span class="n">destination</span><span class="o">=</span><span class="n">qtmud</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">back_room</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">data</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">data</span> <span class="o">==</span> <span class="n">b</span><span class="s1">&#39;&#39;</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="c1"># do some work splitting incoming data into a command</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">clients</span><span class="p">[</span><span class="n">conn</span><span class="p">]</span><span class="o">.</span><span class="n">recv_buffer</span> <span class="o">+=</span> <span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf8&#39;</span><span class="p">,</span>
+                                                                      <span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">clients</span><span class="p">[</span><span class="n">conn</span><span class="p">]</span><span class="o">.</span><span class="n">recv_buffer</span><span class="p">:</span>
+                            <span class="n">split</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clients</span><span class="p">[</span><span class="n">conn</span><span class="p">]</span><span class="o">.</span><span class="n">recv_buffer</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">split</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                                <span class="n">line</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">clients</span><span class="p">[</span><span class="n">conn</span><span class="p">]</span><span class="o">.</span><span class="n">recv_buffer</span> <span class="o">=</span> <span class="n">split</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="n">line</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">clients</span><span class="p">[</span><span class="n">conn</span><span class="p">]</span><span class="o">.</span><span class="n">recv_buffer</span> <span class="o">=</span> <span class="n">split</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;&#39;</span>
+                            <span class="k">if</span> <span class="s1">&#39; &#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                                <span class="n">split</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">split</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                                    <span class="n">cmd</span><span class="p">,</span> <span class="n">trailing</span> <span class="o">=</span> <span class="n">split</span>
+                                <span class="k">else</span><span class="p">:</span>
+                                    <span class="n">cmd</span><span class="p">,</span> <span class="n">trailing</span> <span class="o">=</span> <span class="n">split</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;&#39;</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="n">cmd</span><span class="p">,</span> <span class="n">trailing</span> <span class="o">=</span> <span class="n">line</span><span class="p">,</span> <span class="s1">&#39;&#39;</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;parse&#39;</span><span class="p">,</span> 
+                                                  <span class="n">client</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">clients</span><span class="p">[</span><span class="n">conn</span><span class="p">],</span>
+                                                  <span class="n">cmd</span><span class="o">=</span><span class="n">cmd</span><span class="p">,</span>
+                                                  <span class="n">trailing</span><span class="o">=</span><span class="n">trailing</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">w</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">conn</span> <span class="ow">in</span> <span class="n">w</span><span class="p">:</span>
+                <span class="n">conn</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">clients</span><span class="p">[</span><span class="n">conn</span><span class="p">]</span><span class="o">.</span><span class="n">send_buffer</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf8&#39;</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">clients</span><span class="p">[</span><span class="n">conn</span><span class="p">]</span><span class="o">.</span><span class="n">send_buffer</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">return</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  <li><a href="../../qtmud.html">qtmud</a><ul>
+  <li><a href="../services.html">qtmud.services</a><ul>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, emsenn.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

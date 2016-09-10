@@ -1,0 +1,7 @@
+qtmud.qualities.container module
+================================
+
+.. automodule:: qtmud.qualities.container
+    :members:
+    :undoc-members:
+    :show-inheritance:

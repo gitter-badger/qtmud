@@ -1,0 +1,7 @@
+qtmud.qualities.physical module
+===============================
+
+.. automodule:: qtmud.qualities.physical
+    :members:
+    :undoc-members:
+    :show-inheritance:
