@@ -1,18 +1,22 @@
 """ Game library
-
-    .. module:: qtmud.lib
-        :synopsis: library of game resources.
     
-    .. moduleauthor: Morgan Sennhauser <morgan.sennhauser@gmail.com>
-    .. version added:: 0.0.1
+    .. moduleauthor: emsenn <morgan.sennhauser@gmail.com>
     
-    Testing for potential game library 
+    .. versionadded:: 0.0.1
+    .. versionchanged:: 0.0.1-feature/environments
+        added Tavern, Village
+    .. versionchanged:: 0.0.1-features/parser
+        added a Field
+    
+    Testing for potential game library - don't expect good documentation here.
 """
 
 from qtmud.qualities import Room, Renderable
 
 class Tavern(object):
-    """ Gives a thing the qualities of a Room
+    """ Ye Olde Tavern
+    
+        .. versionadded:: 0.0.1-feature/environments
     """
     def __init__(self, **kw):
         super(Tavern, self).__init__(**kw)
@@ -26,6 +30,11 @@ class Tavern(object):
         return thing
         
 class Village(object):
+    """ A little village.
+
+        .. versionadded:: 0.0.1-features/environments
+        
+    """
     def __init__(self, **kw):
         super(Village, self).__init__(**kw)
         return
@@ -40,6 +49,10 @@ class Village(object):
         return thing
 
 class Field(object):
+    """ An empty field.
+    
+        .. versionadded:: 0.0.1-features/parser
+    """
     def __init__(self, **kw):
         super(Field, self).__init__(**kw)
         return

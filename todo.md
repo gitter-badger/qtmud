@@ -1,3 +1,33 @@
+## inventory command
+
+## split commandable into its own quality
+
+## create hearing quality, revise say to match
+
+## move ./services/ and ./qualities/ to ./engine/* ?
+
+## add glossary to documentation
+
+## split movement into remove and add
+
+## how to handle the assumed uniqueness of rooms?
+best i think would be to replace the Class that's set to a direction's
+value with the oject (thing) it actually wants, once it's cloned. That way 
+there's no weird "this thing is unique" code spaghetting around - don't 
+assume anything is going to be unique.
+
+it'd clean up the main folder a bit, which might be nice since there 
+will end up being lots of config files there.
+
+## create render service for clients
+change current client.send() functions to qtmud.manager.schedule('render',
+**payload)
+
+## rendering service
+
+for sighted, hearing quality to run their output through??
+probably through the client quality?
+
 ## run commands through manager always?
 
 calling command functions directly sometimes means the command happens before 
@@ -34,40 +64,10 @@ how are user accounts and other necessary things going to be persistent?
 It'd be really great if whatever the game saved as was the same format as 
 the library, so admin could just use the latest save *as* the library the 
 next time the engine started.
-
-## rooms/movement
-
-
-
-add syntax exception? (rewrite whole command thing)
-
-## restructure command parser:
-put commands inside qualities - Client quality gives you echo and set, 
-Sight gives you look, Physical gives you move - if you're a thing with the 
-Commandable quality?
-
-        class Commandable
-    
-        ...
             
-            def apply(self, thing):
-                ...
-                thing.commands = []
-                
-                
-        class Client
-        
-        ...
-        
-            def apply(self, thing):
-                ...
-                if hasattr(thing.commands): thing.commands.append('echo','set')
+## Qualities which add commands must be called in separately
 
-This would mean that Commandable would have to come first when you're telling
-`manager` to new_thing(Qualities). that might be bad for long term design, an 
-implicit hierarchy like that, but it's pretty straightforward, qualities are 
-applied in the order they're written. Actually could probably have apply() check 
-another fuction like add_commands so that you could do something like
-
-        foreach quality in thing.qualities:
-            quality.add_commands(thing)
+for some reason? if you instance a new_thing() with multiple Qualities adding 
+commands, only the first one will work. I'm sure it's just some syntax error, 
+but for now I'm accepting it as "make sure you don't accidentally add commands 
+to a thing."

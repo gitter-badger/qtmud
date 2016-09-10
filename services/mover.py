@@ -1,34 +1,64 @@
-""" moves things from one location to another
-
-    .. module:: qtmud.services.mover
-        :synopsis: moves things from one location to another
+""" Service for moving things from one location to another.
     
     .. moduleauthor: Morgan Sennhauser <morgan.sennhauser@gmail.com>
+    
     .. version added:: 0.0.1
     
-    Mover just moves things from one location to another. To be honest, 
-    this might not even work how I think it does, there's no test case for 
-    it right now.
+    The Mover handles moving :class:`things <qtmud.Thing>` with the 
+    :class:`Physical <qtmud.qualities.physical.Physical>` quality from one 
+    :attr:`location <qtmud.qualities.physical.Physical.location>` to another.
 """
 
-from qtmud.services import Service
 
-class Mover(Service):
-    """ The movement service.
-        Subscribed to 'move' events.
+class Mover(object):
+    """ The service for moving Physical things into and out of locations.
+    
+        .. versionadded:: 0.0.1-features/environments
         
-        Expecting thing, destination in payload.
+        Parameters:
+            manager(object):        automatically passed by 
+                                    :func:`add_services()  
+                                    <qtmud.Manager.add_services>`, the 
+                                    :class:`manager <qtmud.Manager>`
+        
+        Attributes:
+            manager(object):        The same as the manager above.
+            subscriptions(list):    The Mover service is subscribed to 
+                                    ``'move'`` :attr:`events 
+                                    <qtmud.Manager.events>`.
     """
-    def __init__(self, manager, **kw):
+    def __init__(self, manager):
         """ subscribe to the 'move' event.
         """
-        super(Mover, self).__init__(manager, **kw)
-        self.subscriptions.append('move')
+        self.manager = manager
+        self.subscriptions = ['move']
         
     def tick(self, events=False):
-        """ Move things out of their old locations, if applicable, then 
-            move them into their new location.
-        """
+        """ Moves Physical things from one location to another.
+        
+                .. versionadded:: 0.0.1-features/environments
+            
+                Parameters:
+                    events(list):   set to False by default, expected to be 
+                                    a list of tuples in the format of 
+                                    [('move', {payload})]
+            
+                Returns:
+                    bool:           False if the tick() fails for whatever 
+                                    reason, otherwise true.
+            
+                The ``payload`` of each event is expected to have a few 
+                keys: the ``thing`` that will be moved, and its 
+                ``destination``. Both ``thing`` and ``destination`` are 
+                expected to be objects. First ``thing`` is :func:`removed 
+                <qtmud.qualities.container.Container.remove>` 
+                from its :attr:`location 
+                <qtmud.qualities.physical.Physical.location>`. Then ``thing`` 
+                is :func:`added <qtmud.qualities.container.Container.add>`
+                to a the :attr:`contents 
+                <qtmud.qualities.container.Container.contents>` of the 
+                ``destination``.
+            """
         if events is False:
             return False
         for event, payload in events: #pylint: disable=unused-variable
@@ -47,7 +77,9 @@ class Mover(Service):
                                          'from their location:\n\n%s', 
                                          thing.identity, err.__class__)
             if destination is None:
-                pass
+                self.manager.log.debug('Mover service did not receive '
+                                       'destination, leaving %s without '
+                                       'a location', thing.identity)
             else:
                 # XXX Expecting object, need to account for other possibilities,
                 # how to load rooms.

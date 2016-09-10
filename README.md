@@ -1,65 +1,17 @@
 # Qualities of Things Multi-User Dimension
 ## (qtmud)
 
-qtmud is a early alpha engine for maintaining and presenting a text-based MMORPG.
+qtmud is an early alpha multiplayer text-based real-time virtual world simulator.
 
-### Core Concepts
+The main documentation is located at [docs/index.rst](docs/index.rst), but 
+is intended to be built with Sphinx. You can view the latest Sphinx-built 
+documentation in this repository's gh-pages branch, or build an up-to-date 
+version with [](docs/build_docs.sh).
 
-In qtmud, a `manager` controls game `services`, which act upon `things`.
+If you are anxious to start using qtmud, edit [](__init__.py) and set the 
+constants `NAME`, `HOST`, and `MUD_PORT` (comments in the file explain their use.)
 
-`services` have `tick()` functions, which get sent any `events` the `service` 
-was `subscribed` to with the `manager`.
-
-Most `events` interact with `things`, which are instances of the `Thing` 
-class, that have had `qualities` applied to them.
-
----
-
-In practice, that when you execute `./run.py`, a `manager` is instanced.  
-In turn, it starts some services, including the `MUDSocket` service.
-
-The `MUDSocket` service runs a socket server. When `MUDSocket` receives 
-a new connection, it asks the `manager` to create a new `thing`, and gives 
-that `thing` these `qualities`:
-
-* `Client` - tells the `MUDSocket` this thing is associated with the
-connection, so that `MUDSocket` can pass messages back and forth between 
-the socket connection and the client's `thing`.
-
-* `Renderable` - gives the client's `thing` a name and description, which is 
-used in various outputs.
-
-* `Physical` - gives the client's `thing` a location, which in turn is any 
-sort of `thing` with the `Container` quality.
-
-After a client is assigned their `thing`, they're put in another `thing` 
-with the `Room`, `Container`, and `Renderable` qualities.
-
-Right now, all this enables is for two clients to `say` words at each other, 
-handled by the `manager`. There isn't movement, inventories, or anything 
-resembling actual gameplay at this point:
-
-### Current Gameplay
-![](docs/current_gameplay.png)
-
-This pretty much sums up everything you can do with qtmud right now. The full 
-list of commands is:
-
-* `whoami` tells the client their `name`. (until the client uses `set name`, 
-this will be equivalent to their `identity`, a UUID.
-* `whereami` tells the client the `name` of their `location`.
-* `set <attribute> <value>` sets the client's `attribute`, if it exists, to 
-`value`. The most practical use of this is `set name Earl`.
-* `echo <text>` simply echos `text` back to the client.
-* `say <text>` will pass `text` to every `Client` in the client's `location`,
-formatted as `Earl says: Good morning!`
-* `go <direction>` moves the client into a new location.
-* `look` shows the client the `name` and `description` of their `location`,
-plus any `exits` and `contents`.
-
-### Development
-
-At this point in early development the API is quite volatile, so rely on 
-the documentation at the function-level if you're having problems. There's a 
-[todo](todo.md) list available, which has some discussion on immediate 
-development directions.
+Then, run [](run.py) with python3.5. You should see some information about a 
+Manager() being instanced, and services starting up. Now you can connect to 
+your MUD through telnet with `telnet HOST MUD_PORT`, for example 
+`telnet localhost 5787`.
