@@ -1,0 +1,7 @@
+qtmud.qualities.speaking module
+===============================
+
+.. automodule:: qtmud.qualities.speaking
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -1,0 +1,23 @@
+qtmud.qualities package
+=======================
+
+Submodules
+----------
+
+.. toctree::
+
+   qtmud.qualities.client
+   qtmud.qualities.container
+   qtmud.qualities.physical
+   qtmud.qualities.renderable
+   qtmud.qualities.room
+   qtmud.qualities.sighted
+   qtmud.qualities.speaking
+
+Module contents
+---------------
+
+.. automodule:: qtmud.qualities
+    :members:
+    :undoc-members:
+    :show-inheritance:

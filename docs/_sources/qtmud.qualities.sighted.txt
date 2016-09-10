@@ -1,0 +1,7 @@
+qtmud.qualities.sighted module
+==============================
+
+.. automodule:: qtmud.qualities.sighted
+    :members:
+    :undoc-members:
+    :show-inheritance:

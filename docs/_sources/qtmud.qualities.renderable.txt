@@ -1,0 +1,7 @@
+qtmud.qualities.renderable module
+=================================
+
+.. automodule:: qtmud.qualities.renderable
+    :members:
+    :undoc-members:
+    :show-inheritance:

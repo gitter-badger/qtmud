@@ -1,0 +1,7 @@
+qtmud.services.mover module
+===========================
+
+.. automodule:: qtmud.services.mover
+    :members:
+    :undoc-members:
+    :show-inheritance:
