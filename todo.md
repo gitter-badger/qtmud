@@ -8,6 +8,11 @@
 
 ## nametags
 
+lowercase strings for finding objects even if they aren't physical?
+could maybe be in qtmud.Thing itself?
+
+## thing.search('string') that looks for a thing with the matching nametag?
+
 ## add glossary to documentation
 
 ## split movement into remove and add

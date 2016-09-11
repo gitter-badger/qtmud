@@ -24,12 +24,18 @@ import types
 class Container(object):
     """ Containers gain contents and methods for handling that.
 
-        .. versionadded:: 0.0.1-features/parser
-        .. versionchanged:: 0.0.2-features/renderer
+        .. versionadded:: 0.0.1-feature/parser
+        .. versionchanged:: 0.0.2-feature/renderer
+        .. versionchanged:: 0.0.2-feature/inventory
+            Added inventory() function and matching command.
  
         Attributes:
             contents(list):         The contents of the :class:`Thing 
                                     <qtmud.Thing>` has been applied to.
+                                    Meant to have other things 
+                                    :func:`added 
+                                    <qtmud.qualities.container.Container.add>`
+                                    to it.
     """
     def __init__(self):
         """
@@ -41,23 +47,104 @@ class Container(object):
     def add(self, container, thing):
         """ Adds thing to the contianer's contents if thing isn't there.
 
-            .. versionadded:: 0.0.1-features/parser
+            .. versionadded:: 0.0.1-feature/parser
+            .. versionchanged:: 0.0.2-feature/inventory
+                Added proper returns
+            
+            Parameter:
+                container(object):      The :class:`thing <qtmud.Thing>`
+                                        that will have somethinng added to
+                                        it.
+                thing(object):          The :class:`thing <qtmud.Thing>`
+                                        that will be added to the container.
+            Return:
+                bool:                   True if ``thing`` is successfully
+                                        added to to the ``contents`` of
+                                        the ``container``.
         """
         if thing not in container.contents:
             return container.contents.append(thing)
+        return False
     
     def contains(self, container, thing):
-        """ Check if 
+        """ Check if thing is in the contents of container.
+        
+            .. versionadded:: 0.0.1-feature/parser
+            
+            Parameter:
+                container(object):      The :class:`thing <qtmud.Thing>`
+                                        that'll have its contents searched.
+                thing(object):          The :class:`thing <qtmud.Thing>`
+                                        that will be added to the container.
+            Return:
+                bool:                   True if ``thing`` is in ``container``'s
+                                        ``contents``.
         """
         return thing in container.contents
     
     def remove(self, container, thing):
         """ removes a thing from another thing
+        
+            .. versionadded:: 0.0.1-feature/parser
+            .. versionchanged:: 0.0.2-feature/inventory
+                Proper returns added.
+            
+            Parameters:
+                container(object):      the container from which thing 
+                                        will be removed.
+                thing(object):          the thing to be removed from the 
+                                        container.
+            
+            Returns:
+                bool:                   True if ``thing`` is successfully
+                                        removed from the ``container``.
         """
-        if thing in container.contents: container.contents.remove(thing)
+        if thing in container.contents:
+            return container.contents.remove(thing)
+        return False
+    
+    def inventory(self, searcher, container=''):
+        """ 
+            .. versionadded:: 0.0.2-feature/inventory
+            
+            Parameters:
+                searcher(object):   The thing which is trying to check 
+                                    the container's inventory.
+                container(str):     A string that'll be used to search for
+                                    the container.
+            Returns:
+                list:               If ``container`` is found in 
+                                    ``searcher``'s ``contents`` or the 
+                                    ``searcher``'s ``location``'s
+                                    ``contents``, returns ``container``'s
+                                    ``contents``. Otherwise, returns None.
+        """
+        if hasattr(searcher, 'contents'):
+            scene = ('You contain:\n(')
+            for content in searcher.contents:
+                if hasattr(content, 'name'):
+                    scene += (content.name+', ')
+            scene += (')')
+        if hasattr(searcher, 'send'):
+            searcher.manager.schedule('render', client=searcher, scene=scene)
+        return searcher.contents
+            
     
     def apply(self, thing):
-        """ adds list contents and function contains to thing
+        """ Adds contents and supporting functions.
+        
+            .. versionadded:: 0.0.1-feature/parser
+            .. versionchanged:: 0.0.2-feature/inventory
+                Now applies ``inventory`` function and if ``thing`` is
+                commandable, the ``inventory`` command.
+        
+            Parameters:
+                thing(object):  The thing that is being turned into a
+                                container.
+            
+            Returns:
+                object:         The thing, after it's turned into a
+                                container.
         """
         if not hasattr(thing, 'contents'):
             thing.contents = []
@@ -65,6 +152,11 @@ class Container(object):
             thing.add = types.MethodType(self.add, thing)
         if not hasattr(thing, 'contains'):
             thing.contains = types.MethodType(self.contains, thing)
+        if not hasattr(thing, 'inventory'):
+            thing.inventory = types.MethodType(self.inventory, thing)
         if not hasattr(thing, 'remove'):
             thing.remove = types.MethodType(self.remove, thing)
+        if hasattr(thing, 'commands'):
+            thing.commands['inventory'] = types.MethodType(self.inventory,
+                                                            thing)
         return thing

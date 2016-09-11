@@ -100,11 +100,13 @@ class Sighted(object):
                                               nearby[target].description))
             else:
                 scene = ('Whatever you tried to look at, you can\'t.')
-        looker.manager.schedule('render', client=looker, scene=scene)
+        if hasattr(looker, 'send'):
+            looker.manager.schedule('render', client=looker, scene=scene)
+        return scene
 
     def apply(self, thing):
         """
-            .. versionadded:: 0.0.1-features/parser
+            .. versionadded:: 0.0.1-feature/parser
         """
         if not hasattr(thing, 'look'):
             thing.look = types.MethodType(self.look, thing)
