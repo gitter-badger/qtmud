@@ -74,14 +74,11 @@ class Quality(object):
         the thing :func:`speak <qtmud.qualities.speaking.Speak.say>`.
     """
 
-    def __init__(self, **kw):
+    def __init__(self):
         """
-
             .. version added:: 0.0.1-feature/parsing
 
         """
-        super(Quality, self).__init__(**kw)
-        self.foop = 'value'
         return
 
     def womble(self, thing):
@@ -102,8 +99,7 @@ class Quality(object):
                 29ea7ec1-3fc1-44a1-bddb-c756330273d4
 
         """
-        if hasattr(thing, 'fooped') and thing.fooped is True:
-            thing.fooped = self.foop
+        return thing.identity
 
 
     def apply(self, thing):
@@ -148,8 +144,6 @@ class Quality(object):
             use helps make sure things are able to have commands added with
             limited memory waste.
         """
-        if not hasattr(thing, 'fooped'):
-            thing.fooped = True
         if not hasattr(thing, 'womble'):
             thing.womble = self.womble
         if hasattr(thing, 'commands'):

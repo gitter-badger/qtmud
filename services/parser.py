@@ -20,35 +20,35 @@
     point, so I'm not going to bother thoroughly commenting it.
 """
 
-from qtmud.services import Service
+
 from qtmud.qualities import Client
 
-# XXX Todo: break up parser into a command loading service - should commands 
-# come from qualities directlY?
 
-class Parser(Service):
-    """ The parsing service.
-        Subscribed to 'parse' events.
+class Parser(object):
+    """ To listen for client input, Parser subscribes to 'parse' events
         
-        Expecting client, cmd, and trailing in event payload
+        .. versionadded:: 0.0.1-features/parser 
+        
     """
     
-    def __init__(self, manager, **kw):
-        """ Add this service to the manager's subscriptions for 'parse'.
+    def __init__(self, manager):
         """
-        super(Parser, self).__init__(manager, **kw)
-        # move parser to its own folder, keep commands under there and in 
-        # lib/parser?
-        self.subscriptions.append('parse')
+            .. versionadded:: 0.0.1-features/parser
+            .. versionchanged:: 0.0.2-features/renderer
+                removed unnecessary dependency on :class:`Service 
+                <qtmud.services.Service>`
+        """
+        self.subscriptions = ['parse']
         manager.subscribe(self, 'parse')
     
     def tick(self, events=False):
-        """ If Parser service has any events, parse them and respond 
-            appropriately.
+        """ Handle commands from the last tick.
+        
+            .. versionadded:: 0.0.1-features/parser
         """
         if events == []:
             return False
-        for __, payload in events: #pylint: disable=unused-variable
+        for event, payload in events: #pylint: disable=unused-variable
             client = payload['client']
             cmd = payload['cmd']
             if 'trailing' in payload: trailing = payload['trailing']
@@ -57,4 +57,4 @@ class Parser(Service):
                 client.commands[cmd](trailing)
             else:
                 client.send('{0} isnt a valid command'.format(cmd))
-        return
+        return True

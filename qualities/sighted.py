@@ -83,6 +83,8 @@ class Sighted(object):
                 thing.manager.log.debug('%s tried to look at themselves '
                                         'but lack the Renderable quality',
                                         thing.name)
+        else:
+            scene = ('Whatever you tried to look at, you can\'t.')
         thing.manager.schedule('render', client=thing, scene=scene)
 
     def apply(self, thing):
