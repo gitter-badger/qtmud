@@ -19,15 +19,6 @@ assume anything is going to be unique.
 it'd clean up the main folder a bit, which might be nice since there 
 will end up being lots of config files there.
 
-## create render service for clients
-change current client.send() functions to qtmud.manager.schedule('render',
-**payload)
-
-## rendering service
-
-for sighted, hearing quality to run their output through??
-probably through the client quality?
-
 ## run commands through manager always?
 
 calling command functions directly sometimes means the command happens before 
@@ -64,10 +55,3 @@ how are user accounts and other necessary things going to be persistent?
 It'd be really great if whatever the game saved as was the same format as 
 the library, so admin could just use the latest save *as* the library the 
 next time the engine started.
-            
-## Qualities which add commands must be called in separately
-
-for some reason? if you instance a new_thing() with multiple Qualities adding 
-commands, only the first one will work. I'm sure it's just some syntax error, 
-but for now I'm accepting it as "make sure you don't accidentally add commands 
-to a thing."

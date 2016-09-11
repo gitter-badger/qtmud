@@ -6,6 +6,9 @@
     .. versionchanged:: 0.0.1-features/parser
         changed :class:`qtmud.Manager.back_room` to be :class:`Village 
         <qtmud.lib.Village>`
+    .. versionchanged:: 0.0.2-features/renderer
+        added :class:`Renderer <qtmud.services.renderer.Renderer` to 
+        startup services.
     
     Instances manager, loads services, subscribes them to events
 """
@@ -26,6 +29,7 @@ from qtmud.services import Renderer
 
 # testing imports
 from qtmud.lib import Village
+from qtmud.qualities import Physical, Sighted, Speaking, Room, Renderable
 
 #plylint: enable=wrong-import position
 

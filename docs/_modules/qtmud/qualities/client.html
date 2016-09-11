@@ -45,39 +45,37 @@
 
 <div class="viewcode-block" id="Client"><a class="viewcode-back" href="../../../qtmud.qualities.client.html#qtmud.qualities.client.Client">[docs]</a><span class="k">class</span> <span class="nc">Client</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Turns a bland thing into a fancy Client thing.</span>
-<span class="sd">        </span>
+
 <span class="sd">        .. version added:: 0.0.1</span>
-<span class="sd">        .. version changed:: 0.0.1-feature/parsing</span>
+<span class="sd">        .. version changed:: 0.0.1-feature/parser</span>
 <span class="sd">            added the whoami, set, and echo commands</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; create the main Client quality instance, so we don&#39;t have to </span>
-<span class="sd">            keep creating more of them.</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            .. versionadded:: 0.0.1-features/organizing</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># XXX ^^-^^ It might not actually do that, but that is what it </span>
-        <span class="c1"># *should* be doing.</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">Client</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kw</span><span class="p">)</span>
         <span class="k">return</span>
 
-<div class="viewcode-block" id="Client.send"><a class="viewcode-back" href="../../../qtmud.qualities.client.html#qtmud.qualities.client.Client.send">[docs]</a>    <span class="k">def</span> <span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">thing</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="Client.send"><a class="viewcode-back" href="../../../qtmud.qualities.client.html#qtmud.qualities.client.Client.send">[docs]</a>    <span class="k">def</span> <span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">thing</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; prepare data to be sent to a client.</span>
-<span class="sd">        </span>
+
 <span class="sd">            .. versionadded:: 0.0.1</span>
+<span class="sd">            .. versionchanged:: 0.0.2-features/parser</span>
+<span class="sd">                moved the end-of-line tagging to the Renderer service.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># XXX strip any trailing newlines from bad previous formating.</span>
-        <span class="n">thing</span><span class="o">.</span><span class="n">send_buffer</span> <span class="o">+=</span> <span class="n">data</span> <span class="o">+</span> <span class="n">end</span></div>
-    
+        <span class="n">thing</span><span class="o">.</span><span class="n">send_buffer</span> <span class="o">+=</span> <span class="n">data</span></div>
+
 <div class="viewcode-block" id="Client.echo"><a class="viewcode-back" href="../../../qtmud.qualities.client.html#qtmud.qualities.client.Client.echo">[docs]</a>    <span class="k">def</span> <span class="nf">echo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">thing</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; echo some text to the client)</span>
-<span class="sd">            </span>
-<span class="sd">            .. version added:: 0.0.1-feature/parsing</span>
+
+<span class="sd">            .. version added:: 0.0.1-feature/parser</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">thing</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
-    
+
 <div class="viewcode-block" id="Client.whoami"><a class="viewcode-back" href="../../../qtmud.qualities.client.html#qtmud.qualities.client.Client.whoami">[docs]</a>    <span class="k">def</span> <span class="nf">whoami</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">thing</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; tells the thing their name and identity</span>
-<span class="sd">        </span>
-<span class="sd">            .. version added:: 0.0.1-feature/parsing</span>
+
+<span class="sd">            .. version added:: 0.0.1-feature/parser</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">finger</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;name:        </span><span class="si">{0}</span><span class="se">\n</span><span class="s1">&#39;</span>
                   <span class="s1">&#39;id:          </span><span class="si">{1}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">thing</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
@@ -85,14 +83,14 @@
         <span class="n">thing</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">finger</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Client.set"><a class="viewcode-back" href="../../../qtmud.qualities.client.html#qtmud.qualities.client.Client.set">[docs]</a>    <span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">thing</span><span class="p">,</span> <span class="n">trailing</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; sets an attribute in the client, meant to be used with the </span>
+        <span class="sd">&quot;&quot;&quot; sets an attribute in the client, meant to be used with the</span>
 <span class="sd">            set command</span>
-<span class="sd">        </span>
-<span class="sd">            .. version added:: 0.0.1-version/parsing</span>
+
+<span class="sd">            .. version added:: 0.0.1-version/parser</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">trailing</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
             <span class="n">thing</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s1">&#39;syntax: set &lt;attribute&gt; &lt;value&gt;&#39;</span><span class="p">,</span>
-                        <span class="s1">&#39;example: set name Bob&#39;</span><span class="p">)</span>
+                       <span class="s1">&#39;example: set name Bob&#39;</span><span class="p">)</span>
         <span class="n">trailing</span> <span class="o">=</span> <span class="n">trailing</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
         <span class="n">attribute</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="n">trailing</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">trailing</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
         <span class="k">try</span><span class="p">:</span>
@@ -100,19 +98,19 @@
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;unexpected exception caught &#39;</span>
                                      <span class="s1">&#39;when </span><span class="si">%s</span><span class="s1"> entered the command &#39;</span>
-                                     <span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> </span><span class="si">%s</span><span class="se">\n</span><span class="s1">error to follow:</span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> 
+                                     <span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> </span><span class="si">%s</span><span class="se">\n</span><span class="s1">error to follow:</span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span>
                                      <span class="n">client</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">cmd</span><span class="p">,</span> <span class="n">trailing</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
-            <span class="n">client</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s1">&#39;the command failed, check console&#39;</span><span class="p">)</span></div>
+            <span class="n">thing</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s1">&#39;the command failed, check console&#39;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Client.apply"><a class="viewcode-back" href="../../../qtmud.qualities.client.html#qtmud.qualities.client.Client.apply">[docs]</a>    <span class="k">def</span> <span class="nf">apply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">thing</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Applies the Client quality to `thing`</span>
-<span class="sd">        </span>
+
 <span class="sd">            .. version added:: 0.0.1</span>
 <span class="sd">            .. version changed:: 0.0.1-feature/organizing</span>
 <span class="sd">                added basic attribute overwrite protection</span>
-<span class="sd">            .. version changed:: 0.0.1-feature/parsing</span>
+<span class="sd">            .. version changed:: 0.0.1-feature/parser</span>
 <span class="sd">                added commands dict to Client</span>
-<span class="sd">                </span>
+
 <span class="sd">            addr:           tuple representing the client&#39;s address</span>
 <span class="sd">            send_buffer:    string going to be send to the client next tick()</span>
 <span class="sd">            recv_buffer:    string received from the client this tick()</span>
@@ -120,15 +118,13 @@
 <span class="sd">            whoami:         function for telling Client its name &amp; identity</span>
 <span class="sd">            echo:           function for testing Client&#39;s send/receive parsing</span>
 <span class="sd">            set:            function for setting Client&#39;s attributes.</span>
-<span class="sd">            </span>
-<span class="sd">            </span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">thing</span><span class="p">,</span> <span class="s1">&#39;addr&#39;</span><span class="p">):</span>
             <span class="n">thing</span><span class="o">.</span><span class="n">addr</span> <span class="o">=</span> <span class="nb">tuple</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">thing</span><span class="p">,</span> <span class="s1">&#39;send_buffer&#39;</span><span class="p">):</span>
             <span class="n">thing</span><span class="o">.</span><span class="n">send_buffer</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">thing</span><span class="p">,</span> <span class="s1">&#39;recv_buffer&#39;</span><span class="p">):</span> 
-            <span class="n">thing</span><span class="o">.</span><span class="n">recv_buffer</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>              
+            <span class="n">thing</span><span class="o">.</span><span class="n">recv_buffer</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">thing</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">):</span>
             <span class="n">thing</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">thing</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">thing</span><span class="p">,</span> <span class="s1">&#39;send&#39;</span><span class="p">):</span>

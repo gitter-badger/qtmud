@@ -76,5 +76,5 @@ class Renderer(object):
         for event, payload in events:
             client = payload['client']
             scene = payload['scene']
-            client.send(scene)
+            client.send(scene+'\n')
         return True

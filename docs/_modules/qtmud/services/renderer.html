@@ -119,7 +119,7 @@
         <span class="k">for</span> <span class="n">event</span><span class="p">,</span> <span class="n">payload</span> <span class="ow">in</span> <span class="n">events</span><span class="p">:</span>
             <span class="n">client</span> <span class="o">=</span> <span class="n">payload</span><span class="p">[</span><span class="s1">&#39;client&#39;</span><span class="p">]</span>
             <span class="n">scene</span> <span class="o">=</span> <span class="n">payload</span><span class="p">[</span><span class="s1">&#39;scene&#39;</span><span class="p">]</span>
-            <span class="n">client</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">scene</span><span class="p">)</span>
+            <span class="n">client</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">scene</span><span class="o">+</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">True</span></div></div>
 </pre></div>
 

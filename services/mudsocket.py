@@ -76,12 +76,9 @@ class MUDSocket(object):
             for conn in r:
                 if conn is self.socket:
                     new_conn, addr = conn.accept()
-                    client = self.manager.new_thing(Client, Physical,)
-                    client.manager.add_qualities(client, [Renderable])
-                    client.manager.add_qualities(client, [Container])
-                    client.manager.add_qualities(client, [Physical])
-                    client.manager.add_qualities(client, [Sighted])
-                    client.manager.add_qualities(client, [Speaking])
+                    client = self.manager.new_thing(Client, Physical, 
+                                                    Renderable, Container,
+                                                    Sighted, Speaking)
                     client.update({'addr': addr, 'send_buffer' : '',
                                    'recv_buffer' : ''})
                     self.connections.append(new_conn)

@@ -81,6 +81,7 @@ class Quality(object):
 
         """
         super(Quality, self).__init__(**kw)
+        self.foop = 'value'
         return
 
     def womble(self, thing):
@@ -101,7 +102,8 @@ class Quality(object):
                 29ea7ec1-3fc1-44a1-bddb-c756330273d4
 
         """
-        return thing.identity
+        if hasattr(thing, 'fooped') and thing.fooped is True:
+            thing.fooped = self.foop
 
 
     def apply(self, thing):
@@ -146,7 +148,10 @@ class Quality(object):
             use helps make sure things are able to have commands added with
             limited memory waste.
         """
-        if not hasattr(thing, 'womble'): thing.womble = self.womble
+        if not hasattr(thing, 'fooped'):
+            thing.fooped = True
+        if not hasattr(thing, 'womble'):
+            thing.womble = self.womble
         if hasattr(thing, 'commands'):
             thing.commands['womble'] = types.MethodType(self.womble, thing)
         return thing
