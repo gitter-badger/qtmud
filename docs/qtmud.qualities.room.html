@@ -41,16 +41,30 @@
             
   <div class="section" id="module-qtmud.qualities.room">
 <span id="qtmud-qualities-room-module"></span><h1>qtmud.qualities.room module<a class="headerlink" href="#module-qtmud.qualities.room" title="Permalink to this headline">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.0.1-features/parser.</span></p>
+</div>
 <dl class="class">
 <dt id="qtmud.qualities.room.Room">
-<em class="property">class </em><code class="descclassname">qtmud.qualities.room.</code><code class="descname">Room</code><span class="sig-paren">(</span><em>**kw</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/qualities/room.html#Room"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.room.Room" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">qtmud.qualities.room.</code><code class="descname">Room</code><a class="reference internal" href="_modules/qtmud/qualities/room.html#Room"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.room.Room" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>Gives a thing the qualities of a Room</p>
 <dl class="method">
 <dt id="qtmud.qualities.room.Room.apply">
 <code class="descname">apply</code><span class="sig-paren">(</span><em>thing</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/qualities/room.html#Room.apply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.room.Room.apply" title="Permalink to this definition">¶</a></dt>
-<dd><p>adds dict exits and if non-existent, list contents &amp; function
-contains</p>
+<dd><p>adds exits to the thing</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.0.1-features/parser.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified">Changed in version 0.0.2-features/renderer.</span></p>
+</div>
+<p>Adds exits to a thing.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Used to be dependent on Container quality, now it
+isn&#8217;t.</p>
+</div>
 </dd></dl>
 
 </dd></dl>

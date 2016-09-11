@@ -124,12 +124,13 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">Quality</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kw</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">foop</span> <span class="o">=</span> <span class="s1">&#39;value&#39;</span>
         <span class="k">return</span>
 
 <div class="viewcode-block" id="Quality.womble"><a class="viewcode-back" href="../../qtmud.qualities.html#qtmud.qualities.Quality.womble">[docs]</a>    <span class="k">def</span> <span class="nf">womble</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">thing</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; An example of a function within a quality.</span>
 
-<span class="sd">            .. version added:: 0.0.1-feature/parser</span>
+<span class="sd">            .. versionadded:: 0.0.1-feature/parser</span>
 
 <span class="sd">            Parameters:</span>
 <span class="sd">                thing(object):      the :class:`thing &lt;qtmud.Thing&gt;` this</span>
@@ -144,7 +145,8 @@
 <span class="sd">                29ea7ec1-3fc1-44a1-bddb-c756330273d4</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">thing</span><span class="o">.</span><span class="n">identity</span></div>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">thing</span><span class="p">,</span> <span class="s1">&#39;fooped&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">thing</span><span class="o">.</span><span class="n">fooped</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">thing</span><span class="o">.</span><span class="n">fooped</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">foop</span></div>
 
 
 <div class="viewcode-block" id="Quality.apply"><a class="viewcode-back" href="../../qtmud.qualities.html#qtmud.qualities.Quality.apply">[docs]</a>    <span class="k">def</span> <span class="nf">apply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">thing</span><span class="p">):</span>
@@ -189,7 +191,10 @@
 <span class="sd">            use helps make sure things are able to have commands added with</span>
 <span class="sd">            limited memory waste.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">thing</span><span class="p">,</span> <span class="s1">&#39;womble&#39;</span><span class="p">):</span> <span class="n">thing</span><span class="o">.</span><span class="n">womble</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">womble</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">thing</span><span class="p">,</span> <span class="s1">&#39;fooped&#39;</span><span class="p">):</span>
+            <span class="n">thing</span><span class="o">.</span><span class="n">fooped</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">thing</span><span class="p">,</span> <span class="s1">&#39;womble&#39;</span><span class="p">):</span>
+            <span class="n">thing</span><span class="o">.</span><span class="n">womble</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">womble</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">thing</span><span class="p">,</span> <span class="s1">&#39;commands&#39;</span><span class="p">):</span>
             <span class="n">thing</span><span class="o">.</span><span class="n">commands</span><span class="p">[</span><span class="s1">&#39;womble&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">types</span><span class="o">.</span><span class="n">MethodType</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">womble</span><span class="p">,</span> <span class="n">thing</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">thing</span></div></div>

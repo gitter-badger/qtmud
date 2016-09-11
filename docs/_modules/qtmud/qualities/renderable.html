@@ -50,7 +50,7 @@
 
 <span class="sd">&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Renderable"><a class="viewcode-back" href="../../../qtmud.qualities.renderable.html#qtmud.qualities.renderable.Renderable">[docs]</a><span class="k">class</span> <span class="nc">Renderable</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="Renderable"><a class="viewcode-back" href="../../../qtmud.qualities.renderable.html#qtmud.qualities.renderable.Renderable">[docs]</a><span class="k">class</span> <span class="nc">Renderable</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span> <span class="c1">#pylint: disable=too-few-public-methods</span>
     <span class="sd">&quot;&quot;&quot; For applying the Renderable quality to a thing.</span>
 
 <span class="sd">        .. version added:: 0.0.1-features/environments</span>
@@ -59,13 +59,12 @@
 <span class="sd">            name(str):          The name of the thing.</span>
 <span class="sd">            description(str):   The thing&#39;s description.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">            .. version added:: 0.0.1-feature/environments</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">Renderable</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kw</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
         <span class="k">return</span>
@@ -75,7 +74,8 @@
 
 <span class="sd">            .. version added:: 0.0.1-feature/environments</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">thing</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">):</span> <span class="n">thing</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">thing</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">):</span>
+            <span class="n">thing</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">thing</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">):</span>
             <span class="n">thing</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">description</span>
         <span class="k">return</span> <span class="n">thing</span></div></div>

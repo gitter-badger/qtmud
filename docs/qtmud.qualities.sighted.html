@@ -41,19 +41,58 @@
             
   <div class="section" id="module-qtmud.qualities.sighted">
 <span id="qtmud-qualities-sighted-module"></span><h1>qtmud.qualities.sighted module<a class="headerlink" href="#module-qtmud.qualities.sighted" title="Permalink to this headline">¶</a></h1>
+<p>Gives the ability to see to a thing.
+.. moduleauthor:: emsenn &lt;<a class="reference external" href="mailto:morgan&#46;sennhauser&#37;&#52;&#48;gmail&#46;com">morgan<span>&#46;</span>sennhauser<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.0.1-features/parser.</span></p>
+</div>
+<p>Adds sight to a quality, which for now means access to the look
+function and command.</p>
 <dl class="class">
 <dt id="qtmud.qualities.sighted.Sighted">
-<em class="property">class </em><code class="descclassname">qtmud.qualities.sighted.</code><code class="descname">Sighted</code><span class="sig-paren">(</span><em>**kw</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/qualities/sighted.html#Sighted"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.sighted.Sighted" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">qtmud.qualities.sighted.</code><code class="descname">Sighted</code><a class="reference internal" href="_modules/qtmud/qualities/sighted.html#Sighted"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.sighted.Sighted" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>Adds sight to a thing it is applied to.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.0.1-feature/parser.</span></p>
+</div>
+<p>When <a class="reference internal" href="qtmud.qualities.html#qtmud.qualities.Quality.apply" title="qtmud.qualities.Quality.apply"><code class="xref py py-func docutils literal"><span class="pre">applied</span></code></a> by the
+<a class="reference internal" href="qtmud.html#qtmud.Manager" title="qtmud.Manager"><code class="xref py py-class docutils literal"><span class="pre">manager</span></code></a>, gives a thing sight. In this
+context, that means the <code class="xref py py-func docutils literal"><span class="pre">look</span></code> function, documented below.</p>
 <dl class="method">
 <dt id="qtmud.qualities.sighted.Sighted.apply">
 <code class="descname">apply</code><span class="sig-paren">(</span><em>thing</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/qualities/sighted.html#Sighted.apply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.sighted.Sighted.apply" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><div class="versionadded">
+<p><span class="versionmodified">New in version 0.0.1-features/parser.</span></p>
+</div>
+</dd></dl>
 
 <dl class="method">
 <dt id="qtmud.qualities.sighted.Sighted.look">
-<code class="descname">look</code><span class="sig-paren">(</span><em>thing</em>, <em>target</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/qualities/sighted.html#Sighted.look"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.sighted.Sighted.look" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">look</code><span class="sig-paren">(</span><em>thing</em>, <em>target=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/qualities/sighted.html#Sighted.look"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.sighted.Sighted.look" title="Permalink to this definition">¶</a></dt>
+<dd><p>Render target from the perspective of thing.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.0.1-features/parser.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified">Changed in version 0.0.2-features/renderer: </span>Made thing.look() directly callable.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>thing</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><em>object</em></a>) &#8211; The class:<cite>thing &lt;qtmud.Thing&gt;</cite> that
+is doing the looking. Output will be
+written from this thing&#8217;s perspective.</li>
+<li><strong>target</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; A string representing a nametag of an
+object in <code class="docutils literal"><span class="pre">thing</span></code>&#8216;s environment.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </dd></dl>
 

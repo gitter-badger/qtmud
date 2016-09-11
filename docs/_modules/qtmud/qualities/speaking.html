@@ -41,30 +41,72 @@
           <div class="body" role="main">
             
   <h1>Source code for qtmud.qualities.speaking</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">types</span>
+<span></span><span class="sd">&quot;&quot;&quot; Give a thing the ability to speak</span>
+
+<span class="sd">    .. moduleauthor:: emsenn &lt;morgan.sennhauser@gmail.com&gt;</span>
+
+<span class="sd">    .. versionadded:: 0.0.1-features/parser</span>
+<span class="sd">        was a part of qtmud.qualities</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="kn">import</span> <span class="nn">types</span>
+
 
 <span class="kn">from</span> <span class="nn">qtmud.qualities.client</span> <span class="k">import</span> <span class="n">Client</span>
+<span class="kn">from</span> <span class="nn">qtmud.qualities.renderable</span> <span class="k">import</span> <span class="n">Renderable</span>
+
 
 <div class="viewcode-block" id="Speaking"><a class="viewcode-back" href="../../../qtmud.qualities.speaking.html#qtmud.qualities.speaking.Speaking">[docs]</a><span class="k">class</span> <span class="nc">Speaking</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">Speaking</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kw</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot; Gives a thing the ability to ``say`` things.</span>
+
+<span class="sd">        .. versionadded:: 0.0.1-features/parser</span>
+<span class="sd">        .. versionchanged:: 0.0.2-features/renderer</span>
+<span class="sd">            Updated to use manager.schedule(&#39;render&#39;) instead of client.send()</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            .. versionadded:: 0.0.1-features/parser</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span>
-    
+
+    <span class="c1">#pylint: disable=no-self-use</span>
 <div class="viewcode-block" id="Speaking.say"><a class="viewcode-back" href="../../../qtmud.qualities.speaking.html#qtmud.qualities.speaking.Speaking.say">[docs]</a>    <span class="k">def</span> <span class="nf">say</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">thing</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; schedules the rendering of data for every Client in thing&#39;s location</span>
+
+<span class="sd">            .. versionadded::0.0.1-features/parser</span>
+<span class="sd">            .. versionchanged::0.0.1-features/renderer</span>
+<span class="sd">                Changed to use the manager&#39;s scheduler.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">thing</span><span class="p">,</span> <span class="s1">&#39;location&#39;</span><span class="p">):</span>
-            <span class="n">thing</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s1">&#39;You cannot speak, for you have no environment.&#39;</span><span class="p">)</span>
+            <span class="n">thing</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;render&#39;</span><span class="p">,</span>
+                                   <span class="n">client</span><span class="o">=</span><span class="n">thing</span><span class="p">,</span>
+                                   <span class="n">scene</span><span class="o">=</span><span class="s1">&#39;You cannot speak, for you have&#39;</span>
+                                         <span class="s1">&#39;no location.&#39;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">recipient</span> <span class="ow">in</span> <span class="n">thing</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">contents</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="n">recipient</span> <span class="ow">in</span> <span class="n">thing</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">qualities</span><span class="p">[</span><span class="n">Client</span><span class="p">]:</span>
-                    <span class="c1"># XXX change this to use the scheduler</span>
-                        <span class="n">recipient</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{0}</span><span class="s1"> says: </span><span class="si">{1}</span><span class="s1">&#39;</span>
-                                       <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">thing</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">data</span><span class="p">))</span></div>
-    
+            <span class="k">if</span> <span class="n">recipient</span> <span class="ow">in</span> <span class="n">thing</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">qualities</span><span class="p">[</span><span class="n">Client</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">Renderable</span> <span class="ow">in</span> <span class="n">thing</span><span class="o">.</span><span class="n">qualities</span><span class="p">:</span>
+                    <span class="n">thing</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;render&#39;</span><span class="p">,</span>
+                                           <span class="n">client</span><span class="o">=</span><span class="n">recipient</span><span class="p">,</span>
+                                           <span class="n">scene</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{0}</span><span class="s1"> says: </span><span class="si">{1}</span><span class="s1">&#39;</span>
+                                                 <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">thing</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                                                           <span class="n">data</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">thing</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;render&#39;</span><span class="p">,</span>
+                                           <span class="n">client</span><span class="o">=</span><span class="n">recipient</span><span class="p">,</span>
+                                           <span class="n">scene</span><span class="o">=</span><span class="s1">&#39;A voice says: &#39;</span>
+                                                 <span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data</span><span class="p">))</span></div>
+    <span class="c1">#pylint: enable=no-self-use</span>
+
 <div class="viewcode-block" id="Speaking.apply"><a class="viewcode-back" href="../../../qtmud.qualities.speaking.html#qtmud.qualities.speaking.Speaking.apply">[docs]</a>    <span class="k">def</span> <span class="nf">apply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">thing</span><span class="p">):</span>
-        <span class="k">try</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            .. versionadded:: 0.0.1-features/parser</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">thing</span><span class="p">,</span> <span class="s1">&#39;say&#39;</span><span class="p">):</span>
+            <span class="n">types</span><span class="o">.</span><span class="n">MethodType</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">say</span><span class="p">,</span> <span class="n">thing</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">thing</span><span class="p">,</span> <span class="s1">&#39;commands&#39;</span><span class="p">):</span>
             <span class="n">thing</span><span class="o">.</span><span class="n">commands</span><span class="p">[</span><span class="s1">&#39;say&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">types</span><span class="o">.</span><span class="n">MethodType</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">say</span><span class="p">,</span> <span class="n">thing</span><span class="p">)</span>
-        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
-            <span class="n">thing</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">thing</span>  </div></div>
+        <span class="k">return</span> <span class="n">thing</span></div></div>
 </pre></div>
 
           </div>
