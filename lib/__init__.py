@@ -5,13 +5,15 @@
     .. versionadded:: 0.0.1
     .. versionchanged:: 0.0.1-feature/environments
         added Tavern, Village
-    .. versionchanged:: 0.0.1-features/parser
+    .. versionchanged:: 0.0.1-feature/parser
         added a Field
+    .. versionchanged:: 0.0.2-feature/neverforgetholidayupdate
+        added NineElevenMemorial ;_;7
     
     Testing for potential game library - don't expect good documentation here.
 """
 
-from qtmud.qualities import Container, Room, Renderable
+from qtmud.qualities import Physical, Container, Room, Renderable
 
 class Tavern(object):
     """ Ye Olde Tavern
@@ -60,7 +62,7 @@ class Village(object):
 class Field(object):
     """ An empty field.
     
-        .. versionadded:: 0.0.1-features/parser
+        .. versionadded:: 0.0.1-feature/parser
     """
     def __init__(self, **kw):
         super(Field, self).__init__(**kw)
@@ -71,8 +73,34 @@ class Field(object):
                                                     Container,
                                                     Renderable])
         field.name = 'Empty Field'
-        field.description = ('A variety of grasses are growing in this '
-                             'unused field. You can see a village a short '
-                             'way off.')
+        field.description = ('This small field has a variety of short '
+                             'grasses growing in it. Near the center, a '
+                             'memorial sits. There is also a nearby village.')
+        memorial = thing.manager.new_thing(NineElevenMemorial)
+        field.add(memorial)
         field.exits = { 'village' : Village }
         return field
+
+
+class NineElevenMemorial(object):
+    """ A memorial to 9/11, a part of the Never Forget Holiday Update
+    
+        .. versionadded:: 0.0.2-feature/neverforgetholidayupdate
+    """
+    
+    def __init__(self):
+        """
+            .. versionadded:: 0.0.2-feature/neverforgetholidayupdate
+        """
+        return
+
+    def apply(self, thing):
+        """
+            .. versionadded:: 0.0.2-feature/neverforgetholidayupdate
+        """
+        memorial = thing.manager.add_qualities(thing, [Renderable])
+        memorial.name = 'memorial'
+        memorial.description = ('Two solid copper blocks rise up from the '
+                                'ground. Wide bands of verdigris marble '
+                                'their surface.')
+        return memorial

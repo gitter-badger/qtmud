@@ -6,6 +6,8 @@
 
 ## client aliases
 
+## nametags
+
 ## add glossary to documentation
 
 ## split movement into remove and add
