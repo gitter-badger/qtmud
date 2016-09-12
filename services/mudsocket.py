@@ -79,7 +79,8 @@ class MUDSocket(object):
                     client = self.manager.new_thing(Client, Physical, 
                                                     Renderable, Container,
                                                     Sighted, Speaking)
-                    client.update({'addr': addr, 'send_buffer' : '',
+                    client.update({'addr': addr,
+                                   'send_buffer' : '',
                                    'recv_buffer' : ''})
                     self.connections.append(new_conn)
                     self.clients[new_conn] = client

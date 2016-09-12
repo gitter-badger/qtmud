@@ -55,39 +55,49 @@ class Thing(object):
     """ The object to be instanced by manager.new_thing()
         
         .. versionadded:: 0.0.1
-        .. versionchanged:: 0.0.1-features/parsing
+        .. versionchanged:: 0.0.1-feature/parsing
             added return of successfully changed attributes to Thing.update()
+        .. versionchanged:: 0.0.2-feature/nametags
+        
+        Parameters:
+            identity(str):      a UUID created automatically by the 
+                                manager.new_thing() function
+            manager(object):    the manager instance which is instancing the 
+                                thing.
         
         Attributes:
             identity(str):      the unique identifier for the instance, 
                                 assigned by manager.new_thing()
             manager(object):    the thing's manager, the same object that 
                                 called new_thing()
+            nametags(list):     A list of strings that one might refer to 
+                                this thing with.
             qualities(list):    the instances of 
                                 :class:`qualities <qtmud.Qualities>` which 
                                 have been applied to the thing.
-           
-        Parameters:
-            identity(str):      a UUID created automatically by the 
-                                manager.new_thing() function
-            manager(object):    the manager instance which is instancing the 
-                                thing.
 
         Thing anticipates being instanced by the 
         :func:`new_thing() <qtmud.Manager.new_thing>`, which is why it 
         expects the `identity` and `manage` parameters.
     """
-    def __init__(self, identity, manager, **kw):
+    def __init__(self, identity, manager):
         """ Initial thing setup.
         
             .. versionadded:: 0.0.1
             
         """
-        super(Thing, self).__init__(**kw)
         self.identity, self.manager = identity, manager
+        self.nametags = ['thing']
         self.qualities = []
         return
+
     
+    def __setattr__(self, attr, value):
+        if 'set_%s' % (attr,) in self.__dict__:
+            return self.__dict__['set_%s' % (attr,)](self, value)
+        else:
+            self.__dict__[attr] = value
+
     def update(self, _dict):
         """ Modify multiple attributes of the thing at once.
         
@@ -116,7 +126,7 @@ class Thing(object):
         for key, value in _dict.items():
             updated[key] = value
             setattr(self, key, value)
-        return updated    
+        return updated
 
 
 class Manager(object):

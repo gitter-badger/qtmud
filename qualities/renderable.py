@@ -26,6 +26,20 @@ class Renderable(object): #pylint: disable=too-few-public-methods
         self.description = ''
         return
 
+    def set_name(self, thing, name):
+        """
+            .. versionadded:: 0.0.2-feature/nametags
+        """
+        if type(name) is str and name != '':
+            shortname = name.split()[-1].lower()
+            if hasattr(thing, 'name') and thing.name != '':
+                old_shortname = thing.name.split()[-1].lower()
+                if old_shortname in thing.nametags:
+                    thing.nametags.remove(old_shortname)
+            thing.__dict__['name'] = name
+            thing.nametags.append(name.split()[-1].lower())
+        return
+
     def apply(self, thing):
         """ Applies the Renderable quality to a thing
 
@@ -35,4 +49,5 @@ class Renderable(object): #pylint: disable=too-few-public-methods
             thing.name = self.name
         if not hasattr(thing, 'description'):
             thing.description = self.description
+        thing.set_name = self.set_name
         return thing

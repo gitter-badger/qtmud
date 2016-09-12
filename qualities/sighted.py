@@ -44,6 +44,9 @@ class Sighted(object):
                                     written from this thing's perspective.
                 target(str):        A string representing a nametag of an
                                     object in ``thing``'s environment.
+
+            Returns:
+                string:             Returns what the looker sees as a string.
         """
         if target != '' and target.split()[0] in ['at', 'in']:
             target = target.split(None, 1)[1]
@@ -82,22 +85,25 @@ class Sighted(object):
                                         'but don\'t have a name or '
                                         'description', looker.name)
         else:
-            nearby = {}
-            if hasattr(looker, 'contents'):
-                for content in looker.contents:
-                    if hasattr(content, 'name'):
-                        nearby[content.name] = content
             if hasattr(looker, 'location'):
+                if target in looker.location.nametags:
+                    target = looker.location
+            if type(target) is str and hasattr(looker, 'contents'):
+                for content in looker.contents:
+                    if hasattr(content, 'nametags'):
+                        if target in content.nametags:
+                            target = content
+            if type(target) is str and hasattr(looker, 'location'):
                 if hasattr(looker.location, 'contents'):
                     for content in looker.location.contents:
-                        if hasattr(content, 'name'):
-                            nearby[content.name] = content
-            if target in nearby:
-                if hasattr(nearby[target], 'name'):
-                    if hasattr(nearby[target], 'description'):
-                        scene = ('- {0} -\n'
-                                 '{1}'.format(nearby[target].name,
-                                              nearby[target].description))
+                        if hasattr(content, 'nametags'):
+                            if target in content.nametags:
+                                target = content
+            if not type(target) is str and hasattr(target, 'name'):
+                if hasattr(target, 'description'):
+                    scene = ('- {0} -\n'
+                             '{1}'.format(target.name,
+                                          target.description))
             else:
                 scene = ('Whatever you tried to look at, you can\'t.')
         if hasattr(looker, 'send'):
