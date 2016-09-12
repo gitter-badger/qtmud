@@ -4,41 +4,6 @@
 
 ## client aliases
 
-## thing.search('string') that looks for a thing with the matching nametag?
-i think this'll be hte the best solution, but I can already see a future 
-where we want a better way of searching a thing's awareness.
-
-if hasattr('thing', contents):
-    for content in contents:
-        for nametag in content.nametags:
-            if hasattr(nearby[nametag]): nearby[nametag].append(content)
-            else: nearby[nametag] = [content]
-if hasattr('thing', location) and hasattr(thing.location, 'contents'):
-    for content in thing.location.contents:
-        for nametag in content...
-
-if target din nearby:
-    if len(nearby[target]) == 1:
-        return nearby[target]
-    else:
-        return nearby[target]
-
-then in sight we'd do something like:`'
-
-if target == 'here':
-    pass
-elif target == 'me':
-    pass
-else:
-    matches = searcher.search(target)
-    scene = 'there were this many results, try again and suffix which '
-            'you want'
-
-so this means allowing target to have modifiers like 1, -2, etc.
-
-Geh, parsing.
-
-
 ## add glossary to documentation
 
 ## split movement into remove and add
@@ -75,14 +40,14 @@ in serializing the data
 how are user accounts and other necessary things going to be persistent?
         class Persistence:
         
-            def set_quality(self, quality, value):
-                if quality in self.__slots__:
+            def set_attr(self, attr, value):
+                if attr in self.__slots__:
                     # save function
                 else:
-                    object.__setattr__(self,quality, value)
+                    object.__setattr__(self,attr, value)
             
             def apply(self, thing):
-                thing.__setattr_ = self.set_quality
+                thing.__setattr_ = self.set_attr
                 
 (no clue if that would work lol)
 It'd be really great if whatever the game saved as was the same format as 

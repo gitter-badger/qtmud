@@ -29,8 +29,7 @@ from qtmud.services.mudsocket import MUDSocket
 from qtmud.services import Renderer
 
 # testing imports
-from qtmud.lib import Village, Field
-from qtmud.qualities import Physical, Sighted, Speaking, Room, Renderable
+from qtmud.lib import Village
 
 #plylint: enable=wrong-import position
 

@@ -98,7 +98,9 @@ class Field(object):
                              'grasses growing in it. Near the center, a '
                              'memorial sits. There is also a nearby village.')
         memorial = thing.manager.new_thing(NineElevenMemorial)
-        field.add(memorial)
+        bigtree = thing.manager.new_thing(BigTree)
+        tinytree = thing.manager.new_thing(TinyTree)
+        field.add(memorial, bigtree, tinytree)
         field.exits = { 'village' : Village }
         return field
 
@@ -125,3 +127,18 @@ class NineElevenMemorial(object):
                                 'ground. Wide bands of verdigris marble '
                                 'their surface.')
         return memorial
+        
+class BigTree(object):
+    def apply(self, thing):
+        tree = thing.manager.add_qualities(thing, [Renderable])
+        bigtree = tree.update({'name' : 'Big Ol\' Tree',
+                              'description' : ('This is a big ol\' tree, '
+                                               'I tell you what.')})
+        return bigtree
+
+class TinyTree(object):
+    def apply(self, thing):
+        tree = thing.manager.add_qualities(thing, [Renderable])
+        tree.name = 'Tiny Li\'l\' Tree'
+        tree.description = ('This is a tiny tree.')
+        return tree

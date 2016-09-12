@@ -80,29 +80,6 @@ class Thing(object):
         :func:`new_thing() <qtmud.Manager.new_thing>`, which is why it 
         expects the `identity` and `manage` parameters.
     """
-    
-    def search(self, target):
-        """ search for in this local environment.
-        
-            .. versionadded:: 0.0.2-feature/nametags
-            
-            Parameters:
-                target(string):         The nametag you're looking for in
-                                        this thing's local environment.
-        """
-        matches = {}
-        if hasattr(self, 'contents'):
-            for content in self.contents:
-                for nametag in content.nametags:
-                    if nametag in matches: matches[nametag].append(content)
-                    else: matches[nametag] = [content]
-        if hasattr(self, 'location'):
-            for content in self.location.contents:
-                for nametag in content.nametags:
-                    if nametag in matches: matches[nametag].append(content)
-                    else: matches[nametag] = [content]
-        return matches
-    
     def __init__(self, identity, manager):
         """
             .. versionadded:: 0.0.1
@@ -112,7 +89,6 @@ class Thing(object):
         self.nametags = ['thing']
         self.qualities = []
         return
-
     
     def __setattr__(self, attr, value):
         """ If thing has set_attr function, use it as a custom setter
@@ -148,6 +124,28 @@ class Thing(object):
         else:
             self.__dict__[attr] = value
 
+    def search(self, target):
+        """ search for in this local environment.
+        
+            .. versionadded:: 0.0.2-feature/nametags
+            
+            Parameters:
+                target(string):         The nametag you're looking for in
+                                        this thing's local environment.
+        """
+        matches = {}
+        if hasattr(self, 'contents'):
+            for content in self.contents:
+                for nametag in content.nametags:
+                    if nametag in matches: matches[nametag].append(content)
+                    else: matches[nametag] = [content]
+        if hasattr(self, 'location'):
+            for content in self.location.contents:
+                for nametag in content.nametags:
+                    if nametag in matches: matches[nametag].append(content)
+                    else: matches[nametag] = [content]
+        return matches
+
     def update(self, _dict):
         """ Modify multiple attributes of the thing at once.
         
@@ -172,11 +170,10 @@ class Thing(object):
                 {'addr': ('127.0.0.1', 40440), 'recv_buffer': '', 
                 'send_buffer': ''}
         """
-        updated = {}
+        thing = self
         for key, value in _dict.items():
-            updated[key] = value
-            setattr(self, key, value)
-        return updated
+            setattr(thing, key, value)
+        return thing
 
 
 class Manager(object):
@@ -346,13 +343,15 @@ class Manager(object):
         thing = Thing(identity, self)
         self.things.append(thing)
         self.log.debug('creating new thing...')
-        self.add_qualities(thing, qualities)
+        thing = self.add_qualities(thing, qualities)
         return thing
 
     def add_qualities(self, thing, qualities):
         """ adds qualities to :class:`things <qtmud.Thing>`
         
             .. versionadded:: 0.0.1
+            .. versionchanged:: 0.0.2-feature/nametags
+                Changed from imperative to applicative method
         
             Parameters:
                 thing(object):      The :class:`thing <qtmud.Thing>` which 
@@ -370,8 +369,8 @@ class Manager(object):
             if not quality in self.qualities:
                 self.qualities[quality] = []
             self.qualities[quality].append(thing)
-            thing.qualities.append(quality)
             thing = quality().apply(thing)
+            thing.qualities.append(quality)
             self.log.debug('added %s quality to the thing'
                            '', quality.__name__)
         return thing

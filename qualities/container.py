@@ -140,7 +140,7 @@ class Container(object):
                     You're holding:
                     ( apple pie, sword )
         """
-        if hasattr(searcher, 'sends'):
+        if hasattr(searcher, 'send'):
             if hasattr(searcher, 'contents'):
                 scene = ('You\'re holding:\n(')
                 for content in searcher.contents:
@@ -148,7 +148,6 @@ class Container(object):
                         scene += (content.name+', ')
                 scene += (')')
             searcher.manager.schedule('render', client=searcher, scene=scene)
-        print(searcher.contents)
         return searcher.contents
             
     

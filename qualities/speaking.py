@@ -11,7 +11,6 @@ import types
 
 
 from qtmud.qualities.client import Client
-from qtmud.qualities.renderable import Renderable
 
 
 class Speaking(object):
@@ -41,7 +40,7 @@ class Speaking(object):
                                    scene='You cannot speak, for you have'
                                          'no location.')
         for recipient in thing.location.contents:
-            if recipient in thing.manager.qualities[Client]:
+            if hasattr(recipient, 'send'):
                 if Renderable in thing.qualities:
                     thing.manager.schedule('render',
                                            client=recipient,
