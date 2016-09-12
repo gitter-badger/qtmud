@@ -5,6 +5,39 @@
 ## client aliases
 
 ## thing.search('string') that looks for a thing with the matching nametag?
+i think this'll be hte the best solution, but I can already see a future 
+where we want a better way of searching a thing's awareness.
+
+if hasattr('thing', contents):
+    for content in contents:
+        for nametag in content.nametags:
+            if hasattr(nearby[nametag]): nearby[nametag].append(content)
+            else: nearby[nametag] = [content]
+if hasattr('thing', location) and hasattr(thing.location, 'contents'):
+    for content in thing.location.contents:
+        for nametag in content...
+
+if target din nearby:
+    if len(nearby[target]) == 1:
+        return nearby[target]
+    else:
+        return nearby[target]
+
+then in sight we'd do something like:`'
+
+if target == 'here':
+    pass
+elif target == 'me':
+    pass
+else:
+    matches = searcher.search(target)
+    scene = 'there were this many results, try again and suffix which '
+            'you want'
+
+so this means allowing target to have modifiers like 1, -2, etc.
+
+Geh, parsing.
+
 
 ## add glossary to documentation
 

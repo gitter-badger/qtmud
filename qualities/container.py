@@ -44,7 +44,7 @@ class Container(object):
         self.contents = []
         return
     
-    def add(self, container, thing):
+    def add(self, container, *things):
         """ Adds thing to the contianer's contents if thing isn't there.
 
             .. versionadded:: 0.0.1-feature/parser
@@ -62,9 +62,10 @@ class Container(object):
                                         added to to the ``contents`` of
                                         the ``container``.
         """
-        if thing not in container.contents:
-            return container.contents.append(thing)
-        return False
+        for thing in things:
+            if thing not in container.contents:
+                container.contents.append(thing)
+        return True
     
     def contains(self, container, thing):
         """ Check if thing is in the contents of container.
