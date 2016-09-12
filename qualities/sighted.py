@@ -1,4 +1,5 @@
 """ Gives the ability to see to a thing.
+
     .. moduleauthor:: emsenn <morgan.sennhauser@gmail.com>
 
     .. versionadded:: 0.0.1-features/parser
@@ -37,6 +38,8 @@ class Sighted(object):
             .. versionchanged:: 0.0.2-feature/neverforgetholidayupdate
                 rely on checking the attributes of things directly, instead
                 of using checks against Qualities
+            .. versionchanged:: 0.0.2-feature/nametags
+                use nametags instead of names to figure out what to look at.
 
             Parameters:
                 look(object):      The class:`thing <qtmud.Thing>` that
@@ -113,6 +116,10 @@ class Sighted(object):
     def apply(self, thing):
         """
             .. versionadded:: 0.0.1-feature/parser
+
+            Parameters:
+                thing(object):      The :class:`thing <qtmud.Thing>` that will
+                                    be given the Sighted quality.
         """
         if not hasattr(thing, 'look'):
             thing.look = types.MethodType(self.look, thing)

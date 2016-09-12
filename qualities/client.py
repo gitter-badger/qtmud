@@ -17,7 +17,7 @@ class Client(object):
         """
             .. versionadded:: 0.0.1-feature/organizing
             .. versionchanged:: 0.0.2-feature/nametags
-                added nametags = ['client']
+                added nametags = ['client', 'player']
         """
         self.nametags = ['client', 'player']
         return
@@ -55,7 +55,7 @@ class Client(object):
         """ sets an attribute in the client, meant to be used with the
             set command
 
-            .. version added:: 0.0.1-version/parser
+            .. version added:: 0.0.1-feature/parser
         """
         if trailing == '':
             thing.manager.schedule('render',
@@ -91,14 +91,7 @@ class Client(object):
             .. versionchanged:: 0.0.1-feature/parser
                 added commands dict to Client
             .. versionchanged:: 0.0.2-feature/nametags
-
-            addr:           tuple representing the client's address
-            send_buffer:    string going to be send to the client next tick()
-            recv_buffer:    string received from the client this tick()
-            send:           function for formating send_buffer
-            whoami:         function for telling Client its name & identity
-            echo:           function for testing Client's send/receive parsing
-            set:            function for setting Client's attributes.
+                added nametags client, player, to quality application
         """
         if hasattr(thing, 'nametags'):
             for nametag in self.nametags:

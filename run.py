@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 """ qtmud's start & run script
     
     .. moduleauthor: Morgan Sennhauser <morgan.sennhauser@gmail.com>

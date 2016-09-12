@@ -103,30 +103,51 @@ class Container(object):
             return container.contents.remove(thing)
         return False
     
-    def inventory(self, searcher, container=''):
+    def inventory(self, searcher, trailing=''):
         """ 
             .. versionadded:: 0.0.2-feature/inventory
-            
+            .. versionchanged:: 0.0.2-feature/nametags
+                Removed unnecessary container argument and replaced it with 
+                more standard ``trailing``
+
             Parameters:
                 searcher(object):   The thing which is trying to check 
                                     the container's inventory.
-                container(str):     A string that'll be used to search for
-                                    the container.
+                trailing(str):      Unused.
             Returns:
-                list:               If ``container`` is found in 
-                                    ``searcher``'s ``contents`` or the 
-                                    ``searcher``'s ``location``'s
-                                    ``contents``, returns ``container``'s
-                                    ``contents``. Otherwise, returns None.
+                list:               the ``contents`` of the ``searcher``
+
+            ``inventory()`` is essentially an alias for ``searcher.contents``,
+            but will also schedule a rendering of the ``searcher``'s contents 
+            if the ``searcher`` has a :func:`send 
+            <qtmud.qualities.client.Client.send>` function.
+
+            Examples:
+                From the backend:
+                
+                    >>> satchel = manager.new_thing(Container)
+                    >>> oodil = manager.new_thing(Physical)
+                    >>> manager.schedule('move',
+                    >>>                  thing=oodil
+                    >>>                  destination=satchel)
+                    >>> satchel.inventory(satchel)
+                    [<qtmud.Thing object at 0xb69c7ad0>]                    
+                
+                From in-game:
+                    
+                    >>> inventory
+                    You're holding:
+                    ( apple pie, sword )
         """
-        if hasattr(searcher, 'contents'):
-            scene = ('You contain:\n(')
-            for content in searcher.contents:
-                if hasattr(content, 'name'):
-                    scene += (content.name+', ')
-            scene += (')')
-        if hasattr(searcher, 'send'):
+        if hasattr(searcher, 'sends'):
+            if hasattr(searcher, 'contents'):
+                scene = ('You\'re holding:\n(')
+                for content in searcher.contents:
+                    if hasattr(content, 'name'):
+                        scene += (content.name+', ')
+                scene += (')')
             searcher.manager.schedule('render', client=searcher, scene=scene)
+        print(searcher.contents)
         return searcher.contents
             
     

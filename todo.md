@@ -1,15 +1,8 @@
-## inventory command
-
 ## split commandable into its own quality
 
 ## create hearing quality, revise say to match
 
 ## client aliases
-
-## nametags
-
-lowercase strings for finding objects even if they aren't physical?
-could maybe be in qtmud.Thing itself?
 
 ## thing.search('string') that looks for a thing with the matching nametag?
 

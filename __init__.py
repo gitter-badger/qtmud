@@ -3,7 +3,7 @@
     .. moduleauthor: Morgan Sennhauser <morgan.sennhauser@gmail.com>
     
     .. versionadded:: 0.0.1
-    .. versionchanged:: 0.0.1-features/parsing
+    .. versionchanged:: 0.0.1-feature/parsing
         expanded documentation
         
     This is the main module of qtmud. It contains two objects, Thing and 
@@ -81,8 +81,7 @@ class Thing(object):
         expects the `identity` and `manage` parameters.
     """
     def __init__(self, identity, manager):
-        """ Initial thing setup.
-        
+        """
             .. versionadded:: 0.0.1
             
         """
@@ -93,6 +92,34 @@ class Thing(object):
 
     
     def __setattr__(self, attr, value):
+        """ If thing has set_attr function, use it as a custom setter
+
+            .. versionadded:: 0.0.2-feature/nametags
+
+            Paramters:
+                attr:       The attribute to be set
+                value:      The value ``attr`` is going to be set to.
+            
+            Returns:
+                bool:       True if attribute properly set, otherwise False.
+
+            If a thing has a ``set_attr`` function, when something goes to 
+            set ``attr``, use the ``set_attr`` function instead. For 
+            example, :attr:`names <qtmud.qualities.renderable.Renderable.name>`
+            have a :func:`set_name() 
+            <qtmud.qualities.renderable.Renderable.set_name>` function that
+            adds the last word of the new thing's name as a nametag.
+
+            Example:
+                Making a new thing and setting it's name
+            
+                >>> womble = manager.new_thing(Renderable)
+                >>> womble.nametags
+                [ 'thing' ]
+                >>> womble.name = 'Jeffrey'
+                >>> womble.nametags
+                [ 'jeffrey', 'thing']
+        """
         if 'set_%s' % (attr,) in self.__dict__:
             return self.__dict__['set_%s' % (attr,)](self, value)
         else:
@@ -102,7 +129,7 @@ class Thing(object):
         """ Modify multiple attributes of the thing at once.
         
             .. versionadded:: 0.0.1
-            .. versionchanged:: 0.0.1-features/parsing
+            .. versionchanged:: 0.0.1-feature/parsing
                 added return of successfully updated attributes.
         
             Parameters:
@@ -117,8 +144,8 @@ class Thing(object):
                 MUDSocket after creating a qualified thing for a new client
                 
                 >>> client.update({'addr': addr,
-                                   'send_buffer' : '',
-                                   'recv_buffer' : ''})
+                >>>                'send_buffer' : '',
+                >>>                'recv_buffer' : ''})
                 {'addr': ('127.0.0.1', 40440), 'recv_buffer': '', 
                 'send_buffer': ''}
         """
@@ -133,7 +160,9 @@ class Manager(object):
     """ The manager of all qtmud things and services.
     
         .. versionadded:: 0.0.1
-        
+        .. versionchanged:: 0.0.2-feature/nametags
+            removed unnecessary junk from __init__()
+ 
         When qtmud is started, it creates an instance of this class. This 
         instance is then used to handle pretty much every game occurence.
         For a design overview, check the main README.
@@ -159,15 +188,13 @@ class Manager(object):
                                         for them
             events(dict):
                                         the events that will occur during 
-                                        the next tick(). 
+                                        the next tick().
     """
-    def __init__(self, **kw):
+    def __init__(self):
         """
-        
             .. versionadded:: 0.0.1
         
         """
-        super(Manager, self).__init__(**kw)
         self.log = logging.getLogger(self.__module__)
         self.log.addHandler(CONSOLE)
         # list of all the instanced things
