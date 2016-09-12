@@ -88,25 +88,21 @@ class Sighted(object):
                                         'but don\'t have a name or '
                                         'description', looker.name)
         else:
-            if hasattr(looker, 'location'):
-                if target in looker.location.nametags:
-                    target = looker.location
-            if type(target) is str and hasattr(looker, 'contents'):
-                for content in looker.contents:
-                    if hasattr(content, 'nametags'):
-                        if target in content.nametags:
-                            target = content
-            if type(target) is str and hasattr(looker, 'location'):
-                if hasattr(looker.location, 'contents'):
-                    for content in looker.location.contents:
-                        if hasattr(content, 'nametags'):
-                            if target in content.nametags:
-                                target = content
-            if not type(target) is str and hasattr(target, 'name'):
-                if hasattr(target, 'description'):
-                    scene = ('- {0} -\n'
-                             '{1}'.format(target.name,
-                                          target.description))
+            matches = looker.search(target)
+            if target in matches:
+                target = matches[target]
+                if type(target) is list:
+                    if len(target) == 1:
+                        if hasattr(target[0], 'name'):
+                            if hasattr(target[0], 'description'):
+                                scene = ('- {0} -\n'
+                                         '{1}'.format(target[0].name,
+                                                      target[0].description))
+                    elif len(target) > 1:
+                        scene = ('Multiple potential matches:\n')
+                        for match in target:
+                            if hasattr(match, 'name'):
+                                scene += (match.name+'\n')
             else:
                 scene = ('Whatever you tried to look at, you can\'t.')
         if hasattr(looker, 'send'):

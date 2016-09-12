@@ -80,6 +80,29 @@ class Thing(object):
         :func:`new_thing() <qtmud.Manager.new_thing>`, which is why it 
         expects the `identity` and `manage` parameters.
     """
+    
+    def search(self, target):
+        """ search for in this local environment.
+        
+            .. versionadded:: 0.0.2-feature/nametags
+            
+            Parameters:
+                target(string):         The nametag you're looking for in
+                                        this thing's local environment.
+        """
+        matches = {}
+        if hasattr(self, 'contents'):
+            for content in self.contents:
+                for nametag in content.nametags:
+                    if nametag in matches: matches[nametag].append(content)
+                    else: matches[nametag] = [content]
+        if hasattr(self, 'location'):
+            for content in self.location.contents:
+                for nametag in content.nametags:
+                    if nametag in matches: matches[nametag].append(content)
+                    else: matches[nametag] = [content]
+        return matches
+    
     def __init__(self, identity, manager):
         """
             .. versionadded:: 0.0.1

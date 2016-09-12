@@ -65,7 +65,7 @@ class Village(object):
                               'in existence. Yet somehow, the pine logs '
                               'its walls are built with still look '
                               'fresh-hewn. There\'s a door in the facade, '
-                              'so you could \'move inside\''.)
+                              'so you could \'move inside\'.')
         logs = thing.manager.new_thing(Renderable)
         logs.name = 'fresh hewn pine logs'
         logs.description = ('The walls of the Ye Olde Tavern are made from '
@@ -75,7 +75,7 @@ class Village(object):
         door.name = 'open door'
         door.description = ('The door to Ye Olde Tavern is wide open, making '
                             'it seem like an inviting place.')
-        village.add(tavern, logs)
+        village.add(tavern, logs, door)
         village.exits = { 'inside' : Tavern,
                           'field' : Field }
         return village
