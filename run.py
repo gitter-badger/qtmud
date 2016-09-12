@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 """ qtmud's start & run script
     
     .. moduleauthor: Morgan Sennhauser <morgan.sennhauser@gmail.com>
@@ -29,7 +30,6 @@ from qtmud.services import Renderer
 
 # testing imports
 from qtmud.lib import Village
-from qtmud.qualities import Physical, Sighted, Speaking, Room, Renderable
 
 #plylint: enable=wrong-import position
 

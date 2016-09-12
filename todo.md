@@ -1,17 +1,8 @@
-## inventory command
-
 ## split commandable into its own quality
 
 ## create hearing quality, revise say to match
 
 ## client aliases
-
-## nametags
-
-lowercase strings for finding objects even if they aren't physical?
-could maybe be in qtmud.Thing itself?
-
-## thing.search('string') that looks for a thing with the matching nametag?
 
 ## add glossary to documentation
 
@@ -49,14 +40,14 @@ in serializing the data
 how are user accounts and other necessary things going to be persistent?
         class Persistence:
         
-            def set_quality(self, quality, value):
-                if quality in self.__slots__:
+            def set_attr(self, attr, value):
+                if attr in self.__slots__:
                     # save function
                 else:
-                    object.__setattr__(self,quality, value)
+                    object.__setattr__(self,attr, value)
             
             def apply(self, thing):
-                thing.__setattr_ = self.set_quality
+                thing.__setattr_ = self.set_attr
                 
 (no clue if that would work lol)
 It'd be really great if whatever the game saved as was the same format as 

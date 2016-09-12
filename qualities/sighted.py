@@ -1,4 +1,5 @@
 """ Gives the ability to see to a thing.
+
     .. moduleauthor:: emsenn <morgan.sennhauser@gmail.com>
 
     .. versionadded:: 0.0.1-features/parser
@@ -37,6 +38,8 @@ class Sighted(object):
             .. versionchanged:: 0.0.2-feature/neverforgetholidayupdate
                 rely on checking the attributes of things directly, instead
                 of using checks against Qualities
+            .. versionchanged:: 0.0.2-feature/nametags
+                use nametags instead of names to figure out what to look at.
 
             Parameters:
                 look(object):      The class:`thing <qtmud.Thing>` that
@@ -44,6 +47,9 @@ class Sighted(object):
                                     written from this thing's perspective.
                 target(str):        A string representing a nametag of an
                                     object in ``thing``'s environment.
+
+            Returns:
+                string:             Returns what the looker sees as a string.
         """
         if target != '' and target.split()[0] in ['at', 'in']:
             target = target.split(None, 1)[1]
@@ -82,22 +88,21 @@ class Sighted(object):
                                         'but don\'t have a name or '
                                         'description', looker.name)
         else:
-            nearby = {}
-            if hasattr(looker, 'contents'):
-                for content in looker.contents:
-                    if hasattr(content, 'name'):
-                        nearby[content.name] = content
-            if hasattr(looker, 'location'):
-                if hasattr(looker.location, 'contents'):
-                    for content in looker.location.contents:
-                        if hasattr(content, 'name'):
-                            nearby[content.name] = content
-            if target in nearby:
-                if hasattr(nearby[target], 'name'):
-                    if hasattr(nearby[target], 'description'):
-                        scene = ('- {0} -\n'
-                                 '{1}'.format(nearby[target].name,
-                                              nearby[target].description))
+            matches = looker.search(target)
+            if target in matches:
+                target = matches[target]
+                if type(target) is list:
+                    if len(target) == 1:
+                        if hasattr(target[0], 'name'):
+                            if hasattr(target[0], 'description'):
+                                scene = ('- {0} -\n'
+                                         '{1}'.format(target[0].name,
+                                                      target[0].description))
+                    elif len(target) > 1:
+                        scene = ('Multiple potential matches:\n')
+                        for match in target:
+                            if hasattr(match, 'name'):
+                                scene += (match.name+'\n')
             else:
                 scene = ('Whatever you tried to look at, you can\'t.')
         if hasattr(looker, 'send'):
@@ -107,6 +112,10 @@ class Sighted(object):
     def apply(self, thing):
         """
             .. versionadded:: 0.0.1-feature/parser
+
+            Parameters:
+                thing(object):      The :class:`thing <qtmud.Thing>` that will
+                                    be given the Sighted quality.
         """
         if not hasattr(thing, 'look'):
             thing.look = types.MethodType(self.look, thing)

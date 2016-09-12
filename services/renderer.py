@@ -2,7 +2,7 @@
 
     .. moduleauthor: Morgan Sennhauser <morgan.sennhauser@gmail.com>
 
-    .. version added:: 0.0.2-features/renderer
+    .. version added:: 0.0.2-feature/renderer
     
     The Renderer service is :func:`subscribed <qtmud.Manager.subscribe>` to 
     ``'render'`` events. Each event's payload should contain:
@@ -20,7 +20,7 @@
 class Renderer(object):
     """ The service for rendering frames for clients.
     
-        .. versionadded:: 0.0.2-features/renderer
+        .. versionadded:: 0.0.2-feature/renderer
         
         Parameters:
             manager(object):        automatically passed by 
@@ -37,7 +37,7 @@ class Renderer(object):
     
     def __init__(self, manager):
         """
-            .. versionadded:: 0.0.2-features/renderer
+            .. versionadded:: 0.0.2-feature/renderer
         """
         self.manager = manager
         self.subscriptions = ['render']
@@ -46,10 +46,12 @@ class Renderer(object):
     def tick(self, events=False):
         """ Renders each frame in events for the respective client.
         
+            .. versionadded:: 0.0.2-feature/renderer
+        
             Paramters:
                 events(list):       set to False by default, expected to 
                                     be a list of tuples in the format of 
-                                    ``['render', {payload})]
+                                    ``[('render', {payload})]``
                 
                 Returns:
                     bool:           False if the tick() fails or passes, 

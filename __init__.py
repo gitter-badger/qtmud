@@ -3,7 +3,7 @@
     .. moduleauthor: Morgan Sennhauser <morgan.sennhauser@gmail.com>
     
     .. versionadded:: 0.0.1
-    .. versionchanged:: 0.0.1-features/parsing
+    .. versionchanged:: 0.0.1-feature/parsing
         expanded documentation
         
     This is the main module of qtmud. It contains two objects, Thing and 
@@ -55,44 +55,102 @@ class Thing(object):
     """ The object to be instanced by manager.new_thing()
         
         .. versionadded:: 0.0.1
-        .. versionchanged:: 0.0.1-features/parsing
+        .. versionchanged:: 0.0.1-feature/parsing
             added return of successfully changed attributes to Thing.update()
+        .. versionchanged:: 0.0.2-feature/nametags
+        
+        Parameters:
+            identity(str):      a UUID created automatically by the 
+                                manager.new_thing() function
+            manager(object):    the manager instance which is instancing the 
+                                thing.
         
         Attributes:
             identity(str):      the unique identifier for the instance, 
                                 assigned by manager.new_thing()
             manager(object):    the thing's manager, the same object that 
                                 called new_thing()
+            nametags(list):     A list of strings that one might refer to 
+                                this thing with.
             qualities(list):    the instances of 
                                 :class:`qualities <qtmud.Qualities>` which 
                                 have been applied to the thing.
-           
-        Parameters:
-            identity(str):      a UUID created automatically by the 
-                                manager.new_thing() function
-            manager(object):    the manager instance which is instancing the 
-                                thing.
 
         Thing anticipates being instanced by the 
         :func:`new_thing() <qtmud.Manager.new_thing>`, which is why it 
         expects the `identity` and `manage` parameters.
     """
-    def __init__(self, identity, manager, **kw):
-        """ Initial thing setup.
-        
+    def __init__(self, identity, manager):
+        """
             .. versionadded:: 0.0.1
             
         """
-        super(Thing, self).__init__(**kw)
         self.identity, self.manager = identity, manager
+        self.nametags = ['thing']
         self.qualities = []
         return
     
+    def __setattr__(self, attr, value):
+        """ If thing has set_attr function, use it as a custom setter
+
+            .. versionadded:: 0.0.2-feature/nametags
+
+            Paramters:
+                attr:       The attribute to be set
+                value:      The value ``attr`` is going to be set to.
+            
+            Returns:
+                bool:       True if attribute properly set, otherwise False.
+
+            If a thing has a ``set_attr`` function, when something goes to 
+            set ``attr``, use the ``set_attr`` function instead. For 
+            example, :attr:`names <qtmud.qualities.renderable.Renderable.name>`
+            have a :func:`set_name() 
+            <qtmud.qualities.renderable.Renderable.set_name>` function that
+            adds the last word of the new thing's name as a nametag.
+
+            Example:
+                Making a new thing and setting it's name
+            
+                >>> womble = manager.new_thing(Renderable)
+                >>> womble.nametags
+                [ 'thing' ]
+                >>> womble.name = 'Jeffrey'
+                >>> womble.nametags
+                [ 'jeffrey', 'thing']
+        """
+        if 'set_%s' % (attr,) in self.__dict__:
+            return self.__dict__['set_%s' % (attr,)](self, value)
+        else:
+            self.__dict__[attr] = value
+
+    def search(self, target):
+        """ search for in this local environment.
+        
+            .. versionadded:: 0.0.2-feature/nametags
+            
+            Parameters:
+                target(string):         The nametag you're looking for in
+                                        this thing's local environment.
+        """
+        matches = {}
+        if hasattr(self, 'contents'):
+            for content in self.contents:
+                for nametag in content.nametags:
+                    if nametag in matches: matches[nametag].append(content)
+                    else: matches[nametag] = [content]
+        if hasattr(self, 'location'):
+            for content in self.location.contents:
+                for nametag in content.nametags:
+                    if nametag in matches: matches[nametag].append(content)
+                    else: matches[nametag] = [content]
+        return matches
+
     def update(self, _dict):
         """ Modify multiple attributes of the thing at once.
         
             .. versionadded:: 0.0.1
-            .. versionchanged:: 0.0.1-features/parsing
+            .. versionchanged:: 0.0.1-feature/parsing
                 added return of successfully updated attributes.
         
             Parameters:
@@ -107,23 +165,24 @@ class Thing(object):
                 MUDSocket after creating a qualified thing for a new client
                 
                 >>> client.update({'addr': addr,
-                                   'send_buffer' : '',
-                                   'recv_buffer' : ''})
+                >>>                'send_buffer' : '',
+                >>>                'recv_buffer' : ''})
                 {'addr': ('127.0.0.1', 40440), 'recv_buffer': '', 
                 'send_buffer': ''}
         """
-        updated = {}
+        thing = self
         for key, value in _dict.items():
-            updated[key] = value
-            setattr(self, key, value)
-        return updated    
+            setattr(thing, key, value)
+        return thing
 
 
 class Manager(object):
     """ The manager of all qtmud things and services.
     
         .. versionadded:: 0.0.1
-        
+        .. versionchanged:: 0.0.2-feature/nametags
+            removed unnecessary junk from __init__()
+ 
         When qtmud is started, it creates an instance of this class. This 
         instance is then used to handle pretty much every game occurence.
         For a design overview, check the main README.
@@ -149,15 +208,13 @@ class Manager(object):
                                         for them
             events(dict):
                                         the events that will occur during 
-                                        the next tick(). 
+                                        the next tick().
     """
-    def __init__(self, **kw):
+    def __init__(self):
         """
-        
             .. versionadded:: 0.0.1
         
         """
-        super(Manager, self).__init__(**kw)
         self.log = logging.getLogger(self.__module__)
         self.log.addHandler(CONSOLE)
         # list of all the instanced things
@@ -286,13 +343,15 @@ class Manager(object):
         thing = Thing(identity, self)
         self.things.append(thing)
         self.log.debug('creating new thing...')
-        self.add_qualities(thing, qualities)
+        thing = self.add_qualities(thing, qualities)
         return thing
 
     def add_qualities(self, thing, qualities):
         """ adds qualities to :class:`things <qtmud.Thing>`
         
             .. versionadded:: 0.0.1
+            .. versionchanged:: 0.0.2-feature/nametags
+                Changed from imperative to applicative method
         
             Parameters:
                 thing(object):      The :class:`thing <qtmud.Thing>` which 
@@ -310,8 +369,8 @@ class Manager(object):
             if not quality in self.qualities:
                 self.qualities[quality] = []
             self.qualities[quality].append(thing)
-            thing.qualities.append(quality)
             thing = quality().apply(thing)
+            thing.qualities.append(quality)
             self.log.debug('added %s quality to the thing'
                            '', quality.__name__)
         return thing
