@@ -23,7 +23,7 @@ import qtmud
 from qtmud import HOST, MUD_PORT
 # These are all the qualities that are applied to a client's thing to make 
 # it useful.
-from qtmud.qualities import (Client, Physical, Container, Sighted,
+from qtmud.qualities import (Client, Physical, Container, Sighted, Renderable,
                              Speaking)
 
 
@@ -77,7 +77,7 @@ class MUDSocket(object):
                 if conn is self.socket:
                     new_conn, addr = conn.accept()
                     client = self.manager.new_thing(Client, Physical, Container,
-                                                    Sighted, Speaking)
+                                                    Sighted, Renderable, Speaking)
                     client.update({'addr': addr,
                                    'send_buffer' : '',
                                    'recv_buffer' : ''})
@@ -99,18 +99,9 @@ class MUDSocket(object):
                                 line, self.clients[conn].recv_buffer = split
                             else:
                                 line, self.clients[conn].recv_buffer = split[0], ''
-                            if ' ' in line:
-                                split = line.split(' ', 1)
-                                if len(split) == 2:
-                                    cmd, trailing = split
-                                else:
-                                    cmd, trailing = split[0], ''
-                            else:
-                                cmd, trailing = line, ''
                             self.manager.schedule('parse', 
-                                                  client=self.clients[conn],
-                                                  cmd=cmd,
-                                                  trailing=trailing)
+                                                  commander=self.clients[conn],
+                                                  line=line)
         if w:
             for conn in w:
                 conn.send(self.clients[conn].send_buffer.encode('utf8'))

@@ -87,6 +87,7 @@ class Thing(object):
         """
         self.identity, self.manager = identity, manager
         self.nametags = ['thing']
+        self.adjectives = []
         self.qualities = []
         return
     

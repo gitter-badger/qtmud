@@ -78,5 +78,5 @@ class Renderer(object):
         for event, payload in events:
             client = payload['client']
             scene = payload['scene']
-            client.send(scene+'\n')
+            client.send(scene+'\nWhat will you do?\nI will > ')
         return True

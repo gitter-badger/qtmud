@@ -1,3 +1,14 @@
+## adjectives
+
+should adjectives go under Thing itself, so thing has nametags and adjectives?
+
+this makes the most sense, but some adjectives maybe should only be knowable 
+to people with the qualities to observe them?
+
+        adjectives = [ 'physical',
+                       {'red', 'look'},
+                       {'big', 'look','touch'}]
+
 ## split commandable into its own quality
 
 ## create hearing quality, revise say to match

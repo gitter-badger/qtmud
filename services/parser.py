@@ -19,7 +19,7 @@
     The code for how it works is pretty straightforward, and bad, at this 
     point, so I'm not going to bother thoroughly commenting it.
 """
-
+from textblob import TextBlob
 
 class Parser(object):
     """ To listen for client input, Parser subscribes to 'parse' events
@@ -38,7 +38,57 @@ class Parser(object):
         self.subscriptions = ['parse']
         self.manager = manager
         self.manager.subscribe(self, 'parse')
-    
+
+    def parse_line(self, line):
+        line = TextBlob('I will ' + line)
+        parsed_line = line.parse().split(' ')[2:]
+        phrase_starts = []
+        chunked_phrases = []
+        payload = {}
+        adjectives = []
+        for word in parsed_line:
+            parsed_line[parsed_line.index(word)] = word.split('/')
+        for word in parsed_line:
+            if word[3] in ['O', 'B-PNP']:
+                phrase_starts.append(parsed_line.index(word))
+        for phrase in phrase_starts:
+            if phrase is not phrase_starts[-1]:
+                chunked_phrases.append(parsed_line[phrase:phrase_starts[phrase_starts.index(phrase) + 1]])
+            if phrase is phrase_starts[-1]:
+                chunked_phrases.append(parsed_line[phrase:])
+        for phrase in chunked_phrases:
+            if phrase[0][3] == 'O' and \
+                            len(chunked_phrases[chunked_phrases.index(phrase)]) is 1:
+                if phrase[0][1] == 'JJ':
+                    adjectives.append(phrase[0][0])
+                if phrase[0][1] == 'VB':
+                    # verb = 'take'
+                    payload['verb'] = phrase[0][0]
+                elif phrase[0][1] in ['NN', 'PRP']:
+                    # object = 'apple'
+                    if adjectives != []:
+                        payload['adjectives'] = adjectives
+                    payload['subject'] = phrase[0][0]
+                    adjectives = []
+            elif phrase[0][3] == 'B-PNP':
+                if phrase[0][1] == 'IN':
+                    preposition = phrase[0][0]
+                    for word in phrase:
+                        if word[1] in ['NN', 'PRP']:
+                            noun = word[0]
+                        if word[1] == 'JJ':
+                            adjectives.append(word[0])
+                pnp = [preposition, adjectives, noun]
+                if not 'pnp_clauses' in payload:
+                    payload['pnp_clauses'] = []
+                payload['pnp_clauses'].append(pnp)
+                adjectives = []
+        if not 'subject' in payload and 'pnp_clauses' in payload:
+            payload['subject'] = payload['pnp_clauses'][0][2]
+        return payload
+
+
+
     def tick(self, events=False):
         """ Handle commands from the last tick.
         
@@ -77,24 +127,11 @@ class Parser(object):
         if events == []:
             return False
         for event, payload in events: #pylint: disable=unused-variable
-            client = payload['client']
-            cmd = payload['cmd']
-            if 'trailing' in payload: trailing = payload['trailing']
-            else: trailing = ''
-            if hasattr(client, 'commands') and cmd in client.commands:
-                client.commands[cmd](trailing)
-            elif hasattr(client, 'send'):
-                client.manager.schedule('render',
-                                        client=client,
-                                        scene=('{0} isnt a valid command'
-                                              ''.format(cmd)))
-                self.manager.log.debug('client %s input invalid command "%s"',
-                               client.identity,
-                               (cmd + trailing))
+            commander = payload['commander']
+            line = payload['line']
+            command = line.split(' ')[0]
+            if hasattr(commander, 'commands') and command in commander.commands:
+                commander.commands[command](line)
             else:
-                self.manager.log.debug('client %s input invalid command "%s"'
-                                       'and has no send() method over which '
-                                       'to communicate.',
-                                       client.identity,
-                                       (cmd + trailing)) 
+                self.manager.schedule('render', client=commander, scene='invalid command')
         return True

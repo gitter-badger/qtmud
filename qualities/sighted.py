@@ -2,7 +2,7 @@
 
     .. moduleauthor:: emsenn <morgan.sennhauser@gmail.com>
 
-    .. versionadded:: 0.0.1-features/parser
+    .. versionadded:: 0.0.1-feature/parser
 
     Adds sight to a quality, which for now means access to the look
     function and command.
@@ -10,6 +10,7 @@
 
 
 import types
+from qtmud.services import Parser
 
 
 class Sighted(object):
@@ -29,7 +30,7 @@ class Sighted(object):
         """
         return
 
-    def look(self, looker, target=''):
+    def look(self, commander, line):
         """ Render ``target`` from the perspective of ``looker``.
 
             .. versionadded:: 0.0.1-feature/parser
@@ -40,6 +41,8 @@ class Sighted(object):
                 of using checks against Qualities
             .. versionchanged:: 0.0.2-feature/nametags
                 use nametags instead of names to figure out what to look at.
+            .. versionchanged:: 0.0.2-feature/adjectives
+                changed to use the new Parser parse_line() function.
 
             Parameters:
                 look(object):      The class:`thing <qtmud.Thing>` that
@@ -51,63 +54,41 @@ class Sighted(object):
             Returns:
                 string:             Returns what the looker sees as a string.
         """
-        if target != '' and target.split()[0] in ['at', 'in']:
-            target = target.split(None, 1)[1]
-        if target in ['', 'here']:
-            if hasattr(looker, 'location') and looker.location is not None:
-                if hasattr(looker.location, 'name'):
-                    if hasattr(looker.location, 'description'):
-                        scene = ('- {0} -\n'
-                                 '{1}\n'
-                                 '[ '.format(looker.location.name,
-                                             looker.location.description))
-                else:
-                    scene = ('Wherever you are, you can\'t observe it.')
-                if hasattr(looker.location, 'exits'):
-                    for direction in looker.location.exits:
-                            scene += (direction+', ')
-                scene += ' ]\n( '
-                if hasattr(looker.location, 'contents'):
-                    for content in looker.location.contents:
-                        if hasattr(content, 'name'):
-                                if hasattr(content, 'location'):
-                                    if content.location is looker.location:
-                                        scene += (content.name+', ')
-                scene += ')'
-            else:
-                scene = ('You\'re no place you can see.')
-                looker.manager.log.debug('%s tried to look but they are'
-                                        'outside of any environment.')
-        elif target in ['self', 'me']:
-            if hasattr(looker, 'name') and hasattr(looker, 'description'):
-                scene = ('- {0} - \n'
-                         '{1}'.format(looker.name, looker.description))
-            else:
-                scene = ('You have no renderable body, I\'m afraid.')
-                look.manager.log.debug('%s tried to look at themselves '
-                                        'but don\'t have a name or '
-                                        'description', looker.name)
+        looker = commander
+        line = Parser.parse_line(looker, line)
+        if 'subject' in line:
+            subject = line['subject']
         else:
-            matches = looker.search(target)
-            if target in matches:
-                target = matches[target]
-                if type(target) is list:
-                    if len(target) == 1:
-                        if hasattr(target[0], 'name'):
-                            if hasattr(target[0], 'description'):
-                                scene = ('- {0} -\n'
-                                         '{1}'.format(target[0].name,
-                                                      target[0].description))
-                    elif len(target) > 1:
-                        scene = ('Multiple potential matches:\n')
-                        for match in target:
-                            if hasattr(match, 'name'):
-                                scene += (match.name+'\n')
+            subject = 'here'
+        if subject in ['room', 'here', 'location']:
+            if hasattr(commander, 'location') and looker.location is not None:
+                if hasattr(looker.location, 'name') and hasattr(looker.location, 'description'):
+                    scene = ('- {} -\n{}\n'.format(looker.location.name,
+                                                   looker.location.description))
+                else:
+                    scene = ('Wherever you are, it has no visual description.')
+                if hasattr(looker.location, 'exits'):
+                    scene += ('exits: [ ')
+                    for direction in looker.location.exits:
+                        if hasattr(direction, 'name'):
+                            scene += ('{}, '.format(direction))
+                    scene += (']\n')
+                if hasattr(looker.location, 'contents'):
+                    scene += ('contents: ( ')
+                    for content in looker.location.contents:
+                        if hasattr(content, 'name') and hasattr(content, 'location'):
+                            if content.location is looker.location:
+                                scene += ('{}, '.format(content.name))
+                    scene += (')')
+        elif subject in ['me', 'self', 'myself']:
+            if hasattr(looker, 'name') and hasattr(looker, 'description'):
+                scene = ('- {} -\n{}'.format(looker.name, looker.description))
             else:
-                scene = ('Whatever you tried to look at, you can\'t.')
-        if hasattr(looker, 'send'):
-            looker.manager.schedule('render', client=looker, scene=scene)
-        return scene
+                scene = ('You don\'t have a self to look at.')
+        else:
+            scene = ('whatever you tried to look at, you can\'t.')
+        looker.manager.schedule('render', client=looker, scene=scene)
+        return True
 
     def apply(self, thing):
         """
