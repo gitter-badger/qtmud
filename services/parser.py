@@ -40,17 +40,43 @@ class Parser(object):
         self.manager.subscribe(self, 'parse')
 
     def parse_line(self, line):
+        """ Take a line and do some parts of speech tagging to it
+
+            .. versionadded:: 0.0.2-feature/adjectives
+            .. versionchanged:: 0.0.2-feature/textblob
+                added documentation, cleaned up some bugs.
+        """
+        # NOTE: in these comments I say Object a lot. I'm referencing the
+        # syntactic concept, not the Pythonic datatype.
+        # Put "I will" before incoming commannds, so they read more like
+        # sentences, i.e.
+        # "I will" take the second red apple from my leather backpack on the
+        # desk
         line = TextBlob('I will ' + line)
+        # Parts of Speech tag (parse()) the line, split it on space, and
+        # remove "I will"
         parsed_line = line.parse().split(' ')[2:]
-        phrase_starts = []
-        chunked_phrases = []
-        payload = {}
-        adjectives = []
+        # organize those PoS tags.
         for word in parsed_line:
             parsed_line[parsed_line.index(word)] = word.split('/')
-        for word in parsed_line:
+        # declare some empty lists/dicts for mucking about through processing
+        # list of ints marking the 1st word of verb, adjective+subject, and
+        # prepositional noun phrases
+        phrase_starts = []
+        # phrases all joined together as a list.
+        chunked_phrases = []
+        # the finished parsed sentence
+        payload = {}
+        # adjectives for the nouns in either adj+sub phrase or any PNP
+        # (prepositional noun phrases)
+        adjectives = []
+        # if the word is an Object or Beginning-of-a-Prepositional-Noun-Phrase,
+        # add it to phrase_starts
+        for place, word in enumerate(parsed_line):
             if word[3] in ['O', 'B-PNP']:
-                phrase_starts.append(parsed_line.index(word))
+                phrase_starts.append(place)
+        # Based on our phrase_starts, create "chunks", like "second red apple"
+        # or "in the big backpack"
         for phrase in phrase_starts:
             if phrase is not phrase_starts[-1]:
                 chunked_phrases.append(parsed_line[phrase:phrase_starts[phrase_starts.index(phrase) + 1]])
@@ -60,16 +86,17 @@ class Parser(object):
             if phrase[0][3] == 'O' and \
                             len(chunked_phrases[chunked_phrases.index(phrase)]) is 1:
                 if phrase[0][1] == 'JJ':
+                    if 'adjectives' in payload:
+                        payload['adjectives'].append(phrase[0][0])
+                    else:
+                        payload['adjectives'] = [phrase[0][0]]
                     adjectives.append(phrase[0][0])
                 if phrase[0][1] == 'VB':
                     # verb = 'take'
                     payload['verb'] = phrase[0][0]
-                elif phrase[0][1] in ['NN', 'PRP']:
+                elif phrase[0][1] in ['NN', 'NNS', 'PRP']:
                     # object = 'apple'
-                    if adjectives != []:
-                        payload['adjectives'] = adjectives
                     payload['subject'] = phrase[0][0]
-                    adjectives = []
             elif phrase[0][3] == 'B-PNP':
                 if phrase[0][1] == 'IN':
                     preposition = phrase[0][0]
@@ -82,9 +109,7 @@ class Parser(object):
                 if not 'pnp_clauses' in payload:
                     payload['pnp_clauses'] = []
                 payload['pnp_clauses'].append(pnp)
-                adjectives = []
-        if not 'subject' in payload and 'pnp_clauses' in payload:
-            payload['subject'] = payload['pnp_clauses'][0][2]
+            adjectives = []
         return payload
 
 
@@ -124,7 +149,7 @@ class Parser(object):
             ``trailing`` as an argument. In our example, ``bob.say('hello 
             there skippy')``.
         """
-        if events == []:
+        if not events:
             return False
         for event, payload in events: #pylint: disable=unused-variable
             commander = payload['commander']
@@ -133,5 +158,7 @@ class Parser(object):
             if hasattr(commander, 'commands') and command in commander.commands:
                 commander.commands[command](line)
             else:
-                self.manager.schedule('render', client=commander, scene='invalid command')
+                self.manager.schedule('send',
+                                      thing=commander,
+                                      scene='invalid command')
         return True

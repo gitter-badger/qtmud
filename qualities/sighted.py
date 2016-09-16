@@ -58,8 +58,10 @@ class Sighted(object):
         line = Parser.parse_line(looker, line)
         if 'subject' in line:
             subject = line['subject']
-        else:
+        elif len(line) == 1:
             subject = 'here'
+        else:
+            subject = None
         if subject in ['room', 'here', 'location']:
             if hasattr(commander, 'location') and looker.location is not None:
                 if hasattr(looker.location, 'name') and hasattr(looker.location, 'description'):
@@ -70,8 +72,7 @@ class Sighted(object):
                 if hasattr(looker.location, 'exits'):
                     scene += ('exits: [ ')
                     for direction in looker.location.exits:
-                        if hasattr(direction, 'name'):
-                            scene += ('{}, '.format(direction))
+                        scene += ('{}, '.format(direction))
                     scene += (']\n')
                 if hasattr(looker.location, 'contents'):
                     scene += ('contents: ( ')
@@ -86,8 +87,23 @@ class Sighted(object):
             else:
                 scene = ('You don\'t have a self to look at.')
         else:
-            scene = ('whatever you tried to look at, you can\'t.')
-        looker.manager.schedule('render', client=looker, scene=scene)
+            matches = looker.search(**line)
+            if len(matches) == 1:
+                match = matches[0]
+                if hasattr(match, 'name') and hasattr(match, 'description'):
+                    scene = ('- {} -\n{}\n'.format(match.name, match.description))
+                else:
+                    scene = ('Somehow, you\'ve looked at something you cannot see.')
+            elif len(matches) > 1:
+                scene = ('More than one match, try using the full name of what you want:\n')
+                for match in matches:
+                        if hasattr(match, 'name') and hasattr(match, 'description'):
+                            scene += ('{}\n'.format(match.name))
+            else:
+                scene = ('whatever you tried to look at, you can\'t.')
+        #else:
+        #    scene = ('whatever you tried to look at, you can\'t.')
+        looker.manager.schedule('send', thing=looker, scene=scene)
         return True
 
     def apply(self, thing):

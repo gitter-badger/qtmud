@@ -66,7 +66,6 @@ class Mover(object):
             destination = payload['destination']
             try:
                 thing.location.contents.remove(thing)
-            # XXX Rewrite this exception to properly handle things
             except AttributeError:
                 self.manager.log.debug('tried to remove %s from a location '
                                        'but %s was not in that location', 
@@ -81,8 +80,6 @@ class Mover(object):
                                        'destination, leaving %s without '
                                        'a location', thing.identity)
             else:
-                # XXX Expecting object, need to account for other possibilities,
-                # how to load rooms.
                 thing.location = destination
                 thing.location.add(thing)
         return True

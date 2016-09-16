@@ -6,7 +6,7 @@
     .. versionadded:: 0.0.1
     .. versionchanged:: 0.0.1-feature/environments
         Added the Renderable quality
-    .. versionchanged:: 0.0.1-feature/parser
+    .. versionchanged:: 0.0.2-feature/parser
         Moved qualities into separate files and import them to this one, so
         they can all be imported from :mod:`qtmud.qualities`.
 

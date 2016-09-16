@@ -27,9 +27,10 @@ from qtmud.services.mover import Mover
 from qtmud.services.parser import Parser
 from qtmud.services.mudsocket import MUDSocket
 from qtmud.services import Renderer
+from qtmud.services.sender import Sender
 
 # testing imports
-from qtmud.lib import Village
+from qtmud.lib import Village, Field
 
 #plylint: enable=wrong-import position
 
@@ -47,12 +48,15 @@ if __name__ == '__main__':
         manager.log.info('Manager() instanced @ qtmud.manager')
         # instance arguments as tick()able services under qtmud.manager.services
         manager.log.info('instancing services')
-        manager.add_services(MUDSocket, Parser, Mover, Renderer)
+        manager.add_services(MUDSocket, Parser, Mover, Renderer, Sender)
         manager.log.info('instancing qtmud.manager.back_room')
         manager.back_room = manager.new_thing(Village)
         # ---
         # ---
         # testing goes here
+        field = manager.new_thing(Field)
+        #for match in field.search(subject='tree', adjectives=['big']):
+        #    print(match.name)
         # ---
         # ---
         # Run engine manager
