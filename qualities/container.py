@@ -39,17 +39,20 @@ class Container(object):
     """
     def __init__(self):
         """
-            .. versionadded:: 0.0.1-features/parser
+            .. versionadded:: 0.0.1-feature/parser
         """
         self.contents = []
         return
     
-    def add(self, container, *things):
+    @staticmethod
+    def add(container, *things):
         """ Adds thing to the contianer's contents if thing isn't there.
 
             .. versionadded:: 0.0.1-feature/parser
             .. versionchanged:: 0.0.2-feature/inventory
                 Added proper returns
+            .. versionchanged:: 0.0.2-feature/textblob
+                changed to static method
             
             Parameter:
                 container(object):      The :class:`thing <qtmud.Thing>`
@@ -65,12 +68,17 @@ class Container(object):
         for thing in things:
             if thing not in container.contents:
                 container.contents.append(thing)
+            if hasattr(thing, 'location'):
+                thing.location = container
         return True
     
-    def contains(self, container, thing):
+    @staticmethod
+    def contains(container, thing):
         """ Check if thing is in the contents of container.
         
             .. versionadded:: 0.0.1-feature/parser
+            .. versionchanged:: 0.0.2-feature/textblob
+                changed to static method
             
             Parameter:
                 container(object):      The :class:`thing <qtmud.Thing>`
@@ -83,12 +91,15 @@ class Container(object):
         """
         return thing in container.contents
     
-    def remove(self, container, thing):
+    @staticmethod
+    def remove(container, thing):
         """ removes a thing from another thing
         
             .. versionadded:: 0.0.1-feature/parser
             .. versionchanged:: 0.0.2-feature/inventory
                 Proper returns added.
+            .. versionchanged:: 0.0.2-feature/textblob
+                changed to static method
             
             Parameters:
                 container(object):      the container from which thing 
@@ -104,17 +115,20 @@ class Container(object):
             return container.contents.remove(thing)
         return False
     
-    def inventory(self, searcher, trailing=''):
+    @staticmethod
+    def inventory(searcher, line=''):
         """ 
             .. versionadded:: 0.0.2-feature/inventory
             .. versionchanged:: 0.0.2-feature/nametags
                 Removed unnecessary container argument and replaced it with 
                 more standard ``trailing``
+            .. versionchanged:: 0.0.2-feature/textblob
+                changed to static method
 
             Parameters:
                 searcher(object):   The thing which is trying to check 
                                     the container's inventory.
-                trailing(str):      Unused.
+                line(str):          Unused, for now.
             Returns:
                 list:               the ``contents`` of the ``searcher``
 
@@ -141,16 +155,18 @@ class Container(object):
                     ( apple pie, sword )
         """
         if hasattr(searcher, 'send'):
+            # TODO: add "inventory desk in corner" checks
             if hasattr(searcher, 'contents'):
-                scene = ('You\'re holding:\n(')
+                scene = 'You\'re holding:\n('
                 for content in searcher.contents:
                     if hasattr(content, 'name'):
                         scene += (content.name+', ')
-                scene += (')')
-            searcher.manager.schedule('render', client=searcher, scene=scene)
+                scene += ')'
+            else:
+                scene = 'You can\'t hold things!'
+            searcher.manager.schedule('send', thing=searcher, scene=scene)
         return searcher.contents
-            
-    
+
     def apply(self, thing):
         """ Adds contents and supporting functions.
         
@@ -179,5 +195,5 @@ class Container(object):
             thing.remove = types.MethodType(self.remove, thing)
         if hasattr(thing, 'commands'):
             thing.commands['inventory'] = types.MethodType(self.inventory,
-                                                            thing)
+                                                           thing)
         return thing

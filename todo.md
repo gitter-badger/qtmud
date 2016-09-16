@@ -1,66 +1,52 @@
-## adjectives
+# TODO
 
-should adjectives go under Thing itself, so thing has nametags and adjectives?
+Roughly split up by the domain they're for:
 
-this makes the most sense, but some adjectives maybe should only be knowable 
-to people with the qualities to observe them?
+* [Manager](#manager)
+* [Things](#things)
+* [Services](#services)
+* [Qualities](#qualities)
+* [Library](#library)
+* [Documentation](#documentation)
 
-        adjectives = [ 'physical',
-                       {'red', 'look'},
-                       {'big', 'look','touch'}]
+## MANAGER
 
-## split commandable into its own quality
 
-## create hearing quality, revise say to match
+## THINGS
 
-## client aliases
+* add use of \_\_slots\_\_
 
-## add glossary to documentation
 
-## split movement into remove and add
+## SERVICES
 
-## how to handle the assumed uniqueness of rooms?
-best i think would be to replace the Class that's set to a direction's
-value with the oject (thing) it actually wants, once it's cloned. That way 
-there's no weird "this thing is unique" code spaghetting around - don't 
-assume anything is going to be unique.
 
-it'd clean up the main folder a bit, which might be nice since there 
-will end up being lots of config files there.
+### Parser
 
-## run commands through manager always?
+* deal with not direct <verb> <subject> commands
 
-calling command functions directly sometimes means the command happens before 
-the next tick. whoops.
 
-## physical descriptions
-it'd be nice if the description to render it were:
-        output = '{name}\n\n{visual_desc}'.format(**locals())
-        client.send(output)
-or similar - basically, have it be a string where variables are replaced, 
-so users can format their own output.
-    
-## implement __slots__
- 
-it'd help save on memory in the long term if things used `__slots__` for 
-their qualities, but tihs should probably be done before much work is done 
-in serializing the data
+## QUALITIES
 
-## persistence
 
-how are user accounts and other necessary things going to be persistent?
-        class Persistence:
-        
-            def set_attr(self, attr, value):
-                if attr in self.__slots__:
-                    # save function
-                else:
-                    object.__setattr__(self,attr, value)
-            
-            def apply(self, thing):
-                thing.__setattr_ = self.set_attr
-                
-(no clue if that would work lol)
-It'd be really great if whatever the game saved as was the same format as 
-the library, so admin could just use the latest save *as* the library the 
-next time the engine started.
+### Client
+
+* prompt attribute, set what to be sent after scenes are send()'d
+
+
+### Commandable
+
+* split commandable in its own quality from clients.
+* aliases
+
+
+### Persistence 
+
+* if a thing is a \_\_slot\_\_'d attribute, it is persistent. what does 
+
+
+## LIBRARY
+
+
+## DOCUMENTATION
+
+* add a glossary

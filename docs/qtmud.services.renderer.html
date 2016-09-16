@@ -60,7 +60,7 @@ the client.</p>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>The service for rendering frames for clients.</p>
 <div class="versionadded">
-<p><span class="versionmodified">New in version 0.0.2-features/renderer.</span></p>
+<p><span class="versionmodified">New in version 0.0.2-feature/renderer.</span></p>
 </div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -89,12 +89,15 @@ the client.</p>
 <dt id="qtmud.services.renderer.Renderer.tick">
 <code class="descname">tick</code><span class="sig-paren">(</span><em>events=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/services/renderer.html#Renderer.tick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.services.renderer.Renderer.tick" title="Permalink to this definition">¶</a></dt>
 <dd><p>Renders each frame in events for the respective client.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.0.2-feature/renderer.</span></p>
+</div>
 <dl class="docutils">
 <dt>Paramters:</dt>
 <dd><dl class="first docutils">
 <dt>events(list):       set to False by default, expected to</dt>
 <dd>be a list of tuples in the format of
-<a href="#id1"><span class="problematic" id="id2">``</span></a>[&#8216;render&#8217;, {payload})]</dd>
+<code class="docutils literal"><span class="pre">[('render',</span> <span class="pre">{payload})]</span></code></dd>
 <dt>Returns:</dt>
 <dd><dl class="first last docutils">
 <dt>bool:           False if the tick() fails or passes,</dt>

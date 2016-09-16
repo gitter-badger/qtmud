@@ -24,7 +24,7 @@ from qtmud import HOST, MUD_PORT
 # These are all the qualities that are applied to a client's thing to make 
 # it useful.
 from qtmud.qualities import (Client, Physical, Container, Sighted, Renderable,
-                             Speaking)
+                             Speaking, Hearing, Prehensile)
 
 
 class MUDSocket(object):
@@ -77,7 +77,9 @@ class MUDSocket(object):
                 if conn is self.socket:
                     new_conn, addr = conn.accept()
                     client = self.manager.new_thing(Client, Physical, Container,
-                                                    Sighted, Renderable, Speaking)
+                                                    Sighted, Renderable,
+                                                    Speaking, Hearing,
+                                                    Prehensile)
                     client.update({'addr': addr,
                                    'send_buffer' : '',
                                    'recv_buffer' : ''})

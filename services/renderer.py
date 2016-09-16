@@ -73,7 +73,7 @@ class Renderer(object):
                 guarantees that clients won't be getting their output 
                 out-of-sync with what's actually happened.
         """
-        if events == []:
+        if not events:
             return False
         for event, payload in events:
             client = payload['client']

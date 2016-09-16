@@ -45,7 +45,7 @@
 
 <span class="sd">    .. moduleauthor: Morgan Sennhauser &lt;morgan.sennhauser@gmail.com&gt;</span>
 
-<span class="sd">    .. version added:: 0.0.2-features/renderer</span>
+<span class="sd">    .. version added:: 0.0.2-feature/renderer</span>
 <span class="sd">    </span>
 <span class="sd">    The Renderer service is :func:`subscribed &lt;qtmud.Manager.subscribe&gt;` to </span>
 <span class="sd">    ``&#39;render&#39;`` events. Each event&#39;s payload should contain:</span>
@@ -63,7 +63,7 @@
 <div class="viewcode-block" id="Renderer"><a class="viewcode-back" href="../../../qtmud.services.renderer.html#qtmud.services.renderer.Renderer">[docs]</a><span class="k">class</span> <span class="nc">Renderer</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; The service for rendering frames for clients.</span>
 <span class="sd">    </span>
-<span class="sd">        .. versionadded:: 0.0.2-features/renderer</span>
+<span class="sd">        .. versionadded:: 0.0.2-feature/renderer</span>
 <span class="sd">        </span>
 <span class="sd">        Parameters:</span>
 <span class="sd">            manager(object):        automatically passed by </span>
@@ -80,7 +80,7 @@
     
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">manager</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            .. versionadded:: 0.0.2-features/renderer</span>
+<span class="sd">            .. versionadded:: 0.0.2-feature/renderer</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">manager</span> <span class="o">=</span> <span class="n">manager</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">subscriptions</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;render&#39;</span><span class="p">]</span>
@@ -89,10 +89,12 @@
 <div class="viewcode-block" id="Renderer.tick"><a class="viewcode-back" href="../../../qtmud.services.renderer.html#qtmud.services.renderer.Renderer.tick">[docs]</a>    <span class="k">def</span> <span class="nf">tick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">events</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Renders each frame in events for the respective client.</span>
 <span class="sd">        </span>
+<span class="sd">            .. versionadded:: 0.0.2-feature/renderer</span>
+<span class="sd">        </span>
 <span class="sd">            Paramters:</span>
 <span class="sd">                events(list):       set to False by default, expected to </span>
 <span class="sd">                                    be a list of tuples in the format of </span>
-<span class="sd">                                    ``[&#39;render&#39;, {payload})]</span>
+<span class="sd">                                    ``[(&#39;render&#39;, {payload})]``</span>
 <span class="sd">                </span>
 <span class="sd">                Returns:</span>
 <span class="sd">                    bool:           False if the tick() fails or passes, </span>
@@ -114,12 +116,12 @@
 <span class="sd">                guarantees that clients won&#39;t be getting their output </span>
 <span class="sd">                out-of-sync with what&#39;s actually happened.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">events</span> <span class="o">==</span> <span class="p">[]:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">events</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
         <span class="k">for</span> <span class="n">event</span><span class="p">,</span> <span class="n">payload</span> <span class="ow">in</span> <span class="n">events</span><span class="p">:</span>
             <span class="n">client</span> <span class="o">=</span> <span class="n">payload</span><span class="p">[</span><span class="s1">&#39;client&#39;</span><span class="p">]</span>
             <span class="n">scene</span> <span class="o">=</span> <span class="n">payload</span><span class="p">[</span><span class="s1">&#39;scene&#39;</span><span class="p">]</span>
-            <span class="n">client</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">scene</span><span class="o">+</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">client</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">scene</span><span class="o">+</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">What will you do?</span><span class="se">\n</span><span class="s1">I will &gt; &#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">True</span></div></div>
 </pre></div>
 

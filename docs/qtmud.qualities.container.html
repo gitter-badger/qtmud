@@ -41,34 +41,244 @@
             
   <div class="section" id="module-qtmud.qualities.container">
 <span id="qtmud-qualities-container-module"></span><h1>qtmud.qualities.container module<a class="headerlink" href="#module-qtmud.qualities.container" title="Permalink to this headline">¶</a></h1>
+<p>A Container has contents that can be added to or removed from</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.0.1-features/parser.</span></p>
+</div>
+<p>From an abstract standpoint, many different things could be a
+Container. A cardboard box would obviously be a Container, but
+so would an office. The difference is that a box would also be
+<a class="reference internal" href="qtmud.qualities.physical.html#qtmud.qualities.physical.Physical" title="qtmud.qualities.physical.Physical"><code class="xref py py-class docutils literal"><span class="pre">Physical</span></code></a>, while an
+office is more of an abstract thing, so would lack that particular
+Quality.</p>
+<p>All a container really does is give a <a class="reference internal" href="qtmud.html#qtmud.Thing" title="qtmud.Thing"><code class="xref py py-class docutils literal"><span class="pre">thing</span></code></a>
+the ability to have an inventory - referred to in the game as the
+thing&#8217;s <a class="reference internal" href="#qtmud.qualities.container.Container.contents" title="qtmud.qualities.container.Container.contents"><code class="xref py py-attr docutils literal"><span class="pre">contents</span></code></a>.
+These contentsmight be manipulated in a lot of ways - the
+<a class="reference internal" href="qtmud.services.mover.html#qtmud.services.mover.Mover" title="qtmud.services.mover.Mover"><code class="xref py py-class docutils literal"><span class="pre">Mover</span></code></a> uses it to, well, move
+things, and Sight frequently means looking at a things inventory.</p>
 <dl class="class">
 <dt id="qtmud.qualities.container.Container">
 <em class="property">class </em><code class="descclassname">qtmud.qualities.container.</code><code class="descname">Container</code><a class="reference internal" href="_modules/qtmud/qualities/container.html#Container"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.container.Container" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
-<dl class="method">
+<p>Containers gain contents and methods for handling that.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.0.1-feature/parser.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified">Changed in version 0.0.2-feature/renderer.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified">Changed in version 0.0.2-feature/inventory: </span>Added inventory() function and matching command.</p>
+</div>
+<dl class="attribute">
+<dt id="qtmud.qualities.container.Container.contents">
+<code class="descname">contents</code><a class="headerlink" href="#qtmud.qualities.container.Container.contents" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>list</em> &#8211; The contents of the <a class="reference internal" href="qtmud.html#qtmud.Thing" title="qtmud.Thing"><code class="xref py py-class docutils literal"><span class="pre">Thing</span></code></a> has been applied to.
+Meant to have other things
+<a class="reference internal" href="#qtmud.qualities.container.Container.add" title="qtmud.qualities.container.Container.add"><code class="xref py py-func docutils literal"><span class="pre">added</span></code></a>
+to it.</p>
+</dd></dl>
+
+<dl class="staticmethod">
 <dt id="qtmud.qualities.container.Container.add">
-<code class="descname">add</code><span class="sig-paren">(</span><em>container</em>, <em>thing</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/qualities/container.html#Container.add"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.container.Container.add" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add a thing to the inventory of another, _if_ it isn&#8217;t already
-there.</p>
+<em class="property">static </em><code class="descname">add</code><span class="sig-paren">(</span><em>container</em>, <em>*things</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/qualities/container.html#Container.add"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.container.Container.add" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds thing to the contianer&#8217;s contents if thing isn&#8217;t there.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.0.1-feature/parser.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified">Changed in version 0.0.2-feature/inventory: </span>Added proper returns</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified">Changed in version 0.0.2-feature/textblob: </span>changed to static method</p>
+</div>
+<dl class="docutils">
+<dt>Parameter:</dt>
+<dd><dl class="first last docutils">
+<dt>container(object):      The <a class="reference internal" href="qtmud.html#qtmud.Thing" title="qtmud.Thing"><code class="xref py py-class docutils literal"><span class="pre">thing</span></code></a></dt>
+<dd>that will have somethinng added to
+it.</dd>
+<dt>thing(object):          The <a class="reference internal" href="qtmud.html#qtmud.Thing" title="qtmud.Thing"><code class="xref py py-class docutils literal"><span class="pre">thing</span></code></a></dt>
+<dd>that will be added to the container.</dd>
+</dl>
+</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="docutils">
+<dt>True if <code class="docutils literal"><span class="pre">thing</span></code> is successfully</dt>
+<dd>added to to the <code class="docutils literal"><span class="pre">contents</span></code> of
+the <code class="docutils literal"><span class="pre">container</span></code>.</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)">bool</a></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="qtmud.qualities.container.Container.apply">
 <code class="descname">apply</code><span class="sig-paren">(</span><em>thing</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/qualities/container.html#Container.apply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.container.Container.apply" title="Permalink to this definition">¶</a></dt>
-<dd><p>adds list contents and function contains to thing</p>
+<dd><p>Adds contents and supporting functions.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.0.1-feature/parser.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified">Changed in version 0.0.2-feature/inventory: </span>Now applies <code class="docutils literal"><span class="pre">inventory</span></code> function and if <code class="docutils literal"><span class="pre">thing</span></code> is
+commandable, the <code class="docutils literal"><span class="pre">inventory</span></code> command.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>thing</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><em>object</em></a>) &#8211; The thing that is being turned into a
+container.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="docutils">
+<dt>The thing, after it&#8217;s turned into a</dt>
+<dd>container.</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)">object</a></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
-<dl class="method">
+<dl class="staticmethod">
 <dt id="qtmud.qualities.container.Container.contains">
-<code class="descname">contains</code><span class="sig-paren">(</span><em>container</em>, <em>thing</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/qualities/container.html#Container.contains"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.container.Container.contains" title="Permalink to this definition">¶</a></dt>
-<dd><p>simply check if <cite>thing</cite> is in the contents of <cite>self</cite> &#8216;
-(the Container).</p>
+<em class="property">static </em><code class="descname">contains</code><span class="sig-paren">(</span><em>container</em>, <em>thing</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/qualities/container.html#Container.contains"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.container.Container.contains" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if thing is in the contents of container.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.0.1-feature/parser.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified">Changed in version 0.0.2-feature/textblob: </span>changed to static method</p>
+</div>
+<dl class="docutils">
+<dt>Parameter:</dt>
+<dd><dl class="first last docutils">
+<dt>container(object):      The <a class="reference internal" href="qtmud.html#qtmud.Thing" title="qtmud.Thing"><code class="xref py py-class docutils literal"><span class="pre">thing</span></code></a></dt>
+<dd>that&#8217;ll have its contents searched.</dd>
+<dt>thing(object):          The <a class="reference internal" href="qtmud.html#qtmud.Thing" title="qtmud.Thing"><code class="xref py py-class docutils literal"><span class="pre">thing</span></code></a></dt>
+<dd>that will be added to the container.</dd>
+</dl>
+</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="docutils">
+<dt>True if <code class="docutils literal"><span class="pre">thing</span></code> is in <code class="docutils literal"><span class="pre">container</span></code>&#8216;s</dt>
+<dd><code class="docutils literal"><span class="pre">contents</span></code>.</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)">bool</a></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
-<dl class="method">
+<dl class="staticmethod">
+<dt id="qtmud.qualities.container.Container.inventory">
+<em class="property">static </em><code class="descname">inventory</code><span class="sig-paren">(</span><em>searcher</em>, <em>line=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/qualities/container.html#Container.inventory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.container.Container.inventory" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified">New in version 0.0.2-feature/inventory.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified">Changed in version 0.0.2-feature/nametags: </span>Removed unnecessary container argument and replaced it with
+more standard <code class="docutils literal"><span class="pre">trailing</span></code></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified">Changed in version 0.0.2-feature/textblob: </span>changed to static method</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>searcher</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><em>object</em></a>) &#8211; The thing which is trying to check
+the container&#8217;s inventory.</li>
+<li><strong>line</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Unused, for now.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">the <code class="docutils literal"><span class="pre">contents</span></code> of the <code class="docutils literal"><span class="pre">searcher</span></code></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)">list</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p><code class="docutils literal"><span class="pre">inventory()</span></code> is essentially an alias for <code class="docutils literal"><span class="pre">searcher.contents</span></code>,
+but will also schedule a rendering of the <code class="docutils literal"><span class="pre">searcher</span></code>&#8216;s contents
+if the <code class="docutils literal"><span class="pre">searcher</span></code> has a <a class="reference internal" href="qtmud.qualities.client.html#qtmud.qualities.client.Client.send" title="qtmud.qualities.client.Client.send"><code class="xref py py-func docutils literal"><span class="pre">send</span></code></a> function.</p>
+<p class="rubric">Examples</p>
+<p>From the backend:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">satchel</span> <span class="o">=</span> <span class="n">manager</span><span class="o">.</span><span class="n">new_thing</span><span class="p">(</span><span class="n">Container</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">oodil</span> <span class="o">=</span> <span class="n">manager</span><span class="o">.</span><span class="n">new_thing</span><span class="p">(</span><span class="n">Physical</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">manager</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;move&#39;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                 <span class="n">thing</span><span class="o">=</span><span class="n">oodil</span>
+<span class="gp">&gt;&gt;&gt; </span>                 <span class="n">destination</span><span class="o">=</span><span class="n">satchel</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">satchel</span><span class="o">.</span><span class="n">inventory</span><span class="p">(</span><span class="n">satchel</span><span class="p">)</span>
+<span class="go">[&lt;qtmud.Thing object at 0xb69c7ad0&gt;]</span>
+</pre></div>
+</div>
+<p>From in-game:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">inventory</span>
+<span class="go">You&#39;re holding:</span>
+<span class="go">( apple pie, sword )</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="staticmethod">
 <dt id="qtmud.qualities.container.Container.remove">
-<code class="descname">remove</code><span class="sig-paren">(</span><em>container</em>, <em>thing</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/qualities/container.html#Container.remove"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.container.Container.remove" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="descname">remove</code><span class="sig-paren">(</span><em>container</em>, <em>thing</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/qualities/container.html#Container.remove"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.container.Container.remove" title="Permalink to this definition">¶</a></dt>
 <dd><p>removes a thing from another thing</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.0.1-feature/parser.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified">Changed in version 0.0.2-feature/inventory: </span>Proper returns added.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified">Changed in version 0.0.2-feature/textblob: </span>changed to static method</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>container</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><em>object</em></a>) &#8211; the container from which thing
+will be removed.</li>
+<li><strong>thing</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><em>object</em></a>) &#8211; the thing to be removed from the
+container.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><dl class="docutils">
+<dt>True if <code class="docutils literal"><span class="pre">thing</span></code> is successfully</dt>
+<dd><p class="first last">removed from the <code class="docutils literal"><span class="pre">container</span></code>.</p>
+</dd>
+</dl>
+</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)">bool</a></p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>

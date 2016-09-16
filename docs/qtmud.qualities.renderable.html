@@ -43,17 +43,32 @@
 <span id="qtmud-qualities-renderable-module"></span><h1>qtmud.qualities.renderable module<a class="headerlink" href="#module-qtmud.qualities.renderable" title="Permalink to this headline">¶</a></h1>
 <p>Adds a name and description to a thing.</p>
 <div class="versionadded">
-<p><span class="versionmodified">New in version 0.0.1-features/parser: </span>was a part of qtmud.qualities</p>
+<p><span class="versionmodified">New in version 0.0.2-feature/parser: </span>was a part of qtmud.qualities</p>
 </div>
 <dl class="class">
 <dt id="qtmud.qualities.renderable.Renderable">
 <em class="property">class </em><code class="descclassname">qtmud.qualities.renderable.</code><code class="descname">Renderable</code><a class="reference internal" href="_modules/qtmud/qualities/renderable.html#Renderable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.renderable.Renderable" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>For applying the Renderable quality to a thing.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.0.1-feature/environments.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified">Changed in version 0.0.2-feature/nametags: </span>added adjectives</p>
+</div>
 <dl class="attribute">
 <dt id="qtmud.qualities.renderable.Renderable.name">
 <code class="descname">name</code><a class="headerlink" href="#qtmud.qualities.renderable.Renderable.name" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>str</em> &#8211; The name of the thing.</p>
+<dd><p><em>str</em> &#8211; The name of the thing. Set to its identity by
+default.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="qtmud.qualities.renderable.Renderable.adjectives">
+<code class="descname">adjectives</code><a class="headerlink" href="#qtmud.qualities.renderable.Renderable.adjectives" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>list</em> &#8211; A list of adjectives that might be used with
+the <a class="reference internal" href="qtmud.html#qtmud.Thing" title="qtmud.Thing"><code class="xref py py-class docutils literal"><span class="pre">thing</span></code></a>&#8216;s
+<a class="reference internal" href="qtmud.html#qtmud.Thing.nametags" title="qtmud.Thing.nametags"><code class="xref py py-attr docutils literal"><span class="pre">nametags</span></code></a>.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -66,6 +81,17 @@
 <dt id="qtmud.qualities.renderable.Renderable.apply">
 <code class="descname">apply</code><span class="sig-paren">(</span><em>thing</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/qualities/renderable.html#Renderable.apply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.renderable.Renderable.apply" title="Permalink to this definition">¶</a></dt>
 <dd><p>Applies the Renderable quality to a thing</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="qtmud.qualities.renderable.Renderable.set_name">
+<em class="property">static </em><code class="descname">set_name</code><span class="sig-paren">(</span><em>thing</em>, <em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/qualities/renderable.html#Renderable.set_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.renderable.Renderable.set_name" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified">New in version 0.0.2-feature/nametags.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified">Changed in version 0.0.2-feature/textblob: </span>changed to static method</p>
+</div>
 </dd></dl>
 
 </dd></dl>

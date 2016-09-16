@@ -58,6 +58,8 @@ class Thing(object):
         .. versionchanged:: 0.0.1-feature/parsing
             added return of successfully changed attributes to Thing.update()
         .. versionchanged:: 0.0.2-feature/nametags
+        .. versionchanged:: 0.0.2-feature/textblob
+            changed nametags to be a set instead of a list
         
         Parameters:
             identity(str):      a UUID created automatically by the 
@@ -70,7 +72,7 @@ class Thing(object):
                                 assigned by manager.new_thing()
             manager(object):    the thing's manager, the same object that 
                                 called new_thing()
-            nametags(list):     A list of strings that one might refer to 
+            nametags(set):      A set of strings that one might refer to
                                 this thing with.
             qualities(list):    the instances of 
                                 :class:`qualities <qtmud.Qualities>` which 
@@ -86,8 +88,8 @@ class Thing(object):
             
         """
         self.identity, self.manager = identity, manager
-        self.nametags = ['thing']
-        self.adjectives = []
+        self.nametags = {'thing'}
+        self.adjectives = set()
         self.qualities = []
         return
     
@@ -125,29 +127,62 @@ class Thing(object):
         else:
             self.__dict__[attr] = value
 
-    def search(self, target):
+    def set_adjectives(self, adjectives):
+        """
+            .. versionadded:: 0.0.2-feature/textblob
+        """
+        if type(adjectives) is set and adjectives != {}:
+            for adjective in adjectives:
+                self.nametags.add(adjective)
+        return
+
+    def set_nametags(self, nametags):
+        """
+            .. versionadded:: 0.0.2-feature/textblob
+        """
+        if type(nametags) is set:
+            for nametag in nametags:
+                self.nametags.add(nametag)
+        return
+
+    def search(self, subject=None, adjectives=None, pnp_clauses=None, **kwargs):
         """ search for in this local environment.
         
             .. versionadded:: 0.0.2-feature/nametags
+            .. versionadded:: 0.0.2-feature/textblob
+                rewritten to handle the output produced by Parser.parse_line()
             
             Parameters:
                 target(string):         The nametag you're looking for in
                                         this thing's local environment.
         """
-        matches = {}
-        if hasattr(self, 'contents'):
-            for content in self.contents:
-                for nametag in content.nametags:
-                    if nametag in matches: matches[nametag].append(content)
-                    else: matches[nametag] = [content]
-        if hasattr(self, 'location'):
-            for content in self.location.contents:
-                for nametag in content.nametags:
-                    if nametag in matches: matches[nametag].append(content)
-                    else: matches[nametag] = [content]
+        matches = []
+        if subject is not None:
+            if hasattr(self, 'contents'):
+                for content in self.contents:
+                    for nametag in content.nametags:
+                        if nametag == subject:
+                            matches.append(content)
+            if hasattr(self, 'location'):
+                for content in self.location.contents:
+                        for nametag in content.nametags:
+                                if nametag == subject:
+                                    matches.append(content)
+            if adjectives is not None:
+                old_matches = matches
+                new_matches = []
+                for match in old_matches:
+                    for adjective in adjectives:
+                        if adjective in match.adjectives:
+                            matching_adjectives = True
+                        else:
+                            matching_adjectives = False
+                    if matching_adjectives is True:
+                        new_matches.append(match)
+                matches = new_matches
         return matches
 
-    def update(self, _dict):
+    def update(self, dict):
         """ Modify multiple attributes of the thing at once.
         
             .. versionadded:: 0.0.1
@@ -171,11 +206,11 @@ class Thing(object):
                 {'addr': ('127.0.0.1', 40440), 'recv_buffer': '', 
                 'send_buffer': ''}
         """
-        thing = self
-        for key, value in _dict.items():
-            setattr(thing, key, value)
-        return thing
-
+        for attribute, value in dict.items():
+            if 'set_%s' % (attribute,) in self.__dict__:
+                self.__dict__['set_%s' % (attribute,)](self, value)
+            else:
+                self.__dict__[attribute] = value
 
 class Manager(object):
     """ The manager of all qtmud things and services.

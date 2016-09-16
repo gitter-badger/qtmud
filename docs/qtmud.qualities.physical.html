@@ -43,11 +43,11 @@
 <span id="qtmud-qualities-physical-module"></span><h1>qtmud.qualities.physical module<a class="headerlink" href="#module-qtmud.qualities.physical" title="Permalink to this headline">¶</a></h1>
 <p>Makes a thing have a location, the place it exists.</p>
 <div class="versionadded">
-<p><span class="versionmodified">New in version 0.0.1-feature/parsing.</span></p>
+<p><span class="versionmodified">New in version 0.0.2-feature/parser.</span></p>
 </div>
 <dl class="class">
 <dt id="qtmud.qualities.physical.Physical">
-<em class="property">class </em><code class="descclassname">qtmud.qualities.physical.</code><code class="descname">Physical</code><span class="sig-paren">(</span><em>**kw</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/qualities/physical.html#Physical"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.physical.Physical" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">qtmud.qualities.physical.</code><code class="descname">Physical</code><a class="reference internal" href="_modules/qtmud/qualities/physical.html#Physical"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.physical.Physical" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>Functions and attributes to be applied to Physical things.</p>
 <blockquote>
@@ -55,7 +55,7 @@
 <p><span class="versionmodified">New in version 0.0.1.</span></p>
 </div>
 <div class="versionchanged">
-<p><span class="versionmodified">Changed in version 0.0.1-feature/parsing: </span>added whereami and move commands</p>
+<p><span class="versionmodified">Changed in version 0.0.2-feature/parser: </span>added whereami and move commands</p>
 </div>
 </div></blockquote>
 <dl class="attribute">
@@ -74,26 +74,70 @@ this thing.</p>
 <p><span class="versionmodified">New in version 0.0.1.</span></p>
 </div>
 <div class="versionchanged">
-<p><span class="versionmodified">Changed in version 0.0.1-feature/parsing: </span>added whereami and move commands</p>
+<p><span class="versionmodified">Changed in version 0.0.2-feature/parser: </span>added whereami and move commands</p>
 </div>
 </dd></dl>
 
-<dl class="method">
+<dl class="staticmethod">
 <dt id="qtmud.qualities.physical.Physical.move">
-<code class="descname">move</code><span class="sig-paren">(</span><em>thing</em>, <em>direction</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/qualities/physical.html#Physical.move"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.physical.Physical.move" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="descname">move</code><span class="sig-paren">(</span><em>mover</em>, <em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/qualities/physical.html#Physical.move"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.physical.Physical.move" title="Permalink to this definition">¶</a></dt>
 <dd><p>moves a thing from one location into another</p>
 <div class="versionadded">
-<p><span class="versionmodified">New in version 0.0.1-feature/parsing.</span></p>
+<p><span class="versionmodified">New in version 0.0.2-feature/parser.</span></p>
 </div>
+<div class="versionchanged">
+<p><span class="versionmodified">Changed in version 0.0.2-feature/textblob: </span>changed to static method</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>mover</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><em>object</em></a>) &#8211; The <a class="reference internal" href="qtmud.html#qtmud.Thing" title="qtmud.Thing"><code class="xref py py-class docutils literal"><span class="pre">thing</span></code></a> that&#8217;s
+going to be moved.</li>
+<li><strong>line</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; The name of the destination in the keys of
+thing.location.exits</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
-<dl class="method">
+<dl class="staticmethod">
 <dt id="qtmud.qualities.physical.Physical.whereami">
-<code class="descname">whereami</code><span class="sig-paren">(</span><em>thing</em>, <em>trailing</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/qualities/physical.html#Physical.whereami"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.physical.Physical.whereami" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="descname">whereami</code><span class="sig-paren">(</span><em>thing</em>, <em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/qualities/physical.html#Physical.whereami"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.physical.Physical.whereami" title="Permalink to this definition">¶</a></dt>
 <dd><p>tells thing the name of its location</p>
 <div class="versionadded">
-<p><span class="versionmodified">New in version 0.0.1-feature/parsing.</span></p>
+<p><span class="versionmodified">New in version 0.0.2-feature/parser.</span></p>
 </div>
+<div class="versionchanged">
+<p><span class="versionmodified">Changed in version 0.0.2-feature/textblob: </span>made more than just a test command, made static method</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>thing</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><em>object</em></a>) &#8211; The <a class="reference internal" href="qtmud.html#qtmud.Thing" title="qtmud.Thing"><code class="xref py py-class docutils literal"><span class="pre">thing</span></code></a> that
+is asking where it is.</li>
+<li><strong>line</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Unused, a string matching client input.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><dl class="docutils">
+<dt>True if the thing successfully queried</dt>
+<dd><p class="first last">has a location.</p>
+</dd>
+</dl>
+</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)">bool</a></p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>

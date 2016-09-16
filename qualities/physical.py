@@ -1,8 +1,9 @@
 """ Makes a thing have a location, the place it exists.
 
-    .. versionadded:: 0.0.1-feature/parsing
-"""
+    .. moduleauthor:: emsenn <morgan.sennhauser@gmail.com>
 
+    .. versionadded:: 0.0.2-feature/parser
+"""
 
 
 import types
@@ -12,7 +13,7 @@ class Physical(object):
     """ Functions and attributes to be applied to Physical things.
 
             .. versionadded:: 0.0.1
-            .. versionchanged:: 0.0.1-feature/parsing
+            .. versionchanged:: 0.0.2-feature/parser
                 added whereami and move commands
 
         Attributes:
@@ -21,58 +22,95 @@ class Physical(object):
                                     <qtmud.qualities.Container.contains>`
                                     this thing.
     """
-    def __init__(self, **kw):
+    def __init__(self):
         """
             .. versionadded:: 0.0.1
         """
-        super(Physical, self).__init__(**kw)
-        self.location = object
+        self.location = None
         return
 
-    #pylint: disable=unused-argument,no-self-use
-    def whereami(self, thing, trailing):
+    @staticmethod
+    def whereami(thing, line):
         """ tells thing the name of its location
 
-            .. versionadded:: 0.0.1-feature/parsing
-        """
-        thing.manager.schedule('render',
-                               client=thing,
-                               scene=thing.location.name)
+            .. versionadded:: 0.0.2-feature/parser
+            .. versionchanged:: 0.0.2-feature/textblob
+                made more than just a test command, made static method
 
-    def move(self, thing, direction):
+            Parameters:
+                thing(object):          The :class:`thing <qtmud.Thing>` that
+                                        is asking where it is.
+                line(str):              Unused, a string matching client input.
+
+            Returns:
+                bool:                   True if the thing successfully queried
+                                        has a location.
+
+        """
+        if hasattr(thing, 'send'):
+            if hasattr(thing.location, 'name'):
+                scene = 'You\'re location is the {}'.format(thing.location.name)
+            else:
+                scene = 'You\'re location is indescribable, but has the ' \
+                        'identity {}'.format(thing.location.identity)
+            thing.manager.schedule('send',
+                                   thing=thing,
+                                   scene=scene)
+            return True
+        return False
+
+    # TODO: Split the move command and actual movement method into two methods
+    @staticmethod
+    def move(mover, line):
         """ moves a thing from one location into another
 
-            .. versionadded:: 0.0.1-feature/parsing
+            .. versionadded:: 0.0.2-feature/parser
+            .. versionchanged:: 0.0.2-feature/textblob
+                changed to static method
+
+            Parameters:
+                mover(object):      The :class:`thing <qtmud.Thing>` that's
+                                    going to be moved.
+                line(str):          The name of the destination in the keys of
+                                    thing.location.exits
         """
-        if not hasattr(thing.location, 'exits'):
-            thing.send('You\'ve ended up in a location without any exit.'
+        line = ' '.join(line.split(' ')[1:])
+        # This is kinda hacky but whatever.
+        if not hasattr(mover.location, 'exits'):
+            mover.send('You\'ve ended up in a location without any exit.'
                        'I\'m going to move you back to the starting room.')
-            thing.manager.schedule('move',
-                                   thing=thing,
-                                   destination=thing.manager.back_room)
+            mover.manager.schedule('move',
+                                   thing=mover,
+                                   destination=mover.manager.back_room)
             return
-        if direction in thing.location.exits:
-            # TODO add better class/object checking
-            destination = thing.location.exits[direction]
-            if destination in thing.manager.qualities:
-                # XXX this is a hack
-                destination = thing.manager.qualities[destination][0]
+        if line in mover.location.exits:
+            destination = mover.location.exits[line]
+            # this if/else is essentially saying "if there's an instance of
+            # your destination already, move there, otherwise make an instance.
+            if destination in mover.manager.qualities:
+                destination = mover.manager.qualities[destination][0]
             else:
-                destination = thing.manager.new_thing(destination)
+                destination = mover.manager.new_thing(destination)
             try:
-                thing.manager.schedule('move',
-                                       thing=thing,
+                mover.manager.schedule('move',
+                                       thing=mover,
                                        destination=destination)
+                if hasattr(mover, 'send'):
+                    mover.manager.schedule('send',
+                                           thing=mover,
+                                           scene='You move')
+                return True
             except Exception as err:
-                thing.manager.log.warning('failed to move %s,\n%s',
-                                          thing.idenity,
+                mover.manager.log.warning('failed to move %s,\n%s',
+                                          mover.identity,
                                           err)
+                return False
 
     def apply(self, thing):
         """ Applies the Physical quality to the `thing`
 
             .. versionadded:: 0.0.1
-            .. versionchanged:: 0.0.1-feature/parsing
+            .. versionchanged:: 0.0.2-feature/parser
                 added whereami and move commands
         """
         if not hasattr(thing, 'location'):

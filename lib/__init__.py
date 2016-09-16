@@ -34,7 +34,21 @@ class Tavern(object):
                                                      Container,
                                                      Renderable])
         tavern.name = 'Ye Olde Tavern'
-        tavern.description = 'A tavern so normal, it requires no description.'
+        tavern.description = ('A tavern so normal, it requires no description. '
+                             'But, there is a table here.')
+        table = tavern.manager.new_thing(Renderable, Container)
+        table.update({'name': 'plain wooden table',
+                      'description': 'The bland wooden table has a pinecone '
+                                     'on it.'})
+        pinecone = tavern.manager.new_thing(Renderable, Physical)
+        pinecone.update({'name': 'pinecone',
+                         'adjectives': {'plain'},
+                         'sounds': ('If you listen closely, you can hear the '
+                                    'pinecone screaming.'),
+                         'description': 'It is a plain pinecone. I don\'t '
+                                        'know enough about pinecones to be '
+                                        'more descriptive, I\'m afraid.'})
+        tavern.add(table, pinecone)
         tavern.exits = { 'outside' : Village }
         return tavern
         
@@ -47,34 +61,33 @@ class Village(object):
         .. versionchanged:: 0.0.2-feature/nametags
             added some Renderables.        
     """
-    def __init__(self, **kw):
-        super(Village, self).__init__(**kw)
+    def __init__(self):
         return
     
     def apply(self, thing):
         village = thing.manager.add_qualities(thing, [Room,
                                                       Container,
                                                       Renderable])
-        village.name = 'Village Center'
+        village.name = 'Center of Ye Olde Village'
         village.description = ('The center of a small village. Really just '
                                'a tavern in a field, for now.')
+        village.sounds = ('It is suspiciously quiet here.')
         tavern = thing.manager.new_thing(Renderable)
-        tavern.name = 'Ye Olde Tavern'
-        tavern.description = ('The Ye Olde Tavern is indeed quite olde - I '
-                              'mean old. In fact, it is the oldest thing '
-                              'in existence. Yet somehow, the pine logs '
-                              'its walls are built with still look '
-                              'fresh-hewn. There\'s a door in the facade, '
-                              'so you could \'move inside\'.')
+        tavern.update({'name': 'Ye Olde Tavern',
+                       'description': 'Despite the name, Ye Olde Tavern '
+                                      'appears to have been built quite '
+                                      'recently. Its facade is built of pine '
+                                      'logs, and the door is wide open, so '
+                                      'one could just "move inside".'})
         logs = thing.manager.new_thing(Renderable)
-        logs.name = 'fresh hewn pine logs'
-        logs.description = ('The walls of the Ye Olde Tavern are made from '
-                            'pine, so freshly cut they look sticky to the '
-                            'touch.')
+        logs.update({'name': 'fresh hewn pine logs',
+                     'description': 'The walls of the Ye Olde Tavern are '
+                                    'made from pine, so freshly cut they '
+                                    'look sticky to the touch.'})
         door = thing.manager.new_thing(Renderable)
-        door.name = 'open door'
-        door.description = ('The door to Ye Olde Tavern is wide open, making '
-                            'it seem like an inviting place.')
+        door.update({'name': 'open door',
+                     'description': 'The door to Ye Olde Tavern is wide open, '
+                                    'making it seem like an inviting place.'})
         village.add(tavern, logs, door)
         village.exits = { 'inside' : Tavern,
                           'field' : Field }
@@ -85,60 +98,24 @@ class Field(object):
     
         .. versionadded:: 0.0.2-feature/parser
     """
-    def __init__(self, **kw):
-        super(Field, self).__init__(**kw)
+    def __init__(self):
         return
     
     def apply(self, thing):
         field = thing.manager.add_qualities(thing, [Room,
                                                     Container,
                                                     Renderable])
-        field.name = 'Empty Field'
-        field.description = ('This small field has a variety of short '
-                             'grasses growing in it. Near the center, a '
-                             'memorial sits. There is also a nearby village.')
-        memorial = thing.manager.new_thing(NineElevenMemorial)
-        bigtree = thing.manager.new_thing(BigTree)
-        tinytree = thing.manager.new_thing(TinyTree)
-        field.add(memorial, bigtree, tinytree)
+        field.update({'name': 'Memorial Field',
+                      'description': 'This field is just outside Ye Olde '
+                                     'Village. There are two copper pillars '
+                                     'erected (hehe) here.'})
+        memorial = thing.manager.new_thing(Renderable)
+        memorial.update({'name': '9/11 Memorial',
+                         'nametags': {'pillars'},
+                         'adjectives': {'copper', 'solid', 'marbled'},
+                         'description': 'Two solid copper blocks rise up from '
+                                        'the ground. Wide bands of verdigris '
+                                        'marble their surface.'})
+        field.add(memorial)
         field.exits = { 'village' : Village }
         return field
-
-
-class NineElevenMemorial(object):
-    """ A memorial to 9/11, a part of the Never Forget Holiday Update
-    
-        .. versionadded:: 0.0.2-feature/neverforgetholidayupdate
-    """
-    
-    def __init__(self):
-        """
-            .. versionadded:: 0.0.2-feature/neverforgetholidayupdate
-        """
-        return
-
-    def apply(self, thing):
-        """
-            .. versionadded:: 0.0.2-feature/neverforgetholidayupdate
-        """
-        memorial = thing.manager.add_qualities(thing, [Renderable])
-        memorial.name = 'memorial'
-        memorial.description = ('Two solid copper blocks rise up from the '
-                                'ground. Wide bands of verdigris marble '
-                                'their surface.')
-        return memorial
-        
-class BigTree(object):
-    def apply(self, thing):
-        tree = thing.manager.add_qualities(thing, [Renderable])
-        bigtree = tree.update({'name' : 'Big Ol\' Tree',
-                              'description' : ('This is a big ol\' tree, '
-                                               'I tell you what.')})
-        return bigtree
-
-class TinyTree(object):
-    def apply(self, thing):
-        tree = thing.manager.add_qualities(thing, [Renderable])
-        tree.name = 'Tiny Li\'l\' Tree'
-        tree.description = ('This is a tiny tree.')
-        return tree
