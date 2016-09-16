@@ -41,8 +41,11 @@
           <div class="body" role="main">
             
   <h1>Source code for qtmud.qualities.room</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    .. versionadded:: 0.0.1-features/parser</span>
+<span></span><span class="sd">&quot;&quot;&quot; gives a thing the qualities of a room</span>
+
+<span class="sd">    .. moduleauthor:: emsenn &lt;morgan.sennhauser@gmail.com&gt;</span>
+
+<span class="sd">    .. versionadded:: 0.0.2-feature/parser</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 
@@ -51,10 +54,19 @@
 
 <div class="viewcode-block" id="Room"><a class="viewcode-back" href="../../../qtmud.qualities.room.html#qtmud.qualities.room.Room">[docs]</a><span class="k">class</span> <span class="nc">Room</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Gives a thing the qualities of a Room</span>
+
+<span class="sd">        .. versionadded:: 0.0.2-feature/parser</span>
+
+<span class="sd">        Attributes:</span>
+<span class="sd">            exits(dict):        A dict of the exits in this room, expected to</span>
+<span class="sd">                                be in the format { &#39;inside&#39; : Hotel }, where</span>
+<span class="sd">                                &#39;inside&#39; is the string a thing would use to</span>
+<span class="sd">                                reference the exit, and Hotel is a class</span>
+<span class="sd">                                representing a Quality to be applied to a thing.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            .. versionadded:: 0.0.1-features/parser</span>
+<span class="sd">            .. versionadded:: 0.0.2-feature/parser</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">exits</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">return</span>
@@ -62,8 +74,8 @@
 <div class="viewcode-block" id="Room.apply"><a class="viewcode-back" href="../../../qtmud.qualities.room.html#qtmud.qualities.room.Room.apply">[docs]</a>    <span class="k">def</span> <span class="nf">apply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">thing</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; adds exits to the thing</span>
 
-<span class="sd">            .. versionadded:: 0.0.1-features/parser</span>
-<span class="sd">            .. versionchanged:: 0.0.2-features/renderer</span>
+<span class="sd">            .. versionadded:: 0.0.2-feature/parser</span>
+<span class="sd">            .. versionchanged:: 0.0.2-feature/renderer</span>
 
 <span class="sd">            Adds exits to a thing.</span>
 

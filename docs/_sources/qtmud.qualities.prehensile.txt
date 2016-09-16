@@ -1,0 +1,7 @@
+qtmud.qualities.prehensile module
+=================================
+
+.. automodule:: qtmud.qualities.prehensile
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -50,7 +50,7 @@
 <span class="sd">    .. version added:: 0.0.1</span>
 <span class="sd">    .. version changed:: 0.0.1-feature/organizing</span>
 <span class="sd">        Added `look` and `go` commands</span>
-<span class="sd">    .. version changed:: 0.0.1-feature/parsing</span>
+<span class="sd">    .. version changed:: 0.0.1-feature/parser</span>
 <span class="sd">        moved commands into their associated qualities</span>
 <span class="sd">    </span>
 <span class="sd">    Parser is subscribed to &#39;parse&#39; events. It expects these events to have:</span>
@@ -62,45 +62,149 @@
 <span class="sd">    The code for how it works is pretty straightforward, and bad, at this </span>
 <span class="sd">    point, so I&#39;m not going to bother thoroughly commenting it.</span>
 <span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">textblob</span> <span class="k">import</span> <span class="n">TextBlob</span>
 
-<span class="kn">from</span> <span class="nn">qtmud.services</span> <span class="k">import</span> <span class="n">Service</span>
-<span class="kn">from</span> <span class="nn">qtmud.qualities</span> <span class="k">import</span> <span class="n">Client</span>
-
-<span class="c1"># XXX Todo: break up parser into a command loading service - should commands </span>
-<span class="c1"># come from qualities directlY?</span>
-
-<div class="viewcode-block" id="Parser"><a class="viewcode-back" href="../../../qtmud.services.parser.html#qtmud.services.parser.Parser">[docs]</a><span class="k">class</span> <span class="nc">Parser</span><span class="p">(</span><span class="n">Service</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; The parsing service.</span>
-<span class="sd">        Subscribed to &#39;parse&#39; events.</span>
+<div class="viewcode-block" id="Parser"><a class="viewcode-back" href="../../../qtmud.services.parser.html#qtmud.services.parser.Parser">[docs]</a><span class="k">class</span> <span class="nc">Parser</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; To listen for client input, Parser subscribes to &#39;parse&#39; events</span>
 <span class="sd">        </span>
-<span class="sd">        Expecting client, cmd, and trailing in event payload</span>
+<span class="sd">        .. versionadded:: 0.0.1-features/parser </span>
+<span class="sd">        </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">manager</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Add this service to the manager&#39;s subscriptions for &#39;parse&#39;.</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">manager</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            .. versionadded:: 0.0.1-feature/parser</span>
+<span class="sd">            .. versionchanged:: 0.0.2-feature/renderer</span>
+<span class="sd">                removed unnecessary dependency on :class:`Service </span>
+<span class="sd">                &lt;qtmud.services.Service&gt;`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">Parser</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">manager</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span>
-        <span class="c1"># move parser to its own folder, keep commands under there and in </span>
-        <span class="c1"># lib/parser?</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">subscriptions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;parse&#39;</span><span class="p">)</span>
-        <span class="n">manager</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;parse&#39;</span><span class="p">)</span>
-    
+        <span class="bp">self</span><span class="o">.</span><span class="n">subscriptions</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;parse&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">manager</span> <span class="o">=</span> <span class="n">manager</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;parse&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Parser.parse_line"><a class="viewcode-back" href="../../../qtmud.services.parser.html#qtmud.services.parser.Parser.parse_line">[docs]</a>    <span class="k">def</span> <span class="nf">parse_line</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Take a line and do some parts of speech tagging to it</span>
+
+<span class="sd">            .. versionadded:: 0.0.2-feature/adjectives</span>
+<span class="sd">            .. versionchanged:: 0.0.2-feature/textblob</span>
+<span class="sd">                added documentation, cleaned up some bugs.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># NOTE: in these comments I say Object a lot. I&#39;m referencing the</span>
+        <span class="c1"># syntactic concept, not the Pythonic datatype.</span>
+        <span class="c1"># Put &quot;I will&quot; before incoming commannds, so they read more like</span>
+        <span class="c1"># sentences, i.e.</span>
+        <span class="c1"># &quot;I will&quot; take the second red apple from my leather backpack on the</span>
+        <span class="c1"># desk</span>
+        <span class="n">line</span> <span class="o">=</span> <span class="n">TextBlob</span><span class="p">(</span><span class="s1">&#39;I will &#39;</span> <span class="o">+</span> <span class="n">line</span><span class="p">)</span>
+        <span class="c1"># Parts of Speech tag (parse()) the line, split it on space, and</span>
+        <span class="c1"># remove &quot;I will&quot;</span>
+        <span class="n">parsed_line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)[</span><span class="mi">2</span><span class="p">:]</span>
+        <span class="c1"># organize those PoS tags.</span>
+        <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">parsed_line</span><span class="p">:</span>
+            <span class="n">parsed_line</span><span class="p">[</span><span class="n">parsed_line</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">word</span><span class="p">)]</span> <span class="o">=</span> <span class="n">word</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+        <span class="c1"># declare some empty lists/dicts for mucking about through processing</span>
+        <span class="c1"># list of ints marking the 1st word of verb, adjective+subject, and</span>
+        <span class="c1"># prepositional noun phrases</span>
+        <span class="n">phrase_starts</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># phrases all joined together as a list.</span>
+        <span class="n">chunked_phrases</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># the finished parsed sentence</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="c1"># adjectives for the nouns in either adj+sub phrase or any PNP</span>
+        <span class="c1"># (prepositional noun phrases)</span>
+        <span class="n">adjectives</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># if the word is an Object or Beginning-of-a-Prepositional-Noun-Phrase,</span>
+        <span class="c1"># add it to phrase_starts</span>
+        <span class="k">for</span> <span class="n">place</span><span class="p">,</span> <span class="n">word</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">parsed_line</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">word</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;O&#39;</span><span class="p">,</span> <span class="s1">&#39;B-PNP&#39;</span><span class="p">]:</span>
+                <span class="n">phrase_starts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">place</span><span class="p">)</span>
+        <span class="c1"># Based on our phrase_starts, create &quot;chunks&quot;, like &quot;second red apple&quot;</span>
+        <span class="c1"># or &quot;in the big backpack&quot;</span>
+        <span class="k">for</span> <span class="n">phrase</span> <span class="ow">in</span> <span class="n">phrase_starts</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">phrase</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">phrase_starts</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="n">chunked_phrases</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">parsed_line</span><span class="p">[</span><span class="n">phrase</span><span class="p">:</span><span class="n">phrase_starts</span><span class="p">[</span><span class="n">phrase_starts</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">phrase</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]])</span>
+            <span class="k">if</span> <span class="n">phrase</span> <span class="ow">is</span> <span class="n">phrase_starts</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="n">chunked_phrases</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">parsed_line</span><span class="p">[</span><span class="n">phrase</span><span class="p">:])</span>
+        <span class="k">for</span> <span class="n">phrase</span> <span class="ow">in</span> <span class="n">chunked_phrases</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">phrase</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;O&#39;</span> <span class="ow">and</span> \
+                            <span class="nb">len</span><span class="p">(</span><span class="n">chunked_phrases</span><span class="p">[</span><span class="n">chunked_phrases</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">phrase</span><span class="p">)])</span> <span class="ow">is</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">phrase</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;JJ&#39;</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="s1">&#39;adjectives&#39;</span> <span class="ow">in</span> <span class="n">payload</span><span class="p">:</span>
+                        <span class="n">payload</span><span class="p">[</span><span class="s1">&#39;adjectives&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">phrase</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">payload</span><span class="p">[</span><span class="s1">&#39;adjectives&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">phrase</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span>
+                    <span class="n">adjectives</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">phrase</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+                <span class="k">if</span> <span class="n">phrase</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;VB&#39;</span><span class="p">:</span>
+                    <span class="c1"># verb = &#39;take&#39;</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="s1">&#39;verb&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">phrase</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">elif</span> <span class="n">phrase</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;NN&#39;</span><span class="p">,</span> <span class="s1">&#39;NNS&#39;</span><span class="p">,</span> <span class="s1">&#39;PRP&#39;</span><span class="p">]:</span>
+                    <span class="c1"># object = &#39;apple&#39;</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="s1">&#39;subject&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">phrase</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">phrase</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;B-PNP&#39;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">phrase</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;IN&#39;</span><span class="p">,</span> <span class="s1">&#39;TO&#39;</span><span class="p">]:</span>
+                    <span class="n">preposition</span> <span class="o">=</span> <span class="n">phrase</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">phrase</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">word</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;NN&#39;</span><span class="p">,</span> <span class="s1">&#39;PRP&#39;</span><span class="p">]:</span>
+                            <span class="n">noun</span> <span class="o">=</span> <span class="n">word</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="k">if</span> <span class="n">word</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;JJ&#39;</span><span class="p">:</span>
+                            <span class="n">adjectives</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">word</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="n">pnp</span> <span class="o">=</span> <span class="p">[</span><span class="n">preposition</span><span class="p">,</span> <span class="n">adjectives</span><span class="p">,</span> <span class="n">noun</span><span class="p">]</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="s1">&#39;pnp_clauses&#39;</span> <span class="ow">in</span> <span class="n">payload</span><span class="p">:</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="s1">&#39;pnp_clauses&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">payload</span><span class="p">[</span><span class="s1">&#39;pnp_clauses&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pnp</span><span class="p">)</span>
+            <span class="n">adjectives</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="n">payload</span></div>
+
+
+
 <div class="viewcode-block" id="Parser.tick"><a class="viewcode-back" href="../../../qtmud.services.parser.html#qtmud.services.parser.Parser.tick">[docs]</a>    <span class="k">def</span> <span class="nf">tick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">events</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; If Parser service has any events, parse them and respond </span>
-<span class="sd">            appropriately.</span>
+        <span class="sd">&quot;&quot;&quot; Handle commands from the last tick.</span>
+<span class="sd">        </span>
+<span class="sd">            .. versionadded:: 0.0.1-feature/parser</span>
+<span class="sd">            .. versionchanged:: 0.0.2-feature/nametags</span>
+<span class="sd">                Added better failure control.</span>
+<span class="sd">            </span>
+<span class="sd">            Parameters:</span>
+<span class="sd">                events(list):       set to False by default, expected to </span>
+<span class="sd">                                    be a list of tuples in the format of </span>
+<span class="sd">                                    ``[(&#39;render&#39;, {payload})]``</span>
+<span class="sd">                </span>
+<span class="sd">            Returns:</span>
+<span class="sd">                bool:               True if there were events to process,</span>
+<span class="sd">                                    otherwise False.</span>
+<span class="sd">            </span>
+<span class="sd">            The ``payload`` of each event is expected to have:</span>
+<span class="sd">                </span>
+<span class="sd">                * ``client`` - represents the client who is trying to have </span>
+<span class="sd">                  their command parsed.</span>
+<span class="sd">                * ``cmd`` - a single word that represent&#39;s the command </span>
+<span class="sd">                  ``client`` is trying to execute.</span>
+<span class="sd">                * ``trailing`` - this one is optional, and is any text that </span>
+<span class="sd">                  came after the ``cmd`` in the player&#39;s input.</span>
+
+<span class="sd">            If the Bob inputs ``say hello there skippy``, ``client`` would </span>
+<span class="sd">            be the object that represent&#39;s Bob&#39;s avatar, ``cmd`` would be </span>
+<span class="sd">            ``say``, and ``trailing`` would be ``hello there skippy``.</span>
+<span class="sd">            </span>
+<span class="sd">            If ``cmd`` (in this case ``say``) is in the client&#39;s list of </span>
+<span class="sd">            :attr:`commands &lt;qtmud.qualities.client.Client.commands&gt;`,</span>
+<span class="sd">            then the method that command points to will be called, with </span>
+<span class="sd">            ``trailing`` as an argument. In our example, ``bob.say(&#39;hello </span>
+<span class="sd">            there skippy&#39;)``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">events</span> <span class="o">==</span> <span class="p">[]:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">events</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">for</span> <span class="n">__</span><span class="p">,</span> <span class="n">payload</span> <span class="ow">in</span> <span class="n">events</span><span class="p">:</span> <span class="c1">#pylint: disable=unused-variable</span>
-            <span class="n">client</span> <span class="o">=</span> <span class="n">payload</span><span class="p">[</span><span class="s1">&#39;client&#39;</span><span class="p">]</span>
-            <span class="n">cmd</span> <span class="o">=</span> <span class="n">payload</span><span class="p">[</span><span class="s1">&#39;cmd&#39;</span><span class="p">]</span>
-            <span class="k">if</span> <span class="s1">&#39;trailing&#39;</span> <span class="ow">in</span> <span class="n">payload</span><span class="p">:</span> <span class="n">trailing</span> <span class="o">=</span> <span class="n">payload</span><span class="p">[</span><span class="s1">&#39;trailing&#39;</span><span class="p">]</span>
-            <span class="k">else</span><span class="p">:</span> <span class="n">trailing</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
-            <span class="k">if</span> <span class="n">cmd</span> <span class="ow">in</span> <span class="n">client</span><span class="o">.</span><span class="n">commands</span><span class="p">:</span>
-                <span class="n">client</span><span class="o">.</span><span class="n">commands</span><span class="p">[</span><span class="n">cmd</span><span class="p">](</span><span class="n">trailing</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">event</span><span class="p">,</span> <span class="n">payload</span> <span class="ow">in</span> <span class="n">events</span><span class="p">:</span> <span class="c1">#pylint: disable=unused-variable</span>
+            <span class="n">commander</span> <span class="o">=</span> <span class="n">payload</span><span class="p">[</span><span class="s1">&#39;commander&#39;</span><span class="p">]</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="n">payload</span><span class="p">[</span><span class="s1">&#39;line&#39;</span><span class="p">]</span>
+            <span class="n">command</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">commander</span><span class="p">,</span> <span class="s1">&#39;commands&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">command</span> <span class="ow">in</span> <span class="n">commander</span><span class="o">.</span><span class="n">commands</span><span class="p">:</span>
+                <span class="n">commander</span><span class="o">.</span><span class="n">commands</span><span class="p">[</span><span class="n">command</span><span class="p">](</span><span class="n">line</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">client</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{0}</span><span class="s1"> isnt a valid command&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cmd</span><span class="p">))</span>
-        <span class="k">return</span></div></div>
+                <span class="bp">self</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;send&#39;</span><span class="p">,</span>
+                                      <span class="n">thing</span><span class="o">=</span><span class="n">commander</span><span class="p">,</span>
+                                      <span class="n">scene</span><span class="o">=</span><span class="s1">&#39;invalid command&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span></div></div>
 </pre></div>
 
           </div>

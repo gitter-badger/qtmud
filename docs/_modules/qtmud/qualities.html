@@ -49,7 +49,7 @@
 <span class="sd">    .. versionadded:: 0.0.1</span>
 <span class="sd">    .. versionchanged:: 0.0.1-feature/environments</span>
 <span class="sd">        Added the Renderable quality</span>
-<span class="sd">    .. versionchanged:: 0.0.1-feature/parser</span>
+<span class="sd">    .. versionchanged:: 0.0.2-feature/parser</span>
 <span class="sd">        Moved qualities into separate files and import them to this one, so</span>
 <span class="sd">        they can all be imported from :mod:`qtmud.qualities`.</span>
 
@@ -101,6 +101,8 @@
 <span class="kn">from</span> <span class="nn">qtmud.qualities.room</span> <span class="k">import</span> <span class="n">Room</span>
 <span class="kn">from</span> <span class="nn">qtmud.qualities.sighted</span> <span class="k">import</span> <span class="n">Sighted</span>
 <span class="kn">from</span> <span class="nn">qtmud.qualities.speaking</span> <span class="k">import</span> <span class="n">Speaking</span>
+<span class="kn">from</span> <span class="nn">qtmud.qualities.hearing</span> <span class="k">import</span> <span class="n">Hearing</span>
+<span class="kn">from</span> <span class="nn">qtmud.qualities.prehensile</span> <span class="k">import</span> <span class="n">Prehensile</span>
 
 
 <div class="viewcode-block" id="Quality"><a class="viewcode-back" href="../../qtmud.qualities.html#qtmud.qualities.Quality">[docs]</a><span class="k">class</span> <span class="nc">Quality</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -117,14 +119,11 @@
 <span class="sd">        the thing :func:`speak &lt;qtmud.qualities.speaking.Speak.say&gt;`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-
 <span class="sd">            .. version added:: 0.0.1-feature/parsing</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">Quality</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kw</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">foop</span> <span class="o">=</span> <span class="s1">&#39;value&#39;</span>
         <span class="k">return</span>
 
 <div class="viewcode-block" id="Quality.womble"><a class="viewcode-back" href="../../qtmud.qualities.html#qtmud.qualities.Quality.womble">[docs]</a>    <span class="k">def</span> <span class="nf">womble</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">thing</span><span class="p">):</span>
@@ -145,8 +144,7 @@
 <span class="sd">                29ea7ec1-3fc1-44a1-bddb-c756330273d4</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">thing</span><span class="p">,</span> <span class="s1">&#39;fooped&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">thing</span><span class="o">.</span><span class="n">fooped</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="n">thing</span><span class="o">.</span><span class="n">fooped</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">foop</span></div>
+        <span class="k">return</span> <span class="n">thing</span><span class="o">.</span><span class="n">identity</span></div>
 
 
 <div class="viewcode-block" id="Quality.apply"><a class="viewcode-back" href="../../qtmud.qualities.html#qtmud.qualities.Quality.apply">[docs]</a>    <span class="k">def</span> <span class="nf">apply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">thing</span><span class="p">):</span>
@@ -191,8 +189,6 @@
 <span class="sd">            use helps make sure things are able to have commands added with</span>
 <span class="sd">            limited memory waste.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">thing</span><span class="p">,</span> <span class="s1">&#39;fooped&#39;</span><span class="p">):</span>
-            <span class="n">thing</span><span class="o">.</span><span class="n">fooped</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">thing</span><span class="p">,</span> <span class="s1">&#39;womble&#39;</span><span class="p">):</span>
             <span class="n">thing</span><span class="o">.</span><span class="n">womble</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">womble</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">thing</span><span class="p">,</span> <span class="s1">&#39;commands&#39;</span><span class="p">):</span>

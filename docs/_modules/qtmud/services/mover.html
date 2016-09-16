@@ -108,8 +108,8 @@
             <span class="n">thing</span> <span class="o">=</span> <span class="n">payload</span><span class="p">[</span><span class="s1">&#39;thing&#39;</span><span class="p">]</span>
             <span class="n">destination</span> <span class="o">=</span> <span class="n">payload</span><span class="p">[</span><span class="s1">&#39;destination&#39;</span><span class="p">]</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="n">thing</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">thing</span><span class="p">)</span>
-            <span class="c1"># XXX Rewrite this exception to properly handle things</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">thing</span><span class="o">.</span><span class="n">location</span><span class="p">)</span>
+                <span class="n">thing</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">thing</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;tried to remove </span><span class="si">%s</span><span class="s1"> from a location &#39;</span>
                                        <span class="s1">&#39;but </span><span class="si">%s</span><span class="s1"> was not in that location&#39;</span><span class="p">,</span> 
@@ -124,8 +124,6 @@
                                        <span class="s1">&#39;destination, leaving </span><span class="si">%s</span><span class="s1"> without &#39;</span>
                                        <span class="s1">&#39;a location&#39;</span><span class="p">,</span> <span class="n">thing</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="c1"># XXX Expecting object, need to account for other possibilities,</span>
-                <span class="c1"># how to load rooms.</span>
                 <span class="n">thing</span><span class="o">.</span><span class="n">location</span> <span class="o">=</span> <span class="n">destination</span>
                 <span class="n">thing</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">thing</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">True</span></div></div>
