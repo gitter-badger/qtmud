@@ -26,7 +26,7 @@ class Physical(object):
         """
             .. versionadded:: 0.0.1
         """
-        self.location = object
+        self.location = None
         return
 
     @staticmethod
@@ -117,4 +117,5 @@ class Physical(object):
             thing.location = self.location
         if hasattr(thing, 'commands'):
             thing.commands['whereami'] = types.MethodType(self.whereami, thing)
+            thing.commands['move'] = types.MethodType(self.move, thing)
         return thing

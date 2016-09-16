@@ -65,7 +65,8 @@ class Mover(object):
             thing = payload['thing']
             destination = payload['destination']
             try:
-                thing.location.contents.remove(thing)
+                print(thing.location)
+                thing.location.remove(thing)
             except AttributeError:
                 self.manager.log.debug('tried to remove %s from a location '
                                        'but %s was not in that location', 

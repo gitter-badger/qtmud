@@ -98,7 +98,7 @@ class Parser(object):
                     # object = 'apple'
                     payload['subject'] = phrase[0][0]
             elif phrase[0][3] == 'B-PNP':
-                if phrase[0][1] == 'IN':
+                if phrase[0][1] in ['IN', 'TO']:
                     preposition = phrase[0][0]
                     for word in phrase:
                         if word[1] in ['NN', 'PRP']:

@@ -24,7 +24,6 @@ class Speaking(object):
         """
         return
 
-    #pylint: disable=no-self-use
     def say(self, speaker, line):
         """ schedules the rendering of data for every Client in thing's location
 
@@ -35,7 +34,7 @@ class Speaking(object):
                 updated to work with new Send service.
         """
         if not hasattr(speaker, 'location'):
-            speaker.manager.schedule('render',
+            speaker.manager.schedule('send',
                                    thing=speaker,
                                    scene='You cannot speak, for you have'
                                          'no location.')

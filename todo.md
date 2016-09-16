@@ -14,7 +14,7 @@ Roughly split up by the domain they're for:
 
 ## THINGS
 
-* add use of __slots__
+* add use of \_\_slots\_\_
 
 
 ## SERVICES
@@ -22,8 +22,7 @@ Roughly split up by the domain they're for:
 
 ### Parser
 
-* adjectives aren't working right, if there's a "tiny red firetruck" and 
-  a client looks for "tiny blue firetruck", the red one still shows up.
+* deal with not direct <verb> <subject> commands
 
 
 ## QUALITIES
@@ -40,20 +39,9 @@ Roughly split up by the domain they're for:
 * aliases
 
 
-### Hearing
-
-* with a listen command - then go change qualities.speaking.say() to make 
-  it so things that can otherwise hear the say are listening.
-
-
 ### Persistence 
 
-* if a thing is a __slot__'d attribute, it is persistent. what does 
-
-
-### Physical
-
-* split move() into move() and remove()
+* if a thing is a \_\_slot\_\_'d attribute, it is persistent. what does 
 
 
 ## LIBRARY

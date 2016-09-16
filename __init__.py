@@ -168,7 +168,7 @@ class Thing(object):
                         for nametag in content.nametags:
                                 if nametag == subject:
                                     matches.append(content)
-            if len(matches) > 1 and adjectives is not None:
+            if adjectives is not None:
                 old_matches = matches
                 new_matches = []
                 for match in old_matches:

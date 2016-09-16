@@ -34,7 +34,21 @@ class Tavern(object):
                                                      Container,
                                                      Renderable])
         tavern.name = 'Ye Olde Tavern'
-        tavern.description = 'A tavern so normal, it requires no description.'
+        tavern.description = ('A tavern so normal, it requires no description. '
+                             'But, there is a table here.')
+        table = tavern.manager.new_thing(Renderable, Container)
+        table.update({'name': 'plain wooden table',
+                      'description': 'The bland wooden table has a pinecone '
+                                     'on it.'})
+        pinecone = tavern.manager.new_thing(Renderable, Physical)
+        pinecone.update({'name': 'pinecone',
+                         'adjectives': {'plain'},
+                         'sounds': ('If you listen closely, you can hear the '
+                                    'pinecone screaming.'),
+                         'description': 'It is a plain pinecone. I don\'t '
+                                        'know enough about pinecones to be '
+                                        'more descriptive, I\'m afraid.'})
+        tavern.add(table, pinecone)
         tavern.exits = { 'outside' : Village }
         return tavern
         
@@ -57,6 +71,7 @@ class Village(object):
         village.name = 'Center of Ye Olde Village'
         village.description = ('The center of a small village. Really just '
                                'a tavern in a field, for now.')
+        village.sounds = ('It is suspiciously quiet here.')
         tavern = thing.manager.new_thing(Renderable)
         tavern.update({'name': 'Ye Olde Tavern',
                        'description': 'Despite the name, Ye Olde Tavern '

@@ -58,6 +58,8 @@ from qtmud.qualities.container import Container
 from qtmud.qualities.room import Room
 from qtmud.qualities.sighted import Sighted
 from qtmud.qualities.speaking import Speaking
+from qtmud.qualities.hearing import Hearing
+from qtmud.qualities.prehensile import Prehensile
 
 
 class Quality(object):

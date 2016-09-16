@@ -68,6 +68,8 @@ class Container(object):
         for thing in things:
             if thing not in container.contents:
                 container.contents.append(thing)
+            if hasattr(thing, 'location'):
+                thing.location = container
         return True
     
     @staticmethod

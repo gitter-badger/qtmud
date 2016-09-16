@@ -90,12 +90,11 @@ class Client(object):
         """ sets an attribute in the client, meant to be used with the
             set command
 
-            .. versionadded:: 0.0.1-feature/parser
+            .. versionadded:: 0.0.2-feature/parser
             .. versionchanged:: 0.0.2-feature/textblob
                 changed to be a staticmethod
         """
         line = line.split(' ')[1:]
-        print(line)
         if line == '':
             client.manager.schedule('send',
                                     thing=client,
@@ -133,6 +132,10 @@ class Client(object):
                                     thing=client,
                                     scene='{}'.format(client.__dict__[attribute]))
 
+    @staticmethod
+    def foo(client, line):
+        print(client.location.contents)
+
     def apply(self, thing):
         """ Applies the Client quality to `thing`
 
@@ -160,13 +163,12 @@ class Client(object):
             thing.send_buffer = self.send_buffer
         if not hasattr(thing, 'recv_buffer'):
             thing.recv_buffer = self.recv_buffer
-        if not hasattr(thing, 'name'):
-            thing.name = str(thing.identity)
         if not hasattr(thing, 'send'):
             thing.send = types.MethodType(self.send, thing)
         if not hasattr(thing, 'commands'):
             thing.commands = {'whoami': types.MethodType(self.whoami, thing),
                               'echo': types.MethodType(self.echo, thing),
                               'set': types.MethodType(self.set, thing),
-                              'get': types.MethodType(self.get, thing)}
+                              'get': types.MethodType(self.get, thing),
+                              'foo': types.MethodType(self.foo, thing)}
         return thing

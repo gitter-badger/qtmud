@@ -16,7 +16,8 @@ class Renderable(object):
             added adjectives
 
         Attributes:
-            name(str):          The name of the thing.
+            name(str):          The name of the thing. Set to its identity by
+                                default.
             adjectives(list):   A list of adjectives that might be used with 
                                 the :class:`thing <qtmud.Thing>`'s 
                                 :attr:`nametags <qtmud.Thing.nametags>`.
@@ -56,7 +57,7 @@ class Renderable(object):
             .. version added:: 0.0.1-feature/environments
         """
         if not hasattr(thing, 'name'):
-            thing.name = self.name
+            thing.name = str(thing.identity)
         if not hasattr(thing, 'description'):
             thing.description = self.description
         thing.set_name = self.set_name
