@@ -149,7 +149,7 @@ class Thing(object):
         """ search for in this local environment.
         
             .. versionadded:: 0.0.2-feature/nametags
-            .. versionadded:: 0.0.2-feature/textblob
+            .. versionchanged:: 0.0.2-feature/textblob
                 rewritten to handle the output produced by Parser.parse_line()
             
             Parameters:
@@ -186,7 +186,7 @@ class Thing(object):
         """ Modify multiple attributes of the thing at once.
         
             .. versionadded:: 0.0.1
-            .. versionchanged:: 0.0.1-feature/parsing
+            .. versionchanged:: 0.0.2-feature/parsing
                 added return of successfully updated attributes.
         
             Parameters:

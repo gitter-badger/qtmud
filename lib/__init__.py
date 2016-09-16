@@ -13,7 +13,8 @@
     Testing for potential game library - don't expect good documentation here.
 """
 
-from qtmud.qualities import Physical, Container, Room, Renderable
+from qtmud.qualities import Physical, Container, Room, Renderable, Teaching
+from qtmud.lib.qualities import Violent
 
 class Tavern(object):
     """ Ye Olde Tavern
@@ -59,7 +60,9 @@ class Village(object):
         .. versionchanged:: 0.0.2-feature/parser
             added explicit use of the Container quality.
         .. versionchanged:: 0.0.2-feature/nametags
-            added some Renderables.        
+            added some Renderables.
+        .. versionchanged:: 0.0.3-feature/learning
+            added an exit to Smithy
     """
     def __init__(self):
         return
@@ -69,8 +72,9 @@ class Village(object):
                                                       Container,
                                                       Renderable])
         village.name = 'Center of Ye Olde Village'
-        village.description = ('The center of a small village. Really just '
-                               'a tavern in a field, for now.')
+        village.description = ('The center of a small village. On one side of '
+                               'the commons is a tavern, and on the other '
+                               'side there is a blacksmith\'s workshop.')
         village.sounds = ('It is suspiciously quiet here.')
         tavern = thing.manager.new_thing(Renderable)
         tavern.update({'name': 'Ye Olde Tavern',
@@ -89,8 +93,9 @@ class Village(object):
                      'description': 'The door to Ye Olde Tavern is wide open, '
                                     'making it seem like an inviting place.'})
         village.add(tavern, logs, door)
-        village.exits = { 'inside' : Tavern,
-                          'field' : Field }
+        village.exits = { 'tavern': Tavern,
+                          'smith': Smithy,
+                          'field': Field }
         return village
 
 class Field(object):
@@ -119,3 +124,31 @@ class Field(object):
         field.add(memorial)
         field.exits = { 'village' : Village }
         return field
+
+class Smithy(object):
+    """ A blacksmith's workshop
+
+        .. versionadded:: 0.0.3-feature/learning
+    """
+    def __init__(self):
+        return
+
+    def apply(self, thing):
+        smithy = thing.manager.add_qualities(thing, [Room,
+                                                     Container,
+                                                     Renderable])
+        smithy.update({'name': 'Smithy',
+                       'description': 'This is the inside of a blacksmith\'s '
+                                      'workshop.'})
+        blacksmith = thing.manager.new_thing(Renderable, Physical, Teaching)
+        blacksmith.update({'name': 'Henry Smith',
+                           'nametags': {'smith', 'henry', 'blacksmith'},
+                           'adjectives': {'black'},
+                           'description': 'Maybe Henry\'s last name is Smith '
+                                          'because he is a smith, or maybe '
+                                          'Henry is a blacksmith because his '
+                                          'last name is Smith.'})
+        blacksmith.teachable_qualities['violence'] = Violent
+        smithy.add(blacksmith)
+        smithy.exits = {'outside': Village}
+        return smithy

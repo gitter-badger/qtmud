@@ -60,6 +60,8 @@ from qtmud.qualities.sighted import Sighted
 from qtmud.qualities.speaking import Speaking
 from qtmud.qualities.hearing import Hearing
 from qtmud.qualities.prehensile import Prehensile
+from qtmud.qualities.learning import Learning
+from qtmud.qualities.teaching import Teaching
 
 
 class Quality(object):
