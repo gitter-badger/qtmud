@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>qtmud.qualities.room module &#8212; qtmud 0.0.2 documentation</title>
+    <title>qtmud.qualities.room module &#8212; qtmud 0.0.3 documentation</title>
     
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.0.2',
+        VERSION:     '0.0.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="qtmud 0.0.2 documentation" href="index.html" />
+    <link rel="top" title="qtmud 0.0.3 documentation" href="index.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -41,16 +41,44 @@
             
   <div class="section" id="module-qtmud.qualities.room">
 <span id="qtmud-qualities-room-module"></span><h1>qtmud.qualities.room module<a class="headerlink" href="#module-qtmud.qualities.room" title="Permalink to this headline">¶</a></h1>
+<p>gives a thing the qualities of a room</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.0.2-feature/parser.</span></p>
+</div>
 <dl class="class">
 <dt id="qtmud.qualities.room.Room">
-<em class="property">class </em><code class="descclassname">qtmud.qualities.room.</code><code class="descname">Room</code><span class="sig-paren">(</span><em>**kw</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/qualities/room.html#Room"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.room.Room" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">qtmud.qualities.room.</code><code class="descname">Room</code><a class="reference internal" href="_modules/qtmud/qualities/room.html#Room"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.room.Room" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>Gives a thing the qualities of a Room</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.0.2-feature/parser.</span></p>
+</div>
+<dl class="attribute">
+<dt id="qtmud.qualities.room.Room.exits">
+<code class="descname">exits</code><a class="headerlink" href="#qtmud.qualities.room.Room.exits" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>dict</em> &#8211; A dict of the exits in this room, expected to
+be in the format { &#8216;inside&#8217; : Hotel }, where
+&#8216;inside&#8217; is the string a thing would use to
+reference the exit, and Hotel is a class
+representing a Quality to be applied to a thing.</p>
+</dd></dl>
+
 <dl class="method">
 <dt id="qtmud.qualities.room.Room.apply">
 <code class="descname">apply</code><span class="sig-paren">(</span><em>thing</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/qualities/room.html#Room.apply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.room.Room.apply" title="Permalink to this definition">¶</a></dt>
-<dd><p>adds dict exits and if non-existent, list contents &amp; function
-contains</p>
+<dd><p>adds exits to the thing</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.0.2-feature/parser.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified">Changed in version 0.0.2-feature/renderer.</span></p>
+</div>
+<p>Adds exits to a thing.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Used to be dependent on Container quality, now it
+isn&#8217;t.</p>
+</div>
 </dd></dl>
 
 </dd></dl>

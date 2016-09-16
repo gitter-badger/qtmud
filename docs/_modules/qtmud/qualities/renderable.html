@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>qtmud.qualities.renderable &#8212; qtmud 0.0.2 documentation</title>
+    <title>qtmud.qualities.renderable &#8212; qtmud 0.0.3 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.0.2',
+        VERSION:     '0.0.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <link rel="top" title="qtmud 0.0.2 documentation" href="../../../index.html" />
+    <link rel="top" title="qtmud 0.0.3 documentation" href="../../../index.html" />
     <link rel="up" title="qtmud.qualities" href="../qualities.html" />
    
   <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
@@ -45,39 +45,65 @@
 
 <span class="sd">    .. moduleauthor:: emsenn &lt;morgan.sennhauser@gmail.com&gt;</span>
 
-<span class="sd">    .. versionadded:: 0.0.1-features/parser</span>
+<span class="sd">    .. versionadded:: 0.0.2-feature/parser</span>
 <span class="sd">        was a part of qtmud.qualities</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
 
+
 <div class="viewcode-block" id="Renderable"><a class="viewcode-back" href="../../../qtmud.qualities.renderable.html#qtmud.qualities.renderable.Renderable">[docs]</a><span class="k">class</span> <span class="nc">Renderable</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; For applying the Renderable quality to a thing.</span>
 
-<span class="sd">        .. version added:: 0.0.1-features/environments</span>
+<span class="sd">        .. versionadded:: 0.0.1-feature/environments</span>
+<span class="sd">        .. versionchanged:: 0.0.2-feature/nametags</span>
+<span class="sd">            added adjectives</span>
 
 <span class="sd">        Attributes:</span>
-<span class="sd">            name(str):          The name of the thing.</span>
+<span class="sd">            name(str):          The name of the thing. Set to its identity by</span>
+<span class="sd">                                default.</span>
+<span class="sd">            adjectives(list):   A list of adjectives that might be used with </span>
+<span class="sd">                                the :class:`thing &lt;qtmud.Thing&gt;`&#39;s </span>
+<span class="sd">                                :attr:`nametags &lt;qtmud.Thing.nametags&gt;`.</span>
 <span class="sd">            description(str):   The thing&#39;s description.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-
 <span class="sd">            .. version added:: 0.0.1-feature/environments</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">Renderable</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kw</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
         <span class="k">return</span>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Renderable.set_name"><a class="viewcode-back" href="../../../qtmud.qualities.renderable.html#qtmud.qualities.renderable.Renderable.set_name">[docs]</a>    <span class="k">def</span> <span class="nf">set_name</span><span class="p">(</span><span class="n">thing</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            .. versionadded:: 0.0.2-feature/nametags</span>
+<span class="sd">            .. versionchanged:: 0.0.2-feature/textblob</span>
+<span class="sd">                changed to static method</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">str</span> <span class="ow">and</span> <span class="n">name</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">thing</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">thing</span><span class="o">.</span><span class="n">name</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+                <span class="n">old_shortname</span> <span class="o">=</span> <span class="n">thing</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">old_shortname</span> <span class="ow">in</span> <span class="n">thing</span><span class="o">.</span><span class="n">nametags</span><span class="p">:</span>
+                    <span class="n">thing</span><span class="o">.</span><span class="n">nametags</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">old_shortname</span><span class="p">)</span>
+            <span class="n">thing</span><span class="o">.</span><span class="n">__dict__</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">name</span>
+            <span class="n">thing</span><span class="o">.</span><span class="n">nametags</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">())</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">adjective</span> <span class="ow">in</span> <span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+                    <span class="n">thing</span><span class="o">.</span><span class="n">adjectives</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">adjective</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+        <span class="k">return</span></div>
 
 <div class="viewcode-block" id="Renderable.apply"><a class="viewcode-back" href="../../../qtmud.qualities.renderable.html#qtmud.qualities.renderable.Renderable.apply">[docs]</a>    <span class="k">def</span> <span class="nf">apply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">thing</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Applies the Renderable quality to a thing</span>
 
 <span class="sd">            .. version added:: 0.0.1-feature/environments</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">thing</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">):</span> <span class="n">thing</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">thing</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">):</span>
+            <span class="n">thing</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">thing</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">thing</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">):</span>
             <span class="n">thing</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">description</span>
+        <span class="n">thing</span><span class="o">.</span><span class="n">set_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">set_name</span>
         <span class="k">return</span> <span class="n">thing</span></div></div>
 </pre></div>
 

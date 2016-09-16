@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>qtmud &#8212; qtmud 0.0.2 documentation</title>
+    <title>qtmud &#8212; qtmud 0.0.3 documentation</title>
     
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.0.2',
+        VERSION:     '0.0.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="qtmud 0.0.2 documentation" href="../index.html" />
+    <link rel="top" title="qtmud 0.0.3 documentation" href="../index.html" />
     <link rel="up" title="Module code" href="index.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
@@ -46,7 +46,7 @@
 <span class="sd">    .. moduleauthor: Morgan Sennhauser &lt;morgan.sennhauser@gmail.com&gt;</span>
 <span class="sd">    </span>
 <span class="sd">    .. versionadded:: 0.0.1</span>
-<span class="sd">    .. versionchanged:: 0.0.1-features/parsing</span>
+<span class="sd">    .. versionchanged:: 0.0.1-feature/parsing</span>
 <span class="sd">        expanded documentation</span>
 <span class="sd">        </span>
 <span class="sd">    This is the main module of qtmud. It contains two objects, Thing and </span>
@@ -73,7 +73,7 @@
 <span class="c1"># Whatever you want your MUD to be called. Should be a string</span>
 <span class="n">NAME</span>        <span class="o">=</span> <span class="s1">&#39;qtmud&#39;</span>
 <span class="c1"># The version of your MUD. check docs/versioning. should be a string</span>
-<span class="n">VERSION</span>     <span class="o">=</span> <span class="s1">&#39;0.0.2&#39;</span>
+<span class="n">VERSION</span>     <span class="o">=</span> <span class="s1">&#39;0.0.3&#39;</span>
 <span class="c1"># &#39;localhost&#39; for development, &#39;0.0.0.0&#39; for production.</span>
 <span class="n">HOST</span>        <span class="o">=</span> <span class="s1">&#39;localhost&#39;</span>
 <span class="c1"># the port you want the MUDSocket service to listen over. should be integer</span>
@@ -98,44 +98,138 @@
     <span class="sd">&quot;&quot;&quot; The object to be instanced by manager.new_thing()</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.1</span>
-<span class="sd">        .. versionchanged:: 0.0.1-features/parsing</span>
+<span class="sd">        .. versionchanged:: 0.0.1-feature/parsing</span>
 <span class="sd">            added return of successfully changed attributes to Thing.update()</span>
+<span class="sd">        .. versionchanged:: 0.0.2-feature/nametags</span>
+<span class="sd">        .. versionchanged:: 0.0.2-feature/textblob</span>
+<span class="sd">            changed nametags to be a set instead of a list</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters:</span>
+<span class="sd">            identity(str):      a UUID created automatically by the </span>
+<span class="sd">                                manager.new_thing() function</span>
+<span class="sd">            manager(object):    the manager instance which is instancing the </span>
+<span class="sd">                                thing.</span>
 <span class="sd">        </span>
 <span class="sd">        Attributes:</span>
 <span class="sd">            identity(str):      the unique identifier for the instance, </span>
 <span class="sd">                                assigned by manager.new_thing()</span>
 <span class="sd">            manager(object):    the thing&#39;s manager, the same object that </span>
 <span class="sd">                                called new_thing()</span>
+<span class="sd">            nametags(set):      A set of strings that one might refer to</span>
+<span class="sd">                                this thing with.</span>
 <span class="sd">            qualities(list):    the instances of </span>
 <span class="sd">                                :class:`qualities &lt;qtmud.Qualities&gt;` which </span>
 <span class="sd">                                have been applied to the thing.</span>
-<span class="sd">           </span>
-<span class="sd">        Parameters:</span>
-<span class="sd">            identity(str):      a UUID created automatically by the </span>
-<span class="sd">                                manager.new_thing() function</span>
-<span class="sd">            manager(object):    the manager instance which is instancing the </span>
-<span class="sd">                                thing.</span>
 
 <span class="sd">        Thing anticipates being instanced by the </span>
 <span class="sd">        :func:`new_thing() &lt;qtmud.Manager.new_thing&gt;`, which is why it </span>
 <span class="sd">        expects the `identity` and `manage` parameters.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">identity</span><span class="p">,</span> <span class="n">manager</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Initial thing setup.</span>
-<span class="sd">        </span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">identity</span><span class="p">,</span> <span class="n">manager</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            .. versionadded:: 0.0.1</span>
 <span class="sd">            </span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">Thing</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kw</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">identity</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">manager</span> <span class="o">=</span> <span class="n">identity</span><span class="p">,</span> <span class="n">manager</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nametags</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;thing&#39;</span><span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">adjectives</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">qualities</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">return</span>
     
-<div class="viewcode-block" id="Thing.update"><a class="viewcode-back" href="../qtmud.html#qtmud.Thing.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_dict</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; If thing has set_attr function, use it as a custom setter</span>
+
+<span class="sd">            .. versionadded:: 0.0.2-feature/nametags</span>
+
+<span class="sd">            Paramters:</span>
+<span class="sd">                attr:       The attribute to be set</span>
+<span class="sd">                value:      The value ``attr`` is going to be set to.</span>
+<span class="sd">            </span>
+<span class="sd">            Returns:</span>
+<span class="sd">                bool:       True if attribute properly set, otherwise False.</span>
+
+<span class="sd">            If a thing has a ``set_attr`` function, when something goes to </span>
+<span class="sd">            set ``attr``, use the ``set_attr`` function instead. For </span>
+<span class="sd">            example, :attr:`names &lt;qtmud.qualities.renderable.Renderable.name&gt;`</span>
+<span class="sd">            have a :func:`set_name() </span>
+<span class="sd">            &lt;qtmud.qualities.renderable.Renderable.set_name&gt;` function that</span>
+<span class="sd">            adds the last word of the new thing&#39;s name as a nametag.</span>
+
+<span class="sd">            Example:</span>
+<span class="sd">                Making a new thing and setting it&#39;s name</span>
+<span class="sd">            </span>
+<span class="sd">                &gt;&gt;&gt; womble = manager.new_thing(Renderable)</span>
+<span class="sd">                &gt;&gt;&gt; womble.nametags</span>
+<span class="sd">                [ &#39;thing&#39; ]</span>
+<span class="sd">                &gt;&gt;&gt; womble.name = &#39;Jeffrey&#39;</span>
+<span class="sd">                &gt;&gt;&gt; womble.nametags</span>
+<span class="sd">                [ &#39;jeffrey&#39;, &#39;thing&#39;]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s1">&#39;set_</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">attr</span><span class="p">,)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span><span class="p">[</span><span class="s1">&#39;set_</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">attr</span><span class="p">,)](</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span><span class="p">[</span><span class="n">attr</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+<div class="viewcode-block" id="Thing.set_adjectives"><a class="viewcode-back" href="../qtmud.html#qtmud.Thing.set_adjectives">[docs]</a>    <span class="k">def</span> <span class="nf">set_adjectives</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">adjectives</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            .. versionadded:: 0.0.2-feature/textblob</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">adjectives</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">set</span> <span class="ow">and</span> <span class="n">adjectives</span> <span class="o">!=</span> <span class="p">{}:</span>
+            <span class="k">for</span> <span class="n">adjective</span> <span class="ow">in</span> <span class="n">adjectives</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">nametags</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">adjective</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="Thing.set_nametags"><a class="viewcode-back" href="../qtmud.html#qtmud.Thing.set_nametags">[docs]</a>    <span class="k">def</span> <span class="nf">set_nametags</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nametags</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            .. versionadded:: 0.0.2-feature/textblob</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">nametags</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">set</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">nametag</span> <span class="ow">in</span> <span class="n">nametags</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">nametags</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">nametag</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="Thing.search"><a class="viewcode-back" href="../qtmud.html#qtmud.Thing.search">[docs]</a>    <span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subject</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">adjectives</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pnp_clauses</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; search for in this local environment.</span>
+<span class="sd">        </span>
+<span class="sd">            .. versionadded:: 0.0.2-feature/nametags</span>
+<span class="sd">            .. versionadded:: 0.0.2-feature/textblob</span>
+<span class="sd">                rewritten to handle the output produced by Parser.parse_line()</span>
+<span class="sd">            </span>
+<span class="sd">            Parameters:</span>
+<span class="sd">                target(string):         The nametag you&#39;re looking for in</span>
+<span class="sd">                                        this thing&#39;s local environment.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">matches</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">subject</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;contents&#39;</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">content</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">contents</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">nametag</span> <span class="ow">in</span> <span class="n">content</span><span class="o">.</span><span class="n">nametags</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">nametag</span> <span class="o">==</span> <span class="n">subject</span><span class="p">:</span>
+                            <span class="n">matches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;location&#39;</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">content</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">contents</span><span class="p">:</span>
+                        <span class="k">for</span> <span class="n">nametag</span> <span class="ow">in</span> <span class="n">content</span><span class="o">.</span><span class="n">nametags</span><span class="p">:</span>
+                                <span class="k">if</span> <span class="n">nametag</span> <span class="o">==</span> <span class="n">subject</span><span class="p">:</span>
+                                    <span class="n">matches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">adjectives</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">old_matches</span> <span class="o">=</span> <span class="n">matches</span>
+                <span class="n">new_matches</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">match</span> <span class="ow">in</span> <span class="n">old_matches</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">adjective</span> <span class="ow">in</span> <span class="n">adjectives</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">adjective</span> <span class="ow">in</span> <span class="n">match</span><span class="o">.</span><span class="n">adjectives</span><span class="p">:</span>
+                            <span class="n">matching_adjectives</span> <span class="o">=</span> <span class="kc">True</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">matching_adjectives</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="k">if</span> <span class="n">matching_adjectives</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+                        <span class="n">new_matches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">match</span><span class="p">)</span>
+                <span class="n">matches</span> <span class="o">=</span> <span class="n">new_matches</span>
+        <span class="k">return</span> <span class="n">matches</span></div>
+
+<div class="viewcode-block" id="Thing.update"><a class="viewcode-back" href="../qtmud.html#qtmud.Thing.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Modify multiple attributes of the thing at once.</span>
 <span class="sd">        </span>
 <span class="sd">            .. versionadded:: 0.0.1</span>
-<span class="sd">            .. versionchanged:: 0.0.1-features/parsing</span>
+<span class="sd">            .. versionchanged:: 0.0.1-feature/parsing</span>
 <span class="sd">                added return of successfully updated attributes.</span>
 <span class="sd">        </span>
 <span class="sd">            Parameters:</span>
@@ -150,23 +244,24 @@
 <span class="sd">                MUDSocket after creating a qualified thing for a new client</span>
 <span class="sd">                </span>
 <span class="sd">                &gt;&gt;&gt; client.update({&#39;addr&#39;: addr,</span>
-<span class="sd">                                   &#39;send_buffer&#39; : &#39;&#39;,</span>
-<span class="sd">                                   &#39;recv_buffer&#39; : &#39;&#39;})</span>
+<span class="sd">                &gt;&gt;&gt;                &#39;send_buffer&#39; : &#39;&#39;,</span>
+<span class="sd">                &gt;&gt;&gt;                &#39;recv_buffer&#39; : &#39;&#39;})</span>
 <span class="sd">                {&#39;addr&#39;: (&#39;127.0.0.1&#39;, 40440), &#39;recv_buffer&#39;: &#39;&#39;, </span>
 <span class="sd">                &#39;send_buffer&#39;: &#39;&#39;}</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">updated</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">updated</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
-            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">updated</span>    </div></div>
-
+        <span class="k">for</span> <span class="n">attribute</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="s1">&#39;set_</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">attribute</span><span class="p">,)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span><span class="p">[</span><span class="s1">&#39;set_</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">attribute</span><span class="p">,)](</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span><span class="p">[</span><span class="n">attribute</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span></div></div>
 
 <div class="viewcode-block" id="Manager"><a class="viewcode-back" href="../qtmud.html#qtmud.Manager">[docs]</a><span class="k">class</span> <span class="nc">Manager</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; The manager of all qtmud things and services.</span>
 <span class="sd">    </span>
 <span class="sd">        .. versionadded:: 0.0.1</span>
-<span class="sd">        </span>
+<span class="sd">        .. versionchanged:: 0.0.2-feature/nametags</span>
+<span class="sd">            removed unnecessary junk from __init__()</span>
+<span class="sd"> </span>
 <span class="sd">        When qtmud is started, it creates an instance of this class. This </span>
 <span class="sd">        instance is then used to handle pretty much every game occurence.</span>
 <span class="sd">        For a design overview, check the main README.</span>
@@ -192,15 +287,13 @@
 <span class="sd">                                        for them</span>
 <span class="sd">            events(dict):</span>
 <span class="sd">                                        the events that will occur during </span>
-<span class="sd">                                        the next tick(). </span>
+<span class="sd">                                        the next tick().</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        </span>
 <span class="sd">            .. versionadded:: 0.0.1</span>
 <span class="sd">        </span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">Manager</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kw</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__module__</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">CONSOLE</span><span class="p">)</span>
         <span class="c1"># list of all the instanced things</span>
@@ -329,13 +422,15 @@
         <span class="n">thing</span> <span class="o">=</span> <span class="n">Thing</span><span class="p">(</span><span class="n">identity</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">things</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">thing</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;creating new thing...&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_qualities</span><span class="p">(</span><span class="n">thing</span><span class="p">,</span> <span class="n">qualities</span><span class="p">)</span>
+        <span class="n">thing</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_qualities</span><span class="p">(</span><span class="n">thing</span><span class="p">,</span> <span class="n">qualities</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">thing</span></div>
 
 <div class="viewcode-block" id="Manager.add_qualities"><a class="viewcode-back" href="../qtmud.html#qtmud.Manager.add_qualities">[docs]</a>    <span class="k">def</span> <span class="nf">add_qualities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">thing</span><span class="p">,</span> <span class="n">qualities</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; adds qualities to :class:`things &lt;qtmud.Thing&gt;`</span>
 <span class="sd">        </span>
 <span class="sd">            .. versionadded:: 0.0.1</span>
+<span class="sd">            .. versionchanged:: 0.0.2-feature/nametags</span>
+<span class="sd">                Changed from imperative to applicative method</span>
 <span class="sd">        </span>
 <span class="sd">            Parameters:</span>
 <span class="sd">                thing(object):      The :class:`thing &lt;qtmud.Thing&gt;` which </span>
@@ -353,11 +448,11 @@
             <span class="k">if</span> <span class="ow">not</span> <span class="n">quality</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">qualities</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">qualities</span><span class="p">[</span><span class="n">quality</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">qualities</span><span class="p">[</span><span class="n">quality</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">thing</span><span class="p">)</span>
-            <span class="n">thing</span><span class="o">.</span><span class="n">qualities</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">quality</span><span class="p">)</span>
             <span class="n">thing</span> <span class="o">=</span> <span class="n">quality</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">thing</span><span class="p">)</span>
+            <span class="n">thing</span><span class="o">.</span><span class="n">qualities</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">quality</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;added </span><span class="si">%s</span><span class="s1"> quality to the thing&#39;</span>
                            <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">quality</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">thing</span></div>
+        <span class="k">return</span> <span class="n">thing</span></div>
         
 
 <div class="viewcode-block" id="Manager.run"><a class="viewcode-back" href="../qtmud.html#qtmud.Manager.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>

@@ -23,8 +23,8 @@ import qtmud
 from qtmud import HOST, MUD_PORT
 # These are all the qualities that are applied to a client's thing to make 
 # it useful.
-from qtmud.qualities import (Client, Physical, Renderable, Container, Sighted,
-                             Speaking)
+from qtmud.qualities import (Client, Physical, Container, Sighted, Renderable,
+                             Speaking, Hearing, Prehensile)
 
 
 class MUDSocket(object):
@@ -76,12 +76,12 @@ class MUDSocket(object):
             for conn in r:
                 if conn is self.socket:
                     new_conn, addr = conn.accept()
-                    client = self.manager.new_thing(Client, Physical, 
-                                                    Renderable, Container)
-                    client.manager.add_qualities(client, [Physical])
-                    client.manager.add_qualities(client, [Sighted])
-                    client.manager.add_qualities(client, [Speaking])
-                    client.update({'addr': addr, 'send_buffer' : '',
+                    client = self.manager.new_thing(Client, Physical, Container,
+                                                    Sighted, Renderable,
+                                                    Speaking, Hearing,
+                                                    Prehensile)
+                    client.update({'addr': addr,
+                                   'send_buffer' : '',
                                    'recv_buffer' : ''})
                     self.connections.append(new_conn)
                     self.clients[new_conn] = client
@@ -101,18 +101,9 @@ class MUDSocket(object):
                                 line, self.clients[conn].recv_buffer = split
                             else:
                                 line, self.clients[conn].recv_buffer = split[0], ''
-                            if ' ' in line:
-                                split = line.split(' ', 1)
-                                if len(split) == 2:
-                                    cmd, trailing = split
-                                else:
-                                    cmd, trailing = split[0], ''
-                            else:
-                                cmd, trailing = line, ''
                             self.manager.schedule('parse', 
-                                                  client=self.clients[conn],
-                                                  cmd=cmd,
-                                                  trailing=trailing)
+                                                  commander=self.clients[conn],
+                                                  line=line)
         if w:
             for conn in w:
                 conn.send(self.clients[conn].send_buffer.encode('utf8'))

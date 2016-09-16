@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>qtmud package &#8212; qtmud 0.0.2 documentation</title>
+    <title>qtmud package &#8212; qtmud 0.0.3 documentation</title>
     
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.0.2',
+        VERSION:     '0.0.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="qtmud 0.0.2 documentation" href="index.html" />
+    <link rel="top" title="qtmud 0.0.3 documentation" href="index.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -53,7 +53,9 @@
 <li class="toctree-l2"><a class="reference internal" href="qtmud.qualities.html#submodules">Submodules</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="qtmud.qualities.client.html">qtmud.qualities.client module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qtmud.qualities.container.html">qtmud.qualities.container module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qtmud.qualities.hearing.html">qtmud.qualities.hearing module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qtmud.qualities.physical.html">qtmud.qualities.physical module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qtmud.qualities.prehensile.html">qtmud.qualities.prehensile module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qtmud.qualities.renderable.html">qtmud.qualities.renderable module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qtmud.qualities.room.html">qtmud.qualities.room module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qtmud.qualities.sighted.html">qtmud.qualities.sighted module</a></li>
@@ -68,6 +70,8 @@
 <li class="toctree-l3"><a class="reference internal" href="qtmud.services.mover.html">qtmud.services.mover module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qtmud.services.mudsocket.html">qtmud.services.mudsocket module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qtmud.services.parser.html">qtmud.services.parser module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qtmud.services.renderer.html">qtmud.services.renderer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qtmud.services.sender.html">qtmud.services.sender module</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="qtmud.services.html#module-qtmud.services">Module contents</a></li>
@@ -91,7 +95,7 @@
 <p><span class="versionmodified">New in version 0.0.1.</span></p>
 </div>
 <div class="versionchanged">
-<p><span class="versionmodified">Changed in version 0.0.1-features/parsing: </span>expanded documentation</p>
+<p><span class="versionmodified">Changed in version 0.0.1-feature/parsing: </span>expanded documentation</p>
 </div>
 <p>This is the main module of qtmud. It contains two objects, Thing and
 Manager, as well as several constants.</p>
@@ -124,11 +128,14 @@ the <a class="reference internal" href="#qtmud.Manager.add_services" title="qtmu
 
 <dl class="class">
 <dt id="qtmud.Manager">
-<em class="property">class </em><code class="descclassname">qtmud.</code><code class="descname">Manager</code><span class="sig-paren">(</span><em>**kw</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud.html#Manager"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.Manager" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">qtmud.</code><code class="descname">Manager</code><a class="reference internal" href="_modules/qtmud.html#Manager"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.Manager" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>The manager of all qtmud things and services.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 0.0.1.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified">Changed in version 0.0.2-feature/nametags: </span>removed unnecessary junk from __init__()</p>
 </div>
 <p>When qtmud is started, it creates an instance of this class. This
 instance is then used to handle pretty much every game occurence.
@@ -188,6 +195,9 @@ the next tick().</p>
 <dd><p>adds qualities to <a class="reference internal" href="#qtmud.Thing" title="qtmud.Thing"><code class="xref py py-class docutils literal"><span class="pre">things</span></code></a></p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 0.0.1.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified">Changed in version 0.0.2-feature/nametags: </span>Changed from imperative to applicative method</p>
 </div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -321,7 +331,7 @@ subscribed service.</li>
 </p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#tuple" title="(in Python v2.7)">tuple</a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3.5/library/stdtypes.html#tuple" title="(in Python v3.5)">tuple</a></p>
 </td>
 </tr>
 </tbody>
@@ -389,15 +399,35 @@ of, such as &#8216;parse&#8217; or &#8216;move&#8217;</li>
 
 <dl class="class">
 <dt id="qtmud.Thing">
-<em class="property">class </em><code class="descclassname">qtmud.</code><code class="descname">Thing</code><span class="sig-paren">(</span><em>identity</em>, <em>manager</em>, <em>**kw</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud.html#Thing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.Thing" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">qtmud.</code><code class="descname">Thing</code><span class="sig-paren">(</span><em>identity</em>, <em>manager</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud.html#Thing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.Thing" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>The object to be instanced by manager.new_thing()</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 0.0.1.</span></p>
 </div>
 <div class="versionchanged">
-<p><span class="versionmodified">Changed in version 0.0.1-features/parsing: </span>added return of successfully changed attributes to Thing.update()</p>
+<p><span class="versionmodified">Changed in version 0.0.1-feature/parsing: </span>added return of successfully changed attributes to Thing.update()</p>
 </div>
+<div class="versionchanged">
+<p><span class="versionmodified">Changed in version 0.0.2-feature/nametags.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified">Changed in version 0.0.2-feature/textblob: </span>changed nametags to be a set instead of a list</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>identity</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; a UUID created automatically by the
+manager.new_thing() function</li>
+<li><strong>manager</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><em>object</em></a>) &#8211; the manager instance which is instancing the
+thing.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 <dl class="attribute">
 <dt id="qtmud.Thing.identity">
 <code class="descname">identity</code><a class="headerlink" href="#qtmud.Thing.identity" title="Permalink to this definition">¶</a></dt>
@@ -413,6 +443,13 @@ called new_thing()</p>
 </dd></dl>
 
 <dl class="attribute">
+<dt id="qtmud.Thing.nametags">
+<code class="descname">nametags</code><a class="headerlink" href="#qtmud.Thing.nametags" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>set</em> &#8211; A set of strings that one might refer to
+this thing with.</p>
+</dd></dl>
+
+<dl class="attribute">
 <dt id="qtmud.Thing.qualities">
 <code class="descname">qualities</code><a class="headerlink" href="#qtmud.Thing.qualities" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>list</em> &#8211; the instances of
@@ -420,32 +457,55 @@ called new_thing()</p>
 have been applied to the thing.</p>
 </dd></dl>
 
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>identity</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; a UUID created automatically by the
-manager.new_thing() function</li>
-<li><strong>manager</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><em>object</em></a>) &#8211; the manager instance which is instancing the
-thing.</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
 <p>Thing anticipates being instanced by the
 <a class="reference internal" href="#qtmud.Manager.new_thing" title="qtmud.Manager.new_thing"><code class="xref py py-func docutils literal"><span class="pre">new_thing()</span></code></a>, which is why it
 expects the <cite>identity</cite> and <cite>manage</cite> parameters.</p>
 <dl class="method">
+<dt id="qtmud.Thing.search">
+<code class="descname">search</code><span class="sig-paren">(</span><em>subject=None</em>, <em>adjectives=None</em>, <em>pnp_clauses=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud.html#Thing.search"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.Thing.search" title="Permalink to this definition">¶</a></dt>
+<dd><p>search for in this local environment.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.0.2-feature/nametags.</span></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.0.2-feature/textblob: </span>rewritten to handle the output produced by Parser.parse_line()</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>target</strong> (<a class="reference external" href="https://docs.python.org/2/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; The nametag you&#8217;re looking for in
+this thing&#8217;s local environment.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="qtmud.Thing.set_adjectives">
+<code class="descname">set_adjectives</code><span class="sig-paren">(</span><em>adjectives</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud.html#Thing.set_adjectives"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.Thing.set_adjectives" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified">New in version 0.0.2-feature/textblob.</span></p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="qtmud.Thing.set_nametags">
+<code class="descname">set_nametags</code><span class="sig-paren">(</span><em>nametags</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud.html#Thing.set_nametags"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.Thing.set_nametags" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified">New in version 0.0.2-feature/textblob.</span></p>
+</div>
+</dd></dl>
+
+<dl class="method">
 <dt id="qtmud.Thing.update">
-<code class="descname">update</code><span class="sig-paren">(</span><em>_dict</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud.html#Thing.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.Thing.update" title="Permalink to this definition">¶</a></dt>
+<code class="descname">update</code><span class="sig-paren">(</span><em>dict</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud.html#Thing.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.Thing.update" title="Permalink to this definition">¶</a></dt>
 <dd><p>Modify multiple attributes of the thing at once.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 0.0.1.</span></p>
 </div>
 <div class="versionchanged">
-<p><span class="versionmodified">Changed in version 0.0.1-features/parsing: </span>added return of successfully updated attributes.</p>
+<p><span class="versionmodified">Changed in version 0.0.1-feature/parsing: </span>added return of successfully updated attributes.</p>
 </div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -467,8 +527,8 @@ an attribute of the thing.</td>
 <p class="rubric">Example</p>
 <p>MUDSocket after creating a qualified thing for a new client</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">client</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;addr&#39;</span><span class="p">:</span> <span class="n">addr</span><span class="p">,</span>
-<span class="go">                   &#39;send_buffer&#39; : &#39;&#39;,</span>
-<span class="go">                   &#39;recv_buffer&#39; : &#39;&#39;})</span>
+<span class="gp">&gt;&gt;&gt; </span>               <span class="s1">&#39;send_buffer&#39;</span> <span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>               <span class="s1">&#39;recv_buffer&#39;</span> <span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">})</span>
 <span class="go">{&#39;addr&#39;: (&#39;127.0.0.1&#39;, 40440), &#39;recv_buffer&#39;: &#39;&#39;,</span>
 <span class="go">&#39;send_buffer&#39;: &#39;&#39;}</span>
 </pre></div>

@@ -1,24 +1,63 @@
+""" Give a thing the ability to speak
+
+    .. moduleauthor:: emsenn <morgan.sennhauser@gmail.com>
+
+    .. versionadded:: 0.0.2-features/parser
+        was a part of qtmud.qualities
+    .. versionadded:: 0.0.2
+"""
+
+
 import types
 
-from qtmud.qualities.client import Client
 
 class Speaking(object):
-    def __init__(self, **kw):
-        super(Speaking, self).__init__(**kw)
+    """ Gives a thing the ability to ``say`` things.
+
+        .. versionadded:: 0.0.2-feature/parser
+        .. versionchanged:: 0.0.2-feature/renderer
+            Updated to use manager.schedule('render') instead of client.send()
+    """
+    def __init__(self):
+        """
+            .. versionadded:: 0.0.2-feature/parser
+        """
         return
-    
-    def say(self, thing, data):
-        if not hasattr(thing, 'location'):
-            thing.send('You cannot speak, for you have no environment.')
-        for recipient in thing.location.contents:
-                    if recipient in thing.manager.qualities[Client]:
-                    # XXX change this to use the scheduler
-                        recipient.send('{0} says: {1}'
-                                       ''.format(thing.name, data))
-    
+
+    def say(self, speaker, line):
+        """ schedules the rendering of data for every Client in thing's location
+
+            .. versionadded::0.0.2-feature/parser
+            .. versionchanged::0.0.2-feature/renderer
+                Changed to use the manager's scheduler.
+            .. versionchanged:: 0.0.2-feature/textblob
+                updated to work with new Send service.
+        """
+        if not hasattr(speaker, 'location'):
+            speaker.manager.schedule('send',
+                                   thing=speaker,
+                                   scene='You cannot speak, for you have'
+                                         'no location.')
+        for content in speaker.location.contents:
+            if hasattr(content, 'name'):
+                print(content.name)
+            else:
+                print(content.identity)
+        if hasattr(speaker, 'name'):
+            scene = '\n{0} says: {1}'.format(speaker.name, line)
+        else:
+            scene = '\nA voice says: {0}'.format(line)
+        for recipient in speaker.location.contents:
+            if hasattr(recipient, 'send'):
+                recipient.manager.schedule('send', thing=recipient, scene=scene)
+
+
     def apply(self, thing):
-        try:
+        """
+            .. versionadded:: 0.0.2-feature/parser
+        """
+        if not hasattr(thing, 'say'):
+            types.MethodType(self.say, thing)
+        if hasattr(thing, 'commands'):
             thing.commands['say'] = types.MethodType(self.say, thing)
-        except Exception as err:
-            thing.manager.log.warning(err)
-        return thing  
+        return thing

@@ -6,7 +6,7 @@
     .. versionadded:: 0.0.1
     .. versionchanged:: 0.0.1-feature/environments
         Added the Renderable quality
-    .. versionchanged:: 0.0.1-feature/parser
+    .. versionchanged:: 0.0.2-feature/parser
         Moved qualities into separate files and import them to this one, so
         they can all be imported from :mod:`qtmud.qualities`.
 
@@ -58,6 +58,8 @@ from qtmud.qualities.container import Container
 from qtmud.qualities.room import Room
 from qtmud.qualities.sighted import Sighted
 from qtmud.qualities.speaking import Speaking
+from qtmud.qualities.hearing import Hearing
+from qtmud.qualities.prehensile import Prehensile
 
 
 class Quality(object):
@@ -74,19 +76,17 @@ class Quality(object):
         the thing :func:`speak <qtmud.qualities.speaking.Speak.say>`.
     """
 
-    def __init__(self, **kw):
+    def __init__(self):
         """
-
             .. version added:: 0.0.1-feature/parsing
 
         """
-        super(Quality, self).__init__(**kw)
         return
 
     def womble(self, thing):
         """ An example of a function within a quality.
 
-            .. version added:: 0.0.1-feature/parser
+            .. versionadded:: 0.0.1-feature/parser
 
             Parameters:
                 thing(object):      the :class:`thing <qtmud.Thing>` this
@@ -146,7 +146,8 @@ class Quality(object):
             use helps make sure things are able to have commands added with
             limited memory waste.
         """
-        if not hasattr(thing, 'womble'): thing.womble = self.womble
+        if not hasattr(thing, 'womble'):
+            thing.womble = self.womble
         if hasattr(thing, 'commands'):
             thing.commands['womble'] = types.MethodType(self.womble, thing)
         return thing

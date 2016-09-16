@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>qtmud.qualities.room &#8212; qtmud 0.0.2 documentation</title>
+    <title>qtmud.qualities.room &#8212; qtmud 0.0.3 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.0.2',
+        VERSION:     '0.0.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <link rel="top" title="qtmud 0.0.2 documentation" href="../../../index.html" />
+    <link rel="top" title="qtmud 0.0.3 documentation" href="../../../index.html" />
     <link rel="up" title="qtmud.qualities" href="../qualities.html" />
    
   <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
@@ -41,31 +41,49 @@
           <div class="body" role="main">
             
   <h1>Source code for qtmud.qualities.room</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">types</span>
-<span class="kn">from</span> <span class="nn">qtmud.qualities.container</span> <span class="k">import</span> <span class="n">Container</span>
+<span></span><span class="sd">&quot;&quot;&quot; gives a thing the qualities of a room</span>
+
+<span class="sd">    .. moduleauthor:: emsenn &lt;morgan.sennhauser@gmail.com&gt;</span>
+
+<span class="sd">    .. versionadded:: 0.0.2-feature/parser</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="kn">import</span> <span class="nn">types</span>
+
 
 <div class="viewcode-block" id="Room"><a class="viewcode-back" href="../../../qtmud.qualities.room.html#qtmud.qualities.room.Room">[docs]</a><span class="k">class</span> <span class="nc">Room</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Gives a thing the qualities of a Room</span>
+
+<span class="sd">        .. versionadded:: 0.0.2-feature/parser</span>
+
+<span class="sd">        Attributes:</span>
+<span class="sd">            exits(dict):        A dict of the exits in this room, expected to</span>
+<span class="sd">                                be in the format { &#39;inside&#39; : Hotel }, where</span>
+<span class="sd">                                &#39;inside&#39; is the string a thing would use to</span>
+<span class="sd">                                reference the exit, and Hotel is a class</span>
+<span class="sd">                                representing a Quality to be applied to a thing.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; create the main Client quality instance, so we don&#39;t have to </span>
-<span class="sd">            keep creating more of them.</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            .. versionadded:: 0.0.2-feature/parser</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">Room</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kw</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exits</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">return</span>
-    
+
 <div class="viewcode-block" id="Room.apply"><a class="viewcode-back" href="../../../qtmud.qualities.room.html#qtmud.qualities.room.Room.apply">[docs]</a>    <span class="k">def</span> <span class="nf">apply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">thing</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; adds dict exits and if non-existent, list contents &amp; function </span>
-<span class="sd">            contains</span>
+        <span class="sd">&quot;&quot;&quot; adds exits to the thing</span>
+
+<span class="sd">            .. versionadded:: 0.0.2-feature/parser</span>
+<span class="sd">            .. versionchanged:: 0.0.2-feature/renderer</span>
+
+<span class="sd">            Adds exits to a thing.</span>
+
+<span class="sd">            .. note:: Used to be dependent on Container quality, now it</span>
+<span class="sd">                      isn&#39;t.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">thing</span><span class="p">,</span> <span class="s1">&#39;exits&#39;</span><span class="p">):</span> <span class="n">thing</span><span class="o">.</span><span class="n">exits</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">thing</span><span class="p">,</span> <span class="s1">&#39;contents&#39;</span><span class="p">):</span> <span class="n">thing</span><span class="o">.</span><span class="n">contents</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">thing</span><span class="p">,</span> <span class="s1">&#39;add&#39;</span><span class="p">):</span>
-            <span class="n">thing</span><span class="o">.</span><span class="n">add</span> <span class="o">=</span> <span class="n">types</span><span class="o">.</span><span class="n">MethodType</span><span class="p">(</span><span class="n">Container</span><span class="o">.</span><span class="n">add</span><span class="p">,</span> <span class="n">thing</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">thing</span><span class="p">,</span> <span class="s1">&#39;contains&#39;</span><span class="p">):</span>
-            <span class="n">thing</span><span class="o">.</span><span class="n">contains</span> <span class="o">=</span> <span class="n">types</span><span class="o">.</span><span class="n">MethodType</span><span class="p">(</span><span class="n">Container</span><span class="o">.</span><span class="n">contains</span><span class="p">,</span> <span class="n">thing</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">thing</span><span class="p">,</span> <span class="s1">&#39;remove&#39;</span><span class="p">):</span>
-            <span class="n">thing</span><span class="o">.</span><span class="n">remove</span> <span class="o">=</span> <span class="n">types</span><span class="o">.</span><span class="n">MethodType</span><span class="p">(</span><span class="n">Container</span><span class="o">.</span><span class="n">remove</span><span class="p">,</span> <span class="n">thing</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">thing</span><span class="p">,</span> <span class="s1">&#39;exits&#39;</span><span class="p">):</span>
+            <span class="n">thing</span><span class="o">.</span><span class="n">exits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exits</span>
         <span class="k">return</span> <span class="n">thing</span></div></div>
 </pre></div>
 

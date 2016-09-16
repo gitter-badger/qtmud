@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>qtmud.qualities package &#8212; qtmud 0.0.2 documentation</title>
+    <title>qtmud.qualities package &#8212; qtmud 0.0.3 documentation</title>
     
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.0.2',
+        VERSION:     '0.0.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="qtmud 0.0.2 documentation" href="index.html" />
+    <link rel="top" title="qtmud 0.0.3 documentation" href="index.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -47,7 +47,9 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="qtmud.qualities.client.html">qtmud.qualities.client module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="qtmud.qualities.container.html">qtmud.qualities.container module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="qtmud.qualities.hearing.html">qtmud.qualities.hearing module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="qtmud.qualities.physical.html">qtmud.qualities.physical module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="qtmud.qualities.prehensile.html">qtmud.qualities.prehensile module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="qtmud.qualities.renderable.html">qtmud.qualities.renderable module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="qtmud.qualities.room.html">qtmud.qualities.room module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="qtmud.qualities.sighted.html">qtmud.qualities.sighted module</a></li>
@@ -66,7 +68,7 @@ game objects.</p>
 <p><span class="versionmodified">Changed in version 0.0.1-feature/environments: </span>Added the Renderable quality</p>
 </div>
 <div class="versionchanged">
-<p><span class="versionmodified">Changed in version 0.0.1-feature/parser: </span>Moved qualities into separate files and import them to this one, so
+<p><span class="versionmodified">Changed in version 0.0.2-feature/parser: </span>Moved qualities into separate files and import them to this one, so
 they can all be imported from <a class="reference internal" href="#module-qtmud.qualities" title="qtmud.qualities"><code class="xref py py-mod docutils literal"><span class="pre">qtmud.qualities</span></code></a>.</p>
 </div>
 <p>Every object the client interacts with, including the client itself, is
@@ -98,7 +100,7 @@ will be taken care of soon.</p>
 </div>
 <dl class="class">
 <dt id="qtmud.qualities.Quality">
-<em class="property">class </em><code class="descclassname">qtmud.qualities.</code><code class="descname">Quality</code><span class="sig-paren">(</span><em>**kw</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/qualities.html#Quality"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.Quality" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">qtmud.qualities.</code><code class="descname">Quality</code><a class="reference internal" href="_modules/qtmud/qualities.html#Quality"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.Quality" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p><strong>This class is for API documentation purposes only. Not to be used.</strong></p>
 <div class="versionadded">
@@ -162,6 +164,9 @@ limited memory waste.</p>
 <dt id="qtmud.qualities.Quality.womble">
 <code class="descname">womble</code><span class="sig-paren">(</span><em>thing</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/qualities.html#Quality.womble"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.Quality.womble" title="Permalink to this definition">¶</a></dt>
 <dd><p>An example of a function within a quality.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.0.1-feature/parser.</span></p>
+</div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />

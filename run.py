@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 """ qtmud's start & run script
     
     .. moduleauthor: Morgan Sennhauser <morgan.sennhauser@gmail.com>
@@ -6,6 +7,9 @@
     .. versionchanged:: 0.0.1-features/parser
         changed :class:`qtmud.Manager.back_room` to be :class:`Village 
         <qtmud.lib.Village>`
+    .. versionchanged:: 0.0.2-features/renderer
+        added :class:`Renderer <qtmud.services.renderer.Renderer` to 
+        startup services.
     
     Instances manager, loads services, subscribes them to events
 """
@@ -22,9 +26,11 @@ import qtmud
 from qtmud.services.mover import Mover
 from qtmud.services.parser import Parser
 from qtmud.services.mudsocket import MUDSocket
+from qtmud.services import Renderer
+from qtmud.services.sender import Sender
 
 # testing imports
-from qtmud.lib import Village
+from qtmud.lib import Village, Field
 
 #plylint: enable=wrong-import position
 
@@ -42,12 +48,15 @@ if __name__ == '__main__':
         manager.log.info('Manager() instanced @ qtmud.manager')
         # instance arguments as tick()able services under qtmud.manager.services
         manager.log.info('instancing services')
-        manager.add_services(MUDSocket, Parser, Mover)
+        manager.add_services(MUDSocket, Parser, Mover, Renderer, Sender)
         manager.log.info('instancing qtmud.manager.back_room')
         manager.back_room = manager.new_thing(Village)
         # ---
         # ---
         # testing goes here
+        field = manager.new_thing(Field)
+        #for match in field.search(subject='tree', adjectives=['big']):
+        #    print(match.name)
         # ---
         # ---
         # Run engine manager

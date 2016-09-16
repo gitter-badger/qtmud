@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>qtmud.lib package &#8212; qtmud 0.0.2 documentation</title>
+    <title>qtmud.lib package &#8212; qtmud 0.0.3 documentation</title>
     
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.0.2',
+        VERSION:     '0.0.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="qtmud 0.0.2 documentation" href="index.html" />
+    <link rel="top" title="qtmud 0.0.3 documentation" href="index.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -51,16 +51,19 @@
 <p><span class="versionmodified">Changed in version 0.0.1-feature/environments: </span>added Tavern, Village</p>
 </div>
 <div class="versionchanged">
-<p><span class="versionmodified">Changed in version 0.0.1-features/parser: </span>added a Field</p>
+<p><span class="versionmodified">Changed in version 0.0.1-feature/parser: </span>added a Field</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified">Changed in version 0.0.2-feature/neverforgetholidayupdate: </span>added NineElevenMemorial ;_;7</p>
 </div>
 <p>Testing for potential game library - don&#8217;t expect good documentation here.</p>
 <dl class="class">
 <dt id="qtmud.lib.Field">
-<em class="property">class </em><code class="descclassname">qtmud.lib.</code><code class="descname">Field</code><span class="sig-paren">(</span><em>**kw</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/lib.html#Field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.lib.Field" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">qtmud.lib.</code><code class="descname">Field</code><a class="reference internal" href="_modules/qtmud/lib.html#Field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.lib.Field" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>An empty field.</p>
 <div class="versionadded">
-<p><span class="versionmodified">New in version 0.0.1-features/parser.</span></p>
+<p><span class="versionmodified">New in version 0.0.2-feature/parser.</span></p>
 </div>
 <dl class="method">
 <dt id="qtmud.lib.Field.apply">
@@ -71,7 +74,7 @@
 
 <dl class="class">
 <dt id="qtmud.lib.Tavern">
-<em class="property">class </em><code class="descclassname">qtmud.lib.</code><code class="descname">Tavern</code><span class="sig-paren">(</span><em>**kw</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/lib.html#Tavern"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.lib.Tavern" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">qtmud.lib.</code><code class="descname">Tavern</code><a class="reference internal" href="_modules/qtmud/lib.html#Tavern"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.lib.Tavern" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>Ye Olde Tavern</p>
 <div class="versionadded">
@@ -80,17 +83,30 @@
 <dl class="method">
 <dt id="qtmud.lib.Tavern.apply">
 <code class="descname">apply</code><span class="sig-paren">(</span><em>thing</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/lib.html#Tavern.apply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.lib.Tavern.apply" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>turn a thing into a Tavern</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.0.1-features/environments.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified">Changed in version 0.0.2-features/parser: </span>Added explicit use of Container quality.</p>
+</div>
+</dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="qtmud.lib.Village">
-<em class="property">class </em><code class="descclassname">qtmud.lib.</code><code class="descname">Village</code><span class="sig-paren">(</span><em>**kw</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/lib.html#Village"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.lib.Village" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">qtmud.lib.</code><code class="descname">Village</code><a class="reference internal" href="_modules/qtmud/lib.html#Village"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.lib.Village" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>A little village.</p>
 <div class="versionadded">
-<p><span class="versionmodified">New in version 0.0.1-features/environments.</span></p>
+<p><span class="versionmodified">New in version 0.0.1-feature/environments.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified">Changed in version 0.0.2-feature/parser: </span>added explicit use of the Container quality.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified">Changed in version 0.0.2-feature/nametags: </span>added some Renderables.</p>
 </div>
 <dl class="method">
 <dt id="qtmud.lib.Village.apply">
