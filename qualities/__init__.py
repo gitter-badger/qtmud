@@ -62,6 +62,7 @@ from qtmud.qualities.hearing import Hearing
 from qtmud.qualities.prehensile import Prehensile
 from qtmud.qualities.learning import Learning
 from qtmud.qualities.teaching import Teaching
+from qtmud.qualities.noisy import Noisy
 
 
 class Quality(object):

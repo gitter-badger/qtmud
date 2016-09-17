@@ -21,6 +21,35 @@ class Prehensile(object):
         """
         return
 
+    def drop(self, dropper, line):
+        """
+            .. versionadded:: 0.0.3-feature/noise
+        """
+        line = line.split(' ')[1:]
+        print(line)
+        if hasattr(dropper, 'contents'):
+            for content in dropper.contents:
+                if line[-1] in content.nametags:
+                    if len(line) > 1:
+                        adjectives = line[0:-1]
+                        for adjective in adjectives:
+                            if adjective in content.adjectives:
+                                pass
+                            else:
+                                dropper.manager.schedule('send',thing=dropper,
+                                                         scene='You don\'t '
+                                                               'have anything '
+                                                               'with that '
+                                                               'name.')
+                                return False
+                    dropper.manager.schedule('move',thing=content,
+                                             destination=dropper.location)
+                    dropper.manager.schedule('send', thing=dropper,
+                                             scene='You drop it.')
+
+
+
+
     def take(self, taker, line):
         """
             .. versionadded:: 0.0.2-feature/textblob
@@ -47,6 +76,9 @@ class Prehensile(object):
         """
         if not hasattr(thing, 'take'):
             thing.take = types.MethodType(self.take, thing)
+        if not hasattr(thing, 'drop'):
+            thing.drop = types.MethodType(self.drop, thing)
         if hasattr(thing, 'commands'):
             thing.commands['take'] = types.MethodType(self.take, thing)
+            thing.commands['drop'] = types.MethodType(self.drop, thing)
         return thing

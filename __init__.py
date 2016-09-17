@@ -298,7 +298,7 @@ class Manager(object):
                 self.subscribe(service,sub)
                 self.log.debug('subscribing %s to event %s'
                                '', service.__class__.__name__, sub)
-            self.services[service] = service
+            self.services[service.__class__] = service
             
             self.log.debug('%s successfully added as service'
                            '', service.__class__.__name__)
@@ -442,12 +442,14 @@ class Manager(object):
         events = self.events
         self.events = {}
         for service in self.services:
-            try:
-                service.tick(events.pop(service, []))
+            # try:
+            self.services[service].tick(events.pop(self.services[service],
+                                                   []))
+
             # service.tick()s shouldn't be failing, but if they do, it 
             # probably shouldn't be fatal...
-            except Exception as err: #pylint: disable=broad-except
-                self.log.warning('%s failed to tick: %s',
-                                 service.__class__.__name__, err)
-                traceback.print_exc()
+            # except Exception as err: #pylint: disable=broad-except
+            #     self.log.warning('%s failed to tick: %s',
+            #                      service.__class__.__name__, err)
+            #     traceback.print_exc()
         return True

@@ -101,7 +101,7 @@ class MUDSocket(object):
                                 line, self.clients[conn].recv_buffer = split
                             else:
                                 line, self.clients[conn].recv_buffer = split[0], ''
-                            self.manager.schedule('parse', 
+                            self.manager.schedule('parse',
                                                   commander=self.clients[conn],
                                                   line=line)
         if w:

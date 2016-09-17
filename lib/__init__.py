@@ -13,7 +13,8 @@
     Testing for potential game library - don't expect good documentation here.
 """
 
-from qtmud.qualities import Physical, Container, Room, Renderable, Teaching
+from qtmud.qualities import (Physical, Container, Room, Renderable, Teaching,
+                             Noisy)
 from qtmud.lib.qualities import Violent
 
 class Tavern(object):
@@ -121,7 +122,17 @@ class Field(object):
                          'description': 'Two solid copper blocks rise up from '
                                         'the ground. Wide bands of verdigris '
                                         'marble their surface.'})
-        field.add(memorial)
+        bird = thing.manager.new_thing(Renderable, Physical, Noisy, )
+        bird.update({'name': 'bird',
+                     'nametags': {'birb'},
+                     'adjectives': {'noisy'},
+                     'description': ('This is a cute little bird, '
+                                     'or if you\'re visiting from Tumblr, '
+                                     'you might call it a birb.'),
+                     'noises': {'listen': ['the bird tweets melodically',
+                                           ('the bird tweets in less than 140 '
+                                            'characters.')]}})
+        field.add(memorial, bird)
         field.exits = { 'village' : Village }
         return field
 

@@ -152,6 +152,7 @@ class Parser(object):
         if not events:
             return False
         for event, payload in events: #pylint: disable=unused-variable
+            print('foo')
             commander = payload['commander']
             line = payload['line']
             command = line.split(' ')[0]

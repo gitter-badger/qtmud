@@ -29,12 +29,12 @@ Roughly split up by the domain they're for:
 * deal with not direct <verb> <subject> commands
 
 
-### Tickables?
+### Noise
 
 * Random messages that appear every so often from different things. A 
-  crowded street might have a 'tickable' (don't like this name) of 
+  crowded street might have a noise of 
   "The people push in on you from all sides," a vendor might have a 
-  tickable of "Buy your beets here, fresh beets!"
+  noise of "Buy your beets here, fresh beets!"
   
 * How to organize these within the object - should it just be a part of 
   the Renderable quality? That probably makes the most sense.

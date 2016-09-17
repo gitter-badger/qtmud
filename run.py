@@ -28,9 +28,11 @@ from qtmud.services.parser import Parser
 from qtmud.services.mudsocket import MUDSocket
 from qtmud.services import Renderer
 from qtmud.services.sender import Sender
+from qtmud.services.noisemaker import Noisemaker
 
 # testing imports
 from qtmud.lib import Village, Field
+from qtmud.qualities.noisy import Noisy
 
 #plylint: enable=wrong-import position
 
@@ -48,13 +50,17 @@ if __name__ == '__main__':
         manager.log.info('Manager() instanced @ qtmud.manager')
         # instance arguments as tick()able services under qtmud.manager.services
         manager.log.info('instancing services')
-        manager.add_services(MUDSocket, Parser, Mover, Renderer, Sender)
+        manager.add_services(MUDSocket, Parser, Mover, Renderer, Sender,
+                             Noisemaker)
         manager.log.info('instancing qtmud.manager.back_room')
         manager.back_room = manager.new_thing(Village)
         # ---
         # ---
         # testing goes here
-        field = manager.new_thing(Field)
+        #field = manager.new_thing(Field)
+        #bird = manager.new_thing(Noisy)
+        #bird.noises = {'look':['the bird blinks'],
+         #              'listen':['the bird squaks']}
         #for match in field.search(subject='tree', adjectives=['big']):
         #    print(match.name)
         # ---
