@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>qtmud.services.noisemaker &#8212; qtmud 0.0.3 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="qtmud 0.0.3 documentation" href="../../../index.html" />
+    <link rel="up" title="qtmud.services" href="../services.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for qtmud.services.noisemaker</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; pushes immersive chatter to clients</span>
+
+<span class="sd">    .. moduleauthor: Morgan Sennhauser &lt;morgan.sennhauser@gmail.com&gt;</span>
+
+<span class="sd">    .. versionadded:: 0.0.3-feature/noisemaker</span>
+
+<span class="sd">    Noisemaker is a :class:`service &lt;qtmud.services.Service&gt;` that helps</span>
+<span class="sd">    qtmud seem a little more alive. It keeps a set of :attr:`noisy_things`,</span>
+<span class="sd">    which are :class:`things &lt;qtmud.Thing&gt;` that have had the</span>
+<span class="sd">    :class:`Noisy &lt;qtmud.qualities.noisy.Noisy&gt;` :class:`quality</span>
+<span class="sd">    &lt;qtmud.qualities&gt;` added to them.</span>
+
+<span class="sd">    Then, when Noisemaker is :func:`tick()ed</span>
+<span class="sd">    &lt;qtmud.services.noisemaker.Noisemaker.tick&gt;`, it looks</span>
+<span class="sd">    through</span>
+<span class="sd">    the set</span>
+<span class="sd">    and, based on :attr:`FREQUENCY`,</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">random</span>
+
+<span class="c1"># the bigger it is, the less frequent the noise</span>
+<span class="c1"># this is a piss-poor way to do this tbh</span>
+<span class="n">FREQUENCY</span> <span class="o">=</span> <span class="mi">2500000</span>
+
+<div class="viewcode-block" id="Noisemaker"><a class="viewcode-back" href="../../../qtmud.services.noisemaker.html#qtmud.services.noisemaker.Noisemaker">[docs]</a><span class="k">class</span> <span class="nc">Noisemaker</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; A service which handles rendering noises from noisy things.</span>
+
+<span class="sd">        .. versionadded:: 0.0.3-feature/noise</span>
+
+<span class="sd">        Attributes:</span>
+<span class="sd">            manager(object):        The :class:`manager &lt;qtmud.Manager&gt;` that</span>
+<span class="sd">                                    is handling this service.</span>
+<span class="sd">            noisy_things(set):      A set of all the :class:`things</span>
+<span class="sd">                                    &lt;qtmud.Thing&gt;` that have had the</span>
+<span class="sd">                                    :class:`Noisy` :class:`quality</span>
+<span class="sd">                                    &lt;qtmud.qualities.Quality&gt;`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">manager</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            .. versionadded:: 0.0.3-feature/noise</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">manager</span> <span class="o">=</span> <span class="n">manager</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">noisy_things</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Noisemaker.add"><a class="viewcode-back" href="../../../qtmud.services.noisemaker.html#qtmud.services.noisemaker.Noisemaker.add">[docs]</a>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">thing</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            .. versionadded:: 0.0.3-feature/noise</span>
+
+<span class="sd">            Parameters:</span>
+<span class="sd">                thing(object):      The Thing to add</span>
+<span class="sd">        :param thing:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">noisy_things</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">thing</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Noisemaker.tick"><a class="viewcode-back" href="../../../qtmud.services.noisemaker.html#qtmud.services.noisemaker.Noisemaker.tick">[docs]</a>    <span class="k">def</span> <span class="nf">tick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">events</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Sends a line to a thing, usually a client.</span>
+
+<span class="sd">            .. versionadded:: 0.0.3-feature/noise</span>
+
+<span class="sd">            noises = { &#39;look&#39; : [&#39;you see someone trip on the curb&#39;,</span>
+<span class="sd">                                 &#39;a balloon drifts overhead&#39;],</span>
+<span class="sd">                       &#39;listen&#39; : [&#39;you hear someone fall&#39;]}</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">thing</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">noisy_things</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="n">FREQUENCY</span><span class="p">)</span> <span class="o">==</span> <span class="mi">10</span><span class="p">:</span>
+                <span class="n">sense</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">thing</span><span class="o">.</span><span class="n">noises</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+                <span class="n">noise</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">thing</span><span class="o">.</span><span class="n">noises</span><span class="p">[</span><span class="n">sense</span><span class="p">])</span>
+                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">thing</span><span class="p">,</span> <span class="s1">&#39;contents&#39;</span><span class="p">):</span>
+                    <span class="k">for</span> <span class="n">content</span> <span class="ow">in</span> <span class="n">thing</span><span class="o">.</span><span class="n">contents</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="s1">&#39;send&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">sense</span><span class="p">):</span>
+                            <span class="n">content</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;send&#39;</span><span class="p">,</span>
+                                                     <span class="n">thing</span><span class="o">=</span><span class="n">content</span><span class="p">,</span>
+                                                     <span class="n">scene</span><span class="o">=</span><span class="n">noise</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">thing</span><span class="p">,</span> <span class="s1">&#39;location&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">thing</span><span class="o">.</span><span class="n">location</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">thing</span><span class="o">.</span><span class="n">location</span><span class="p">,</span> <span class="s1">&#39;contents&#39;</span><span class="p">):</span>
+                        <span class="k">for</span> <span class="n">content</span> <span class="ow">in</span> <span class="n">thing</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">contents</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="s1">&#39;send&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">content</span><span class="p">,</span>
+                                                                    <span class="n">sense</span><span class="p">):</span>
+                                <span class="n">content</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;send&#39;</span><span class="p">,</span>
+                                                         <span class="n">thing</span> <span class="o">=</span> <span class="n">content</span><span class="p">,</span>
+                                                         <span class="n">scene</span> <span class="o">=</span> <span class="n">noise</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  <li><a href="../../qtmud.html">qtmud</a><ul>
+  <li><a href="../services.html">qtmud.services</a><ul>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, emsenn.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

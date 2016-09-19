@@ -46,6 +46,13 @@
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="qtmud.lib.html">qtmud.lib package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="qtmud.lib.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="qtmud.lib.qualities.html">qtmud.lib.qualities package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="qtmud.lib.qualities.html#module-qtmud.lib.qualities">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="qtmud.lib.html#module-qtmud.lib">Module contents</a></li>
 </ul>
 </li>
@@ -54,12 +61,15 @@
 <li class="toctree-l3"><a class="reference internal" href="qtmud.qualities.client.html">qtmud.qualities.client module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qtmud.qualities.container.html">qtmud.qualities.container module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qtmud.qualities.hearing.html">qtmud.qualities.hearing module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qtmud.qualities.learning.html">qtmud.qualities.learning module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qtmud.qualities.noisy.html">qtmud.qualities.noisy module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qtmud.qualities.physical.html">qtmud.qualities.physical module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qtmud.qualities.prehensile.html">qtmud.qualities.prehensile module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qtmud.qualities.renderable.html">qtmud.qualities.renderable module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qtmud.qualities.room.html">qtmud.qualities.room module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qtmud.qualities.sighted.html">qtmud.qualities.sighted module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qtmud.qualities.speaking.html">qtmud.qualities.speaking module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qtmud.qualities.teaching.html">qtmud.qualities.teaching module</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="qtmud.qualities.html#module-qtmud.qualities">Module contents</a></li>
@@ -69,6 +79,7 @@
 <li class="toctree-l2"><a class="reference internal" href="qtmud.services.html#submodules">Submodules</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="qtmud.services.mover.html">qtmud.services.mover module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qtmud.services.mudsocket.html">qtmud.services.mudsocket module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qtmud.services.noisemaker.html">qtmud.services.noisemaker module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qtmud.services.parser.html">qtmud.services.parser module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qtmud.services.renderer.html">qtmud.services.renderer module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qtmud.services.sender.html">qtmud.services.sender module</a></li>
@@ -331,7 +342,7 @@ subscribed service.</li>
 </p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3.5/library/stdtypes.html#tuple" title="(in Python v3.5)">tuple</a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#tuple" title="(in Python v2.7)">tuple</a></p>
 </td>
 </tr>
 </tbody>
@@ -467,8 +478,8 @@ expects the <cite>identity</cite> and <cite>manage</cite> parameters.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 0.0.2-feature/nametags.</span></p>
 </div>
-<div class="versionadded">
-<p><span class="versionmodified">New in version 0.0.2-feature/textblob: </span>rewritten to handle the output produced by Parser.parse_line()</p>
+<div class="versionchanged">
+<p><span class="versionmodified">Changed in version 0.0.2-feature/textblob: </span>rewritten to handle the output produced by Parser.parse_line()</p>
 </div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -505,7 +516,7 @@ this thing&#8217;s local environment.</td>
 <p><span class="versionmodified">New in version 0.0.1.</span></p>
 </div>
 <div class="versionchanged">
-<p><span class="versionmodified">Changed in version 0.0.1-feature/parsing: </span>added return of successfully updated attributes.</p>
+<p><span class="versionmodified">Changed in version 0.0.2-feature/parsing: </span>added return of successfully updated attributes.</p>
 </div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />

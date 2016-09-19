@@ -56,7 +56,9 @@
 <span class="sd">    Testing for potential game library - don&#39;t expect good documentation here.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">qtmud.qualities</span> <span class="k">import</span> <span class="n">Physical</span><span class="p">,</span> <span class="n">Container</span><span class="p">,</span> <span class="n">Room</span><span class="p">,</span> <span class="n">Renderable</span>
+<span class="kn">from</span> <span class="nn">qtmud.qualities</span> <span class="k">import</span> <span class="p">(</span><span class="n">Physical</span><span class="p">,</span> <span class="n">Container</span><span class="p">,</span> <span class="n">Room</span><span class="p">,</span> <span class="n">Renderable</span><span class="p">,</span> <span class="n">Teaching</span><span class="p">,</span>
+                             <span class="n">Noisy</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">qtmud.lib.qualities</span> <span class="k">import</span> <span class="n">Violent</span>
 
 <div class="viewcode-block" id="Tavern"><a class="viewcode-back" href="../../qtmud.lib.html#qtmud.lib.Tavern">[docs]</a><span class="k">class</span> <span class="nc">Tavern</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Ye Olde Tavern</span>
@@ -102,7 +104,9 @@
 <span class="sd">        .. versionchanged:: 0.0.2-feature/parser</span>
 <span class="sd">            added explicit use of the Container quality.</span>
 <span class="sd">        .. versionchanged:: 0.0.2-feature/nametags</span>
-<span class="sd">            added some Renderables.        </span>
+<span class="sd">            added some Renderables.</span>
+<span class="sd">        .. versionchanged:: 0.0.3-feature/learning</span>
+<span class="sd">            added an exit to Smithy</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span>
@@ -112,8 +116,9 @@
                                                       <span class="n">Container</span><span class="p">,</span>
                                                       <span class="n">Renderable</span><span class="p">])</span>
         <span class="n">village</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Center of Ye Olde Village&#39;</span>
-        <span class="n">village</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;The center of a small village. Really just &#39;</span>
-                               <span class="s1">&#39;a tavern in a field, for now.&#39;</span><span class="p">)</span>
+        <span class="n">village</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;The center of a small village. On one side of &#39;</span>
+                               <span class="s1">&#39;the commons is a tavern, and on the other &#39;</span>
+                               <span class="s1">&#39;side there is a blacksmith</span><span class="se">\&#39;</span><span class="s1">s workshop.&#39;</span><span class="p">)</span>
         <span class="n">village</span><span class="o">.</span><span class="n">sounds</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;It is suspiciously quiet here.&#39;</span><span class="p">)</span>
         <span class="n">tavern</span> <span class="o">=</span> <span class="n">thing</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">new_thing</span><span class="p">(</span><span class="n">Renderable</span><span class="p">)</span>
         <span class="n">tavern</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Ye Olde Tavern&#39;</span><span class="p">,</span>
@@ -132,8 +137,9 @@
                      <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="s1">&#39;The door to Ye Olde Tavern is wide open, &#39;</span>
                                     <span class="s1">&#39;making it seem like an inviting place.&#39;</span><span class="p">})</span>
         <span class="n">village</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tavern</span><span class="p">,</span> <span class="n">logs</span><span class="p">,</span> <span class="n">door</span><span class="p">)</span>
-        <span class="n">village</span><span class="o">.</span><span class="n">exits</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;inside&#39;</span> <span class="p">:</span> <span class="n">Tavern</span><span class="p">,</span>
-                          <span class="s1">&#39;field&#39;</span> <span class="p">:</span> <span class="n">Field</span> <span class="p">}</span>
+        <span class="n">village</span><span class="o">.</span><span class="n">exits</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;tavern&#39;</span><span class="p">:</span> <span class="n">Tavern</span><span class="p">,</span>
+                          <span class="s1">&#39;smith&#39;</span><span class="p">:</span> <span class="n">Smithy</span><span class="p">,</span>
+                          <span class="s1">&#39;field&#39;</span><span class="p">:</span> <span class="n">Field</span> <span class="p">}</span>
         <span class="k">return</span> <span class="n">village</span></div></div>
 
 <div class="viewcode-block" id="Field"><a class="viewcode-back" href="../../qtmud.lib.html#qtmud.lib.Field">[docs]</a><span class="k">class</span> <span class="nc">Field</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -159,9 +165,47 @@
                          <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="s1">&#39;Two solid copper blocks rise up from &#39;</span>
                                         <span class="s1">&#39;the ground. Wide bands of verdigris &#39;</span>
                                         <span class="s1">&#39;marble their surface.&#39;</span><span class="p">})</span>
-        <span class="n">field</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">memorial</span><span class="p">)</span>
+        <span class="n">bird</span> <span class="o">=</span> <span class="n">thing</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">new_thing</span><span class="p">(</span><span class="n">Renderable</span><span class="p">,</span> <span class="n">Physical</span><span class="p">,</span> <span class="n">Noisy</span><span class="p">,</span> <span class="p">)</span>
+        <span class="n">bird</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;bird&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;nametags&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;birb&#39;</span><span class="p">},</span>
+                     <span class="s1">&#39;adjectives&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;noisy&#39;</span><span class="p">},</span>
+                     <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;This is a cute little bird, &#39;</span>
+                                     <span class="s1">&#39;or if you</span><span class="se">\&#39;</span><span class="s1">re visiting from Tumblr, &#39;</span>
+                                     <span class="s1">&#39;you might call it a birb.&#39;</span><span class="p">),</span>
+                     <span class="s1">&#39;noises&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;listen&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;the bird tweets melodically&#39;</span><span class="p">,</span>
+                                           <span class="p">(</span><span class="s1">&#39;the bird tweets in less than 140 &#39;</span>
+                                            <span class="s1">&#39;characters.&#39;</span><span class="p">)]}})</span>
+        <span class="n">field</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">memorial</span><span class="p">,</span> <span class="n">bird</span><span class="p">)</span>
         <span class="n">field</span><span class="o">.</span><span class="n">exits</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;village&#39;</span> <span class="p">:</span> <span class="n">Village</span> <span class="p">}</span>
         <span class="k">return</span> <span class="n">field</span></div></div>
+
+<div class="viewcode-block" id="Smithy"><a class="viewcode-back" href="../../qtmud.lib.html#qtmud.lib.Smithy">[docs]</a><span class="k">class</span> <span class="nc">Smithy</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; A blacksmith&#39;s workshop</span>
+
+<span class="sd">        .. versionadded:: 0.0.3-feature/learning</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span>
+
+<div class="viewcode-block" id="Smithy.apply"><a class="viewcode-back" href="../../qtmud.lib.html#qtmud.lib.Smithy.apply">[docs]</a>    <span class="k">def</span> <span class="nf">apply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">thing</span><span class="p">):</span>
+        <span class="n">smithy</span> <span class="o">=</span> <span class="n">thing</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">add_qualities</span><span class="p">(</span><span class="n">thing</span><span class="p">,</span> <span class="p">[</span><span class="n">Room</span><span class="p">,</span>
+                                                     <span class="n">Container</span><span class="p">,</span>
+                                                     <span class="n">Renderable</span><span class="p">])</span>
+        <span class="n">smithy</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Smithy&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="s1">&#39;This is the inside of a blacksmith</span><span class="se">\&#39;</span><span class="s1">s &#39;</span>
+                                      <span class="s1">&#39;workshop.&#39;</span><span class="p">})</span>
+        <span class="n">blacksmith</span> <span class="o">=</span> <span class="n">thing</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">new_thing</span><span class="p">(</span><span class="n">Renderable</span><span class="p">,</span> <span class="n">Physical</span><span class="p">,</span> <span class="n">Teaching</span><span class="p">)</span>
+        <span class="n">blacksmith</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Henry Smith&#39;</span><span class="p">,</span>
+                           <span class="s1">&#39;nametags&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;smith&#39;</span><span class="p">,</span> <span class="s1">&#39;henry&#39;</span><span class="p">,</span> <span class="s1">&#39;blacksmith&#39;</span><span class="p">},</span>
+                           <span class="s1">&#39;adjectives&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;black&#39;</span><span class="p">},</span>
+                           <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="s1">&#39;Maybe Henry</span><span class="se">\&#39;</span><span class="s1">s last name is Smith &#39;</span>
+                                          <span class="s1">&#39;because he is a smith, or maybe &#39;</span>
+                                          <span class="s1">&#39;Henry is a blacksmith because his &#39;</span>
+                                          <span class="s1">&#39;last name is Smith.&#39;</span><span class="p">})</span>
+        <span class="n">blacksmith</span><span class="o">.</span><span class="n">teachable_qualities</span><span class="p">[</span><span class="s1">&#39;violence&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Violent</span>
+        <span class="n">smithy</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">blacksmith</span><span class="p">)</span>
+        <span class="n">smithy</span><span class="o">.</span><span class="n">exits</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;outside&#39;</span><span class="p">:</span> <span class="n">Village</span><span class="p">}</span>
+        <span class="k">return</span> <span class="n">smithy</span></div></div>
 </pre></div>
 
           </div>

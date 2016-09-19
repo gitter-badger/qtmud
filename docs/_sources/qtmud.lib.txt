@@ -1,6 +1,13 @@
 qtmud.lib package
 =================
 
+Subpackages
+-----------
+
+.. toctree::
+
+    qtmud.lib.qualities
+
 Module contents
 ---------------
 

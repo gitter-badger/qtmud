@@ -1,0 +1,7 @@
+qtmud.qualities.learning module
+===============================
+
+.. automodule:: qtmud.qualities.learning
+    :members:
+    :undoc-members:
+    :show-inheritance:

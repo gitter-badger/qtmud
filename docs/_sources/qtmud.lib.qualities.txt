@@ -1,0 +1,10 @@
+qtmud.lib.qualities package
+===========================
+
+Module contents
+---------------
+
+.. automodule:: qtmud.lib.qualities
+    :members:
+    :undoc-members:
+    :show-inheritance:

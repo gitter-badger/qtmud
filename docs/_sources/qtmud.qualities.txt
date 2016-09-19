@@ -9,12 +9,15 @@ Submodules
    qtmud.qualities.client
    qtmud.qualities.container
    qtmud.qualities.hearing
+   qtmud.qualities.learning
+   qtmud.qualities.noisy
    qtmud.qualities.physical
    qtmud.qualities.prehensile
    qtmud.qualities.renderable
    qtmud.qualities.room
    qtmud.qualities.sighted
    qtmud.qualities.speaking
+   qtmud.qualities.teaching
 
 Module contents
 ---------------
