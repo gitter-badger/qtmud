@@ -68,7 +68,17 @@ class Noisemaker(object):
 
             .. versionadded:: 0.0.3-feature/noise
 
-            When tick()ed by the manager,
+            When tick()ed by the manager, Noisemaker iterates through its set 
+            of noisy_things and, based on FREQUENCY, has a chance of sending 
+            a random noise to things near the noisy thing. Noises are split 
+            up by the method required to observe them, such as 'look' or 
+            'listen'.
+
+            If a noise is triggered, it send()s it to everything in the noisy 
+            thing's :attr:`contents 
+            <qtmud.qualities.container.Container.contents>`if applicable, 
+            and everything in the noisy thing's :attr:`location
+            <qtmud.qualities.physical.Physical.location>`.
         """
         for thing in self.noisy_things:
             if random.randrange(FREQUENCY) == 10:

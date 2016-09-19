@@ -4,10 +4,10 @@
     .. moduleauthor: Morgan Sennhauser <morgan.sennhauser@gmail.com>
 
     .. versionadded:: 0.0.1
-    .. versionchanged:: 0.0.1-features/parser
+    .. versionchanged:: 0.0.1-feature/parser
         changed :class:`qtmud.Manager.back_room` to be :class:`Village 
         <qtmud.lib.Village>`
-    .. versionchanged:: 0.0.2-features/renderer
+    .. versionchanged:: 0.0.2-feature/renderer
         added :class:`Renderer <qtmud.services.renderer.Renderer` to 
         startup services.
     
@@ -57,12 +57,6 @@ if __name__ == '__main__':
         # ---
         # ---
         # testing goes here
-        #field = manager.new_thing(Field)
-        #bird = manager.new_thing(Noisy)
-        #bird.noises = {'look':['the bird blinks'],
-         #              'listen':['the bird squaks']}
-        #for match in field.search(subject='tree', adjectives=['big']):
-        #    print(match.name)
         # ---
         # ---
         # Run engine manager
