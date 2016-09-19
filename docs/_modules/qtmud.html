@@ -8,7 +8,7 @@
     
     <title>qtmud &#8212; qtmud 0.0.3 documentation</title>
     
-    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -24,16 +24,22 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="qtmud 0.0.3 documentation" href="../index.html" />
-    <link rel="up" title="Module code" href="index.html" />
-   
-  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
-
+    <link rel="up" title="Module code" href="index.html" /> 
   </head>
   <body role="document">
-  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">qtmud 0.0.3 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
 
     <div class="document">
       <div class="documentwrapper">
@@ -46,7 +52,7 @@
 <span class="sd">    .. moduleauthor: Morgan Sennhauser &lt;morgan.sennhauser@gmail.com&gt;</span>
 <span class="sd">    </span>
 <span class="sd">    .. versionadded:: 0.0.1</span>
-<span class="sd">    .. versionchanged:: 0.0.1-feature/parsing</span>
+<span class="sd">    .. versionchanged:: 0.0.1-feature/parser</span>
 <span class="sd">        expanded documentation</span>
 <span class="sd">        </span>
 <span class="sd">    This is the main module of qtmud. It contains two objects, Thing and </span>
@@ -98,7 +104,7 @@
     <span class="sd">&quot;&quot;&quot; The object to be instanced by manager.new_thing()</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.1</span>
-<span class="sd">        .. versionchanged:: 0.0.1-feature/parsing</span>
+<span class="sd">        .. versionchanged:: 0.0.1-feature/parser</span>
 <span class="sd">            added return of successfully changed attributes to Thing.update()</span>
 <span class="sd">        .. versionchanged:: 0.0.2-feature/nametags</span>
 <span class="sd">        .. versionchanged:: 0.0.2-feature/textblob</span>
@@ -196,8 +202,15 @@
 <span class="sd">                rewritten to handle the output produced by Parser.parse_line()</span>
 <span class="sd">            </span>
 <span class="sd">            Parameters:</span>
-<span class="sd">                target(string):         The nametag you&#39;re looking for in</span>
-<span class="sd">                                        this thing&#39;s local environment.</span>
+<span class="sd">                objekt(str):            the object of the parsed line</span>
+<span class="sd">                adjectives(str):        the adjectives from the parsed line</span>
+<span class="sd">                pnp_clauses(list):      the prepositional noun clauses from </span>
+<span class="sd">                                        the parsed line.</span>
+
+<span class="sd">            Expecting the output from :method:`parse_line() </span>
+<span class="sd">            &lt;qmtud.services.parser.Parser.parse_line&gt;`, search() looks for </span>
+<span class="sd">            a match in the searching thing&#39;s contents, location, or </span>
+<span class="sd">            specified other location.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">matches</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="n">subject</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -502,15 +515,7 @@
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper"><div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="../index.html">Documentation overview</a><ul>
-  <li><a href="index.html">Module code</a><ul>
-  </ul></li>
-  </ul></li>
-</ul>
-</div>
+        <div class="sphinxsidebarwrapper">
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
@@ -525,17 +530,22 @@
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="footer">
-      &copy;2016, emsenn.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
-      
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">qtmud 0.0.3 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Module code</a> &#187;</li> 
+      </ul>
     </div>
-
-    
-
-    
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, emsenn.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
   </body>
 </html>
