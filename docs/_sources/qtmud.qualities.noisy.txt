@@ -1,0 +1,7 @@
+qtmud.qualities.noisy module
+============================
+
+.. automodule:: qtmud.qualities.noisy
+    :members:
+    :undoc-members:
+    :show-inheritance:

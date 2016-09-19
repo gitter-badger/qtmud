@@ -8,7 +8,7 @@
     
     <title>qtmud.lib &#8212; qtmud 0.0.3 documentation</title>
     
-    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -24,16 +24,23 @@
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <link rel="top" title="qtmud 0.0.3 documentation" href="../../index.html" />
-    <link rel="up" title="qtmud" href="../qtmud.html" />
-   
-  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
-
+    <link rel="up" title="qtmud" href="../qtmud.html" /> 
   </head>
   <body role="document">
-  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">qtmud 0.0.3 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../qtmud.html" accesskey="U">qtmud</a> &#187;</li> 
+      </ul>
+    </div>  
 
     <div class="document">
       <div class="documentwrapper">
@@ -56,12 +63,16 @@
 <span class="sd">    Testing for potential game library - don&#39;t expect good documentation here.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">qtmud.qualities</span> <span class="k">import</span> <span class="n">Physical</span><span class="p">,</span> <span class="n">Container</span><span class="p">,</span> <span class="n">Room</span><span class="p">,</span> <span class="n">Renderable</span>
+<span class="kn">from</span> <span class="nn">qtmud.qualities</span> <span class="k">import</span> <span class="p">(</span><span class="n">Physical</span><span class="p">,</span> <span class="n">Container</span><span class="p">,</span> <span class="n">Room</span><span class="p">,</span> <span class="n">Renderable</span><span class="p">,</span> <span class="n">Teaching</span><span class="p">,</span>
+                             <span class="n">Noisy</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">qtmud.lib.qualities</span> <span class="k">import</span> <span class="n">Violent</span>
 
 <div class="viewcode-block" id="Tavern"><a class="viewcode-back" href="../../qtmud.lib.html#qtmud.lib.Tavern">[docs]</a><span class="k">class</span> <span class="nc">Tavern</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Ye Olde Tavern</span>
 <span class="sd">    </span>
 <span class="sd">        .. versionadded:: 0.0.1-feature/environments</span>
+<span class="sd">        .. versionchanged:: 0.0.3-feature/noise</span>
+<span class="sd">            added noises &amp; more Renderables</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span>
@@ -77,21 +88,69 @@
                                                      <span class="n">Container</span><span class="p">,</span>
                                                      <span class="n">Renderable</span><span class="p">])</span>
         <span class="n">tavern</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Ye Olde Tavern&#39;</span>
-        <span class="n">tavern</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;A tavern so normal, it requires no description. &#39;</span>
-                             <span class="s1">&#39;But, there is a table here.&#39;</span><span class="p">)</span>
-        <span class="n">table</span> <span class="o">=</span> <span class="n">tavern</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">new_thing</span><span class="p">(</span><span class="n">Renderable</span><span class="p">,</span> <span class="n">Container</span><span class="p">)</span>
-        <span class="n">table</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;plain wooden table&#39;</span><span class="p">,</span>
-                      <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="s1">&#39;The bland wooden table has a pinecone &#39;</span>
-                                     <span class="s1">&#39;on it.&#39;</span><span class="p">})</span>
-        <span class="n">pinecone</span> <span class="o">=</span> <span class="n">tavern</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">new_thing</span><span class="p">(</span><span class="n">Renderable</span><span class="p">,</span> <span class="n">Physical</span><span class="p">)</span>
-        <span class="n">pinecone</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;pinecone&#39;</span><span class="p">,</span>
-                         <span class="s1">&#39;adjectives&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;plain&#39;</span><span class="p">},</span>
-                         <span class="s1">&#39;sounds&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;If you listen closely, you can hear the &#39;</span>
-                                    <span class="s1">&#39;pinecone screaming.&#39;</span><span class="p">),</span>
-                         <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="s1">&#39;It is a plain pinecone. I don</span><span class="se">\&#39;</span><span class="s1">t &#39;</span>
-                                        <span class="s1">&#39;know enough about pinecones to be &#39;</span>
-                                        <span class="s1">&#39;more descriptive, I</span><span class="se">\&#39;</span><span class="s1">m afraid.&#39;</span><span class="p">})</span>
-        <span class="n">tavern</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">pinecone</span><span class="p">)</span>
+        <span class="n">tavern</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;This is the inside of a tavern so normal, it &#39;</span>
+                              <span class="s1">&#39;hardly warrants description. There are tables &#39;</span>
+                              <span class="s1">&#39;and chairs, and against one wall, there</span><span class="se">\&#39;</span><span class="s1">s a &#39;</span>
+                              <span class="s1">&#39;long counter. An open doorway leads outside.&#39;</span><span class="p">)</span>
+        <span class="n">tavern</span><span class="o">.</span><span class="n">noises</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;listen&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;A wind outside causes the tavern to &#39;</span>
+                                    <span class="s1">&#39;creak slightly.&#39;</span><span class="p">],</span>
+                         <span class="s1">&#39;look&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;A bough shifts outside, covering a window &#39;</span>
+                                  <span class="s1">&#39;and darkening the tavern for a moment.&#39;</span><span class="p">]}</span>
+        <span class="n">tables</span> <span class="o">=</span> <span class="n">tavern</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">new_thing</span><span class="p">(</span><span class="n">Renderable</span><span class="p">)</span>
+        <span class="n">tables</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;scattered tables&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;Ye Olde Tavern has several tables set &#39;</span>
+                                      <span class="s1">&#39;up. They</span><span class="se">\&#39;</span><span class="s1">re all wooden, but that is &#39;</span>
+                                      <span class="s1">&#39;about where the similarities end. One &#39;</span>
+                                      <span class="s1">&#39;table is painted bright red, another &#39;</span>
+                                      <span class="s1">&#39;is unusually short, and a third is &#39;</span>
+                                      <span class="s1">&#39;round and clearly not level.&#39;</span><span class="p">)})</span>
+        <span class="n">red_table</span> <span class="o">=</span> <span class="n">tavern</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">new_thing</span><span class="p">(</span><span class="n">Renderable</span><span class="p">,</span> <span class="n">Container</span><span class="p">)</span>
+        <span class="n">red_table</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;bright red painted table&#39;</span><span class="p">,</span>
+                         <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;This table is painted bright red, &#39;</span>
+                                         <span class="s1">&#39;with sloppy brush strokes clearly &#39;</span>
+                                         <span class="s1">&#39;visible.&#39;</span><span class="p">)})</span>
+        <span class="n">brush_strokes</span> <span class="o">=</span> <span class="n">tavern</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">new_thing</span><span class="p">(</span><span class="n">Renderable</span><span class="p">)</span>
+        <span class="n">brush_strokes</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;messy paint&#39;</span><span class="p">,</span>
+                             <span class="s1">&#39;nametags&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;brushstrokes&#39;</span><span class="p">,</span> <span class="s1">&#39;strokes&#39;</span><span class="p">},</span>
+                             <span class="s1">&#39;adjectives&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;brush&#39;</span><span class="p">,</span><span class="s1">&#39;red&#39;</span><span class="p">,</span><span class="s1">&#39;paint&#39;</span><span class="p">},</span>
+                             <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;The paint strokes on the table &#39;</span>
+                                             <span class="s1">&#39;laid down the paint thick, &#39;</span>
+                                             <span class="s1">&#39;leaving permanent dribbles and &#39;</span>
+                                             <span class="s1">&#39;smears.&#39;</span><span class="p">)})</span>
+        <span class="n">red_table</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">brush_strokes</span><span class="p">)</span>
+        <span class="n">short_table</span> <span class="o">=</span> <span class="n">tavern</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">new_thing</span><span class="p">(</span><span class="n">Renderable</span><span class="p">,</span> <span class="n">Container</span><span class="p">)</span>
+        <span class="n">short_table</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;short table&#39;</span><span class="p">,</span>
+                            <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;This table looks like it was &#39;</span>
+                                            <span class="s1">&#39;made for ants.&#39;</span><span class="p">)})</span>
+        <span class="n">round_table</span> <span class="o">=</span> <span class="n">tavern</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">new_thing</span><span class="p">(</span><span class="n">Renderable</span><span class="p">,</span> <span class="n">Container</span><span class="p">)</span>
+        <span class="n">round_table</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;The Round Table&#39;</span><span class="p">,</span>
+                            <span class="s1">&#39;adjectives&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;uneven&#39;</span><span class="p">,</span> <span class="s1">&#39;unlevel&#39;</span><span class="p">},</span>
+                            <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;This round table seems to be &#39;</span>
+                                            <span class="s1">&#39;significant, although its hard &#39;</span>
+                                            <span class="s1">&#39;to place exactly why. It also &#39;</span>
+                                            <span class="s1">&#39;is clearly uneven.&#39;</span><span class="p">)})</span>
+        <span class="n">counter</span> <span class="o">=</span> <span class="n">tavern</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">new_thing</span><span class="p">(</span><span class="n">Renderable</span><span class="p">,</span> <span class="n">Container</span><span class="p">)</span>
+        <span class="n">counter</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;tavern bar&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;nametags&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;counter&#39;</span><span class="p">},</span>
+                        <span class="s1">&#39;adjectives&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;long&#39;</span><span class="p">},</span>
+                        <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;Not quite a bar, as there</span><span class="se">\&#39;</span><span class="s1">s no &#39;</span>
+                                        <span class="s1">&#39;seating, this counter separates the &#39;</span>
+                                        <span class="s1">&#39;employees of Ye Olde Tavern from &#39;</span>
+                                        <span class="s1">&#39;the patrons.&#39;</span><span class="p">)})</span>
+        <span class="n">windows</span> <span class="o">=</span> <span class="n">tavern</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">new_thing</span><span class="p">(</span><span class="n">Renderable</span><span class="p">)</span>
+        <span class="n">windows</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;windows&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;nametags&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;window&#39;</span><span class="p">},</span>
+                        <span class="s1">&#39;adjectives&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;two&#39;</span><span class="p">},</span>
+                        <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;Two windows are in the facade wall &#39;</span>
+                                        <span class="s1">&#39;of Ye Olde Tavern, letting the sun &#39;</span>
+                                        <span class="s1">&#39;light the room.&#39;</span><span class="p">)})</span>
+        <span class="n">daylight</span> <span class="o">=</span> <span class="n">tavern</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">new_thing</span><span class="p">(</span><span class="n">Renderable</span><span class="p">)</span>
+        <span class="n">daylight</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;daylight&#39;</span><span class="p">,</span>
+                         <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;Thanks to the two windows, daylight &#39;</span>
+                                        <span class="s1">&#39;fills Ye Olde Tavern.&#39;</span><span class="p">)})</span>
+        <span class="c1"># TODO overwrite round_table add() method to have things roll off</span>
+        <span class="c1"># this&#39;ll be the go-to demonstration of overwriting qualities</span>
+        <span class="n">tavern</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tables</span><span class="p">,</span> <span class="n">red_table</span><span class="p">,</span> <span class="n">short_table</span><span class="p">,</span> <span class="n">round_table</span><span class="p">,</span> <span class="n">counter</span><span class="p">,</span> <span class="n">windows</span><span class="p">,</span> <span class="n">daylight</span><span class="p">)</span>
         <span class="n">tavern</span><span class="o">.</span><span class="n">exits</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;outside&#39;</span> <span class="p">:</span> <span class="n">Village</span> <span class="p">}</span>
         <span class="k">return</span> <span class="n">tavern</span></div></div>
         
@@ -102,7 +161,9 @@
 <span class="sd">        .. versionchanged:: 0.0.2-feature/parser</span>
 <span class="sd">            added explicit use of the Container quality.</span>
 <span class="sd">        .. versionchanged:: 0.0.2-feature/nametags</span>
-<span class="sd">            added some Renderables.        </span>
+<span class="sd">            added some Renderables.</span>
+<span class="sd">        .. versionchanged:: 0.0.3-feature/learning</span>
+<span class="sd">            added an exit to Smithy</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span>
@@ -112,8 +173,9 @@
                                                       <span class="n">Container</span><span class="p">,</span>
                                                       <span class="n">Renderable</span><span class="p">])</span>
         <span class="n">village</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Center of Ye Olde Village&#39;</span>
-        <span class="n">village</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;The center of a small village. Really just &#39;</span>
-                               <span class="s1">&#39;a tavern in a field, for now.&#39;</span><span class="p">)</span>
+        <span class="n">village</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;The center of a small village. On one side of &#39;</span>
+                               <span class="s1">&#39;the commons is a tavern, and on the other &#39;</span>
+                               <span class="s1">&#39;side there is a blacksmith</span><span class="se">\&#39;</span><span class="s1">s workshop.&#39;</span><span class="p">)</span>
         <span class="n">village</span><span class="o">.</span><span class="n">sounds</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;It is suspiciously quiet here.&#39;</span><span class="p">)</span>
         <span class="n">tavern</span> <span class="o">=</span> <span class="n">thing</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">new_thing</span><span class="p">(</span><span class="n">Renderable</span><span class="p">)</span>
         <span class="n">tavern</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Ye Olde Tavern&#39;</span><span class="p">,</span>
@@ -132,8 +194,9 @@
                      <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="s1">&#39;The door to Ye Olde Tavern is wide open, &#39;</span>
                                     <span class="s1">&#39;making it seem like an inviting place.&#39;</span><span class="p">})</span>
         <span class="n">village</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tavern</span><span class="p">,</span> <span class="n">logs</span><span class="p">,</span> <span class="n">door</span><span class="p">)</span>
-        <span class="n">village</span><span class="o">.</span><span class="n">exits</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;inside&#39;</span> <span class="p">:</span> <span class="n">Tavern</span><span class="p">,</span>
-                          <span class="s1">&#39;field&#39;</span> <span class="p">:</span> <span class="n">Field</span> <span class="p">}</span>
+        <span class="n">village</span><span class="o">.</span><span class="n">exits</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;tavern&#39;</span><span class="p">:</span> <span class="n">Tavern</span><span class="p">,</span>
+                          <span class="s1">&#39;smith&#39;</span><span class="p">:</span> <span class="n">Smithy</span><span class="p">,</span>
+                          <span class="s1">&#39;field&#39;</span><span class="p">:</span> <span class="n">Field</span> <span class="p">}</span>
         <span class="k">return</span> <span class="n">village</span></div></div>
 
 <div class="viewcode-block" id="Field"><a class="viewcode-back" href="../../qtmud.lib.html#qtmud.lib.Field">[docs]</a><span class="k">class</span> <span class="nc">Field</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -159,26 +222,54 @@
                          <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="s1">&#39;Two solid copper blocks rise up from &#39;</span>
                                         <span class="s1">&#39;the ground. Wide bands of verdigris &#39;</span>
                                         <span class="s1">&#39;marble their surface.&#39;</span><span class="p">})</span>
-        <span class="n">field</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">memorial</span><span class="p">)</span>
+        <span class="n">bird</span> <span class="o">=</span> <span class="n">thing</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">new_thing</span><span class="p">(</span><span class="n">Renderable</span><span class="p">,</span> <span class="n">Physical</span><span class="p">,</span> <span class="n">Noisy</span><span class="p">,</span> <span class="p">)</span>
+        <span class="n">bird</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;bird&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;nametags&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;birb&#39;</span><span class="p">},</span>
+                     <span class="s1">&#39;adjectives&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;noisy&#39;</span><span class="p">},</span>
+                     <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;This is a cute little bird, &#39;</span>
+                                     <span class="s1">&#39;or if you</span><span class="se">\&#39;</span><span class="s1">re visiting from Tumblr, &#39;</span>
+                                     <span class="s1">&#39;you might call it a birb.&#39;</span><span class="p">),</span>
+                     <span class="s1">&#39;noises&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;listen&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;the bird tweets melodically&#39;</span><span class="p">,</span>
+                                           <span class="p">(</span><span class="s1">&#39;the bird tweets in less than 140 &#39;</span>
+                                            <span class="s1">&#39;characters.&#39;</span><span class="p">)]}})</span>
+        <span class="n">field</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">memorial</span><span class="p">,</span> <span class="n">bird</span><span class="p">)</span>
         <span class="n">field</span><span class="o">.</span><span class="n">exits</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;village&#39;</span> <span class="p">:</span> <span class="n">Village</span> <span class="p">}</span>
         <span class="k">return</span> <span class="n">field</span></div></div>
+
+<div class="viewcode-block" id="Smithy"><a class="viewcode-back" href="../../qtmud.lib.html#qtmud.lib.Smithy">[docs]</a><span class="k">class</span> <span class="nc">Smithy</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; A blacksmith&#39;s workshop</span>
+
+<span class="sd">        .. versionadded:: 0.0.3-feature/learning</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span>
+
+<div class="viewcode-block" id="Smithy.apply"><a class="viewcode-back" href="../../qtmud.lib.html#qtmud.lib.Smithy.apply">[docs]</a>    <span class="k">def</span> <span class="nf">apply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">thing</span><span class="p">):</span>
+        <span class="n">smithy</span> <span class="o">=</span> <span class="n">thing</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">add_qualities</span><span class="p">(</span><span class="n">thing</span><span class="p">,</span> <span class="p">[</span><span class="n">Room</span><span class="p">,</span>
+                                                     <span class="n">Container</span><span class="p">,</span>
+                                                     <span class="n">Renderable</span><span class="p">])</span>
+        <span class="n">smithy</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Smithy&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="s1">&#39;This is the inside of a blacksmith</span><span class="se">\&#39;</span><span class="s1">s &#39;</span>
+                                      <span class="s1">&#39;workshop.&#39;</span><span class="p">})</span>
+        <span class="n">blacksmith</span> <span class="o">=</span> <span class="n">thing</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">new_thing</span><span class="p">(</span><span class="n">Renderable</span><span class="p">,</span> <span class="n">Physical</span><span class="p">,</span> <span class="n">Teaching</span><span class="p">)</span>
+        <span class="n">blacksmith</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Henry Smith&#39;</span><span class="p">,</span>
+                           <span class="s1">&#39;nametags&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;smith&#39;</span><span class="p">,</span> <span class="s1">&#39;henry&#39;</span><span class="p">,</span> <span class="s1">&#39;blacksmith&#39;</span><span class="p">},</span>
+                           <span class="s1">&#39;adjectives&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;black&#39;</span><span class="p">},</span>
+                           <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="s1">&#39;Maybe Henry</span><span class="se">\&#39;</span><span class="s1">s last name is Smith &#39;</span>
+                                          <span class="s1">&#39;because he is a smith, or maybe &#39;</span>
+                                          <span class="s1">&#39;Henry is a blacksmith because his &#39;</span>
+                                          <span class="s1">&#39;last name is Smith.&#39;</span><span class="p">})</span>
+        <span class="n">blacksmith</span><span class="o">.</span><span class="n">teachable_qualities</span><span class="p">[</span><span class="s1">&#39;violence&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Violent</span>
+        <span class="n">smithy</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">blacksmith</span><span class="p">)</span>
+        <span class="n">smithy</span><span class="o">.</span><span class="n">exits</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;outside&#39;</span><span class="p">:</span> <span class="n">Village</span><span class="p">}</span>
+        <span class="k">return</span> <span class="n">smithy</span></div></div>
 </pre></div>
 
           </div>
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper"><div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="../../index.html">Documentation overview</a><ul>
-  <li><a href="../index.html">Module code</a><ul>
-  <li><a href="../qtmud.html">qtmud</a><ul>
-  </ul></li>
-  </ul></li>
-  </ul></li>
-</ul>
-</div>
+        <div class="sphinxsidebarwrapper">
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../search.html" method="get">
@@ -193,17 +284,23 @@
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="footer">
-      &copy;2016, emsenn.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
-      
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">qtmud 0.0.3 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../qtmud.html" >qtmud</a> &#187;</li> 
+      </ul>
     </div>
-
-    
-
-    
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, emsenn.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
   </body>
 </html>

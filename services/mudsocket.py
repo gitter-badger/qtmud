@@ -3,7 +3,7 @@
     .. moduleauthor: Morgan Sennhauser <morgan.sennhauser@gmail.com>
     
     .. version added:: 0.0.1
-    .. version changed:: 0.0.1-feature/enviroments
+    .. version changed:: 0.0.1-feature/environments
         Added applying the Sight quality to incoming connections
     .. version changed:: 0.0.1-feature/parsing
         Added applying the Container and Speaking qualities to incoming 
@@ -64,7 +64,11 @@ class MUDSocket(object):
     
     def tick(self, events): #pylint: disable=unused-variable
         # XXX go back in and fix some long code names, repeated references, etc.
-        """ Each tick, parse the incoming and outgoing data and handle it
+        """ Each tick, parse the incoming and outgoing data and handle it.
+
+            .. versionadded:: 0.0.1-feature/environments
+            .. versionchanged:: 0.0.3-feature/noise
+                Fixed Issue #9, clients not being removed when disconnecting
         """
         r, w, e = select.select(self.connections, #pylint: disable=invalid-name
                                 [conn for conn,
@@ -91,6 +95,9 @@ class MUDSocket(object):
                     data = conn.recv(1024)
                     if data == b'':
                         self.connections.remove(conn)
+                        self.manager.schedule('move',
+                                                thing=self.clients[conn],
+                                                destination=None)
                     else:
                         # do some work splitting incoming data into a command
                         self.clients[conn].recv_buffer += data.decode('utf8',
@@ -101,7 +108,7 @@ class MUDSocket(object):
                                 line, self.clients[conn].recv_buffer = split
                             else:
                                 line, self.clients[conn].recv_buffer = split[0], ''
-                            self.manager.schedule('parse', 
+                            self.manager.schedule('parse',
                                                   commander=self.clients[conn],
                                                   line=line)
         if w:

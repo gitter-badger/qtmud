@@ -45,6 +45,7 @@ class Renderable(object):
                 if old_shortname in thing.nametags:
                     thing.nametags.remove(old_shortname)
             thing.__dict__['name'] = name
+            print(name.split()[-1].lower())
             thing.nametags.add(name.split()[-1].lower())
             if len(name.split()) > 1:
                 for adjective in name.split()[0:-1]:

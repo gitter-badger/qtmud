@@ -3,7 +3,7 @@
     .. moduleauthor: Morgan Sennhauser <morgan.sennhauser@gmail.com>
     
     .. versionadded:: 0.0.1
-    .. versionchanged:: 0.0.1-feature/parsing
+    .. versionchanged:: 0.0.1-feature/parser
         expanded documentation
         
     This is the main module of qtmud. It contains two objects, Thing and 
@@ -55,7 +55,7 @@ class Thing(object):
     """ The object to be instanced by manager.new_thing()
         
         .. versionadded:: 0.0.1
-        .. versionchanged:: 0.0.1-feature/parsing
+        .. versionchanged:: 0.0.1-feature/parser
             added return of successfully changed attributes to Thing.update()
         .. versionchanged:: 0.0.2-feature/nametags
         .. versionchanged:: 0.0.2-feature/textblob
@@ -153,8 +153,15 @@ class Thing(object):
                 rewritten to handle the output produced by Parser.parse_line()
             
             Parameters:
-                target(string):         The nametag you're looking for in
-                                        this thing's local environment.
+                objekt(str):            the object of the parsed line
+                adjectives(str):        the adjectives from the parsed line
+                pnp_clauses(list):      the prepositional noun clauses from 
+                                        the parsed line.
+
+            Expecting the output from :method:`parse_line() 
+            <qmtud.services.parser.Parser.parse_line>`, search() looks for 
+            a match in the searching thing's contents, location, or 
+            specified other location.
         """
         matches = []
         if subject is not None:
@@ -298,7 +305,7 @@ class Manager(object):
                 self.subscribe(service,sub)
                 self.log.debug('subscribing %s to event %s'
                                '', service.__class__.__name__, sub)
-            self.services[service] = service
+            self.services[service.__class__] = service
             
             self.log.debug('%s successfully added as service'
                            '', service.__class__.__name__)
@@ -442,12 +449,14 @@ class Manager(object):
         events = self.events
         self.events = {}
         for service in self.services:
-            try:
-                service.tick(events.pop(service, []))
+            # try:
+            self.services[service].tick(events.pop(self.services[service],
+                                                   []))
+
             # service.tick()s shouldn't be failing, but if they do, it 
             # probably shouldn't be fatal...
-            except Exception as err: #pylint: disable=broad-except
-                self.log.warning('%s failed to tick: %s',
-                                 service.__class__.__name__, err)
-                traceback.print_exc()
+            # except Exception as err: #pylint: disable=broad-except
+            #     self.log.warning('%s failed to tick: %s',
+            #                      service.__class__.__name__, err)
+            #     traceback.print_exc()
         return True

@@ -10,6 +10,10 @@
 qtmud documentation
 ###################
 
+
+.. todo:: test message!
+
+
 qtmud is an early alpha multiplayer text-based real-time virtual world simulator.
 
 Clients (players) receive verbose descriptions of environments, objects, other 

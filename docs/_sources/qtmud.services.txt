@@ -8,6 +8,7 @@ Submodules
 
    qtmud.services.mover
    qtmud.services.mudsocket
+   qtmud.services.noisemaker
    qtmud.services.parser
    qtmud.services.renderer
    qtmud.services.sender
