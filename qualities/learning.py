@@ -39,6 +39,11 @@ class Learning(object):
             if teachers and len(teachers) == 1:
                 if hasattr(teachers[0], 'teach'):
                     teachers[0].teach(learner, line['subject'])
+                    scene = ('You learn {} from {}'
+                             ''.format(line['subject'],teachers[0].name))
+                    learner.manager.schedule('send',
+                                             thing=learner,
+                                             scene=scene)
         return True
 
     def apply(self, thing):

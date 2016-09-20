@@ -2,7 +2,7 @@
     
     .. moduleauthor: Morgan Sennhauser <morgan.sennhauser@gmail.com>
     
-    .. version added:: 0.0.1
+    .. versionadded:: 0.0.1
     
     The Mover handles moving :class:`things <qtmud.Thing>` with the 
     :class:`Physical <qtmud.qualities.physical.Physical>` quality from one 

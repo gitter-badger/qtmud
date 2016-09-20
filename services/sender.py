@@ -81,7 +81,7 @@ class Sender(object):
             thing = payload['thing']
             scene = payload['scene']
             if hasattr(thing, 'send'):
-                thing.send(scene + '\n\nWhat will you do?\nI will > ')
+                thing.send(scene + '\n')
             else:
                 thing.manager.log.warning('Tried to send a line to {} but they '
                                           'have no send() method.'

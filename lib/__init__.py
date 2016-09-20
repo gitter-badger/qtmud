@@ -15,7 +15,8 @@
 
 from qtmud.qualities import (Physical, Container, Room, Renderable, Teaching,
                              Noisy)
-from qtmud.lib.qualities import Violent
+
+from qtmud.lib.qualities import Swordsmanship, Healthful
 
 class Tavern(object):
     """ Ye Olde Tavern
@@ -209,7 +210,12 @@ class Smithy(object):
                                           'because he is a smith, or maybe '
                                           'Henry is a blacksmith because his '
                                           'last name is Smith.'})
-        blacksmith.teachable_qualities['violence'] = Violent
-        smithy.add(blacksmith)
+        blacksmith.teachable_qualities['swordsmanship'] = Swordsmanship
+        blacksmith.teachable_qualities['health'] = Healthful
+        mouse = thing.manager.new_thing(Renderable, Physical, Healthful)
+        mouse.update({'name':'mouse',
+                      'description': ('they\'re so cute, why would you "fight" '
+                                      'them?')})
+        smithy.add(blacksmith, mouse)
         smithy.exits = {'outside': Village}
         return smithy

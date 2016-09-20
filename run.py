@@ -10,6 +10,10 @@
     .. versionchanged:: 0.0.2-feature/renderer
         added :class:`Renderer <qtmud.services.renderer.Renderer` to 
         startup services.
+    .. versionchanged:: 0.0.3-feature/noise
+        added Noise to startup qtmud services.
+    .. versionchanged:: 0.0.3-feature/diceroller
+        added Fighter to startup library services.
     
     Instances manager, loads services, subscribes them to events
 """
@@ -29,6 +33,7 @@ from qtmud.services.mudsocket import MUDSocket
 from qtmud.services import Renderer
 from qtmud.services.sender import Sender
 from qtmud.services.noisemaker import Noisemaker
+from qtmud.lib.services import Fighter
 
 # testing imports
 from qtmud.lib import Village, Field
@@ -49,9 +54,11 @@ if __name__ == '__main__':
         qtmud.manager = manager
         manager.log.info('Manager() instanced @ qtmud.manager')
         # instance arguments as tick()able services under qtmud.manager.services
-        manager.log.info('instancing services')
+        manager.log.info('instancing qtmud services')
         manager.add_services(MUDSocket, Parser, Mover, Renderer, Sender,
                              Noisemaker)
+        manager.log.info('instancing library services')
+        manager.add_services(Fighter)
         manager.log.info('instancing qtmud.manager.back_room')
         manager.back_room = manager.new_thing(Village)
         # ---

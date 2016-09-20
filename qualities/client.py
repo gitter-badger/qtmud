@@ -134,7 +134,7 @@ class Client(object):
 
     @staticmethod
     def foo(client, line):
-        print(client.location.contents)
+        print(client.qualities)
 
     def apply(self, thing):
         """ Applies the Client quality to `thing`

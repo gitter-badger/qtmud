@@ -27,6 +27,7 @@ class Teaching(object):
 
             .. versionadded:: 0.0.3-feature/learning
         """
+        print(line)
         if len(line.split(' ')) != 1:
             return False
         if line in teacher.teachable_qualities:
