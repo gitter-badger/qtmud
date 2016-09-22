@@ -46,51 +46,52 @@ class Sighted(object):
             .. versionchanged:: 0.0.2-feature/textblob
                 shuffled things so thing's contents render if they aren't a
                 room.
+            .. versionchanged:: 0.0.3-feature/diceroller
+                updated search() use to search_by_line()
 
             Parameters:
-                look(object):      The class:`thing <qtmud.Thing>` that
+                looker(object):      The class:`thing <qtmud.Thing>` that
                                     is doing the looking. Output will be
                                     written from this thing's perspective.
-                target(str):        A string representing a nametag of an
-                                    object in ``thing``'s environment.
+                line(str):      The line to be parsed.
 
             Returns:
                 string:             Returns what the looker sees as a string.
         """
         line = Parser.parse_line(looker, line)
         scene = 'Whatever you tried to look at, you can\'t.'
-        if 'subject' in line:
-            subject = line['subject']
+        if 'objekt' in line:
+            objekt = line['objekt']
         elif len(line) == 1:
-            subject = 'here'
+            objekt = 'here'
         else:
-            subject = None
-        if (subject in ['room', 'here', 'location']
-            and hasattr(looker, 'location')):
-                subject = looker.location
-        elif subject in ['me', 'self', 'myself']:
-            subject = looker
+            objekt = None
+        if objekt in ['room', 'here', 'location'] \
+            and hasattr(looker, 'location'):
+                objekt = looker.location
+        elif objekt in ['me', 'self', 'myself']:
+            objekt = looker
         else:
-            matches = looker.search(**line)
+            matches = looker.search_by_line(**line)
             if len(matches) == 1:
-                subject = matches[0]
+                objekt = matches[0]
             elif len(matches) > 1:
-                scene = ('More than one match, try using the full name of what you want:\n')
+                scene = ('More than one match, try using the full name of what '
+                         'you want:\n')
                 for match in matches:
                         if hasattr(match, 'name') and hasattr(match, 'description'):
                             scene += ('{}\n'.format(match.name))
-        if hasattr(subject, 'name') and hasattr(subject, 'description'):
-            scene = '- {} -\n{}\n'.format(subject.name, subject.description)
-        else:
-            scene = 'Whatever you tried to look at can\'t be seen.'
-        if hasattr(subject, 'exits') and subject.exits:
+        if hasattr(objekt, 'name') and hasattr(objekt, 'description'):
+            scene = '- You look at {} -\n{}\n'.format(objekt.name,
+                                                      objekt.description)
+        if hasattr(objekt, 'exits') and objekt.exits:
             scene += 'exits [ '
-            for direction in subject.exits:
+            for direction in objekt.exits:
                 scene += '{} , '.format(direction)
             scene += ']\n'
-        if hasattr(subject, 'contents') and subject.contents:
+        if hasattr(objekt, 'contents') and objekt.contents:
             scene += 'contents: ( '
-            for content in subject.contents:
+            for content in objekt.contents:
                 if hasattr(content, 'name') and hasattr(content, 'location'):
                     scene += '{}, '.format(content.name)
             scene += ')'

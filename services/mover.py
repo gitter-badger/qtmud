@@ -76,10 +76,13 @@ class Mover(object):
                                          'from their location:\n\n%s', 
                                          thing.identity, err.__class__)
             if destination is None:
+                thing.location = None
                 self.manager.log.debug('Mover service did not receive '
                                        'destination, leaving %s without '
                                        'a location', thing.identity)
             else:
                 thing.location = destination
                 thing.location.add(thing)
+                if hasattr(thing, 'look'):
+                    thing.look('look')
         return True

@@ -35,7 +35,7 @@ class Learning(object):
             return False
         if len(line['pnp_clauses']) == 1 and line['pnp_clauses'][0][0] in [
             'from']:
-            teachers = learner.search(line['pnp_clauses'][0][2])
+            teachers = learner.search_by_line(line['pnp_clauses'][0][2])
             if teachers and len(teachers) == 1:
                 if hasattr(teachers[0], 'teach'):
                     teachers[0].teach(learner, line['subject'])

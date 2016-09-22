@@ -29,7 +29,7 @@ import random
 
 # the bigger it is, the less frequent the noise
 # this is a piss-poor way to do this tbh
-FREQUENCY = 2500000
+FREQUENCY = 9500000
 
 
 class Noisemaker(object):
@@ -80,8 +80,12 @@ class Noisemaker(object):
             and everything in the noisy thing's :attr:`location
             <qtmud.qualities.physical.Physical.location>`.
         """
+        # TODO: quieter
+        # have a list of things that received noise recently to avoid sending
+        # too many messages
+        # also check david's chat about something distributions.
         for thing in self.noisy_things:
-            if random.randrange(FREQUENCY) == 10:
+            if random.randrange(FREQUENCY) == 10 and thing.noises:
                 sense = random.choice(list(thing.noises.keys()))
                 noise = random.choice(thing.noises[sense])
                 if hasattr(thing, 'contents'):
@@ -98,4 +102,12 @@ class Noisemaker(object):
                                 content.manager.schedule('send',
                                                          thing = content,
                                                          scene = noise)
+                if hasattr(thing, 'container') and thing.container:
+                    if hasattr(thing.container, 'contents'):
+                        for content in thing.container.contents:
+                            if hasattr(content, 'send') and \
+                                    hasattr(content, sense):
+                                content.manager.schedule('send',
+                                                         thing=content,
+                                                         scene=noise)
         return True

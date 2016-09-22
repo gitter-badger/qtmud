@@ -48,6 +48,20 @@ class Client(object):
         return
 
     @staticmethod
+    def build_finger(fingeree):
+        """
+            .. versionadded:: 0.0.3-feature/diceroller
+        """
+        scene = '- finger -'.format(fingeree.identity)
+        for attribute in ['identity', 'name', 'nametags', 'addr']:
+            if hasattr(fingeree, attribute):
+                scene += ('\n'+attribute+':      '
+                          '{}'.format(getattr(fingeree, attribute)))
+        scene += '\n'
+        return scene
+
+
+    @staticmethod
     def send(thing, data):
         """ prepare data to be sent to a client.
 
@@ -69,21 +83,33 @@ class Client(object):
         """
         thing.send(line)
 
-    @staticmethod
-    def whoami(thing, line):
+    def finger(self, fingerer, line):
         """ tells the thing their name and identity
 
             .. versionadded:: 0.0.1-feature/parser
             .. versionchanged:: 0.0.2-feature/textblob
                 changed to be a staticmethod
+            .. versionchanged:: 0.0.3-feature/diceroller
+
         """
-        finger = ''
-        if hasattr(thing, 'name'):
-            finger += ('name:        {0}\n'.format(thing.name))
-        finger += ('id:          {0}\n'.format(thing.identity))
-        if hasattr(thing, 'nametags'):
-            finger += ('nametags:    {0}\n'.format(thing.nametags))
-        thing.manager.schedule('send', thing=thing, scene=finger)
+        output = ''
+        line = line.split(' ')
+        if len(line) == 2:
+            if line[1] in ['me', 'self']:
+                output = self.build_finger(fingerer)
+            else:
+                for client in fingerer.manager.qualities[self.__class__]:
+                    if line[1] in client.nametags or \
+                       line[1] ==   client.name.lower():
+                        output = self.build_finger(client)
+                if not output:
+                    output = ('No such client.')
+        else:
+            output = ('syntax: finger <client>')
+        fingerer.manager.schedule('send',
+                                  thing=fingerer,
+                                  scene=output)
+        return output
 
     @staticmethod
     def set(client, line):
@@ -93,6 +119,9 @@ class Client(object):
             .. versionadded:: 0.0.2-feature/parser
             .. versionchanged:: 0.0.2-feature/textblob
                 changed to be a staticmethod
+            .. versionchanged:: 0.0.3-feature/diceroller
+                client-side output.
+
         """
         line = line.split(' ')[1:]
         if line == '':
@@ -105,6 +134,10 @@ class Client(object):
             client.__dict__['set_%s' % attribute](client, value)
         try:
             setattr(client, attribute, value)
+            client.manager.schedule('send',
+                                    thing=client,
+                                    scene = ('You set {} to {}.'
+                                             ''.format(attribute, value)))
         except Exception as err:
             client.manager.log.warning('unexpected exception caught '
                                        'when %s entered the command '
@@ -128,13 +161,13 @@ class Client(object):
         """
         attribute = line.split()[0]
         if hasattr(client, attribute):
-            client.manager.schedule('thing',
+            client.manager.schedule('send',
                                     thing=client,
                                     scene='{}'.format(client.__dict__[attribute]))
 
     @staticmethod
     def foo(client, line):
-        print(client.qualities)
+        return line
 
     def apply(self, thing):
         """ Applies the Client quality to `thing`
@@ -166,7 +199,7 @@ class Client(object):
         if not hasattr(thing, 'send'):
             thing.send = types.MethodType(self.send, thing)
         if not hasattr(thing, 'commands'):
-            thing.commands = {'whoami': types.MethodType(self.whoami, thing),
+            thing.commands = {'finger': types.MethodType(self.finger, thing),
                               'echo': types.MethodType(self.echo, thing),
                               'set': types.MethodType(self.set, thing),
                               'get': types.MethodType(self.get, thing),

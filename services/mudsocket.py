@@ -20,7 +20,7 @@ import socket
 
 
 import qtmud
-from qtmud import HOST, MUD_PORT
+from qtmud import HOST, MUD_PORT, SPLASH
 # These are all the qualities that are applied to a client's thing to make 
 # it useful.
 from qtmud.qualities import (Client, Physical, Container, Sighted, Renderable,
@@ -60,6 +60,7 @@ class MUDSocket(object):
         self.socket.listen(5)
         self.connections = [self.socket]
         self.clients = {}
+        self.logging_in = set()
         return
     
     def tick(self, events): #pylint: disable=unused-variable
@@ -80,17 +81,16 @@ class MUDSocket(object):
             for conn in r:
                 if conn is self.socket:
                     new_conn, addr = conn.accept()
-                    client = self.manager.new_thing(Client, Physical, Container,
-                                                    Sighted, Renderable,
-                                                    Speaking, Hearing,
-                                                    Prehensile, Learning)
+                    client = self.manager.new_thing(Client)
                     client.update({'addr': addr,
                                    'send_buffer' : '',
                                    'recv_buffer' : ''})
                     self.connections.append(new_conn)
                     self.clients[new_conn] = client
-                    self.manager.schedule('move', thing=client,
-                                          destination=qtmud.manager.back_room)
+                    client.manager.schedule('send',
+                                            thing=client,
+                                            scene=(qtmud.SPLASH))
+                    self.logging_in.add(client)
                 else:
                     data = conn.recv(1024)
                     if data == b'':
@@ -99,18 +99,42 @@ class MUDSocket(object):
                                                 thing=self.clients[conn],
                                                 destination=None)
                     else:
-                        # do some work splitting incoming data into a command
-                        self.clients[conn].recv_buffer += data.decode('utf8',
+                        client = self.clients[conn]
+                        client.recv_buffer += data.decode('utf8',
                                                                       'ignore')
-                        if '\n' in self.clients[conn].recv_buffer:
-                            split = self.clients[conn].recv_buffer.rstrip().split('\n', 1)
+                        if '\n' in client.recv_buffer:
+                            split = client.recv_buffer.rstrip().split('\n', 1)
                             if len(split) == 2:
-                                line, self.clients[conn].recv_buffer = split
+                                line, client.recv_buffer = split
                             else:
-                                line, self.clients[conn].recv_buffer = split[0], ''
-                            self.manager.schedule('parse',
-                                                  commander=self.clients[conn],
-                                                  line=line)
+                                line = split[0]
+                                client.recv_buffer = ''
+                            if client in self.logging_in:
+                                client.name = line
+                                scene = ('Giving you some qualities: '
+                                         'Container, Hearing, '
+                                         'Learning, Physical, Renderable, '
+                                         'Sighted, Speaking, and Prehensile.')
+                                client.manager.schedule('send',
+                                                        thing=client,
+                                                        scene=scene)
+                                client.manager.add_qualities(client,
+                                                             [Container,
+                                                              Hearing,
+                                                              Learning,
+                                                              Physical,
+                                                              Renderable,
+                                                              Sighted,
+                                                              Speaking,
+                                                              Prehensile])
+                                client.manager.schedule('move',
+                                                        thing=client,
+                                                        destination=client.manager.back_room)
+                                self.logging_in.remove(client)
+                            else:
+                                self.manager.schedule('parse',
+                                                      commander=client,
+                                                      line=line)
         if w:
             for conn in w:
                 conn.send(self.clients[conn].send_buffer.encode('utf8'))

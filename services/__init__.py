@@ -58,32 +58,31 @@ class Service(object):
         super(Service, self).__init__()
         self.manager = manager
         self.subscriptions = []
+        return
         
-        def tick(self, events=False):
-            """ Handle one tick of gameplay
-        
-                .. versionadded:: 0.0.1-features/parser
-            
-                Parameters:
-                    events(list):   set to False by default, expected to be 
-                                    a list of tuples in the format of 
-                                    [('event', {payload})]
-            
-                Returns:
-                    bool:           False if the tick() fails for whatever 
-                                    reason, otherwise true.
-            
-                Every time the qtmud :func:`tick()s <qtmud.Manager.tick>`, it 
-                calls the ``tick()`` function of every service that has been 
-                instanced through :func:`add_services() 
-                <qtmud.Manager.add_services>`. If the event has any 
-                :attr:`subscriptions <qtmud.services.Service.subscriptions>`, 
-                matching :attr:`events <qtmud.Manager.events>` will be sent 
-                as a list of tuples, where the first element is the keyword 
-                the service is subscribed to, and the second element is the 
-                payload of the event.
-            """
-            if events is False: return False
-            for event, payload in events: #pylint: disable=unused-variable
-                pass
-            return True
+    def tick(self, events=False):
+        """ Handle one tick of gameplay
+
+            .. versionadded:: 0.0.1-features/parser
+
+            Parameters:
+                events(list):   set to False by default, expected to be
+                                a list of tuples in the format of
+                                [('event', {payload})]
+
+            Returns:
+                bool:           False if the tick() fails for whatever                                     reason, otherwise true.
+
+            Every time the qtmud :func:`tick()s <qtmud.Manager.tick>`, it
+            calls the ``tick()`` function of every service that has been                 instanced through :func:`add_services()
+            <qtmud.Manager.add_services>`. If the event has any
+            :attr:`subscriptions <qtmud.services.Service.subscriptions>`,
+            matching :attr:`events <qtmud.Manager.events>` will be sent
+            as a list of tuples, where the first element is the keyword
+            the service is subscribed to, and the second element is the
+            payload of the event.
+        """
+        if events is False: return False
+        for event, payload in events: #pylint: disable=unused-variable
+            pass
+        return True

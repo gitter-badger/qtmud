@@ -33,11 +33,10 @@ from qtmud.services.mudsocket import MUDSocket
 from qtmud.services import Renderer
 from qtmud.services.sender import Sender
 from qtmud.services.noisemaker import Noisemaker
-from qtmud.lib.services import Fighter
 
-# testing imports
-from qtmud.lib import Village, Field
-from qtmud.qualities.noisy import Noisy
+
+from qtmud.lib import BackRoom
+
 
 #plylint: enable=wrong-import position
 
@@ -58,12 +57,11 @@ if __name__ == '__main__':
         manager.add_services(MUDSocket, Parser, Mover, Renderer, Sender,
                              Noisemaker)
         manager.log.info('instancing library services')
-        manager.add_services(Fighter)
         manager.log.info('instancing qtmud.manager.back_room')
-        manager.back_room = manager.new_thing(Village)
+        manager.back_room= manager.new_thing(BackRoom)
         # ---
         # ---
-        # testing goes here
+        # testing goes here)
         # ---
         # ---
         # Run engine manager

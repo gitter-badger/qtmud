@@ -32,21 +32,19 @@ class Speaking(object):
                 Changed to use the manager's scheduler.
             .. versionchanged:: 0.0.2-feature/textblob
                 updated to work with new Send service.
+            .. versionchanged:: 0.0.3-feature/diceroller
+                fixed formatting error.
         """
         if not hasattr(speaker, 'location'):
             speaker.manager.schedule('send',
                                    thing=speaker,
                                    scene='You cannot speak, for you have'
                                          'no location.')
-        for content in speaker.location.contents:
-            if hasattr(content, 'name'):
-                print(content.name)
-            else:
-                print(content.identity)
+        message = ' '.join(line.split(' ')[1:])
         if hasattr(speaker, 'name'):
-            scene = '\n{0} says: {1}'.format(speaker.name, line)
+            scene = '\n{0} says: {1}'.format(speaker.name, message)
         else:
-            scene = '\nA voice says: {0}'.format(line)
+            scene = '\nA voice says: {0}'.format(message)
         for recipient in speaker.location.contents:
             if hasattr(recipient, 'send'):
                 recipient.manager.schedule('send', thing=recipient, scene=scene)

@@ -24,17 +24,24 @@
 import logging
 import uuid
 import traceback
+import random
 from collections import OrderedDict
 
 
 # Whatever you want your MUD to be called. Should be a string
-NAME        = 'qtmud'
+NAME = 'qtmud'
 # The version of your MUD. check docs/versioning. should be a string
-VERSION     = '0.0.3'
+VERSION = '0.0.3'
 # 'localhost' for development, '0.0.0.0' for production.
-HOST        = 'localhost'
+HOST = '0.0.0.0'
 # the port you want the MUDSocket service to listen over. should be integer
-MUD_PORT    = 5787
+MUD_PORT = 5787
+# random weird lines to show at login. private tradition
+with open('./.splash_lines') as file:
+    SPLASH_LINES = [line.rstrip('\n') for line in file]
+SPLASH = ('{}\n{}\n    {}\n\n'
+          'Please enter your [desired] username.'
+          ''.format(NAME, VERSION, random.choice(SPLASH_LINES)))
 
 
 # Currently set up to record all logging to debug.log, with only INFO 
@@ -145,59 +152,83 @@ class Thing(object):
                 self.nametags.add(nametag)
         return
 
-    def search(self, subject=None, adjectives=None, pnp_clauses=None, **kwargs):
+    @staticmethod
+    def search_by_nametag(reference, adjectives, noun):
+        """
+            .. versionadded:: 0.0.3-feature/diceroller
+        """
+        matches = []
+        if hasattr(reference, 'contents'):
+            for content in reference.contents:
+                for nametag in content.nametags:
+                    if nametag == noun:
+                        matches.append(content)
+        if hasattr(reference, 'location'):
+            for content in reference.location.contents:
+                for nametag in content.nametags:
+                    if nametag == noun:
+                        matches.append(content)
+            for nametag in reference.location.nametags:
+                if nametag == noun:
+                    matches.append(reference.location)
+        if adjectives:
+            old_matches = matches
+            new_matches = []
+            for match in old_matches:
+                for adjective in adjectives:
+                    if adjective in match.adjectives:
+                        matching_adjectives = True
+                    else:
+                        matching_adjectives = False
+                if matching_adjectives is True:
+                    new_matches.append(match)
+            matches = new_matches
+        return matches
+
+    def search_by_line(self, objekt=None, adjectives=None, pnp_clauses=None,
+                **kwargs):
         """ search for in this local environment.
         
-            .. versionadded:: 0.0.2-feature/nametags
-            .. versionchanged:: 0.0.2-feature/textblob
-                rewritten to handle the output produced by Parser.parse_line()
+            .. versionadded:: 0.0.3-feature/diceroller
             
             Parameters:
-                objekt(str):            the object of the parsed line
+                objekt(str):            the objekt of the parsed line
                 adjectives(str):        the adjectives from the parsed line
                 pnp_clauses(list):      the prepositional noun clauses from 
                                         the parsed line.
 
             Expecting the output from :method:`parse_line() 
-            <qmtud.services.parser.Parser.parse_line>`, search() looks for 
-            a match in the searching thing's contents, location, or 
+            <qmtud.services.parser.Parser.parse_line>`, search_by_line() looks
+            for a match in the searching thing's contents, location, or
             specified other location.
         """
         matches = []
-        if subject is not None:
-            if hasattr(self, 'contents'):
-                for content in self.contents:
-                    for nametag in content.nametags:
-                        if nametag == subject:
-                            matches.append(content)
-            if hasattr(self, 'location'):
-                for content in self.location.contents:
-                        for nametag in content.nametags:
-                                if nametag == subject:
-                                    matches.append(content)
-            if adjectives is not None:
-                old_matches = matches
-                new_matches = []
-                for match in old_matches:
-                    for adjective in adjectives:
-                        if adjective in match.adjectives:
-                            matching_adjectives = True
-                        else:
-                            matching_adjectives = False
-                    if matching_adjectives is True:
-                        new_matches.append(match)
-                matches = new_matches
+        reference = self
+        if objekt is not None:
+            if pnp_clauses is not None:
+                pnp_clauses.reverse()
+                for clause in pnp_clauses:
+                    if clause[0] in ['from', 'in', 'on']:
+                        references = self.search_by_nametag(reference,
+                                                            clause[1],
+                                                            clause[2])
+                        if len(references) != 1:
+                            return references
+                        reference = references[0]
+            matches = self.search_by_nametag(reference,
+                                             adjectives,
+                                             objekt)
         return matches
 
     def update(self, dict):
         """ Modify multiple attributes of the thing at once.
         
             .. versionadded:: 0.0.1
-            .. versionchanged:: 0.0.2-feature/parsing
+            .. versionchanged:: 0.0.2-feature/parser
                 added return of successfully updated attributes.
         
             Parameters:
-                _dict(dict):    a dict of `{attr : value}` where attr is 
+                dict(dict):    a dict of `{attr : value}` where attr is
                                 an attribute of the thing.
             
             Returns:
@@ -448,15 +479,11 @@ class Manager(object):
         # Main game sequence. Should push events out to subscribers.
         events = self.events
         self.events = {}
+        ##### print every event, for intense debugging
+        # if events:
+        #    print(events)
+        #####
         for service in self.services:
-            # try:
             self.services[service].tick(events.pop(self.services[service],
                                                    []))
-
-            # service.tick()s shouldn't be failing, but if they do, it 
-            # probably shouldn't be fatal...
-            # except Exception as err: #pylint: disable=broad-except
-            #     self.log.warning('%s failed to tick: %s',
-            #                      service.__class__.__name__, err)
-            #     traceback.print_exc()
         return True

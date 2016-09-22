@@ -26,7 +26,6 @@ class Prehensile(object):
             .. versionadded:: 0.0.3-feature/noise
         """
         line = line.split(' ')[1:]
-        print(line)
         if hasattr(dropper, 'contents'):
             for content in dropper.contents:
                 if line[-1] in content.nametags:
@@ -55,11 +54,11 @@ class Prehensile(object):
             .. versionadded:: 0.0.2-feature/textblob
         """
         line = Parser.parse_line(taker, line)
-        matches = taker.search(**line)
+        matches = taker.search_by_line(**line)
         if len(matches) == 1:
             subject = matches[0]
             taker.manager.schedule('move',thing=subject,destination=taker)
-            scene = 'You pick it up.'
+            scene = 'You pick {} up.'.format(subject.name)
         elif len(matches) >1:
             scene = 'More than one match, try using the full name:\n'
             for match in matches:
