@@ -1,8 +1,9 @@
 import random
 import string
+import types
 
 import qtmud
-from lib import starhopper
+from mudlib import starhopper
 
 
 def generate_name():
@@ -19,20 +20,28 @@ def generate_name():
     return ''.join(random.choice(s) for s in (start_sounds, vowels,
                                               end_sounds))
 
+def generate_star():
+    star = qtmud.new_thing()
+    star_types = ['O', 'B', 'A', 'F', 'G', 'K', 'M']
+    star.klass = '{}{}'.format(random.choice(star_types),
+                               random.choice(range(9)))
+    return star
 
 def apply(thing):
     system = thing
     system.name = generate_name()
+    system.sun = generate_star()
+    system.planets = set()
     planet_count = random.randrange(12)
     for count in range(planet_count):
         planet = qtmud.new_thing()
-        planet.name = generate_name()
+        planet.name = '{} {}'.format(system.name, count)
+        planet.nouns.add('planet')
         if count < 4:
             planet.description = 'This planet is a barren wasteland.'
         if count == 4:
             planet.description = 'This planet might be habitable.'
         if count > 4:
             planet.description = 'This planet is a frozen wasteland.'
-        system.add(planet)
-    starhopper.systems.add(system)
+        system.planets.add(planet)
     return system

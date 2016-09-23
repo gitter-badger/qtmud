@@ -4,8 +4,7 @@ import socket
 
 import qtmud
 import qtmud.qualities.client
-from lib.yeolderpg import back_room
-from lib.yeolderpg.qualities import player
+import mudlib
 
 clients = dict()
 connections = list()
@@ -25,6 +24,7 @@ def process_client_input(client, line):
                        recipient=client,
                        text='invalid command: {}'.format(line))
     return True
+qtmud.subscriptions.add(process_client_input)
 
 
 def bind(address):
@@ -50,6 +50,8 @@ def tick():
         for conn in r:
             if conn is mud_socket:
                 new_conn, addr = conn.accept()
+                qtmud.log.debug('new connection accepted from {}'.format(addr))
+                print('fooooo')
                 client = qtmud.qualities.client.apply(qtmud.new_thing())
                 client.update({'addr': addr,
                                'send_buffer': '',
@@ -77,14 +79,7 @@ def tick():
                         line, client.recv_buffer = split[0], ''
                     if client in logging_in:
                         client.name = line
-                        client = qtmud.qualities.client.finish(client)
-                        client = player.apply(client)
-                        qtmud.schedule('move',
-                                       thing=client,
-                                       destination=back_room)
-                        qtmud.schedule('send',
-                                       recipient=client,
-                                       text='All logged in')
+                        mudlib.handle_client(client)
                         logging_in.remove(client)
                     else:
                         qtmud.schedule('process_client_input',

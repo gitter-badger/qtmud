@@ -3,6 +3,7 @@ import types
 
 import qtmud
 
+
 def say_cmd(speaker, line):
     message = ' '.join(line.split(' ')[1:])
     output = '\n{0} says: {1}'.format(speaker.name, message)

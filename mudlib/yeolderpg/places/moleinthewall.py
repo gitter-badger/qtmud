@@ -1,5 +1,5 @@
 import qtmud
-from lib.yeolderpg.qualities import room
+from mudlib.yeolderpg.qualities import room
 
 bar = room.apply(qtmud.new_thing())
 kitchen = room.apply(qtmud.new_thing())

@@ -2,11 +2,7 @@ import random
 
 
 import qtmud
-from qtmud.services import mover
-from lib.yeolderpg.places import moleinthewall
-
-
-back_room = moleinthewall.bar
+from mudlib.yeolderpg.qualities import corpse
 
 
 def death(departed):
@@ -15,6 +11,7 @@ def death(departed):
         qtmud.schedule('move',
                        thing=body,
                        destination=departed.location)
+    return True
 
 
 def roll(roller, dice_pool):

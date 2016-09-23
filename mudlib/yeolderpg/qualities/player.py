@@ -1,7 +1,8 @@
 import types
 
 import qtmud
-from lib.yeolderpg.qualities import speaking, sighted, learning
+from mudlib.yeolderpg.qualities import hearing, learning, physical, \
+    renderable, sighted, speaking
 
 
 def move_cmd(mover, line):
@@ -16,6 +17,7 @@ def move_cmd(mover, line):
 
 def apply(thing):
     player = thing
-    player = speaking.apply(sighted.apply(learning.apply(player)))
+    player = hearing.apply(learning.apply(physical.apply(player)))
+    player = sighted.apply(speaking.apply(renderable.apply(player)))
     player.commands['move'] = types.MethodType(move_cmd, player)
     return player

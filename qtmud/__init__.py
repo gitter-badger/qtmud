@@ -1,12 +1,16 @@
 import logging
+import random
 import uuid
 
 
 NAME = 'qtmud'
 VERSION = '0.0.3'
 
-SPLASH = ('{}\n    version {}\n\nPlease input [desired] name'.format(NAME,
-                                                                     VERSION))
+SPLASH_LINES = open('./.splash_lines').read().splitlines()
+SPLASH = ('{}\nversion {}\n     {}'
+          '\n\nPlease input [desired] name'.format(NAME,
+                                                   VERSION,
+                                                   random.choice(SPLASH_LINES)))
 
 
 # Currently set up to record all logging to debug.log, with only INFO
@@ -27,7 +31,11 @@ log.addHandler(CONSOLE)
 
 events = dict()
 things = dict()
-subscriptions = dict()
+subscriptions = set()
+loaded_subscriptions = dict()
+tickers = set()
+loaded_tickers = set()
+
 
 
 def new_thing():
@@ -41,50 +49,27 @@ def new_thing():
 
 
 def schedule(sub, **payload):
-    for method in subscriptions.get(sub, []):
+    for method in loaded_subscriptions.get(sub, []):
         if method not in events:
             events[method] = []
         events[method].append(payload)
     return True
 
 
-def search_by_line(searcher, objekt=None, adjectives=None, pnp_clauses=None,
-                   verb=None):
+def search_by_noun(reference, adjectives, search_noun):
     matches = []
-    reference = searcher
-    if objekt is not None:
-        if pnp_clauses is not None:
-            pnp_clauses.reverse()
-            for clause in pnp_clauses:
-                if clause[0] in ['from', 'in', 'on']:
-                    references = search_by_nametag(reference,
-                                                        clause[1],
-                                                        clause[2])
-                    if len(references) != 1:
-                        return references
-                    reference = references[0]
-        matches = search_by_noun(reference,
-                                 adjectives,
-                                objekt)
-    return matches
-
-
-def search_by_noun(reference, adjectives, noun):
-    matches = []
-    print(noun)
     if hasattr(reference, 'contents'):
         for content in reference.contents:
-            for nametag in content.nametags:
-                if nametag == noun:
+            for noun in content.nouns:
+                if noun == search_noun:
                     matches.append(content)
     if hasattr(reference, 'location'):
         for content in reference.location.contents:
-            print(content.nametags)
-            for nametag in content.nametags:
-                if nametag == noun:
+            for noun in content.nouns:
+                if noun == search_noun:
                     matches.append(content)
-        for nametag in reference.location.nametags:
-            if nametag == noun:
+        for noun in reference.location.nouns:
+            if noun == search_noun:
                 matches.append(reference.location)
     if adjectives:
         old_matches = matches
@@ -104,9 +89,9 @@ def search_by_noun(reference, adjectives, noun):
 def subscribe(*methods):
     for method in methods:
         name = method.__name__
-        if name not in subscriptions:
-            subscriptions[name] = []
-        subscriptions[name].append(method)
+        if name not in loaded_subscriptions:
+            loaded_subscriptions[name] = []
+        loaded_subscriptions[name].append(method)
     return True
 
 
@@ -114,7 +99,7 @@ class Thing(object):
     def __init__(self, identity):
         self._name = str()
         self.identity = identity
-        self.nametags = {'thing'}
+        self.nouns = {'thing'}
         self.name = str(identity)
         self.adjectives = set()
         self.qualities = []
@@ -135,17 +120,18 @@ class Thing(object):
                 except KeyError:
                     pass
         try:
-            self.nametags.remove(old_name[-1])
+            self.nouns.remove(old_name[-1])
         except KeyError:
             pass
         new_name = value.lower().split(' ')
-        self.nametags.add(new_name[-1])
+        self.nouns.add(new_name[-1])
         if len(new_name) > 1:
                 adjectives = new_name[0:-1]
                 for adjective in adjectives:
                     self.adjectives.add(adjective)
-        self.nametags.add(new_name[-1])
+        self.nouns.add(new_name[-1])
         self._name = value
+        print(self.nouns)
 
     def update(self, to_update):
         for attribute, value in to_update.items():

@@ -1,4 +1,4 @@
-from qtmud.qualities import physical, container
+from mudlib.yeolderpg.qualities import physical, container
 
 
 def apply(thing):

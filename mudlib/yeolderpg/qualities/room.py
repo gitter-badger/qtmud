@@ -1,4 +1,5 @@
-from qtmud.qualities import container, renderable, noisy
+from mudlib.yeolderpg.qualities import container, noisy, renderable
+
 
 def apply(thing):
     room = thing

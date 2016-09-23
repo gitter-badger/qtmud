@@ -1,5 +1,7 @@
 from textblob import TextBlob
 
+import qtmud
+
 
 def parse_line(line):
     line = TextBlob('I will ' + line)
@@ -47,3 +49,24 @@ def parse_line(line):
             payload['pnp_clauses'].append(pnp)
         adjectives = []
     return payload
+
+
+def search_by_line(searcher, objekt=None, adjectives=None, pnp_clauses=None,
+                   verb=None):
+    matches = []
+    reference = searcher
+    if objekt is not None:
+        if pnp_clauses is not None:
+            pnp_clauses.reverse()
+            for clause in pnp_clauses:
+                if clause[0] in ['from', 'in', 'on']:
+                    references = qtmud.search_by_noun(reference,
+                                                        clause[1],
+                                                        clause[2])
+                    if len(references) != 1:
+                        return references
+                    reference = references[0]
+        matches = qtmud.search_by_noun(reference,
+                                 adjectives,
+                                objekt)
+    return matches

@@ -8,6 +8,7 @@ def send(recipient, text):
     if hasattr(recipient, 'send'):
         recipient.send(text)
     return True
+qtmud.subscriptions.add(send)
 
 def tick():
     if qtmud.events:
@@ -16,6 +17,7 @@ def tick():
         for event in current_events:
             for call in current_events[event]:
                 event(**call)
+
     for service in loaded:
         service.tick()
     return True

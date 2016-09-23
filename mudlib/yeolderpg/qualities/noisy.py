@@ -1,4 +1,4 @@
-from qtmud.services import noisemaker
+from mudlib.yeolderpg.services import noisemaker
 
 
 def apply(thing):

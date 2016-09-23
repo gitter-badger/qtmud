@@ -1,14 +1,12 @@
 import types
 
-
 import qtmud
-from qtmud.qualities import container, hearing, physical, renderable
 from qtmud.services import mudsocket
 
 
 def build_finger(fingeree):
     finger = '- who is {}-'.format(fingeree.identity)
-    for attribute in ['identity', 'name', 'nametags', 'addr']:
+    for attribute in ['identity', 'name', 'nouns', 'addr']:
         if hasattr(fingeree, attribute):
             finger += ('\n{}:      {}'.format(attribute,
                                               getattr(fingeree, attribute)))
@@ -22,6 +20,7 @@ def commands_cmd(commander, line):
                    text='{}'.format(commander.commands.keys()))
     return True
 
+
 def finger_cmd(fingerer, line):
     finger = str()
     line = line.split(' ')
@@ -31,7 +30,7 @@ def finger_cmd(fingerer, line):
         else:
             for socket in mudsocket.clients:
                 client = mudsocket.clients[socket]
-                if line[1] in client.nametags or line[1] == client.name.lower():
+                if line[1] in client.nouns or line[1] == client.name.lower():
                     finger = build_finger(client)
                     break
         if not finger:
@@ -42,15 +41,6 @@ def finger_cmd(fingerer, line):
                    recipient=fingerer,
                    text=finger)
     return True
-
-
-def finish(thing):
-    client = thing
-    client = container.apply(client)
-    client = hearing.apply(client)
-    client = physical.apply(client)
-    client = renderable.apply(client)
-    return client
 
 
 def send(thing, text):

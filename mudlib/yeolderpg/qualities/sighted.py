@@ -4,7 +4,6 @@ import qtmud
 from qtmud.services import parser
 
 def look(objekt):
-    scene = 'huh'
     if hasattr(objekt, 'name') and hasattr(objekt, 'description'):
         scene = '- You look at {} -\n{}\n'.format(objekt.name,
                                                   objekt.description)
