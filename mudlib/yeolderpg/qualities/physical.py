@@ -4,8 +4,6 @@ import types
 import qtmud
 
 
-
-
 def apply(thing):
     thing.location = None
     if hasattr(thing, 'commands'):

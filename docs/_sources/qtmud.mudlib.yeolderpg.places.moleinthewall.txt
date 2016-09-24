@@ -1,0 +1,7 @@
+qtmud.mudlib.yeolderpg.places.moleinthewall module
+==================================================
+
+.. automodule:: qtmud.mudlib.yeolderpg.places.moleinthewall
+    :members:
+    :undoc-members:
+    :show-inheritance:

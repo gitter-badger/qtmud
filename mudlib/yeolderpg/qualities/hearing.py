@@ -27,14 +27,12 @@ def listen_cmd(listener, line):
     listener = listener
     line = parser.parse_line(line)
     output = str()
-    print(line)
     if 'objekt' in line:
         objekt = line['objekt']
     elif len(line) == 1:
         objekt = 'here'
     else:
         objekt = None
-    print(objekt)
     if objekt in ['room', 'here', 'location']:
         if listener.location.sounds:
             output = '{}'.format(listener.location.sounds)
@@ -48,7 +46,7 @@ def listen_cmd(listener, line):
             match = matches[0]
             if hasattr(match, 'noise'):
                 output = '{}'.format(listener.location.sounds)
-        elif len(matches) >1:
+        elif len(matches) > 1:
             output = 'More than one match, try using the full name:\n'
             for match in matches:
                 output += '{}'.format(match.name)

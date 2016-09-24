@@ -1,0 +1,19 @@
+qtmud.mudlib.yeolderpg package
+==============================
+
+Subpackages
+-----------
+
+.. toctree::
+
+    qtmud.mudlib.yeolderpg.places
+    qtmud.mudlib.yeolderpg.qualities
+    qtmud.mudlib.yeolderpg.services
+
+Module contents
+---------------
+
+.. automodule:: qtmud.mudlib.yeolderpg
+    :members:
+    :undoc-members:
+    :show-inheritance:

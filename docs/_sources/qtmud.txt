@@ -6,9 +6,8 @@ Subpackages
 
 .. toctree::
 
-    qtmud.lib
-    qtmud.qualities
-    qtmud.services
+    qtmud.mudlib
+    qtmud.qtmud
 
 Submodules
 ----------

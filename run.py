@@ -1,9 +1,7 @@
 #!/usr/bin/python3
 """ qtmud startup script
 
-    .. moduleauthor:: emsenn <morgan.sennhauser@gmail.com>
-
-    .. versionadded:: 0.1.0
+    .. versionadded:: 0.0.1
 """
 
 
@@ -23,11 +21,15 @@ if __name__ == '__main__':
     for sub in qtmud.subscriptions:
         qtmud.subscribe(sub)
     qtmud.log.info('binding mudsocket')
-    qtmud.services.mudsocket.bind(('localhost', 5787))
-    qtmud.log.info('running qtmud.services.tick() until interrupt')
-    try:
-        while True:
-            qtmud.services.tick()
-    except KeyboardInterrupt as err:
-        qtmud.log.critical('keyboard interrupt received, shutting down')
+    if qtmud.services.mudsocket.bind(('localhost', 5787)):
+        qtmud.log.info('running qtmud.services.tick() until interrupt')
+        try:
+            while True:
+                qtmud.services.tick()
+        except KeyboardInterrupt as err:
+            qtmud.log.critical('keyboard interrupt received, shutting down')
+            exit()
+    else:
+        qtmud.log.error('failed to bind')
+        qtmud.log.critical('fatal, shutting down')
         exit()

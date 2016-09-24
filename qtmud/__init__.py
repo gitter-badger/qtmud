@@ -1,3 +1,27 @@
+""" qtmud core methods & Thing
+
+    .. versionadded 0.0.4
+
+    .. warning:: Do not rely on this API! I'm a newbie programmer and changing
+                 things all the time.
+
+    Methods for handling the schedule, instancing Things, and looking those
+    things back up.
+
+    Attributes:
+        NAME(str):                      name of the MUD engine
+        VERSION(str):                   version of the MUD engine
+        SPLASH_LINES(list):             funny lines that go under the version
+                                        number
+        SPLASH(str):                    the text clients see when they connect
+        log(object):                    handles logging for qtmud
+        events(dict):                   things that are going to happen next
+                                        tick()
+        things(dict):                   all the things made through new_thing()
+        subscriptions(set):             every method that wants to subscribe
+        loaded_subscriptions(dict):     every method that has been subscribed
+"""
+
 import logging
 import random
 import uuid
@@ -5,7 +29,6 @@ import uuid
 
 NAME = 'qtmud'
 VERSION = '0.0.3'
-
 SPLASH_LINES = open('./.splash_lines').read().splitlines()
 SPLASH = ('{}\nversion {}\n     {}'
           '\n\nPlease input [desired] name'.format(NAME,
@@ -33,9 +56,6 @@ events = dict()
 things = dict()
 subscriptions = set()
 loaded_subscriptions = dict()
-tickers = set()
-loaded_tickers = set()
-
 
 
 def new_thing():
@@ -126,12 +146,11 @@ class Thing(object):
         new_name = value.lower().split(' ')
         self.nouns.add(new_name[-1])
         if len(new_name) > 1:
-                adjectives = new_name[0:-1]
-                for adjective in adjectives:
-                    self.adjectives.add(adjective)
+            adjectives = new_name[0:-1]
+            for adjective in adjectives:
+                self.adjectives.add(adjective)
         self.nouns.add(new_name[-1])
         self._name = value
-        print(self.nouns)
 
     def update(self, to_update):
         for attribute, value in to_update.items():

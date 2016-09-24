@@ -5,6 +5,7 @@
     .. versionadded:: 0.1.0
 """
 
+
 def apply(thing):
     """ make a thing renderable
 

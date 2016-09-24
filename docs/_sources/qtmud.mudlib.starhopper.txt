@@ -1,0 +1,18 @@
+qtmud.mudlib.starhopper package
+===============================
+
+Subpackages
+-----------
+
+.. toctree::
+
+    qtmud.mudlib.starhopper.ship
+    qtmud.mudlib.starhopper.starsystem
+
+Module contents
+---------------
+
+.. automodule:: qtmud.mudlib.starhopper
+    :members:
+    :undoc-members:
+    :show-inheritance:

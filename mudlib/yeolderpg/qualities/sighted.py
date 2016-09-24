@@ -3,6 +3,7 @@ import types
 import qtmud
 from qtmud.services import parser
 
+
 def look(objekt):
     if hasattr(objekt, 'name') and hasattr(objekt, 'description'):
         scene = '- You look at {} -\n{}\n'.format(objekt.name,
@@ -20,6 +21,7 @@ def look(objekt):
         scene += ')'
     return scene
 
+
 def look_cmd(looker, line):
     line = parser.parse_line(line)
     scene = 'Whatever you tried to look at, you can\'t.'
@@ -34,8 +36,7 @@ def look_cmd(looker, line):
     elif objekt in ['me', 'self', 'myself']:
         objekt = looker
     else:
-        print(line)
-        matches = qtmud.search_by_line(looker, **line)
+        matches = parser.search_by_line(looker, **line)
         if len(matches) == 1:
             objekt = matches[0]
         elif len(matches) > 1:

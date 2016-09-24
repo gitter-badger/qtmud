@@ -7,12 +7,9 @@
     human-readable, there is a lot of markup that is used to cross-reference 
     the source code.*
 
+
 qtmud documentation
 ###################
-
-
-.. todo:: test message!
-
 
 qtmud is an early alpha multiplayer text-based real-time virtual world simulator.
 

@@ -1,0 +1,18 @@
+qtmud.qtmud.services package
+============================
+
+Submodules
+----------
+
+.. toctree::
+
+   qtmud.qtmud.services.mudsocket
+   qtmud.qtmud.services.parser
+
+Module contents
+---------------
+
+.. automodule:: qtmud.qtmud.services
+    :members:
+    :undoc-members:
+    :show-inheritance:

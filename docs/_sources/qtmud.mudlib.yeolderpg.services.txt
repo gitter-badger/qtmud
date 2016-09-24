@@ -1,0 +1,17 @@
+qtmud.mudlib.yeolderpg.services package
+=======================================
+
+Submodules
+----------
+
+.. toctree::
+
+   qtmud.mudlib.yeolderpg.services.noisemaker
+
+Module contents
+---------------
+
+.. automodule:: qtmud.mudlib.yeolderpg.services
+    :members:
+    :undoc-members:
+    :show-inheritance:

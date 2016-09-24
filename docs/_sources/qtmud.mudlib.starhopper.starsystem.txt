@@ -1,0 +1,10 @@
+qtmud.mudlib.starhopper.starsystem package
+==========================================
+
+Module contents
+---------------
+
+.. automodule:: qtmud.mudlib.starhopper.starsystem
+    :members:
+    :undoc-members:
+    :show-inheritance:

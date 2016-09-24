@@ -1,0 +1,17 @@
+qtmud.mudlib.yeolderpg.places package
+=====================================
+
+Submodules
+----------
+
+.. toctree::
+
+   qtmud.mudlib.yeolderpg.places.moleinthewall
+
+Module contents
+---------------
+
+.. automodule:: qtmud.mudlib.yeolderpg.places
+    :members:
+    :undoc-members:
+    :show-inheritance:

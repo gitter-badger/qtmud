@@ -1,0 +1,7 @@
+qtmud.mudlib.yeolderpg.qualities.physical module
+================================================
+
+.. automodule:: qtmud.mudlib.yeolderpg.qualities.physical
+    :members:
+    :undoc-members:
+    :show-inheritance:
