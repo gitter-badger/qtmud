@@ -1,0 +1,7 @@
+qtmud.mudlib.yeolderpg.qualities.noisy module
+=============================================
+
+.. automodule:: qtmud.mudlib.yeolderpg.qualities.noisy
+    :members:
+    :undoc-members:
+    :show-inheritance:

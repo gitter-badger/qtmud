@@ -1,0 +1,7 @@
+qtmud.mudlib.yeolderpg.qualities.room module
+============================================
+
+.. automodule:: qtmud.mudlib.yeolderpg.qualities.room
+    :members:
+    :undoc-members:
+    :show-inheritance:

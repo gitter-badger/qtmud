@@ -1,0 +1,10 @@
+qtmud.mudlib.starhopper.ship package
+====================================
+
+Module contents
+---------------
+
+.. automodule:: qtmud.mudlib.starhopper.ship
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -1,0 +1,7 @@
+qtmud.mudlib.yeolderpg.qualities.hearing module
+===============================================
+
+.. automodule:: qtmud.mudlib.yeolderpg.qualities.hearing
+    :members:
+    :undoc-members:
+    :show-inheritance:

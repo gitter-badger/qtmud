@@ -1,0 +1,7 @@
+qtmud.mudlib.yeolderpg.qualities.speaking module
+================================================
+
+.. automodule:: qtmud.mudlib.yeolderpg.qualities.speaking
+    :members:
+    :undoc-members:
+    :show-inheritance:

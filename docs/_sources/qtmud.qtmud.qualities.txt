@@ -1,0 +1,17 @@
+qtmud.qtmud.qualities package
+=============================
+
+Submodules
+----------
+
+.. toctree::
+
+   qtmud.qtmud.qualities.client
+
+Module contents
+---------------
+
+.. automodule:: qtmud.qtmud.qualities
+    :members:
+    :undoc-members:
+    :show-inheritance:

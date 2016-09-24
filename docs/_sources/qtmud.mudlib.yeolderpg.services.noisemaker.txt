@@ -1,0 +1,7 @@
+qtmud.mudlib.yeolderpg.services.noisemaker module
+=================================================
+
+.. automodule:: qtmud.mudlib.yeolderpg.services.noisemaker
+    :members:
+    :undoc-members:
+    :show-inheritance:
