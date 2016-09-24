@@ -1,7 +1,0 @@
-qtmud.mudlib.yeolderpg.qualities.player module
-==============================================
-
-.. automodule:: qtmud.mudlib.yeolderpg.qualities.player
-    :members:
-    :undoc-members:
-    :show-inheritance:

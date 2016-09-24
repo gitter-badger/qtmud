@@ -7,7 +7,7 @@ MUDLIB = starhopper
 
 
 START_LOCATION = MUDLIB.START_LOCATION
-startup_services = MUDLIB.startup_services
+SPLASH = MUDLIB.SPLASH
 
 def add_client(client):
     return MUDLIB.add_client(client)

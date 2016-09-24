@@ -1,7 +1,0 @@
-qtmud.mudlib.yeolderpg.qualities.container module
-=================================================
-
-.. automodule:: qtmud.mudlib.yeolderpg.qualities.container
-    :members:
-    :undoc-members:
-    :show-inheritance:

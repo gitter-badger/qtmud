@@ -1,7 +1,0 @@
-qtmud.services.noisemaker module
-================================
-
-.. automodule:: qtmud.services.noisemaker
-    :members:
-    :undoc-members:
-    :show-inheritance:

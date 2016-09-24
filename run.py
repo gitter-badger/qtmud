@@ -13,10 +13,6 @@ import mudlib
 if __name__ == '__main__':
     qtmud.log.info('loading core services')
     qtmud.services.loaded.extend([mudsocket])
-    if mudlib.startup_services:
-        qtmud.log.info('loading mudlib services')
-        for service in mudlib.startup_services:
-            qtmud.services.loaded.extend([service])
     qtmud.log.info('adding subscriptions')
     for sub in qtmud.subscriptions:
         qtmud.subscribe(sub)

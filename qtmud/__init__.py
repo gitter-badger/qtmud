@@ -30,10 +30,9 @@ import uuid
 NAME = 'qtmud'
 VERSION = '0.0.3'
 SPLASH_LINES = open('./.splash_lines').read().splitlines()
-SPLASH = ('{}\nversion {}\n     {}'
-          '\n\nPlease input [desired] name'.format(NAME,
-                                                   VERSION,
-                                                   random.choice(SPLASH_LINES)))
+SPLASH = ('{}\nversion {}\n     {}\n'.format(NAME,
+                                             VERSION,
+                                             random.choice(SPLASH_LINES)))
 
 
 # Currently set up to record all logging to debug.log, with only INFO

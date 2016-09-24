@@ -1,7 +1,0 @@
-qtmud.mudlib.yeolderpg.qualities.corpse module
-==============================================
-
-.. automodule:: qtmud.mudlib.yeolderpg.qualities.corpse
-    :members:
-    :undoc-members:
-    :show-inheritance:

@@ -92,6 +92,9 @@ def tick():
                 qtmud.schedule('send',
                                recipient=client,
                                text=qtmud.SPLASH)
+                qtmud.schedule('send',
+                               recipient=client,
+                               text=mudlib.SPLASH)
             else:
                 data = conn.recv(1024)
                 if data == b'':

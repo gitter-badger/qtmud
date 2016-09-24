@@ -1,7 +1,0 @@
-qtmud.qtmud.services.parser module
-==================================
-
-.. automodule:: qtmud.qtmud.services.parser
-    :members:
-    :undoc-members:
-    :show-inheritance:

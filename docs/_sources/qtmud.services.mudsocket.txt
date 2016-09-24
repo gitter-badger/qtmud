@@ -1,7 +1,0 @@
-qtmud.services.mudsocket module
-===============================
-
-.. automodule:: qtmud.services.mudsocket
-    :members:
-    :undoc-members:
-    :show-inheritance:

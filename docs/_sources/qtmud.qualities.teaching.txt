@@ -1,7 +1,0 @@
-qtmud.qualities.teaching module
-===============================
-
-.. automodule:: qtmud.qualities.teaching
-    :members:
-    :undoc-members:
-    :show-inheritance:

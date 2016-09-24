@@ -1,7 +1,0 @@
-qtmud.qualities.room module
-===========================
-
-.. automodule:: qtmud.qualities.room
-    :members:
-    :undoc-members:
-    :show-inheritance:

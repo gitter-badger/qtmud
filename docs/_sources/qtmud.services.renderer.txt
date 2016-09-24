@@ -1,7 +1,0 @@
-qtmud.services.renderer module
-==============================
-
-.. automodule:: qtmud.services.renderer
-    :members:
-    :undoc-members:
-    :show-inheritance:

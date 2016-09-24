@@ -1,7 +1,0 @@
-qtmud.mudlib.yeolderpg.qualities.teaching module
-================================================
-
-.. automodule:: qtmud.mudlib.yeolderpg.qualities.teaching
-    :members:
-    :undoc-members:
-    :show-inheritance:
