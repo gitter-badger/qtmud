@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>qtmud.services.parser &#8212; qtmud 0.0.4 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.0.4',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="qtmud 0.0.4 documentation" href="../../../index.html" />
+    <link rel="up" title="qtmud.services" href="../services.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">qtmud 0.0.4 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../qtmud.html" >qtmud</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../services.html" accesskey="U">qtmud.services</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for qtmud.services.parser</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; methods related to text processing</span>
+
+<span class="sd">    .. versionadded:: 0.0.4</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">textblob</span> <span class="k">import</span> <span class="n">TextBlob</span>
+
+<span class="kn">import</span> <span class="nn">qtmud</span>
+<span class="kn">import</span> <span class="nn">mudlib</span>
+
+
+<div class="viewcode-block" id="parse_line"><a class="viewcode-back" href="../../../qtmud.services.parser.html#qtmud.services.parser.parse_line">[docs]</a><span class="k">def</span> <span class="nf">parse_line</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; interpret phrase relation and parts of speech from line</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            line(str):          line to be parsed</span>
+<span class="sd">        Return:</span>
+<span class="sd">            payload(dict):      phrases by role</span>
+
+<span class="sd">        Check inline comments for technical explanation.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># TODO: change clause to phrase</span>
+    <span class="n">line</span> <span class="o">=</span> <span class="n">TextBlob</span><span class="p">(</span><span class="s1">&#39;I will &#39;</span> <span class="o">+</span> <span class="n">line</span><span class="p">)</span>
+    <span class="n">parsed_line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)[</span><span class="mi">2</span><span class="p">:]</span>
+    <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">parsed_line</span><span class="p">:</span>
+        <span class="n">parsed_line</span><span class="p">[</span><span class="n">parsed_line</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">word</span><span class="p">)]</span> <span class="o">=</span> <span class="n">word</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+    <span class="n">phrase_starts</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">chunked_phrases</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">payload</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">adjectives</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">place</span><span class="p">,</span> <span class="n">word</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">parsed_line</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">word</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;O&#39;</span><span class="p">,</span> <span class="s1">&#39;B-PNP&#39;</span><span class="p">]:</span>
+            <span class="n">phrase_starts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">place</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">phrase</span> <span class="ow">in</span> <span class="n">phrase_starts</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">phrase</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">phrase_starts</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">chunked_phrases</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">parsed_line</span><span class="p">[</span><span class="n">phrase</span><span class="p">:</span><span class="n">phrase_starts</span><span class="p">[</span>
+                <span class="n">phrase_starts</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">phrase</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]])</span>
+        <span class="k">if</span> <span class="n">phrase</span> <span class="ow">is</span> <span class="n">phrase_starts</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">chunked_phrases</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">parsed_line</span><span class="p">[</span><span class="n">phrase</span><span class="p">:])</span>
+    <span class="k">for</span> <span class="n">phrase</span> <span class="ow">in</span> <span class="n">chunked_phrases</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">phrase</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;O&#39;</span> <span class="ow">and</span> \
+                        <span class="nb">len</span><span class="p">(</span><span class="n">chunked_phrases</span><span class="p">[</span>
+                                <span class="n">chunked_phrases</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">phrase</span><span class="p">)])</span> <span class="ow">is</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">phrase</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;JJ&#39;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="s1">&#39;adjectives&#39;</span> <span class="ow">in</span> <span class="n">payload</span><span class="p">:</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="s1">&#39;adjectives&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">phrase</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="s1">&#39;adjectives&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">phrase</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span>
+                <span class="n">adjectives</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">phrase</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">phrase</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;VB&#39;</span><span class="p">:</span>
+                <span class="n">payload</span><span class="p">[</span><span class="s1">&#39;verb&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">phrase</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">phrase</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;NN&#39;</span><span class="p">,</span> <span class="s1">&#39;NNS&#39;</span><span class="p">,</span> <span class="s1">&#39;PRP&#39;</span><span class="p">]:</span>
+                <span class="n">payload</span><span class="p">[</span><span class="s1">&#39;objekt&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">phrase</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">phrase</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;B-PNP&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">phrase</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;IN&#39;</span><span class="p">,</span> <span class="s1">&#39;TO&#39;</span><span class="p">]:</span>
+                <span class="n">preposition</span> <span class="o">=</span> <span class="n">phrase</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">phrase</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">word</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;NN&#39;</span><span class="p">,</span> <span class="s1">&#39;PRP&#39;</span><span class="p">]:</span>
+                        <span class="n">noun</span> <span class="o">=</span> <span class="n">word</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">word</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;JJ&#39;</span><span class="p">:</span>
+                        <span class="n">adjectives</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">word</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">pnp</span> <span class="o">=</span> <span class="p">[</span><span class="n">preposition</span><span class="p">,</span> <span class="n">adjectives</span><span class="p">,</span> <span class="n">noun</span><span class="p">]</span>
+            <span class="k">if</span> <span class="s1">&#39;pnp_clauses&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">payload</span><span class="p">:</span>
+                <span class="n">payload</span><span class="p">[</span><span class="s1">&#39;pnp_clauses&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">payload</span><span class="p">[</span><span class="s1">&#39;pnp_clauses&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pnp</span><span class="p">)</span>
+        <span class="n">adjectives</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">return</span> <span class="n">payload</span></div>
+
+
+<div class="viewcode-block" id="search_by_line"><a class="viewcode-back" href="../../../qtmud.services.parser.html#qtmud.services.parser.search_by_line">[docs]</a><span class="k">def</span> <span class="nf">search_by_line</span><span class="p">(</span><span class="n">searcher</span><span class="p">,</span> <span class="n">verb</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">objekt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">adjectives</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                   <span class="n">pnp_clauses</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; search for thing by parsed line</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            searcher(object):</span>
+<span class="sd">            objekt(str):</span>
+<span class="sd">            adjectives(list):</span>
+<span class="sd">            pnp_clauses(list):</span>
+<span class="sd">            verb(str):</span>
+<span class="sd">        Return:</span>
+<span class="sd">            list:               matched things.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">matches</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">reference</span> <span class="o">=</span> <span class="n">searcher</span>
+    <span class="k">if</span> <span class="n">objekt</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">pnp_clauses</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">pnp_clauses</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">clause</span> <span class="ow">in</span> <span class="n">pnp_clauses</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">clause</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;from&#39;</span><span class="p">,</span> <span class="s1">&#39;in&#39;</span><span class="p">,</span> <span class="s1">&#39;on&#39;</span><span class="p">]:</span>
+                    <span class="n">references</span> <span class="o">=</span> <span class="n">mudlib</span><span class="o">.</span><span class="n">search_environment</span><span class="p">(</span><span class="n">reference</span><span class="p">,</span>
+                                                          <span class="n">clause</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                                                          <span class="n">clause</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">references</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="n">references</span>
+                    <span class="n">reference</span> <span class="o">=</span> <span class="n">references</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">matches</span> <span class="o">=</span> <span class="n">qtmud</span><span class="o">.</span><span class="n">search_by_noun</span><span class="p">(</span><span class="n">reference</span><span class="p">,</span>
+                                       <span class="n">adjectives</span><span class="p">,</span>
+                                       <span class="n">objekt</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">matches</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">matches</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">qtmud 0.0.4 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../qtmud.html" >qtmud</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../services.html" >qtmud.services</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, emsenn.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

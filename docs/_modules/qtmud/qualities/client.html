@@ -1,0 +1,210 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>qtmud.qualities.client &#8212; qtmud 0.0.4 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.0.4',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="qtmud 0.0.4 documentation" href="../../../index.html" />
+    <link rel="up" title="qtmud" href="../../qtmud.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">qtmud 0.0.4 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../qtmud.html" accesskey="U">qtmud</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for qtmud.qualities.client</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; Methods for Clients</span>
+
+<span class="sd">    .. versionadded:: 0.0.4</span>
+
+<span class="sd">    Methods for Clients, expecting to be added to a :class:`thing &lt;qtmud.Thing&gt;`</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c1"># TODO help command that prints docstring for command method</span>
+
+<span class="kn">import</span> <span class="nn">types</span>
+
+
+<span class="kn">import</span> <span class="nn">qtmud</span>
+<span class="kn">from</span> <span class="nn">qtmud.services</span> <span class="k">import</span> <span class="n">mudsocket</span>
+
+
+<div class="viewcode-block" id="build_finger"><a class="viewcode-back" href="../../../qtmud.qualities.client.html#qtmud.qualities.client.build_finger">[docs]</a><span class="k">def</span> <span class="nf">build_finger</span><span class="p">(</span><span class="n">fingeree</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters:</span>
+<span class="sd">            fingeree(object):       The Thing being fingered.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            str:                    The finger information of `fingeree`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">finger</span> <span class="o">=</span> <span class="s1">&#39;- who is </span><span class="si">{}</span><span class="s1">-&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fingeree</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">attribute</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;identity&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;nouns&#39;</span><span class="p">,</span> <span class="s1">&#39;addr&#39;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">fingeree</span><span class="p">,</span> <span class="n">attribute</span><span class="p">):</span>
+            <span class="n">finger</span> <span class="o">+=</span> <span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="si">{}</span><span class="s1">:      </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">attribute</span><span class="p">,</span>
+                                              <span class="nb">getattr</span><span class="p">(</span><span class="n">fingeree</span><span class="p">,</span> <span class="n">attribute</span><span class="p">)))</span>
+    <span class="n">finger</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+    <span class="k">return</span> <span class="n">finger</span></div>
+
+
+<div class="viewcode-block" id="commands_cmd"><a class="viewcode-back" href="../../../qtmud.qualities.client.html#qtmud.qualities.client.commands_cmd">[docs]</a><span class="k">def</span> <span class="nf">commands_cmd</span><span class="p">(</span><span class="n">commander</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters:</span>
+<span class="sd">            commander(object):          thing with commands</span>
+<span class="sd">            line(str):                  input from commander&#39;s client,</span>
+<span class="sd">                                        unused here.</span>
+<span class="sd">        Return:</span>
+<span class="sd">            bool:                       True</span>
+
+<span class="sd">        Schedules the send()ing of commander&#39;s commands to commander.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;send&#39;</span><span class="p">,</span>
+                   <span class="n">recipient</span><span class="o">=</span><span class="n">commander</span><span class="p">,</span>
+                   <span class="n">text</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">commander</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="finger_cmd"><a class="viewcode-back" href="../../../qtmud.qualities.client.html#qtmud.qualities.client.finger_cmd">[docs]</a><span class="k">def</span> <span class="nf">finger_cmd</span><span class="p">(</span><span class="n">fingerer</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters:</span>
+<span class="sd">            fingerer(object):       thing fingering another client.</span>
+<span class="sd">            line(str):              client input, expected to be the name of</span>
+<span class="sd">                                    a client</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            bool:                   True</span>
+
+<span class="sd">        Builds a finger of the client mentioned in `line`, and schedules its</span>
+<span class="sd">        send()ing.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">finger</span> <span class="o">=</span> <span class="nb">str</span><span class="p">()</span>
+    <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">line</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;me&#39;</span><span class="p">,</span> <span class="s1">&#39;self&#39;</span><span class="p">]:</span>
+            <span class="n">finger</span> <span class="o">=</span> <span class="n">build_finger</span><span class="p">(</span><span class="n">fingerer</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">socket</span> <span class="ow">in</span> <span class="n">mudsocket</span><span class="o">.</span><span class="n">clients</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">mudsocket</span><span class="o">.</span><span class="n">clients</span><span class="p">[</span><span class="n">socket</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                <span class="n">client</span> <span class="o">=</span> <span class="n">mudsocket</span><span class="o">.</span><span class="n">clients</span><span class="p">[</span><span class="n">socket</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">line</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">client</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+                    <span class="n">finger</span> <span class="o">=</span> <span class="n">build_finger</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+                    <span class="k">break</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">finger</span><span class="p">:</span>
+            <span class="n">finger</span> <span class="o">=</span> <span class="s1">&#39;No such thing&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">finger</span> <span class="o">=</span> <span class="s1">&#39;syntax: finger &lt;thing&gt;&#39;</span>
+    <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;send&#39;</span><span class="p">,</span>
+                   <span class="n">recipient</span><span class="o">=</span><span class="n">fingerer</span><span class="p">,</span>
+                   <span class="n">text</span><span class="o">=</span><span class="n">finger</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="send"><a class="viewcode-back" href="../../../qtmud.qualities.client.html#qtmud.qualities.client.send">[docs]</a><span class="k">def</span> <span class="nf">send</span><span class="p">(</span><span class="n">thing</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters:</span>
+<span class="sd">            thing(object):          client to which text will be send</span>
+<span class="sd">            text(str):              text which will be sent to client.</span>
+<span class="sd">        Return:</span>
+<span class="sd">            bool:                   True</span>
+
+<span class="sd">        Adds text to the thing&#39;s send_buffer - if the thing is connected</span>
+<span class="sd">        through the socket server, this will get pushed to them and reset every</span>
+<span class="sd">        tick.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">thing</span><span class="o">.</span><span class="n">send_buffer</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="apply"><a class="viewcode-back" href="../../../qtmud.qualities.client.html#qtmud.qualities.client.apply">[docs]</a><span class="k">def</span> <span class="nf">apply</span><span class="p">(</span><span class="n">thing</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters:</span>
+<span class="sd">            thing(object):          thing being turned into a client</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            object:                 thing now that it is a client</span>
+
+<span class="sd">        A client has an addr, send_buffer, and recv_buffer. A client also has</span>
+<span class="sd">        commands, and is given the commands, echo, and finger commands. The</span>
+<span class="sd">        client is also given a send() method.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">thing</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">addr</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">()</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">send_buffer</span> <span class="o">=</span> <span class="nb">str</span><span class="p">()</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">recv_buffer</span> <span class="o">=</span> <span class="nb">str</span><span class="p">()</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">commands</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;commands&#39;</span><span class="p">:</span> <span class="n">types</span><span class="o">.</span><span class="n">MethodType</span><span class="p">(</span><span class="n">commands_cmd</span><span class="p">,</span> <span class="n">client</span><span class="p">),</span>
+                       <span class="s1">&#39;echo&#39;</span><span class="p">:</span> <span class="n">types</span><span class="o">.</span><span class="n">MethodType</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">client</span><span class="p">),</span>
+                       <span class="s1">&#39;finger&#39;</span><span class="p">:</span> <span class="n">types</span><span class="o">.</span><span class="n">MethodType</span><span class="p">(</span><span class="n">finger_cmd</span><span class="p">,</span> <span class="n">client</span><span class="p">)}</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">send</span> <span class="o">=</span> <span class="n">types</span><span class="o">.</span><span class="n">MethodType</span><span class="p">(</span><span class="n">send</span><span class="p">,</span> <span class="n">client</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">client</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">qtmud 0.0.4 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../qtmud.html" >qtmud</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, emsenn.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

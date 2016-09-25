@@ -1,0 +1,7 @@
+starhopper.txt module
+=====================
+
+.. automodule:: starhopper.txt
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -1,0 +1,7 @@
+yeolderpg.qualities.room module
+===============================
+
+.. automodule:: yeolderpg.qualities.room
+    :members:
+    :undoc-members:
+    :show-inheritance:

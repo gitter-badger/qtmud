@@ -1,0 +1,7 @@
+yeolderpg.qualities.learning module
+===================================
+
+.. automodule:: yeolderpg.qualities.learning
+    :members:
+    :undoc-members:
+    :show-inheritance:

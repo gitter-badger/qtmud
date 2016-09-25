@@ -1,0 +1,28 @@
+yeolderpg.qualities package
+===========================
+
+Submodules
+----------
+
+.. toctree::
+
+   yeolderpg.qualities.container
+   yeolderpg.qualities.corpse
+   yeolderpg.qualities.hearing
+   yeolderpg.qualities.learning
+   yeolderpg.qualities.noisy
+   yeolderpg.qualities.physical
+   yeolderpg.qualities.player
+   yeolderpg.qualities.renderable
+   yeolderpg.qualities.room
+   yeolderpg.qualities.sighted
+   yeolderpg.qualities.speaking
+   yeolderpg.qualities.teaching
+
+Module contents
+---------------
+
+.. automodule:: yeolderpg.qualities
+    :members:
+    :undoc-members:
+    :show-inheritance:

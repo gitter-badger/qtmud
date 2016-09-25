@@ -1,0 +1,7 @@
+yeolderpg.places.moleinthewall module
+=====================================
+
+.. automodule:: yeolderpg.places.moleinthewall
+    :members:
+    :undoc-members:
+    :show-inheritance:

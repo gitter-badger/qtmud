@@ -1,0 +1,7 @@
+qtmud.qualities.client module
+=============================
+
+.. automodule:: qtmud.qualities.client
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -1,0 +1,7 @@
+starhopper.cmds module
+======================
+
+.. automodule:: starhopper.cmds
+    :members:
+    :undoc-members:
+    :show-inheritance:

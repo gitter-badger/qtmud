@@ -1,0 +1,18 @@
+qtmud package
+=============
+
+Subpackages
+-----------
+
+.. toctree::
+
+    qtmud.qualities
+    qtmud.services
+
+Module contents
+---------------
+
+.. automodule:: qtmud
+    :members:
+    :undoc-members:
+    :show-inheritance:

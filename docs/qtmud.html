@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>qtmud package &#8212; qtmud 0.0.4 documentation</title>
+    
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0.4',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="qtmud 0.0.4 documentation" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">qtmud 0.0.4 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="qtmud-package">
+<h1>qtmud package<a class="headerlink" href="#qtmud-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="qtmud.qualities.html">qtmud.qualities package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="qtmud.qualities.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="qtmud.qualities.client.html">qtmud.qualities.client module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="qtmud.qualities.html#module-qtmud.qualities">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="qtmud.services.html">qtmud.services package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="qtmud.services.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="qtmud.services.mudsocket.html">qtmud.services.mudsocket module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qtmud.services.parser.html">qtmud.services.parser module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="qtmud.services.html#module-qtmud.services">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="module-qtmud">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-qtmud" title="Permalink to this headline">¶</a></h2>
+<p>qtmud core methods &amp; Thing</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Do not rely on this API! I&#8217;m a newbie programmer and changing
+things all the time.</p>
+</div>
+<p>Methods for handling the schedule, instancing Things, and looking those
+things back up.</p>
+<dl class="docutils">
+<dt>Attributes:</dt>
+<dd><p class="first">NAME(str):                      name of the MUD engine
+VERSION(str):                   version of the MUD engine
+SPLASH_LINES(list):             funny lines that go under the version</p>
+<blockquote>
+<div>number</div></blockquote>
+<p>SPLASH(str):                    the text clients see when they connect
+log(object):                    handles logging for qtmud
+events(dict):                   things that are going to happen next</p>
+<blockquote>
+<div>tick()</div></blockquote>
+<p class="last">things(dict):                   all the things made through new_thing()
+subscriptions(set):             every method that wants to subscribe
+loaded_subscriptions(dict):     every method that has been subscribed</p>
+</dd>
+</dl>
+<dl class="class">
+<dt id="qtmud.Thing">
+<em class="property">class </em><code class="descclassname">qtmud.</code><code class="descname">Thing</code><span class="sig-paren">(</span><em>identity</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud.html#Thing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.Thing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dl class="attribute">
+<dt id="qtmud.Thing.name">
+<code class="descname">name</code><a class="headerlink" href="#qtmud.Thing.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="qtmud.Thing.update">
+<code class="descname">update</code><span class="sig-paren">(</span><em>to_update</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud.html#Thing.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.Thing.update" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="qtmud.build_splash">
+<code class="descclassname">qtmud.</code><code class="descname">build_splash</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud.html#build_splash"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.build_splash" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="qtmud.new_thing">
+<code class="descclassname">qtmud.</code><code class="descname">new_thing</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud.html#new_thing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.new_thing" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="qtmud.schedule">
+<code class="descclassname">qtmud.</code><code class="descname">schedule</code><span class="sig-paren">(</span><em>sub</em>, <em>**payload</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud.html#schedule"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.schedule" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="qtmud.search_by_noun">
+<code class="descclassname">qtmud.</code><code class="descname">search_by_noun</code><span class="sig-paren">(</span><em>reference</em>, <em>adjectives</em>, <em>search_noun</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud.html#search_by_noun"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.search_by_noun" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="qtmud.subscribe">
+<code class="descclassname">qtmud.</code><code class="descname">subscribe</code><span class="sig-paren">(</span><em>*methods</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud.html#subscribe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.subscribe" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">qtmud package</a><ul>
+<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li><a class="reference internal" href="#module-qtmud">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/qtmud.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">qtmud 0.0.4 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, emsenn.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>
