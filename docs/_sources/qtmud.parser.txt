@@ -1,0 +1,7 @@
+qtmud.parser module
+===================
+
+.. automodule:: qtmud.parser
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -52,23 +52,15 @@
 
 <span class="sd">    .. versionadded:: 0.0.4</span>
 
-<span class="sd">    Starhopper is the first MUD library (mudlib) produced using qtmud. A simple</span>
-<span class="sd">    action adventure game, Starhopper works best when played as a session-based</span>
-<span class="sd">    game with a few friends.</span>
+<span class="sd">    Starhopper is the first MUD library (mudlib) produced using qtmud.</span>
 
-<span class="sd">    Attributes:</span>
-<span class="sd">        SPLASH(str):                What the player sees when they connect,</span>
-<span class="sd">                                    after qtmud&#39;s own splash. Expected in</span>
-<span class="sd">                                    every mudlib, but isn\&#39;t necessary.</span>
-<span class="sd">        START_LOCATION(object):     first system, where new players start.</span>
-<span class="sd">        players(list):              all the connected players, referenced by</span>
-<span class="sd">                                    their class.</span>
+<span class="sd">    In Starhopper, new players awake as starship captains, part of a scattered</span>
+<span class="sd">    fleet fleeing from their homeland to a new world.</span>
 
-<span class="sd">    When this module is imported, it also adds every method in</span>
-<span class="sd">    starhopper.subscriptions to qtmud.subscriptions.</span>
+<span class="sd">    As you get closer to New Earth, the challenges you will lead your crew</span>
+<span class="sd">    through get harder.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="c1"># TODO: make SPLASH optional</span>
 
 <span class="kn">import</span> <span class="nn">pickle</span>
 <span class="kn">from</span> <span class="nn">inspect</span> <span class="k">import</span> <span class="n">getmembers</span><span class="p">,</span> <span class="n">isfunction</span>
@@ -77,19 +69,29 @@
 <span class="kn">import</span> <span class="nn">qtmud</span>
 <span class="kn">from</span> <span class="nn">mudlib.starhopper</span> <span class="k">import</span> <span class="n">builders</span><span class="p">,</span> <span class="n">subscriptions</span><span class="p">,</span> <span class="n">txt</span>
 
+
+<span class="n">NAME</span> <span class="o">=</span> <span class="s2">&quot;STARHOPPER&quot;</span>
+<span class="sd">&quot;&quot;&quot; the name of the mudlib &quot;&quot;&quot;</span>
+
 <span class="n">SPLASH</span> <span class="o">=</span> <span class="n">txt</span><span class="o">.</span><span class="n">SPLASH</span>
-<span class="n">START_LOCATION</span> <span class="o">=</span> <span class="n">builders</span><span class="o">.</span><span class="n">build_system</span><span class="p">()</span>
+<span class="sd">&quot;&quot;&quot; text shown to incoming players&quot;&quot;&quot;</span>
+<span class="n">START_SYSTEM</span> <span class="o">=</span> <span class="n">builders</span><span class="o">.</span><span class="n">build_system</span><span class="p">()</span>
+<span class="sd">&quot;&quot;&quot; the system new connections start in &quot;&quot;&quot;</span>
+
 <span class="k">try</span><span class="p">:</span>
     <span class="n">player_accounts</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s2">&quot;./data/starhopper_accounts.p&quot;</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">))</span>
 <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
     <span class="n">qtmud</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;no save file found&#39;</span><span class="p">)</span>
     <span class="n">player_accounts</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;save&#39;</span><span class="p">)</span>
+<span class="sd">&quot;&quot;&quot; testing docs &quot;&quot;&quot;</span>
 <span class="n">players</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="n">qtmud</span><span class="o">.</span><span class="n">subscriptions</span><span class="o">.</span><span class="n">update</span><span class="p">([</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">getmembers</span><span class="p">(</span><span class="n">subscriptions</span><span class="p">)</span> <span class="k">if</span>
-                           <span class="n">isfunction</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">])])</span>
+<span class="sd">&quot;&quot;&quot; currently logged in players &quot;&quot;&quot;</span>
+<span class="n">qtmud</span><span class="o">.</span><span class="n">subscribers</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">__name__</span> <span class="p">:</span> <span class="p">[</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="k">for</span> <span class="n">s</span>
+                          <span class="ow">in</span> <span class="n">getmembers</span><span class="p">(</span><span class="n">subscriptions</span><span class="p">)</span> <span class="k">if</span> <span class="n">isfunction</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">])})</span>
 
 <div class="viewcode-block" id="save"><a class="viewcode-back" href="../starhopper.html#starhopper.save">[docs]</a><span class="k">def</span> <span class="nf">save</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; save stats for accounts &quot;&quot;&quot;</span>
     <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">player_accounts</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;./data/starhopper_accounts.p&quot;</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">))</span>
     <span class="n">qtmud</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;saving starhopper player_accounts&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="kc">True</span></div>

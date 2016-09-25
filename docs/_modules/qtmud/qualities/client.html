@@ -49,13 +49,7 @@
           <div class="body" role="main">
             
   <h1>Source code for qtmud.qualities.client</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot; Methods for Clients</span>
-
-<span class="sd">    .. versionadded:: 0.0.4</span>
-
-<span class="sd">    Methods for Clients, expecting to be added to a :class:`thing &lt;qtmud.Thing&gt;`</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="c1"># TODO help command that prints docstring for command method</span>
+<span></span><span class="c1"># TODO help command that prints docstring for command method</span>
 
 <span class="kn">import</span> <span class="nn">types</span>
 
@@ -65,12 +59,6 @@
 
 
 <div class="viewcode-block" id="build_finger"><a class="viewcode-back" href="../../../qtmud.qualities.client.html#qtmud.qualities.client.build_finger">[docs]</a><span class="k">def</span> <span class="nf">build_finger</span><span class="p">(</span><span class="n">fingeree</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Parameters:</span>
-<span class="sd">            fingeree(object):       The Thing being fingered.</span>
-<span class="sd">        Returns:</span>
-<span class="sd">            str:                    The finger information of `fingeree`</span>
-<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">finger</span> <span class="o">=</span> <span class="s1">&#39;- who is </span><span class="si">{}</span><span class="s1">-&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fingeree</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">attribute</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;identity&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;nouns&#39;</span><span class="p">,</span> <span class="s1">&#39;addr&#39;</span><span class="p">]:</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">fingeree</span><span class="p">,</span> <span class="n">attribute</span><span class="p">):</span>
@@ -81,16 +69,6 @@
 
 
 <div class="viewcode-block" id="commands_cmd"><a class="viewcode-back" href="../../../qtmud.qualities.client.html#qtmud.qualities.client.commands_cmd">[docs]</a><span class="k">def</span> <span class="nf">commands_cmd</span><span class="p">(</span><span class="n">commander</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Parameters:</span>
-<span class="sd">            commander(object):          thing with commands</span>
-<span class="sd">            line(str):                  input from commander&#39;s client,</span>
-<span class="sd">                                        unused here.</span>
-<span class="sd">        Return:</span>
-<span class="sd">            bool:                       True</span>
-
-<span class="sd">        Schedules the send()ing of commander&#39;s commands to commander.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;send&#39;</span><span class="p">,</span>
                    <span class="n">recipient</span><span class="o">=</span><span class="n">commander</span><span class="p">,</span>
                    <span class="n">text</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">commander</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
@@ -98,17 +76,6 @@
 
 
 <div class="viewcode-block" id="finger_cmd"><a class="viewcode-back" href="../../../qtmud.qualities.client.html#qtmud.qualities.client.finger_cmd">[docs]</a><span class="k">def</span> <span class="nf">finger_cmd</span><span class="p">(</span><span class="n">fingerer</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Parameters:</span>
-<span class="sd">            fingerer(object):       thing fingering another client.</span>
-<span class="sd">            line(str):              client input, expected to be the name of</span>
-<span class="sd">                                    a client</span>
-<span class="sd">        Returns:</span>
-<span class="sd">            bool:                   True</span>
-
-<span class="sd">        Builds a finger of the client mentioned in `line`, and schedules its</span>
-<span class="sd">        send()ing.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">finger</span> <span class="o">=</span> <span class="nb">str</span><span class="p">()</span>
     <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>

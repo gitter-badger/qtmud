@@ -1,16 +1,5 @@
-qtmud.services package
-======================
-
-Submodules
-----------
-
-.. toctree::
-
-   qtmud.services.mudsocket
-   qtmud.services.parser
-
-Module contents
----------------
+qtmud.services module
+=====================
 
 .. automodule:: qtmud.services
     :members:

@@ -96,5 +96,4 @@ def search_by_line(searcher, verb=None, objekt=None, adjectives=None,
         matches = qtmud.search_by_noun(reference,
                                        adjectives,
                                        objekt)
-    print(matches)
     return matches

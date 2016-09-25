@@ -1,25 +1,38 @@
 import random
+import hashlib
+
 
 import qtmud
+
+from qtmud.services import MUDSocket
+from mudlib import starhopper
 from mudlib.starhopper import builders, txt
 
 
-def alert(rat, ship):
-    if hasattr(rat, 'aggressive') and rat.aggressive:
-        qtmud.schedule('send', recipient=ship,
-                       text=('{} is alerted to your presence!\n'
-                             ''.format(rat.name)))
-        if random.choice([True, False]) is True:
-            qtmud.schedule('send', recipient=ship,
-                           text=('{} decides to attack you!\n'
-                                 ''.format(rat.name)))
-            qtmud.schedule('attack', attacker=rat, defender=ship)
-        else:
-            qtmud.schedule('send', recipient=ship,
-                           text='{} leaves you alone.\n'.format(rat.name))
+def alert(ship, incoming):
+    output = ['', '']
+    if random.choice([True, False]):
+        output[0] += 'You notice {} enter the system'.format(incoming.name)
+        if hasattr(ship, 'aggressive') and ship.aggressive:
+            output[1] += '{} notices your presence.\n'.format(ship.name)
+            if random.choice([True, False, False]):
+                output[1] += 'They decide to attack!'
+                qtmud.schedule('attack', attacker=ship, defender=incoming)
+            else:
+                output[1] += 'They leave you alone.'
+    if output[0]:
+        qtmud.schedule('send', recipient=ship,text=output[0])
+    if output[1]:
+        qtmud.schedule('send', recipient=incoming, text=output[1])
     return True
 
 
+def score(ship, points=1):
+    ship.score += points
+    if ship.name in starhopper.player_accounts.keys():
+        starhopper.player_accounts[ship.name]['score'] = ship.score
+        qtmud.schedule('save')
+    return True
 
 def attack(attacker, defender):
     if attacker.battery[0] <= 0:
@@ -36,6 +49,7 @@ def attack(attacker, defender):
         if defender.damage[0] >= defender.damage[1]:
             qtmud.schedule('death',
                            departed=defender)
+            qtmud.schedule('score', ship=attacker)
     elif damage == 0:
         output[0] += 'The engagement is a stalemate.\n'
         output[1] += 'The engagement is a stalemate.\n'
@@ -48,53 +62,83 @@ def attack(attacker, defender):
     return True
 
 
-def death(departed):
-    output = '{} explodes, leaving behind a wreck.\n'.format(departed.name)
-    qtmud.schedule('hop', ship=departed, destination=None)
-    wreck = qtmud.new_thing()
-    wreck.name = 'wreck of {}'.format(departed.name)
-    wreck.nouns.update(['wreck'])
-    wreck.salvage = [departed.local_system.difficulty,
-                     departed.local_system.difficulty]
-    departed.local_system.debris.add(wreck)
-    if hasattr(departed, 'immortal') and departed.immortal:
-        pirate = builders.build_rat(departed.local_system.difficulty)
-        output += ('Right after {}\'s explosion, {} warps into the system.\n'
-                   ''.format(departed.name, pirate.name))
-        qtmud.schedule('hop',
-                       ship=pirate,
-                       destination=departed.local_system)
-    for local_ship in departed.local_system.ships:
-        if hasattr(local_ship, 'send'):
-            qtmud.schedule('send', recipient=local_ship, text=output)
+def client_disconnect(client):
+    qtmud.log.debug('disconnecting %s from starhopper', client.name)
+    starhopper.players.remove(client)
+    qtmud.schedule('death', departed=client, wreck=False)
     return True
 
 
-def hop(ship, destination):
+def client_login(client, line):
+    output = ''
+    if not hasattr(client, 'login_stage'):
+        client.login_stage = 0
+        output = txt.SPLASH
+    elif client.login_stage == 0:
+        if line in starhopper.player_accounts.keys():
+            output = 'returning player. password?'
+            client.name = line
+            client.login_stage = 2
+        else:
+            output = 'new player. password?'
+            client.name = line
+            client.login_stage = 1
+    elif client.login_stage == 1:
+        starhopper.player_accounts[client.name] = {'password' : line,
+                                                   'score' : 0}
+        client.login_stage = 9
+    elif client.login_stage == 2:
+        password = starhopper.player_accounts[client.name]['password']
+        if line == password:
+            client.login_stage = 9
+            output = 'press enter to complete login'
+        else:
+            client.login_stage = 0
+            output = 'wrong password. input [desired] captain name.'
+    elif client.login_stage == 9:
+        client = builders.build_ship(client)
+        starhopper.players.append(client)
+        qtmud.active_services[MUDSocket].logging_in.remove(client)
+        qtmud.schedule('save')
+        qtmud.schedule('hop', ship=client, destination=starhopper.START_SYSTEM)
+    if output:
+        qtmud.schedule('send', recipient=client, text=output)
+    return True
+
+
+def death(departed, wreck=random.choice([True, False, False])):
+    output = ['COMPLETE SYSTEM FAILURE!\n',
+              '{} suffers system failure.\n'.format(departed.name)]
+    output[0] += 'Your ship suddenly falls out of warp.\n'
+    output[1] += 'Their magnetic signature suddenly fades away.   ;_;7\n'
+    qtmud.schedule('hop', ship=departed, destination=None)
+    if wreck:
+        departed.local_system.debris.add(builders.build_wreck(departed))
+        output[1] += 'Your scanners detect {} '.format(departed.name)
+    qtmud.schedule('send', recipient=departed, text=output[0])
+    for local_ship in departed.local_system.ships:
+        qtmud.schedule('send', recipient=local_ship, text=output[1])
+    return True
+
+
+def hop(ship, destination=None):
     if ship.local_system:
         try:
             ship.local_system.ships.remove(ship)
         except KeyError:
-            qtmud.log.debug('tried to remove {} from {}\'s ships but they '
-                            'weren\'t there.'.format(ship.name,
-                                                     ship.local_system.name))
+            qtmud.log.debug('{} not in their local_system.ships'
+                            ''.format(ship.name))
     if not destination:
         return True
     ship.local_system = destination
-    ship.local_system.ships.add(ship)
-    for nearby_ship in ship.local_system.ships:
-        qtmud.schedule('alert',
-                       rat=nearby_ship,
-                       ship=ship)
-    ascii_name = ('{{0: <{}}}'
-                  ''.format((15-len(destination.name))).format(
-                     destination.name))
-    qtmud.schedule('send',
-                   recipient=ship,
-                   text=(txt.ASCII_HOP.format(ascii_name)))
-    qtmud.schedule('scan_system',
-                   scanner=ship,
-                   system=destination)
+    destination.ships.add(ship)
+    for nearby_ship in destination.ships:
+        if nearby_ship != ship:
+            qtmud.schedule('alert', ship=nearby_ship, incoming=ship)
+    _name = '{{0: <{}}}'.format((15-len(destination.name)))
+    _name = _name.format(destination.name)
+    qtmud.schedule('send', recipient=ship, text=(txt.ASCII_HOP.format(_name)))
+    qtmud.schedule('scan_system', scanner=ship, system=destination)
     return True
 
 
@@ -107,13 +151,18 @@ def salvage(salvager, wreck):
         output += 'You salvage the {}.\n'.format(wreck.name)
     else:
         salvager.salvage[0] += space
-        wreck.salvage[0] += -(space)
+        wreck.salvage[0] -= space
         output += 'Your ship is almost full, but you salvage what you can\n'
     if wreck.salvage[0] == 0:
         salvager.local_system.debris.remove(wreck)
-        output +=  ('As the last of the salvage is collected from {}, '
-                    'its magnetic signature fades.\n'.format(wreck.name))
+        output += ('As the last of the salvage is collected from {}, '
+                   'its magnetic signature fades.\n'.format(wreck.name))
     qtmud.schedule('send', recipient=salvager, text=output)
+    return True
+
+
+def save():
+    starhopper.save()
     return True
 
 def scan_planet(scanner, planet):
@@ -127,10 +176,10 @@ def scan_planet(scanner, planet):
 
 
 def scan_ship(scanner, ship):
+    if scanner == ship:
+        qtmud.schedule('status', )
     output = '...scanning {}...\n'.format(ship.name)
-    ascii_name = '{{0: <{}}}'.format(20-len(ship.name)).format(ship.name)
-    output += txt.ASCII_SHIP.format(ascii_name)
-    output += '{}\n'.format(ship.nouns)
+    output += '{}\n'.format(ship.score)
     output += 'BATTERY: {} out of {}.\n'.format(ship.battery[0],
                                                 ship.battery[1])
     output += 'DAMAGE: {}, can tolerate {}.\n'.format(ship.damage[0],
@@ -154,13 +203,9 @@ def scan_star(scanner, star):
 
 
 def scan_system(scanner, system):
-    output = ('    {}\n'
-              '... scanning {}...\n'
-              '...difficulty? {}\n'
-              '  *  klass {} sun\n'
-              '     - {} orbiting bodies\n'
-              '---')
-    output + '... risk'
+    output =  ('... preparing to drop out of warp...\n'
+               '...warp broken!! ...scanning {0}.. .\n'.format(system.name))
+
     if hasattr(system, 'difficulty'):
         output += 'This is a {} difficulty system.\n'.format(system.difficulty)
     if hasattr(system, 'sun'):

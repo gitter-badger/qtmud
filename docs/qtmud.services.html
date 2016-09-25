@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>qtmud.services package &#8212; qtmud 0.0.4 documentation</title>
+    <title>qtmud.services module &#8212; qtmud 0.0.4 documentation</title>
     
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -45,49 +45,24 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="qtmud-services-package">
-<h1>qtmud.services package<a class="headerlink" href="#qtmud-services-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="qtmud.services.mudsocket.html">qtmud.services.mudsocket module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="qtmud.services.parser.html">qtmud.services.parser module</a></li>
-</ul>
-</div>
-</div>
-<div class="section" id="module-qtmud.services">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-qtmud.services" title="Permalink to this headline">¶</a></h2>
-<p>core qtmud methods</p>
-<div class="versionadded">
-<p><span class="versionmodified">New in version 0.0.4.</span></p>
-</div>
-<dl class="function">
-<dt id="qtmud.services.send">
-<code class="descclassname">qtmud.services.</code><code class="descname">send</code><span class="sig-paren">(</span><em>recipient</em>, <em>text</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/services.html#send"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.services.send" title="Permalink to this definition">¶</a></dt>
-<dd><p>send text to recipient</p>
-<dl class="docutils">
-<dt>Parameters:</dt>
-<dd>recipient(object):      thing to whom text will be sent
-text(str):              text to send to thing</dd>
-<dt>Return:</dt>
-<dd>bool:                   True</dd>
-</dl>
-<p>If recipient has a send() method (i.e. is a client, send them text.</p>
+  <div class="section" id="module-qtmud.services">
+<span id="qtmud-services-module"></span><h1>qtmud.services module<a class="headerlink" href="#module-qtmud.services" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="qtmud.services.MUDSocket">
+<em class="property">class </em><code class="descclassname">qtmud.services.</code><code class="descname">MUDSocket</code><a class="reference internal" href="_modules/qtmud/services.html#MUDSocket"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.services.MUDSocket" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="qtmud.services.MUDSocket.bind">
+<code class="descname">bind</code><span class="sig-paren">(</span><em>address</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/services.html#MUDSocket.bind"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.services.MUDSocket.bind" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="qtmud.services.MUDSocket.tick">
+<code class="descname">tick</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/services.html#MUDSocket.tick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.services.MUDSocket.tick" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
-<dl class="function">
-<dt id="qtmud.services.tick">
-<code class="descclassname">qtmud.services.</code><code class="descname">tick</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/services.html#tick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.services.tick" title="Permalink to this definition">¶</a></dt>
-<dd><p>main game ticker</p>
-<dl class="docutils">
-<dt>Return:</dt>
-<dd>bool:           True</dd>
-</dl>
-<p>Sends events out to the methods subscribed to them and ticks services.</p>
-</dd></dl>
-
-</div>
 </div>
 
 
@@ -96,15 +71,6 @@ text(str):              text to send to thing</dd>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">qtmud.services package</a><ul>
-<li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-qtmud.services">Module contents</a></li>
-</ul>
-</li>
-</ul>
-
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">

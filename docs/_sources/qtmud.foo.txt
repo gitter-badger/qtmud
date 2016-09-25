@@ -1,0 +1,25 @@
+qtmud.foo package
+=================
+
+Subpackages
+-----------
+
+.. toctree::
+
+    qtmud.foo.qualities
+
+Submodules
+----------
+
+.. toctree::
+
+   qtmud.foo.mudsocket
+   qtmud.foo.parser
+
+Module contents
+---------------
+
+.. automodule:: qtmud.foo
+    :members:
+    :undoc-members:
+    :show-inheritance:

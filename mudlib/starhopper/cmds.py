@@ -3,6 +3,8 @@ from mudlib import starhopper
 from mudlib.starhopper import builders
 
 
+# TODO survey() planets
+
 def status(ship, line):
     qtmud.schedule('scan_ship',scanner=ship, ship=ship)
     return True
@@ -62,30 +64,24 @@ def scan(scanner, line):
 
 def hop(ship, line):
     line = line.split(' ')[-1]
-    if not line:
+    if line in ['hop']:
         line = 'forward'
     if ship.local_system:
-        if line in ship.local_system.adjacent:
-            destination = ship.local_system.adjacent[line]
-            qtmud.schedule('send',
-                           recipient=ship,
-                           text='You hop to {}'.format(destination.name))
-            qtmud.schedule('hop',
-                           ship=ship,
-                           destination=destination)
+        system = ship.local_system
+        if line in system.neighbors:
+            destination = system.neighbors[line]
+            output = 'You hop to {}'.format(destination.name)
+        elif line in ['forward']:
+            output = 'You hop forward into the unknown!!!!'
+            destination = builders.build_system(system.difficulty+1)
+            system.neighbors['forward'] = destination
+            destination.neighbors['back'] = system
         else:
-            if line in ['forward']:
-                qtmud.schedule('send',
-                               recipient=ship,
-                               text='You hop forward into the unknown')
-                new_difficulty = ship.local_system.difficulty+1
-                destination = \
-                    builders.build_system(new_difficulty)
-                destination.adjacent['backward'] = ship.local_system
-                ship.local_system.adjacent['forward'] = destination
-                qtmud.schedule('hop',
-                               ship=ship,
-                               destination=destination)
+            output = 'You cannot hop there.'
+            destination = None
+        if destination:
+            qtmud.schedule('hop', ship=ship, destination=destination)
+    qtmud.schedule('send', recipient=ship, text=output)
     return True
 
 
@@ -117,7 +113,6 @@ def salvage(ship, line):
     line = ' '.join(line.split(' ')[1:])
     output = None
     matches = []
-    print(ship.local_system.debris)
     if not line:
         line = 'wreck'
     for wreck in ship.local_system.debris:
@@ -159,7 +154,6 @@ def buy(shopper, line):
                 output = 'That station is out of stock.\n'
         else:
             for upgrade in station.inventory:
-                print(upgrade)
                 if upgrade[0] == line:
                     if upgrade[1] <= shopper.salvage[0]:
                         shopper.salvage[0] += -(upgrade[1])

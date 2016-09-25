@@ -49,32 +49,48 @@
           <div class="body" role="main">
             
   <h1>Source code for starhopper.builders</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">random</span>
+<span></span><span class="sd">&quot;&quot;&quot; build objects for in-game interaction</span>
+
+<span class="sd">    .. versionadded 0.0.4</span>
+
+<span class="sd">    This module houses the methods for building things, and generating</span>
+<span class="sd">    non-thing in-game objects. In this context, a thing refers to an instance</span>
+<span class="sd">    of :class:`qtmud.Thing.`</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">random</span>
 <span class="kn">import</span> <span class="nn">string</span>
 <span class="kn">import</span> <span class="nn">types</span>
-
 <span class="kn">from</span> <span class="nn">inspect</span> <span class="k">import</span> <span class="n">getmembers</span><span class="p">,</span> <span class="n">isfunction</span>
-
 
 <span class="kn">import</span> <span class="nn">qtmud</span>
 <span class="kn">from</span> <span class="nn">mudlib.starhopper</span> <span class="k">import</span> <span class="n">cmds</span><span class="p">,</span> <span class="n">txt</span>
 
 
-<div class="viewcode-block" id="build_planet"><a class="viewcode-back" href="../../starhopper.builders.html#starhopper.builders.build_planet">[docs]</a><span class="k">def</span> <span class="nf">build_planet</span><span class="p">(</span><span class="n">basis</span><span class="p">:</span> <span class="nb">object</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="build_planet"><a class="viewcode-back" href="../../starhopper.builders.html#starhopper.builders.build_planet">[docs]</a><span class="k">def</span> <span class="nf">build_planet</span><span class="p">(</span><span class="n">basis</span><span class="p">:</span> <span class="nb">object</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">system</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">distance</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">points</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; creates a planet</span>
 
-<span class="sd">    :param basis: expected to be an instance of :class:`qtmud.Thing`</span>
-<span class="sd">    :return: :class:`qtmud.Thing` with the qualities of a planet</span>
+<span class="sd">    :param basis: expected to be a :class:`qtmud.Thing`</span>
+<span class="sd">    :param system: the system the planet will live in</span>
+<span class="sd">    :param distance: the distance from the system&#39;s sun</span>
+<span class="sd">    :param points: how many points can be spent building the system.</span>
+<span class="sd">    :return: an object which behaves like a planet</span>
 
-<span class="sd">    Planets have `planet` in their `nouns` and a `klass`.</span>
+<span class="sd">    Is `basis` is passed, the planet is built upon that object - which is</span>
+<span class="sd">    expected to be an instance of :class:`qtmud.Thing`. If basis is not passed,</span>
+<span class="sd">    the method creates a new object with :func:`qtmud.new_thing`.</span>
 
-<span class="sd">    &gt;&gt;&gt; earth = build_planet()</span>
-<span class="sd">    &lt;qtmud.Thing object at 0x7f49e59e1780&gt;</span>
-<span class="sd">    &gt;&gt;&gt; earth.nouns</span>
-<span class="sd">    {&#39;planet&#39;, &#39;thing&#39;, &#39;8205eb08-0533-4b33-b148-1ec80d306d0f&#39;}</span>
-<span class="sd">    &gt;&gt;&gt; earth.klass</span>
-<span class="sd">    &#39;M&#39;</span>
+<span class="sd">    +-----------+------------------------------+-----------+----------------+</span>
+<span class="sd">    | attribute | meaning                      | example   |                |</span>
+<span class="sd">    +===========+==============================+===========+================+</span>
+<span class="sd">    | klass     | Star Trek-style planet class | M Klass   | survey results |</span>
+<span class="sd">    +-----------+------------------------------+-----------+----------------+</span>
+<span class="sd">    | name      | SciFi-style planet name     | Omicron 6 | aesthetic       |</span>
+<span class="sd">    +-----------+-----------------------------+-----------+-----------------+</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># TODO planets have scenarios</span>
+    <span class="c1"># TODO klass influences planet scenarios</span>
+    <span class="c1"># TODO klass based on distance from sun.</span>
     <span class="k">if</span> <span class="n">basis</span><span class="p">:</span>
         <span class="n">planet</span> <span class="o">=</span> <span class="n">basis</span>
     <span class="k">else</span><span class="p">:</span>
@@ -84,25 +100,20 @@
                                               <span class="ow">in</span> <span class="n">string</span><span class="o">.</span><span class="n">ascii_uppercase</span><span class="p">]))</span>
     <span class="k">return</span> <span class="n">planet</span></div>
 
-<div class="viewcode-block" id="build_rat"><a class="viewcode-back" href="../../starhopper.builders.html#starhopper.builders.build_rat">[docs]</a><span class="k">def</span> <span class="nf">build_rat</span><span class="p">(</span><span class="n">difficulty</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+
+<div class="viewcode-block" id="build_rat"><a class="viewcode-back" href="../../starhopper.builders.html#starhopper.builders.build_rat">[docs]</a><span class="k">def</span> <span class="nf">build_rat</span><span class="p">(</span><span class="n">points</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
     <span class="n">rat</span> <span class="o">=</span> <span class="n">build_ship</span><span class="p">()</span>
-    <span class="n">rat</span><span class="o">.</span><span class="n">nouns</span><span class="o">.</span><span class="n">update</span><span class="p">([</span><span class="s1">&#39;ship&#39;</span><span class="p">,</span> <span class="s1">&#39;pirate&#39;</span><span class="p">,</span> <span class="s1">&#39;rat&#39;</span><span class="p">,</span> <span class="s1">&#39;scum&#39;</span><span class="p">,</span> <span class="s1">&#39;mob&#39;</span><span class="p">])</span>
+    <span class="n">rat</span><span class="o">.</span><span class="n">nouns</span><span class="o">.</span><span class="n">update</span><span class="p">([</span><span class="s1">&#39;pirate&#39;</span><span class="p">,</span> <span class="s1">&#39;rat&#39;</span><span class="p">,</span> <span class="s1">&#39;scum&#39;</span><span class="p">,</span> <span class="s1">&#39;mob&#39;</span><span class="p">])</span>
     <span class="n">rat</span><span class="o">.</span><span class="n">local_system</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="c1"># TODO: rat_name_generator()</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">])):</span>
+    <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">]):</span>
         <span class="n">rat</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">txt</span><span class="o">.</span><span class="n">RAT_NAMES</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">rat</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">generate_rat_name</span><span class="p">()</span>
-    <span class="n">rat</span><span class="o">.</span><span class="n">attack</span><span class="o">=</span> <span class="p">[</span><span class="n">difficulty</span><span class="p">,</span> <span class="n">difficulty</span><span class="p">]</span>
-    <span class="n">rat</span><span class="o">.</span><span class="n">defense</span> <span class="o">=</span> <span class="n">difficulty</span>
-    <span class="n">rat</span><span class="o">.</span><span class="n">battery</span><span class="o">=</span><span class="p">[</span><span class="n">difficulty</span><span class="p">,</span> <span class="n">difficulty</span><span class="p">]</span>
-    <span class="n">rat</span><span class="o">.</span><span class="n">damage</span><span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">difficulty</span><span class="p">]</span>
-    <span class="n">rat</span><span class="o">.</span><span class="n">salvage</span> <span class="o">=</span> <span class="p">[</span><span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="n">difficulty</span><span class="p">),</span> <span class="n">difficulty</span><span class="p">]</span>
     <span class="n">rat</span><span class="o">.</span><span class="n">aggressive</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="k">return</span> <span class="n">rat</span></div>
 
 
-<div class="viewcode-block" id="build_ship"><a class="viewcode-back" href="../../starhopper.builders.html#starhopper.builders.build_ship">[docs]</a><span class="k">def</span> <span class="nf">build_ship</span><span class="p">(</span><span class="n">client</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="build_ship"><a class="viewcode-back" href="../../starhopper.builders.html#starhopper.builders.build_ship">[docs]</a><span class="k">def</span> <span class="nf">build_ship</span><span class="p">(</span><span class="n">client</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">points</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">client</span><span class="p">:</span>
         <span class="n">ship</span> <span class="o">=</span> <span class="n">qtmud</span><span class="o">.</span><span class="n">new_thing</span><span class="p">()</span>
     <span class="k">else</span><span class="p">:</span>
@@ -121,6 +132,8 @@
 
 
 <div class="viewcode-block" id="build_star"><a class="viewcode-back" href="../../starhopper.builders.html#starhopper.builders.build_star">[docs]</a><span class="k">def</span> <span class="nf">build_star</span><span class="p">():</span>
+    <span class="c1"># TODO star klass should affect description</span>
+    <span class="c1"># TODO star klass should affect planet generation</span>
     <span class="n">star</span> <span class="o">=</span> <span class="n">qtmud</span><span class="o">.</span><span class="n">new_thing</span><span class="p">()</span>
     <span class="n">star</span><span class="o">.</span><span class="n">nouns</span><span class="o">.</span><span class="n">update</span><span class="p">([</span><span class="s1">&#39;sun&#39;</span><span class="p">,</span> <span class="s1">&#39;star&#39;</span><span class="p">])</span>
     <span class="n">star_types</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;O&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="s1">&#39;G&#39;</span><span class="p">,</span> <span class="s1">&#39;K&#39;</span><span class="p">,</span> <span class="s1">&#39;M&#39;</span><span class="p">]</span>
@@ -140,6 +153,7 @@
 
 <div class="viewcode-block" id="build_system"><a class="viewcode-back" href="../../starhopper.builders.html#starhopper.builders.build_system">[docs]</a><span class="k">def</span> <span class="nf">build_system</span><span class="p">(</span><span class="n">difficulty</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
     <span class="n">system</span> <span class="o">=</span> <span class="n">qtmud</span><span class="o">.</span><span class="n">new_thing</span><span class="p">()</span>
+    <span class="n">system</span><span class="o">.</span><span class="n">points</span><span class="o">=</span><span class="n">difficulty</span>
     <span class="n">system</span><span class="o">.</span><span class="n">difficulty</span> <span class="o">=</span> <span class="n">difficulty</span>
     <span class="n">system</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">generate_system_name</span><span class="p">()</span>
     <span class="n">system</span><span class="o">.</span><span class="n">neighbors</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
@@ -148,7 +162,7 @@
     <span class="c1"># build planets</span>
     <span class="n">system</span><span class="o">.</span><span class="n">planets</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">6</span><span class="p">)):</span>
-        <span class="n">planet</span> <span class="o">=</span> <span class="n">build_planet</span><span class="p">()</span>
+        <span class="n">planet</span> <span class="o">=</span> <span class="n">build_planet</span><span class="p">(</span><span class="n">system</span><span class="o">=</span><span class="n">system</span><span class="p">,</span> <span class="n">distance</span><span class="o">=</span><span class="n">count</span><span class="p">)</span>
         <span class="n">planet</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">system</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span>
         <span class="n">system</span><span class="o">.</span><span class="n">planets</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">planet</span><span class="p">)</span>
     <span class="c1"># populate with ships</span>

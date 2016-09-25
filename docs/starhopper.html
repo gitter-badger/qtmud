@@ -64,28 +64,40 @@
 <div class="versionadded">
 <p><span class="versionmodified">New in version 0.0.4.</span></p>
 </div>
-<p>Starhopper is the first MUD library (mudlib) produced using qtmud. A simple
-action adventure game, Starhopper works best when played as a session-based
-game with a few friends.</p>
-<dl class="docutils">
-<dt>Attributes:</dt>
-<dd><dl class="first docutils">
-<dt>SPLASH(str):                What the player sees when they connect,</dt>
-<dd>after qtmud&#8217;s own splash. Expected in
-every mudlib, but isn&#8217;t necessary.</dd>
-</dl>
-<p>START_LOCATION(object):     first system, where new players start.
-players(list):              all the connected players, referenced by</p>
-<blockquote class="last">
-<div>their class.</div></blockquote>
-</dd>
-</dl>
-<p>When this module is imported, it also adds every method in
-starhopper.subscriptions to qtmud.subscriptions.</p>
+<p>Starhopper is the first MUD library (mudlib) produced using qtmud.</p>
+<p>In Starhopper, new players awake as starship captains, part of a scattered
+fleet fleeing from their homeland to a new world.</p>
+<p>As you get closer to New Earth, the challenges you will lead your crew
+through get harder.</p>
+<dl class="data">
+<dt id="starhopper.NAME">
+<code class="descclassname">starhopper.</code><code class="descname">NAME</code><em class="property"> = 'STARHOPPER'</em><a class="headerlink" href="#starhopper.NAME" title="Permalink to this definition">¶</a></dt>
+<dd><p>the name of the mudlib</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="starhopper.SPLASH">
+<code class="descclassname">starhopper.</code><code class="descname">SPLASH</code><em class="property"> = '\nSTARHOPPER\n    HOP between STARS\n\nInput your [desired] name, captain.\n'</em><a class="headerlink" href="#starhopper.SPLASH" title="Permalink to this definition">¶</a></dt>
+<dd><p>text shown to incoming players</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="starhopper.START_SYSTEM">
+<code class="descclassname">starhopper.</code><code class="descname">START_SYSTEM</code><em class="property"> = &lt;qtmud.Thing object&gt;</em><a class="headerlink" href="#starhopper.START_SYSTEM" title="Permalink to this definition">¶</a></dt>
+<dd><p>the system new connections start in</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="starhopper.players">
+<code class="descclassname">starhopper.</code><code class="descname">players</code><em class="property"> = []</em><a class="headerlink" href="#starhopper.players" title="Permalink to this definition">¶</a></dt>
+<dd><p>currently logged in players</p>
+</dd></dl>
+
 <dl class="function">
 <dt id="starhopper.save">
 <code class="descclassname">starhopper.</code><code class="descname">save</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/starhopper.html#save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#starhopper.save" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>save stats for accounts</p>
+</dd></dl>
 
 </div>
 </div>

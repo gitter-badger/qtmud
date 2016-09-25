@@ -1,13 +1,17 @@
 qtmud package
 =============
 
-Subpackages
------------
+Submodules
+----------
 
 .. toctree::
 
-    qtmud.qualities
-    qtmud.services
+   qtmud.builders
+   qtmud.cmds
+   qtmud.parser
+   qtmud.services
+   qtmud.subscriptions
+   qtmud.txt
 
 Module contents
 ---------------

@@ -1,0 +1,7 @@
+qtmud.cmds module
+=================
+
+.. automodule:: qtmud.cmds
+    :members:
+    :undoc-members:
+    :show-inheritance:

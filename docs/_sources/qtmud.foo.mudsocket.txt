@@ -1,0 +1,7 @@
+qtmud.foo.mudsocket module
+==========================
+
+.. automodule:: qtmud.foo.mudsocket
+    :members:
+    :undoc-members:
+    :show-inheritance:

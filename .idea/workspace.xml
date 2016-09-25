@@ -1,0 +1,1148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="596cb1fe-81fa-4cc4-afcc-ae6a08651a66" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/qtmud/builders.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/qtmud/cmds.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/qtmud/services.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/qtmud/subscriptions.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/qtmud/txt.py" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.splash_lines" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/qtmud/qualities/client.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/qtmud/services/__init__.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/qtmud/services/mudsocket.py" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/qtmud/qualities/__init__.py" afterPath="$PROJECT_DIR$/mudlib/starhopper/README.md" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/qtmud/services/parser.py" afterPath="$PROJECT_DIR$/qtmud/parser.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/.build/doctrees/environment.pickle" afterPath="$PROJECT_DIR$/docs/.build/doctrees/environment.pickle" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/.build/doctrees/index.doctree" afterPath="$PROJECT_DIR$/docs/.build/doctrees/index.doctree" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/.build/doctrees/modules.doctree" afterPath="$PROJECT_DIR$/docs/.build/doctrees/modules.doctree" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/.build/doctrees/qtmud.doctree" afterPath="$PROJECT_DIR$/docs/.build/doctrees/qtmud.doctree" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/.build/doctrees/qtmud.qualities.client.doctree" afterPath="$PROJECT_DIR$/docs/.build/doctrees/qtmud.qualities.client.doctree" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/.build/doctrees/qtmud.qualities.doctree" afterPath="$PROJECT_DIR$/docs/.build/doctrees/qtmud.qualities.doctree" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/.build/doctrees/qtmud.services.doctree" afterPath="$PROJECT_DIR$/docs/.build/doctrees/qtmud.services.doctree" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/.build/doctrees/qtmud.services.mudsocket.doctree" afterPath="$PROJECT_DIR$/docs/.build/doctrees/qtmud.services.mudsocket.doctree" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/.build/doctrees/qtmud.services.parser.doctree" afterPath="$PROJECT_DIR$/docs/.build/doctrees/qtmud.services.parser.doctree" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/.build/doctrees/starhopper.builders.doctree" afterPath="$PROJECT_DIR$/docs/.build/doctrees/starhopper.builders.doctree" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/.build/doctrees/starhopper.cmds.doctree" afterPath="$PROJECT_DIR$/docs/.build/doctrees/starhopper.cmds.doctree" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/.build/doctrees/starhopper.doctree" afterPath="$PROJECT_DIR$/docs/.build/doctrees/starhopper.doctree" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/.build/doctrees/starhopper.subscriptions.doctree" afterPath="$PROJECT_DIR$/docs/.build/doctrees/starhopper.subscriptions.doctree" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/.build/doctrees/starhopper.txt.doctree" afterPath="$PROJECT_DIR$/docs/.build/doctrees/starhopper.txt.doctree" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/.build/doctrees/yeolderpg.doctree" afterPath="$PROJECT_DIR$/docs/.build/doctrees/yeolderpg.doctree" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/.build/doctrees/yeolderpg.places.doctree" afterPath="$PROJECT_DIR$/docs/.build/doctrees/yeolderpg.places.doctree" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/.build/doctrees/yeolderpg.places.moleinthewall.doctree" afterPath="$PROJECT_DIR$/docs/.build/doctrees/yeolderpg.places.moleinthewall.doctree" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/.build/doctrees/yeolderpg.qualities.container.doctree" afterPath="$PROJECT_DIR$/docs/.build/doctrees/yeolderpg.qualities.container.doctree" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/.build/doctrees/yeolderpg.qualities.corpse.doctree" afterPath="$PROJECT_DIR$/docs/.build/doctrees/yeolderpg.qualities.corpse.doctree" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/.build/doctrees/yeolderpg.qualities.doctree" afterPath="$PROJECT_DIR$/docs/.build/doctrees/yeolderpg.qualities.doctree" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/.build/doctrees/yeolderpg.qualities.hearing.doctree" afterPath="$PROJECT_DIR$/docs/.build/doctrees/yeolderpg.qualities.hearing.doctree" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/.build/doctrees/yeolderpg.qualities.learning.doctree" afterPath="$PROJECT_DIR$/docs/.build/doctrees/yeolderpg.qualities.learning.doctree" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/.build/doctrees/yeolderpg.qualities.noisy.doctree" afterPath="$PROJECT_DIR$/docs/.build/doctrees/yeolderpg.qualities.noisy.doctree" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/.build/doctrees/yeolderpg.qualities.physical.doctree" afterPath="$PROJECT_DIR$/docs/.build/doctrees/yeolderpg.qualities.physical.doctree" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/.build/doctrees/yeolderpg.qualities.player.doctree" afterPath="$PROJECT_DIR$/docs/.build/doctrees/yeolderpg.qualities.player.doctree" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/.build/doctrees/yeolderpg.qualities.renderable.doctree" afterPath="$PROJECT_DIR$/docs/.build/doctrees/yeolderpg.qualities.renderable.doctree" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/.build/doctrees/yeolderpg.qualities.room.doctree" afterPath="$PROJECT_DIR$/docs/.build/doctrees/yeolderpg.qualities.room.doctree" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/.build/doctrees/yeolderpg.qualities.sighted.doctree" afterPath="$PROJECT_DIR$/docs/.build/doctrees/yeolderpg.qualities.sighted.doctree" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/.build/doctrees/yeolderpg.qualities.speaking.doctree" afterPath="$PROJECT_DIR$/docs/.build/doctrees/yeolderpg.qualities.speaking.doctree" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/.build/doctrees/yeolderpg.qualities.teaching.doctree" afterPath="$PROJECT_DIR$/docs/.build/doctrees/yeolderpg.qualities.teaching.doctree" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/.build/doctrees/yeolderpg.services.doctree" afterPath="$PROJECT_DIR$/docs/.build/doctrees/yeolderpg.services.doctree" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/.build/doctrees/yeolderpg.services.noisemaker.doctree" afterPath="$PROJECT_DIR$/docs/.build/doctrees/yeolderpg.services.noisemaker.doctree" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/objects.inv" afterPath="$PROJECT_DIR$/docs/objects.inv" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/_modules/index.html" afterPath="$PROJECT_DIR$/docs/_modules/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/_modules/qtmud.html" afterPath="$PROJECT_DIR$/docs/_modules/qtmud.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/_modules/qtmud/qualities/client.html" afterPath="$PROJECT_DIR$/docs/_modules/qtmud/qualities/client.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/_modules/qtmud/services.html" afterPath="$PROJECT_DIR$/docs/_modules/qtmud/services.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/_modules/starhopper.html" afterPath="$PROJECT_DIR$/docs/_modules/starhopper.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/_modules/starhopper/builders.html" afterPath="$PROJECT_DIR$/docs/_modules/starhopper/builders.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/_modules/starhopper/cmds.html" afterPath="$PROJECT_DIR$/docs/_modules/starhopper/cmds.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/_modules/starhopper/subscriptions.html" afterPath="$PROJECT_DIR$/docs/_modules/starhopper/subscriptions.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/_sources/index.txt" afterPath="$PROJECT_DIR$/docs/_sources/index.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/_sources/qtmud.services.txt" afterPath="$PROJECT_DIR$/docs/_sources/qtmud.services.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/_sources/qtmud.txt" afterPath="$PROJECT_DIR$/docs/_sources/qtmud.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/build_docs.sh" afterPath="$PROJECT_DIR$/docs/build_docs.sh" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/genindex.html" afterPath="$PROJECT_DIR$/docs/genindex.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/index.html" afterPath="$PROJECT_DIR$/docs/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/modules.html" afterPath="$PROJECT_DIR$/docs/modules.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/py-modindex.html" afterPath="$PROJECT_DIR$/docs/py-modindex.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/qtmud.html" afterPath="$PROJECT_DIR$/docs/qtmud.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/qtmud.qualities.client.html" afterPath="$PROJECT_DIR$/docs/qtmud.qualities.client.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/qtmud.services.html" afterPath="$PROJECT_DIR$/docs/qtmud.services.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/searchindex.js" afterPath="$PROJECT_DIR$/docs/searchindex.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/source/index.rst" afterPath="$PROJECT_DIR$/docs/source/index.rst" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/starhopper.builders.html" afterPath="$PROJECT_DIR$/docs/starhopper.builders.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/starhopper.html" afterPath="$PROJECT_DIR$/docs/starhopper.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/starhopper.subscriptions.html" afterPath="$PROJECT_DIR$/docs/starhopper.subscriptions.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/yeolderpg.html" afterPath="$PROJECT_DIR$/docs/yeolderpg.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/yeolderpg.places.html" afterPath="$PROJECT_DIR$/docs/yeolderpg.places.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/yeolderpg.places.moleinthewall.html" afterPath="$PROJECT_DIR$/docs/yeolderpg.places.moleinthewall.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/yeolderpg.qualities.container.html" afterPath="$PROJECT_DIR$/docs/yeolderpg.qualities.container.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/yeolderpg.qualities.corpse.html" afterPath="$PROJECT_DIR$/docs/yeolderpg.qualities.corpse.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/yeolderpg.qualities.hearing.html" afterPath="$PROJECT_DIR$/docs/yeolderpg.qualities.hearing.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/yeolderpg.qualities.html" afterPath="$PROJECT_DIR$/docs/yeolderpg.qualities.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/yeolderpg.qualities.learning.html" afterPath="$PROJECT_DIR$/docs/yeolderpg.qualities.learning.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/yeolderpg.qualities.noisy.html" afterPath="$PROJECT_DIR$/docs/yeolderpg.qualities.noisy.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/yeolderpg.qualities.physical.html" afterPath="$PROJECT_DIR$/docs/yeolderpg.qualities.physical.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/yeolderpg.qualities.player.html" afterPath="$PROJECT_DIR$/docs/yeolderpg.qualities.player.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/yeolderpg.qualities.renderable.html" afterPath="$PROJECT_DIR$/docs/yeolderpg.qualities.renderable.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/yeolderpg.qualities.room.html" afterPath="$PROJECT_DIR$/docs/yeolderpg.qualities.room.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/yeolderpg.qualities.sighted.html" afterPath="$PROJECT_DIR$/docs/yeolderpg.qualities.sighted.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/yeolderpg.qualities.speaking.html" afterPath="$PROJECT_DIR$/docs/yeolderpg.qualities.speaking.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/yeolderpg.qualities.teaching.html" afterPath="$PROJECT_DIR$/docs/yeolderpg.qualities.teaching.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/yeolderpg.services.html" afterPath="$PROJECT_DIR$/docs/yeolderpg.services.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/yeolderpg.services.noisemaker.html" afterPath="$PROJECT_DIR$/docs/yeolderpg.services.noisemaker.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mudlib/__init__.py" afterPath="$PROJECT_DIR$/mudlib/__init__.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mudlib/starhopper/__init__.py" afterPath="$PROJECT_DIR$/mudlib/starhopper/__init__.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mudlib/starhopper/builders.py" afterPath="$PROJECT_DIR$/mudlib/starhopper/builders.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mudlib/starhopper/cmds.py" afterPath="$PROJECT_DIR$/mudlib/starhopper/cmds.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mudlib/starhopper/subscriptions.py" afterPath="$PROJECT_DIR$/mudlib/starhopper/subscriptions.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mudlib/starhopper/txt.py" afterPath="$PROJECT_DIR$/mudlib/starhopper/txt.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/qtmud/__init__.py" afterPath="$PROJECT_DIR$/qtmud/__init__.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/run.py" afterPath="$PROJECT_DIR$/run.py" />
+    </list>
+    <ignored path="qtmud.iws" />
+    <ignored path=".idea/workspace.xml" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FavoritesManager">
+    <favorites_list name="qtmud" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/mudlib/starhopper/__init__.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="424">
+              <caret line="43" column="32" selection-start-line="43" selection-start-column="32" selection-end-line="43" selection-end-column="32" />
+              <folding>
+                <element signature="e#356#369#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="subscriptions.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mudlib/starhopper/subscriptions.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="180">
+              <caret line="121" column="0" selection-start-line="121" selection-start-column="0" selection-end-line="121" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#13#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="builders.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mudlib/starhopper/builders.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="378">
+              <caret line="21" column="42" selection-start-line="21" selection-start-column="42" selection-end-line="21" selection-end-column="42" />
+              <folding>
+                <element signature="e#252#265#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="conf.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/docs/source/conf.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="342">
+              <caret line="20" column="10" selection-start-line="20" selection-start-column="10" selection-end-line="22" selection-end-column="52" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="build_docs.sh" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/docs/build_docs.sh">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="36">
+              <caret line="2" column="25" selection-start-line="2" selection-start-column="25" selection-end-line="2" selection-end-column="32" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.rst" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/docs/source/index.rst">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="226">
+              <caret line="44" column="0" selection-start-line="44" selection-start-column="0" selection-end-line="45" selection-end-column="9" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/__init__.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/qtmud/__init__.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="378">
+              <caret line="21" column="26" selection-start-line="21" selection-start-column="26" selection-end-line="21" selection-end-column="26" />
+              <folding>
+                <element signature="e#278#292#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="run.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/run.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="198">
+              <caret line="11" column="54" selection-start-line="11" selection-start-column="54" selection-end-line="12" selection-end-column="66" />
+              <folding>
+                <element signature="e#79#91#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mudlib/starhopper/README.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
+            <state split_layout="FIRST">
+              <first_editor relative-caret-position="54">
+                <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="14" selection-end-column="27" />
+                <folding />
+              </first_editor>
+              <second_editor />
+            </state>
+          </provider>
+          <provider editor-type-id="MarkdownFxPreviewEditor">
+            <state />
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/lib/__init__.py" />
+        <option value="$PROJECT_DIR$/qtmud/services/mover.py" />
+        <option value="$PROJECT_DIR$/mudlib/yeolderpg/qualities/speaking.py" />
+        <option value="$PROJECT_DIR$/qtmud/services/noisemaker.py" />
+        <option value="$PROJECT_DIR$/qtmud/qualities/physical.py" />
+        <option value="$PROJECT_DIR$/mudlib/yeolderpg/qualities/corpse.py" />
+        <option value="$PROJECT_DIR$/qtmud/qualities/container.py" />
+        <option value="$PROJECT_DIR$/mudlib/starhopper/captain/__init__.py" />
+        <option value="$PROJECT_DIR$/mudlib/yeolderpg/services/noisemaker" />
+        <option value="$PROJECT_DIR$/mudlib/yeolderpg/qualities/noisy.py" />
+        <option value="$PROJECT_DIR$/mudlib/yeolderpg/qualities/room.py" />
+        <option value="$PROJECT_DIR$/mudlib/yeolderpg/services/__init__.py" />
+        <option value="$PROJECT_DIR$/mudlib/yeolderpg/qualities/player.py" />
+        <option value="$PROJECT_DIR$/mudlib/yeolderpg/qualities/container.py" />
+        <option value="$PROJECT_DIR$/mudlib/yeolderpg/services/noisemaker.py" />
+        <option value="$PROJECT_DIR$/mudlib/yeolderpg/qualities/physical.py" />
+        <option value="$PROJECT_DIR$/mudlib/yeolderpg/qualities/renderable.py" />
+        <option value="$PROJECT_DIR$/mudlib/yeolderpg/places/moleinthewall.py" />
+        <option value="$PROJECT_DIR$/qtmud/services/__init__.py" />
+        <option value="$PROJECT_DIR$/mudlib/yeolderpg/qualities/hearing.py" />
+        <option value="$PROJECT_DIR$/mudlib/yeolderpg/qualities/sighted.py" />
+        <option value="$PROJECT_DIR$/qtmud/services/parser.py" />
+        <option value="$PROJECT_DIR$/mudlib/yeolderpg/__init__.py" />
+        <option value="$PROJECT_DIR$/mudlib/starhopper/rat/__init__.py" />
+        <option value="$PROJECT_DIR$/mudlib/starhopper/starsystem/__init__.py" />
+        <option value="$PROJECT_DIR$/mudlib/starhopper/ship/__init__.py" />
+        <option value="$PROJECT_DIR$/mudlib/starhopper/ship/cmds.py" />
+        <option value="$PROJECT_DIR$/qtmud/services/mudsocket.py" />
+        <option value="$PROJECT_DIR$/data/README" />
+        <option value="$PROJECT_DIR$/docs/Makefile" />
+        <option value="$PROJECT_DIR$/docs/source/conf.py" />
+        <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/mudlib/starhopper/README.md" />
+        <option value="$PROJECT_DIR$/docs/build_docs.sh" />
+        <option value="$PROJECT_DIR$/qtmud/qualities/client.py" />
+        <option value="$PROJECT_DIR$/mudlib/__init__.py" />
+        <option value="$PROJECT_DIR$/qtmud/builders.py" />
+        <option value="$PROJECT_DIR$/qtmud/cmds.py" />
+        <option value="$PROJECT_DIR$/mudlib/starhopper/cmds.py" />
+        <option value="$PROJECT_DIR$/qtmud/parser.py" />
+        <option value="$PROJECT_DIR$/qtmud/foo/qualities/client.py" />
+        <option value="$PROJECT_DIR$/qtmud/services.py" />
+        <option value="$PROJECT_DIR$/qtmud/subscriptions.py" />
+        <option value="$PROJECT_DIR$/mudlib/starhopper/txt.py" />
+        <option value="$PROJECT_DIR$/run.py" />
+        <option value="$PROJECT_DIR$/qtmud/__init__.py" />
+        <option value="$PROJECT_DIR$/qtmud/txt.py" />
+        <option value="$PROJECT_DIR$/mudlib/starhopper/subscriptions.py" />
+        <option value="$PROJECT_DIR$/mudlib/starhopper/builders.py" />
+        <option value="$PROJECT_DIR$/docs/source/index.rst" />
+        <option value="$PROJECT_DIR$/mudlib/starhopper/__init__.py" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="x" value="960" />
+    <option name="y" value="27" />
+    <option name="width" value="960" />
+    <option name="height" value="1053" />
+  </component>
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State>
+            <id />
+          </State>
+          <State>
+            <id>Python</id>
+          </State>
+        </expanded-state>
+        <selected-state>
+          <State>
+            <id>Python</id>
+          </State>
+        </selected-state>
+      </profile-state>
+    </entry>
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+    <OptionsSetting value="true" id="Add" />
+    <OptionsSetting value="true" id="Remove" />
+    <OptionsSetting value="true" id="Checkout" />
+    <OptionsSetting value="true" id="Update" />
+    <OptionsSetting value="true" id="Status" />
+    <OptionsSetting value="true" id="Edit" />
+    <ConfirmationsSetting value="0" id="Add" />
+    <ConfirmationsSetting value="0" id="Remove" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers ProjectPane="true" />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+      <manualOrder />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope">
+        <subPane subId="Problems" />
+        <subPane subId="Project Files">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="qtmud" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="qtmud" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="qtmud" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scratches" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="PyConsoleConfigurable.Python Console" />
+    <property name="settings.editor.splitter.proportion" value="0.2" />
+    <property name="full.screen.before.presentation.mode" value="false" />
+  </component>
+  <component name="PyConsoleOptionsProvider">
+    <option name="myPythonConsoleState">
+      <console-settings module-name="qtmud" is-module-sdk="true">
+        <option name="myUseModuleSdk" value="true" />
+        <option name="myModuleName" value="qtmud" />
+        <option name="myAddSourceRoots" value="true" />
+      </console-settings>
+    </option>
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/qtmud" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/qtmud" />
+      <recent name="$PROJECT_DIR$/qtmud/foo" />
+      <recent name="$PROJECT_DIR$/docs/source" />
+      <recent name="$PROJECT_DIR$/mudlib/starhopper" />
+      <recent name="$PROJECT_DIR$/mudlib/yeolderpg/qualities" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.client">
+    <configuration default="false" name="Doctest Quality.womble" type="tests" factoryName="Doctests" temporary="true" nameIsGenerated="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/qtmud/foo/qualities" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="qtmud" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/qualities/__init__.py" />
+      <option name="CLASS_NAME" value="Quality" />
+      <option name="METHOD_NAME" value="womble" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_METHOD" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="client" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/qualities" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="qtmud" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/qualities/client.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="qtmud" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="Tox" factoryName="Tox">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="qtmud" />
+      <method />
+    </configuration>
+    <configuration default="true" type="docs" factoryName="Sphinx task">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="qtmud" />
+      <option name="docutils_input_file" value="" />
+      <option name="docutils_output_file" value="" />
+      <option name="docutils_params" value="" />
+      <option name="docutils_task" value="" />
+      <option name="docutils_open_in_browser" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Attests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="qtmud" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Doctests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="qtmud" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Nosetests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="qtmud" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <option name="PARAMS" value="" />
+      <option name="USE_PARAM" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Unittests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="qtmud" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <option name="PUREUNITTEST" value="true" />
+      <option name="PARAMS" value="" />
+      <option name="USE_PARAM" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="py.test">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="qtmud" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <option name="testToRun" value="" />
+      <option name="keywords" value="" />
+      <option name="params" value="" />
+      <option name="USE_PARAM" value="false" />
+      <option name="USE_KEYWORD" value="false" />
+      <method />
+    </configuration>
+    <list size="2">
+      <item index="0" class="java.lang.String" itemvalue="Python tests.Doctest Quality.womble" />
+      <item index="1" class="java.lang.String" itemvalue="Python.client" />
+    </list>
+    <recent_temporary>
+      <list size="2">
+        <item index="0" class="java.lang.String" itemvalue="Python.client" />
+        <item index="1" class="java.lang.String" itemvalue="Python tests.Doctest Quality.womble" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="596cb1fe-81fa-4cc4-afcc-ae6a08651a66" name="Default" comment="" />
+      <created>1473811397224</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1473811397224</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="TestHistory">
+    <history-entry file="Doctest_Quality_womble - 2016.09.14 at 16h 48m 01s.xml">
+      <configuration name="Doctest Quality.womble" configurationId="tests" />
+    </history-entry>
+  </component>
+  <component name="TodoView" selected-index="2">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="960" y="27" width="960" height="1053" extended-state="4" />
+    <editor active="false" />
+    <layout>
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.30143014" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30186608" sideWeight="0.44764957" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32711306" sideWeight="0.6197917" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.32858709" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.32968238" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30186608" sideWeight="0.5523504" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19551282" sideWeight="0.49614963" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="WINDOWED" visible="false" show_stripe_button="true" weight="0.2974753" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" x="0" y="593" width="1013" height="487" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32930845" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22115384" sideWeight="0.5038504" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.39978093" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="RECENTLY_FILTERED_USER_GROUPS">
+                <collection />
+              </option>
+              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+                <collection />
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="Vcs.Log.UiProperties">
+    <option name="RECENTLY_FILTERED_USER_GROUPS">
+      <collection />
+    </option>
+    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+      <collection />
+    </option>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="LOCAL_CHANGES_DETAILS_PREVIEW_SHOWN" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <option name="time" value="9" />
+    </breakpoint-manager>
+    <watches-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/mudlib/yeolderpg/qualities/hearing.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="283">
+          <caret line="34" column="21" selection-start-line="34" selection-start-column="21" selection-end-line="34" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mudlib/yeolderpg/qualities/sighted.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="175">
+          <caret line="37" column="9" selection-start-line="37" selection-start-column="9" selection-end-line="37" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/debug.log">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/source/conf.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="431">
+          <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mudlib/yeolderpg/qualities/speaking.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="54">
+          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="11" selection-end-column="68" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mudlib/yeolderpg/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="6" column="34" selection-start-line="6" selection-start-column="34" selection-end-line="6" selection-end-column="34" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mudlib/starhopper/ascii_art.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mudlib/starhopper/rat/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="215">
+          <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="31" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mudlib/starhopper/starsystem/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mudlib/starhopper/ship/actions.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mudlib/starhopper/ship/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="648">
+          <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mudlib/starhopper/save.p">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/accounts.p">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/README">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="18" selection-start-line="0" selection-start-column="18" selection-end-line="0" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/Makefile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="12" column="77" selection-start-line="12" selection-start-column="77" selection-end-line="12" selection-end-column="77" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/_sources/index.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/source/qtmud.mudlib.starhopper.builders.rst">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/source/mudlib.rst">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/.buildinfo">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/source/modules.rst">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/source/starhopper.builders.rst">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="54">
+          <caret line="3" column="9" selection-start-line="3" selection-start-column="9" selection-end-line="3" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/.build/doctest/output.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-54">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/qtmud/foo/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="25" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mudlib/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/qtmud/foo/qualities/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/qtmud/foo/mudsocket.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="201">
+          <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="44" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mudlib/starhopper/cmds.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="175">
+          <caret line="114" column="16" selection-start-line="114" selection-start-column="16" selection-end-line="114" selection-end-column="16" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/qtmud/foo/qualities/client.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="175">
+          <caret line="33" column="44" selection-start-line="33" selection-start-column="44" selection-end-line="33" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/qtmud/cmds.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="36">
+          <caret line="2" column="4" selection-start-line="2" selection-start-column="4" selection-end-line="2" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
+        <state split_layout="FIRST">
+          <first_editor relative-caret-position="270">
+            <caret line="15" column="49" selection-start-line="15" selection-start-column="49" selection-end-line="15" selection-end-column="49" />
+            <folding />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+      <provider editor-type-id="MarkdownFxPreviewEditor">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.PyCharm2016.2/system/python_stubs/-1247971764/builtins.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="193">
+          <caret line="475" column="7" selection-start-line="475" selection-start-column="7" selection-end-line="475" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/qtmud/tickers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/qtmud/parser.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1088">
+          <caret line="11" column="4" selection-start-line="11" selection-start-column="4" selection-end-line="11" selection-end-column="4" />
+          <folding>
+            <element signature="e#73#102#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/qtmud/services.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="57" column="34" selection-start-line="57" selection-start-column="34" selection-end-line="57" selection-end-column="34" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/qtmud/subscriptions.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="558">
+          <caret line="31" column="39" selection-start-line="31" selection-start-column="39" selection-end-line="31" selection-end-column="39" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/qtmud/builders.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="468">
+          <caret line="29" column="30" selection-start-line="29" selection-start-column="30" selection-end-line="29" selection-end-column="30" />
+          <folding>
+            <element signature="e#62#74#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/qtmud/txt.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mudlib/starhopper/txt.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="478">
+          <caret line="48" column="35" selection-start-line="48" selection-start-column="35" selection-end-line="48" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/starhopper_accounts.p">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mudlib/starhopper/subscriptions.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="121" column="0" selection-start-line="121" selection-start-column="0" selection-end-line="121" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mudlib/starhopper/builders.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="21" column="42" selection-start-line="21" selection-start-column="42" selection-end-line="21" selection-end-column="42" />
+          <folding>
+            <element signature="e#252#265#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/source/conf.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="20" column="10" selection-start-line="20" selection-start-column="10" selection-end-line="22" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/build_docs.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="36">
+          <caret line="2" column="25" selection-start-line="2" selection-start-column="25" selection-end-line="2" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/qtmud/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="21" column="26" selection-start-line="21" selection-start-column="26" selection-end-line="21" selection-end-column="26" />
+          <folding>
+            <element signature="e#278#292#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/source/index.rst">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="226">
+          <caret line="44" column="0" selection-start-line="44" selection-start-column="0" selection-end-line="45" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/run.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="11" column="54" selection-start-line="11" selection-start-column="54" selection-end-line="12" selection-end-column="66" />
+          <folding>
+            <element signature="e#79#91#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mudlib/starhopper/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
+        <state split_layout="FIRST">
+          <first_editor relative-caret-position="54">
+            <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="14" selection-end-column="27" />
+            <folding />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+      <provider editor-type-id="MarkdownFxPreviewEditor">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mudlib/starhopper/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="424">
+          <caret line="43" column="32" selection-start-line="43" selection-start-column="32" selection-end-line="43" selection-end-column="32" />
+          <folding>
+            <element signature="e#356#369#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

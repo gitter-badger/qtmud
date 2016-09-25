@@ -7,32 +7,37 @@
 
     Methods for handling the schedule, instancing Things, and looking those
     things back up.
-
-    Attributes:
-        NAME(str):                      name of the MUD engine
-        VERSION(str):                   version of the MUD engine
-        SPLASH_LINES(list):             funny lines that go under the version
-                                        number
-        SPLASH(str):                    the text clients see when they connect
-        log(object):                    handles logging for qtmud
-        events(dict):                   things that are going to happen next
-                                        tick()
-        things(dict):                   all the things made through new_thing()
-        subscriptions(set):             every method that wants to subscribe
-        loaded_subscriptions(dict):     every method that has been subscribed
 """
 
 import logging
-import random
 import uuid
-
+from inspect import getmembers, isfunction, isclass
+from qtmud import services, subscriptions, txt
 
 NAME = 'qtmud'
+""" Name of the MUD engine. """
+
+
 VERSION = '0.0.3'
-SPLASH_LINES = open('./.splash_lines').read().splitlines()
-SPLASH = ('{}\nversion {}\n     {}\n'.format(NAME,
-                                             VERSION,
-                                             random.choice(SPLASH_LINES)))
+""" MUD engine version """
+
+
+SPLASH = txt.SPLASH.format(**locals())
+
+events = dict()
+""" events scheduled to occur next tick"""
+
+
+things = dict()
+""" all the things that new_thing() has made"""
+
+
+subscribers = dict({s[1].__name__: [s[1]] for
+                    s in getmembers(subscriptions) if isfunction(s[1])})
+""" methods registered as qtmud events """
+active_services = dict({t[1]: t[1]() for
+                        t in getmembers(services) if isclass(t[1])})
+""" services to be tick()ed """
 
 
 # Currently set up to record all logging to debug.log, with only INFO
@@ -45,16 +50,10 @@ logging.basicConfig(filename='debug.log', filemode='w',
 CONSOLE = logging.StreamHandler()
 # Change this to logging.DEBUG if you want everything on the console.
 CONSOLE.setLevel(logging.INFO)
-CONSOLE.setFormatter(logging.Formatter('%(name)-12s %(levelname)-8s '
-                                       '%(message)s'))
+CONSOLE.setFormatter(logging.Formatter('%(name)-12s %(levelname)-8s %(message)s'))
 log = logging.getLogger('qtmud')
+""" qtmud's logging handler, see :mod:`logging.Logger`. """
 log.addHandler(CONSOLE)
-
-
-events = dict()
-things = dict()
-subscriptions = set()
-loaded_subscriptions = dict()
 
 
 def new_thing():
@@ -68,7 +67,7 @@ def new_thing():
 
 
 def schedule(sub, **payload):
-    for method in loaded_subscriptions.get(sub, []):
+    for method in subscribers.get(sub, []):
         if method not in events:
             events[method] = []
         events[method].append(payload)
@@ -105,12 +104,16 @@ def search_by_noun(reference, adjectives, search_noun):
     return matches
 
 
-def subscribe(*methods):
-    for method in methods:
-        name = method.__name__
-        if name not in loaded_subscriptions:
-            loaded_subscriptions[name] = []
-        loaded_subscriptions[name].append(method)
+def tick():
+    global events
+    if events:
+        current_events = events
+        events = dict()
+        for event in current_events:
+            for call in current_events[event]:
+                event(**call)
+    for service in active_services:
+        active_services[service].tick()
     return True
 
 
@@ -151,7 +154,7 @@ class Thing(object):
         self.nouns.add(new_name[-1])
         self._name = value
 
-    def update(self, to_update):
-        for attribute, value in to_update.items():
+    def update(self, attributes):
+        for attribute, value in attributes.items():
             self.__dict__[attribute] = value
         return True

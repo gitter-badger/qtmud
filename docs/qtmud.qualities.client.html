@@ -47,11 +47,6 @@
             
   <div class="section" id="module-qtmud.qualities.client">
 <span id="qtmud-qualities-client-module"></span><h1>qtmud.qualities.client module<a class="headerlink" href="#module-qtmud.qualities.client" title="Permalink to this headline">¶</a></h1>
-<p>Methods for Clients</p>
-<div class="versionadded">
-<p><span class="versionmodified">New in version 0.0.4.</span></p>
-</div>
-<p>Methods for Clients, expecting to be added to a <a class="reference internal" href="qtmud.html#qtmud.Thing" title="qtmud.Thing"><code class="xref py py-class docutils literal"><span class="pre">thing</span></code></a></p>
 <dl class="function">
 <dt id="qtmud.qualities.client.apply">
 <code class="descclassname">qtmud.qualities.client.</code><code class="descname">apply</code><span class="sig-paren">(</span><em>thing</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/qualities/client.html#apply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.client.apply" title="Permalink to this definition">¶</a></dt>
@@ -69,46 +64,17 @@ client is also given a send() method.</p>
 <dl class="function">
 <dt id="qtmud.qualities.client.build_finger">
 <code class="descclassname">qtmud.qualities.client.</code><code class="descname">build_finger</code><span class="sig-paren">(</span><em>fingeree</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/qualities/client.html#build_finger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.client.build_finger" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt>Parameters:</dt>
-<dd>fingeree(object):       The Thing being fingered.</dd>
-<dt>Returns:</dt>
-<dd>str:                    The finger information of <cite>fingeree</cite></dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="function">
 <dt id="qtmud.qualities.client.commands_cmd">
 <code class="descclassname">qtmud.qualities.client.</code><code class="descname">commands_cmd</code><span class="sig-paren">(</span><em>commander</em>, <em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/qualities/client.html#commands_cmd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.client.commands_cmd" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt>Parameters:</dt>
-<dd><p class="first">commander(object):          thing with commands
-line(str):                  input from commander&#8217;s client,</p>
-<blockquote class="last">
-<div>unused here.</div></blockquote>
-</dd>
-<dt>Return:</dt>
-<dd>bool:                       True</dd>
-</dl>
-<p>Schedules the send()ing of commander&#8217;s commands to commander.</p>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="function">
 <dt id="qtmud.qualities.client.finger_cmd">
 <code class="descclassname">qtmud.qualities.client.</code><code class="descname">finger_cmd</code><span class="sig-paren">(</span><em>fingerer</em>, <em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/qualities/client.html#finger_cmd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.client.finger_cmd" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt>Parameters:</dt>
-<dd><p class="first">fingerer(object):       thing fingering another client.
-line(str):              client input, expected to be the name of</p>
-<blockquote class="last">
-<div>a client</div></blockquote>
-</dd>
-<dt>Returns:</dt>
-<dd>bool:                   True</dd>
-</dl>
-<p>Builds a finger of the client mentioned in <cite>line</cite>, and schedules its
-send()ing.</p>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="function">
 <dt id="qtmud.qualities.client.send">

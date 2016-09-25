@@ -57,29 +57,38 @@
 
 <span class="sd">    Methods for handling the schedule, instancing Things, and looking those</span>
 <span class="sd">    things back up.</span>
-
-<span class="sd">    Attributes:</span>
-<span class="sd">        NAME(str):                      name of the MUD engine</span>
-<span class="sd">        VERSION(str):                   version of the MUD engine</span>
-<span class="sd">        SPLASH_LINES(list):             funny lines that go under the version</span>
-<span class="sd">                                        number</span>
-<span class="sd">        SPLASH(str):                    the text clients see when they connect</span>
-<span class="sd">        log(object):                    handles logging for qtmud</span>
-<span class="sd">        events(dict):                   things that are going to happen next</span>
-<span class="sd">                                        tick()</span>
-<span class="sd">        things(dict):                   all the things made through new_thing()</span>
-<span class="sd">        subscriptions(set):             every method that wants to subscribe</span>
-<span class="sd">        loaded_subscriptions(dict):     every method that has been subscribed</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">random</span>
 <span class="kn">import</span> <span class="nn">uuid</span>
-
+<span class="kn">from</span> <span class="nn">inspect</span> <span class="k">import</span> <span class="n">getmembers</span><span class="p">,</span> <span class="n">isfunction</span><span class="p">,</span> <span class="n">isclass</span>
+<span class="kn">from</span> <span class="nn">qtmud</span> <span class="k">import</span> <span class="n">services</span><span class="p">,</span> <span class="n">subscriptions</span><span class="p">,</span> <span class="n">txt</span>
 
 <span class="n">NAME</span> <span class="o">=</span> <span class="s1">&#39;qtmud&#39;</span>
+<span class="sd">&quot;&quot;&quot; Name of the MUD engine. &quot;&quot;&quot;</span>
+
+
 <span class="n">VERSION</span> <span class="o">=</span> <span class="s1">&#39;0.0.3&#39;</span>
-<span class="n">SPLASH</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+<span class="sd">&quot;&quot;&quot; MUD engine version &quot;&quot;&quot;</span>
+
+
+<span class="n">SPLASH</span> <span class="o">=</span> <span class="n">txt</span><span class="o">.</span><span class="n">SPLASH</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="nb">locals</span><span class="p">())</span>
+
+<span class="n">events</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+<span class="sd">&quot;&quot;&quot; events scheduled to occur next tick&quot;&quot;&quot;</span>
+
+
+<span class="n">things</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+<span class="sd">&quot;&quot;&quot; all the things that new_thing() has made&quot;&quot;&quot;</span>
+
+
+<span class="n">subscribers</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">({</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">__name__</span><span class="p">:</span> <span class="p">[</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="k">for</span>
+                    <span class="n">s</span> <span class="ow">in</span> <span class="n">getmembers</span><span class="p">(</span><span class="n">subscriptions</span><span class="p">)</span> <span class="k">if</span> <span class="n">isfunction</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">])})</span>
+<span class="sd">&quot;&quot;&quot; methods registered as qtmud events &quot;&quot;&quot;</span>
+<span class="n">active_services</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">({</span><span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">]()</span> <span class="k">for</span>
+                        <span class="n">t</span> <span class="ow">in</span> <span class="n">getmembers</span><span class="p">(</span><span class="n">services</span><span class="p">)</span> <span class="k">if</span> <span class="n">isclass</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">])})</span>
+<span class="sd">&quot;&quot;&quot; services to be tick()ed &quot;&quot;&quot;</span>
+
 
 <span class="c1"># Currently set up to record all logging to debug.log, with only INFO</span>
 <span class="c1"># and higher priority messages going to console.</span>
@@ -91,23 +100,11 @@
 <span class="n">CONSOLE</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">StreamHandler</span><span class="p">()</span>
 <span class="c1"># Change this to logging.DEBUG if you want everything on the console.</span>
 <span class="n">CONSOLE</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
-<span class="n">CONSOLE</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%(name)-12s</span><span class="s1"> </span><span class="si">%(levelname)-8s</span><span class="s1"> &#39;</span>
-                                       <span class="s1">&#39;</span><span class="si">%(message)s</span><span class="s1">&#39;</span><span class="p">))</span>
+<span class="n">CONSOLE</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%(name)-12s</span><span class="s1"> </span><span class="si">%(levelname)-8s</span><span class="s1"> </span><span class="si">%(message)s</span><span class="s1">&#39;</span><span class="p">))</span>
 <span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;qtmud&#39;</span><span class="p">)</span>
+<span class="sd">&quot;&quot;&quot; qtmud&#39;s logging handler, see :mod:`logging.Logger`. &quot;&quot;&quot;</span>
 <span class="n">log</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">CONSOLE</span><span class="p">)</span>
 
-
-<span class="n">events</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-<span class="n">things</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-<span class="n">subscriptions</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
-<span class="n">loaded_subscriptions</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-
-<div class="viewcode-block" id="build_splash"><a class="viewcode-back" href="../qtmud.html#qtmud.build_splash">[docs]</a><span class="k">def</span> <span class="nf">build_splash</span><span class="p">():</span>
-    <span class="n">splash_lines</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;./.splash_lines&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
-    <span class="n">SPLASH</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="se">\n</span><span class="s1">version </span><span class="si">{}</span><span class="se">\n</span><span class="s1">     </span><span class="si">{}</span><span class="se">\n</span><span class="s1">&#39;</span>
-              <span class="s1">&#39;_________________________&#39;</span>
-              <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">NAME</span><span class="p">,</span> <span class="n">VERSION</span><span class="p">,</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">splash_lines</span><span class="p">)))</span>
-    <span class="k">return</span> <span class="n">SPLASH</span></div>
 
 <div class="viewcode-block" id="new_thing"><a class="viewcode-back" href="../qtmud.html#qtmud.new_thing">[docs]</a><span class="k">def</span> <span class="nf">new_thing</span><span class="p">():</span>
     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
@@ -120,7 +117,7 @@
 
 
 <div class="viewcode-block" id="schedule"><a class="viewcode-back" href="../qtmud.html#qtmud.schedule">[docs]</a><span class="k">def</span> <span class="nf">schedule</span><span class="p">(</span><span class="n">sub</span><span class="p">,</span> <span class="o">**</span><span class="n">payload</span><span class="p">):</span>
-    <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">loaded_subscriptions</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">sub</span><span class="p">,</span> <span class="p">[]):</span>
+    <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">subscribers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">sub</span><span class="p">,</span> <span class="p">[]):</span>
         <span class="k">if</span> <span class="n">method</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">events</span><span class="p">:</span>
             <span class="n">events</span><span class="p">[</span><span class="n">method</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">events</span><span class="p">[</span><span class="n">method</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
@@ -157,12 +154,16 @@
     <span class="k">return</span> <span class="n">matches</span></div>
 
 
-<div class="viewcode-block" id="subscribe"><a class="viewcode-back" href="../qtmud.html#qtmud.subscribe">[docs]</a><span class="k">def</span> <span class="nf">subscribe</span><span class="p">(</span><span class="o">*</span><span class="n">methods</span><span class="p">):</span>
-    <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">:</span>
-        <span class="n">name</span> <span class="o">=</span> <span class="n">method</span><span class="o">.</span><span class="n">__name__</span>
-        <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">loaded_subscriptions</span><span class="p">:</span>
-            <span class="n">loaded_subscriptions</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">loaded_subscriptions</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">method</span><span class="p">)</span>
+<div class="viewcode-block" id="tick"><a class="viewcode-back" href="../qtmud.html#qtmud.tick">[docs]</a><span class="k">def</span> <span class="nf">tick</span><span class="p">():</span>
+    <span class="k">global</span> <span class="n">events</span>
+    <span class="k">if</span> <span class="n">events</span><span class="p">:</span>
+        <span class="n">current_events</span> <span class="o">=</span> <span class="n">events</span>
+        <span class="n">events</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">current_events</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">call</span> <span class="ow">in</span> <span class="n">current_events</span><span class="p">[</span><span class="n">event</span><span class="p">]:</span>
+                <span class="n">event</span><span class="p">(</span><span class="o">**</span><span class="n">call</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">service</span> <span class="ow">in</span> <span class="n">active_services</span><span class="p">:</span>
+        <span class="n">active_services</span><span class="p">[</span><span class="n">service</span><span class="p">]</span><span class="o">.</span><span class="n">tick</span><span class="p">()</span>
     <span class="k">return</span> <span class="kc">True</span></div>
 
 
@@ -203,8 +204,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">nouns</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">new_name</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">value</span>
 
-<div class="viewcode-block" id="Thing.update"><a class="viewcode-back" href="../qtmud.html#qtmud.Thing.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">to_update</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">attribute</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">to_update</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<div class="viewcode-block" id="Thing.update"><a class="viewcode-back" href="../qtmud.html#qtmud.Thing.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attributes</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">attribute</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">attributes</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span><span class="p">[</span><span class="n">attribute</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
         <span class="k">return</span> <span class="kc">True</span></div></div>
 </pre></div>

@@ -42,25 +42,9 @@ RAT_NAMES = ['Billy', 'Bob', 'Captain Bone Marrow', 'Mr. Shivers',
              'Captain Stabbin', 'Shanky McShankyson']
 
 
-LOGIN_SPLASH = """
-...loading Starhopper Pilot Intelligence (that\'s you, dummy!)\n
-........You
-"""
-
-
 SPLASH = """
-  * S` T . A * R ,     * H ` O . P   P * E * R *\n
-  *  .  . *       *    .        .    `   .   *  \n\n\n
-Welcome to STARHOPPER, one of qtmud's testing libraries.\n
-In Starhopper, you play a brave starship captain, "hop"ping through uncharted
-space using your faster-than-light drive.\n\n
+STARHOPPER
+    HOP between STARS
 
-"Engage" in fights with pirates, "salvage" the wrecks, and "buy" upgrades
-from space stations.\n\n
-
-If you\'re playing with friends, use the "radio" to coordinate your purchases
-so you can work together. The further from the starting station you get, the
-more dangerous the challenges!\n\n
-
-What would you like your ship to be called?\n
+Input your [desired] name, captain.
 """
