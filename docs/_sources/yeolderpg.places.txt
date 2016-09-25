@@ -1,0 +1,17 @@
+yeolderpg.places package
+========================
+
+Submodules
+----------
+
+.. toctree::
+
+   yeolderpg.places.moleinthewall
+
+Module contents
+---------------
+
+.. automodule:: yeolderpg.places
+    :members:
+    :undoc-members:
+    :show-inheritance:

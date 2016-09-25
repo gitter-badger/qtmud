@@ -6,15 +6,15 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>qtmud.services.parser module &#8212; qtmud 0.0.3 documentation</title>
+    <title>qtmud.services.parser module &#8212; qtmud 0.0.4 documentation</title>
     
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.0.3',
+        VERSION:     '0.0.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,16 +23,22 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="qtmud 0.0.3 documentation" href="index.html" />
-   
-  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
-
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="qtmud 0.0.4 documentation" href="index.html" /> 
   </head>
   <body role="document">
-  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">qtmud 0.0.4 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
 
     <div class="document">
       <div class="documentwrapper">
@@ -41,84 +47,37 @@
             
   <div class="section" id="module-qtmud.services.parser">
 <span id="qtmud-services-parser-module"></span><h1>qtmud.services.parser module<a class="headerlink" href="#module-qtmud.services.parser" title="Permalink to this headline">¶</a></h1>
-<p>handles the input from clients</p>
-<span class="target" id="module-qtmud.services.parser"></span><p>Parser is subscribed to &#8216;parse&#8217; events. It expects these events to have:</p>
-<ul class="simple">
-<li>client - the object the client is associated with</li>
-<li>cmd - the first word (split by space) of the client&#8217;s line</li>
-<li>trailing - everything after the first word.</li>
-</ul>
-<p>The code for how it works is pretty straightforward, and bad, at this
-point, so I&#8217;m not going to bother thoroughly commenting it.</p>
-<dl class="class">
-<dt id="qtmud.services.parser.Parser">
-<em class="property">class </em><code class="descclassname">qtmud.services.parser.</code><code class="descname">Parser</code><span class="sig-paren">(</span><em>manager</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/services/parser.html#Parser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.services.parser.Parser" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
-<p>To listen for client input, Parser subscribes to &#8216;parse&#8217; events</p>
+<p>methods related to text processing</p>
 <div class="versionadded">
-<p><span class="versionmodified">New in version 0.0.1-features/parser.</span></p>
+<p><span class="versionmodified">New in version 0.0.4.</span></p>
 </div>
-<dl class="method">
-<dt id="qtmud.services.parser.Parser.parse_line">
-<code class="descname">parse_line</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/services/parser.html#Parser.parse_line"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.services.parser.Parser.parse_line" title="Permalink to this definition">¶</a></dt>
-<dd><p>Take a line and do some parts of speech tagging to it</p>
-<div class="versionadded">
-<p><span class="versionmodified">New in version 0.0.2-feature/adjectives.</span></p>
-</div>
-<div class="versionchanged">
-<p><span class="versionmodified">Changed in version 0.0.2-feature/textblob: </span>added documentation, cleaned up some bugs.</p>
-</div>
-</dd></dl>
-
-<dl class="method">
-<dt id="qtmud.services.parser.Parser.tick">
-<code class="descname">tick</code><span class="sig-paren">(</span><em>events=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/services/parser.html#Parser.tick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.services.parser.Parser.tick" title="Permalink to this definition">¶</a></dt>
-<dd><p>Handle commands from the last tick.</p>
-<div class="versionadded">
-<p><span class="versionmodified">New in version 0.0.1-feature/parser.</span></p>
-</div>
-<div class="versionchanged">
-<p><span class="versionmodified">Changed in version 0.0.2-feature/nametags: </span>Added better failure control.</p>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>events</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; set to False by default, expected to
-be a list of tuples in the format of
-<code class="docutils literal"><span class="pre">[('render',</span> <span class="pre">{payload})]</span></code></td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="docutils">
-<dt>True if there were events to process,</dt>
-<dd>otherwise False.</dd>
+<dl class="function">
+<dt id="qtmud.services.parser.parse_line">
+<code class="descclassname">qtmud.services.parser.</code><code class="descname">parse_line</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/services/parser.html#parse_line"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.services.parser.parse_line" title="Permalink to this definition">¶</a></dt>
+<dd><p>interpret phrase relation and parts of speech from line</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>line(str):          line to be parsed</dd>
+<dt>Return:</dt>
+<dd>payload(dict):      phrases by role</dd>
 </dl>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)">bool</a></td>
-</tr>
-</tbody>
-</table>
-<p>The <code class="docutils literal"><span class="pre">payload</span></code> of each event is expected to have:</p>
-<blockquote>
-<div><ul class="simple">
-<li><code class="docutils literal"><span class="pre">client</span></code> - represents the client who is trying to have
-their command parsed.</li>
-<li><code class="docutils literal"><span class="pre">cmd</span></code> - a single word that represent&#8217;s the command
-<code class="docutils literal"><span class="pre">client</span></code> is trying to execute.</li>
-<li><code class="docutils literal"><span class="pre">trailing</span></code> - this one is optional, and is any text that
-came after the <code class="docutils literal"><span class="pre">cmd</span></code> in the player&#8217;s input.</li>
-</ul>
-</div></blockquote>
-<p>If the Bob inputs <code class="docutils literal"><span class="pre">say</span> <span class="pre">hello</span> <span class="pre">there</span> <span class="pre">skippy</span></code>, <code class="docutils literal"><span class="pre">client</span></code> would
-be the object that represent&#8217;s Bob&#8217;s avatar, <code class="docutils literal"><span class="pre">cmd</span></code> would be
-<code class="docutils literal"><span class="pre">say</span></code>, and <code class="docutils literal"><span class="pre">trailing</span></code> would be <code class="docutils literal"><span class="pre">hello</span> <span class="pre">there</span> <span class="pre">skippy</span></code>.</p>
-<p>If <code class="docutils literal"><span class="pre">cmd</span></code> (in this case <code class="docutils literal"><span class="pre">say</span></code>) is in the client&#8217;s list of
-<code class="xref py py-attr docutils literal"><span class="pre">commands</span></code>,
-then the method that command points to will be called, with
-<code class="docutils literal"><span class="pre">trailing</span></code> as an argument. In our example, <code class="docutils literal"><span class="pre">bob.say('hello</span>
-<span class="pre">there</span> <span class="pre">skippy')</span></code>.</p>
+<p>Check inline comments for technical explanation.</p>
 </dd></dl>
 
+<dl class="function">
+<dt id="qtmud.services.parser.search_by_line">
+<code class="descclassname">qtmud.services.parser.</code><code class="descname">search_by_line</code><span class="sig-paren">(</span><em>searcher</em>, <em>verb=None</em>, <em>objekt=None</em>, <em>adjectives=None</em>, <em>pnp_clauses=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/services/parser.html#search_by_line"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.services.parser.search_by_line" title="Permalink to this definition">¶</a></dt>
+<dd><p>search for thing by parsed line</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>searcher(object):
+objekt(str):
+adjectives(list):
+pnp_clauses(list):
+verb(str):</dd>
+<dt>Return:</dt>
+<dd>list:               matched things.</dd>
+</dl>
 </dd></dl>
 
 </div>
@@ -128,13 +87,7 @@ then the method that command points to will be called, with
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper"><div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="index.html">Documentation overview</a><ul>
-  </ul></li>
-</ul>
-</div>
+        <div class="sphinxsidebarwrapper">
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -156,20 +109,21 @@ then the method that command points to will be called, with
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="footer">
-      &copy;2016, emsenn.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
-      
-      |
-      <a href="_sources/qtmud.services.parser.txt"
-          rel="nofollow">Page source</a>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">qtmud 0.0.4 documentation</a> &#187;</li> 
+      </ul>
     </div>
-
-    
-
-    
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, emsenn.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
   </body>
 </html>

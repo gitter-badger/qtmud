@@ -1,0 +1,7 @@
+yeolderpg.qualities.hearing module
+==================================
+
+.. automodule:: yeolderpg.qualities.hearing
+    :members:
+    :undoc-members:
+    :show-inheritance:

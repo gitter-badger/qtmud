@@ -1,66 +1,31 @@
 #!/usr/bin/python3
-""" qtmud's start & run script
-    
-    .. moduleauthor: Morgan Sennhauser <morgan.sennhauser@gmail.com>
+""" qtmud startup script
 
     .. versionadded:: 0.0.1
-    .. versionchanged:: 0.0.1-features/parser
-        changed :class:`qtmud.Manager.back_room` to be :class:`Village 
-        <qtmud.lib.Village>`
-    .. versionchanged:: 0.0.2-features/renderer
-        added :class:`Renderer <qtmud.services.renderer.Renderer` to 
-        startup services.
-    
-    Instances manager, loads services, subscribes them to events
 """
 
-#!/usr/bin/python3.5
 
-import sys
-import os
-
-sys.path.insert(0, os.path.abspath('../'))
-
-#pylint: disable=wrong-import-position
 import qtmud
-from qtmud.services.mover import Mover
-from qtmud.services.parser import Parser
-from qtmud.services.mudsocket import MUDSocket
-from qtmud.services import Renderer
-from qtmud.services.sender import Sender
-
-# testing imports
-from qtmud.lib import Village, Field
-
-#plylint: enable=wrong-import position
-
+from qtmud.services import mudsocket
+import mudlib
 
 
 if __name__ == '__main__':
-    # Main launch script
-    try:
-        # Create engine manager
-        print('instancing Manager()')
-        # pylint says manager here is a constant... is it?
-        manager = qtmud.Manager()
-        # set up an alias
-        qtmud.manager = manager
-        manager.log.info('Manager() instanced @ qtmud.manager')
-        # instance arguments as tick()able services under qtmud.manager.services
-        manager.log.info('instancing services')
-        manager.add_services(MUDSocket, Parser, Mover, Renderer, Sender)
-        manager.log.info('instancing qtmud.manager.back_room')
-        manager.back_room = manager.new_thing(Village)
-        # ---
-        # ---
-        # testing goes here
-        field = manager.new_thing(Field)
-        #for match in field.search(subject='tree', adjectives=['big']):
-        #    print(match.name)
-        # ---
-        # ---
-        # Run engine manager
-        manager.run()
-    except KeyboardInterrupt as err:
-        manager.log.info('{0} received, shutting down.'.format(err))
+    qtmud.log.info('loading core services')
+    qtmud.services.loaded.extend([mudsocket])
+    qtmud.log.info('adding subscriptions')
+    for sub in qtmud.subscriptions:
+        qtmud.subscribe(sub)
+    qtmud.log.info('binding mudsocket')
+    if qtmud.services.mudsocket.bind(('localhost', 5787)):
+        qtmud.log.info('running qtmud.services.tick() until interrupt')
+        try:
+            while True:
+                qtmud.services.tick()
+        except KeyboardInterrupt as err:
+            qtmud.log.critical('keyboard interrupt received, shutting down')
+            exit()
+    else:
+        qtmud.log.error('failed to bind')
+        qtmud.log.critical('fatal, shutting down')
         exit()

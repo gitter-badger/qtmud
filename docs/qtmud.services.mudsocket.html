@@ -6,15 +6,15 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>qtmud.services.mudsocket module &#8212; qtmud 0.0.3 documentation</title>
+    <title>qtmud.services.mudsocket module &#8212; qtmud 0.0.4 documentation</title>
     
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.0.3',
+        VERSION:     '0.0.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,16 +23,22 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="qtmud 0.0.3 documentation" href="index.html" />
-   
-  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
-
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="qtmud 0.0.4 documentation" href="index.html" /> 
   </head>
   <body role="document">
-  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">qtmud 0.0.4 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
 
     <div class="document">
       <div class="documentwrapper">
@@ -41,39 +47,54 @@
             
   <div class="section" id="module-qtmud.services.mudsocket">
 <span id="qtmud-services-mudsocket-module"></span><h1>qtmud.services.mudsocket module<a class="headerlink" href="#module-qtmud.services.mudsocket" title="Permalink to this headline">¶</a></h1>
-<p>service handling MUD-formatted socket connections.</p>
-<p>The service which provides socket server and basic parsing of incoming
-and outgoing data.</p>
-<dl class="class">
-<dt id="qtmud.services.mudsocket.MUDSocket">
-<em class="property">class </em><code class="descclassname">qtmud.services.mudsocket.</code><code class="descname">MUDSocket</code><span class="sig-paren">(</span><em>manager</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/services/mudsocket.html#MUDSocket"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.services.mudsocket.MUDSocket" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
-<p>A service which handles a socket connection.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>manager</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><em>object</em></a>) &#8211; automatically passed by
-<a class="reference internal" href="qtmud.html#qtmud.Manager.add_services" title="qtmud.Manager.add_services"><code class="xref py py-func docutils literal"><span class="pre">add_services()</span></code></a>, the
-<a class="reference internal" href="qtmud.html#qtmud.Manager" title="qtmud.Manager"><code class="xref py py-class docutils literal"><span class="pre">manager</span></code></a></td>
-</tr>
-</tbody>
-</table>
-<dl class="attribute">
-<dt id="qtmud.services.mudsocket.MUDSocket.manager">
-<code class="descname">manager</code><a class="headerlink" href="#qtmud.services.mudsocket.MUDSocket.manager" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>object</em> &#8211; The same as the manager above.</p>
+<p>MUD socket methods</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.0.4.</span></p>
+</div>
+<dl class="docutils">
+<dt>Attributes:</dt>
+<dd>MUD_SOCKET(object):     socket that qtmud serves MUD data through
+clients(dict):          {socket object : client body}
+connections(list):      the connections directly
+logging_in(set):        clients in the middle of logging in</dd>
+</dl>
+<dl class="function">
+<dt id="qtmud.services.mudsocket.bind">
+<code class="descclassname">qtmud.services.mudsocket.</code><code class="descname">bind</code><span class="sig-paren">(</span><em>address</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/services/mudsocket.html#bind"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.services.mudsocket.bind" title="Permalink to this definition">¶</a></dt>
+<dd><p>bind MUD_SOCKET to address and listen</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>address(tuple):          expected to be (str, int), where str is</dt>
+<dd>hostname and int is port</dd>
+</dl>
+</dd>
+<dt>Return:</dt>
+<dd>bool:                   True if bound, otherwise False</dd>
+</dl>
 </dd></dl>
 
-<p>The MUDSocket service handles the socket connection. It has no
-real API for interacting with the rest of qtmud, and needs to be
-rewritten and documented once we explore client accounts.</p>
-<dl class="method">
-<dt id="qtmud.services.mudsocket.MUDSocket.tick">
-<code class="descname">tick</code><span class="sig-paren">(</span><em>events</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/services/mudsocket.html#MUDSocket.tick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.services.mudsocket.MUDSocket.tick" title="Permalink to this definition">¶</a></dt>
-<dd><p>Each tick, parse the incoming and outgoing data and handle it</p>
+<dl class="function">
+<dt id="qtmud.services.mudsocket.process_client_input">
+<code class="descclassname">qtmud.services.mudsocket.</code><code class="descname">process_client_input</code><span class="sig-paren">(</span><em>client</em>, <em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/services/mudsocket.html#process_client_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.services.mudsocket.process_client_input" title="Permalink to this definition">¶</a></dt>
+<dd><p>Process client input</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>client(object):         body of client who input information
+line(str):              information input by client</dd>
+<dt>Return:</dt>
+<dd>bool:                   True</dd>
+</dl>
 </dd></dl>
 
+<dl class="function">
+<dt id="qtmud.services.mudsocket.tick">
+<code class="descclassname">qtmud.services.mudsocket.</code><code class="descname">tick</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/services/mudsocket.html#tick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.services.mudsocket.tick" title="Permalink to this definition">¶</a></dt>
+<dd><p>handles reading and writing from MUD_SOCKET</p>
+<dl class="docutils">
+<dt>Return:</dt>
+<dd>bool:           True</dd>
+</dl>
 </dd></dl>
 
 </div>
@@ -83,13 +104,7 @@ rewritten and documented once we explore client accounts.</p>
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper"><div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="index.html">Documentation overview</a><ul>
-  </ul></li>
-</ul>
-</div>
+        <div class="sphinxsidebarwrapper">
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -111,20 +126,21 @@ rewritten and documented once we explore client accounts.</p>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="footer">
-      &copy;2016, emsenn.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
-      
-      |
-      <a href="_sources/qtmud.services.mudsocket.txt"
-          rel="nofollow">Page source</a>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">qtmud 0.0.4 documentation</a> &#187;</li> 
+      </ul>
     </div>
-
-    
-
-    
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, emsenn.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
   </body>
 </html>

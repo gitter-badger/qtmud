@@ -6,15 +6,15 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>qtmud.services package &#8212; qtmud 0.0.3 documentation</title>
+    <title>qtmud.services package &#8212; qtmud 0.0.4 documentation</title>
     
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.0.3',
+        VERSION:     '0.0.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,16 +23,22 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="qtmud 0.0.3 documentation" href="index.html" />
-   
-  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
-
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="qtmud 0.0.4 documentation" href="index.html" /> 
   </head>
   <body role="document">
-  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">qtmud 0.0.4 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
 
     <div class="document">
       <div class="documentwrapper">
@@ -45,65 +51,40 @@
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="qtmud.services.mover.html">qtmud.services.mover module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="qtmud.services.mudsocket.html">qtmud.services.mudsocket module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="qtmud.services.parser.html">qtmud.services.parser module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="qtmud.services.renderer.html">qtmud.services.renderer module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="qtmud.services.sender.html">qtmud.services.sender module</a></li>
 </ul>
 </div>
 </div>
 <div class="section" id="module-qtmud.services">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-qtmud.services" title="Permalink to this headline">¶</a></h2>
-<p>Services are subscribed to events that they process each tick()</p>
+<p>core qtmud methods</p>
 <div class="versionadded">
-<p><span class="versionmodified">New in version 0.0.1.</span></p>
+<p><span class="versionmodified">New in version 0.0.4.</span></p>
 </div>
-<p>Every action that occurs within <a class="reference internal" href="qtmud.html#module-qtmud" title="qtmud"><code class="xref py py-mod docutils literal"><span class="pre">qtmud</span></code></a> should be handled by a
-service. These services have tick() functions, which have events passed
-to them each time the <a class="reference internal" href="qtmud.html#qtmud.Manager" title="qtmud.Manager"><code class="xref py py-class docutils literal"><span class="pre">manager</span></code></a> <a class="reference internal" href="qtmud.html#qtmud.Manager.tick" title="qtmud.Manager.tick"><code class="xref py py-func docutils literal"><span class="pre">tick()s</span></code></a>.</p>
-<p>Services expect to be instanced through the manager&#8217;s <code class="xref py py-func docutils literal"><span class="pre">add_service()</span></code> method, which passes itself as an argument
-to the service&#8217;s <code class="docutils literal"><span class="pre">__init__</span></code> function.</p>
-<p>The rest of this file is used to demonstrate what a basic Service
-looks like, so you have something to model your development off.</p>
-<dl class="class">
-<dt id="qtmud.services.Service">
-<em class="property">class </em><code class="descclassname">qtmud.services.</code><code class="descname">Service</code><span class="sig-paren">(</span><em>manager</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/services.html#Service"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.services.Service" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
-<p><strong>This class is for API documentation only. Not to be used.</strong></p>
-<div class="versionadded">
-<p><span class="versionmodified">New in version 0.0.1.</span></p>
-</div>
-<div class="versionchanged">
-<p><span class="versionmodified">Changed in version 0.0.1-features/parser: </span>Turned into API example</p>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>manager</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><em>object</em></a>) &#8211; The instance of <a class="reference internal" href="qtmud.html#qtmud.Manager" title="qtmud.Manager"><code class="xref py py-class docutils literal"><span class="pre">qtmud.Manager</span></code></a>
-that is adding the Service through the
-<code class="xref py py-func docutils literal"><span class="pre">add_service()</span></code> function.</td>
-</tr>
-</tbody>
-</table>
-<dl class="attribute">
-<dt id="qtmud.services.Service.manager">
-<code class="descname">manager</code><a class="headerlink" href="#qtmud.services.Service.manager" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>object</em> &#8211; whatever object is passed when instanced.</p>
+<dl class="function">
+<dt id="qtmud.services.send">
+<code class="descclassname">qtmud.services.</code><code class="descname">send</code><span class="sig-paren">(</span><em>recipient</em>, <em>text</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/services.html#send"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.services.send" title="Permalink to this definition">¶</a></dt>
+<dd><p>send text to recipient</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>recipient(object):      thing to whom text will be sent
+text(str):              text to send to thing</dd>
+<dt>Return:</dt>
+<dd>bool:                   True</dd>
+</dl>
+<p>If recipient has a send() method (i.e. is a client, send them text.</p>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="qtmud.services.Service.subscriptions">
-<code class="descname">subscriptions</code><a class="headerlink" href="#qtmud.services.Service.subscriptions" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>list</em> &#8211; events (as strings) that this service
-is subscribed to. In the tuples listed
-in <a class="reference internal" href="qtmud.html#qtmud.Manager.events" title="qtmud.Manager.events"><code class="xref py py-attr docutils literal"><span class="pre">qtmud.Manager.events</span></code></a>, these
-would be the first element.</p>
-</dd></dl>
-
-<p>A service registers its subscriptions with the <a class="reference internal" href="qtmud.html#qtmud.Manager" title="qtmud.Manager"><code class="xref py py-class docutils literal"><span class="pre">manager</span></code></a>, and then matching events are sent to the service&#8217;s
-<code class="docutils literal"><span class="pre">tick()</span></code> function.</p>
+<dl class="function">
+<dt id="qtmud.services.tick">
+<code class="descclassname">qtmud.services.</code><code class="descname">tick</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/services.html#tick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.services.tick" title="Permalink to this definition">¶</a></dt>
+<dd><p>main game ticker</p>
+<dl class="docutils">
+<dt>Return:</dt>
+<dd>bool:           True</dd>
+</dl>
+<p>Sends events out to the methods subscribed to them and ticks services.</p>
 </dd></dl>
 
 </div>
@@ -123,13 +104,7 @@ would be the first element.</p>
 </ul>
 </li>
 </ul>
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="index.html">Documentation overview</a><ul>
-  </ul></li>
-</ul>
-</div>
+
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -151,20 +126,21 @@ would be the first element.</p>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="footer">
-      &copy;2016, emsenn.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
-      
-      |
-      <a href="_sources/qtmud.services.txt"
-          rel="nofollow">Page source</a>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">qtmud 0.0.4 documentation</a> &#187;</li> 
+      </ul>
     </div>
-
-    
-
-    
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, emsenn.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
   </body>
 </html>

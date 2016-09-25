@@ -6,15 +6,15 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>qtmud.qualities.client module &#8212; qtmud 0.0.3 documentation</title>
+    <title>qtmud.qualities.client module &#8212; qtmud 0.0.4 documentation</title>
     
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.0.3',
+        VERSION:     '0.0.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,16 +23,22 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="qtmud 0.0.3 documentation" href="index.html" />
-   
-  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
-
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="qtmud 0.0.4 documentation" href="index.html" /> 
   </head>
   <body role="document">
-  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">qtmud 0.0.4 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
 
     <div class="document">
       <div class="documentwrapper">
@@ -41,168 +47,82 @@
             
   <div class="section" id="module-qtmud.qualities.client">
 <span id="qtmud-qualities-client-module"></span><h1>qtmud.qualities.client module<a class="headerlink" href="#module-qtmud.qualities.client" title="Permalink to this headline">¶</a></h1>
-<p>Makes a thing a client.</p>
+<p>Methods for Clients</p>
 <div class="versionadded">
-<p><span class="versionmodified">New in version 0.0.2-feature/parser: </span>was a part of qtmud.qualities</p>
+<p><span class="versionmodified">New in version 0.0.4.</span></p>
 </div>
-<dl class="class">
-<dt id="qtmud.qualities.client.Client">
-<em class="property">class </em><code class="descclassname">qtmud.qualities.client.</code><code class="descname">Client</code><a class="reference internal" href="_modules/qtmud/qualities/client.html#Client"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.client.Client" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
-<p>Turns a bland thing into a fancy Client thing.</p>
-<div class="versionadded">
-<p><span class="versionmodified">New in version 0.0.1.</span></p>
-</div>
-<div class="versionchanged">
-<p><span class="versionmodified">Changed in version 0.0.2-feature/parser: </span>added the whoami, set, and echo commands</p>
-</div>
-<dl class="attribute">
-<dt id="qtmud.qualities.client.Client.nametags">
-<code class="descname">nametags</code><a class="headerlink" href="#qtmud.qualities.client.Client.nametags" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>list</em> &#8211; List of strings representing different
-<a class="reference internal" href="qtmud.html#qtmud.Thing.nametags" title="qtmud.Thing.nametags"><code class="xref py py-attr docutils literal"><span class="pre">nametags</span></code></a>
-the Client might have.</p>
+<p>Methods for Clients, expecting to be added to a <a class="reference internal" href="qtmud.html#qtmud.Thing" title="qtmud.Thing"><code class="xref py py-class docutils literal"><span class="pre">thing</span></code></a></p>
+<dl class="function">
+<dt id="qtmud.qualities.client.apply">
+<code class="descclassname">qtmud.qualities.client.</code><code class="descname">apply</code><span class="sig-paren">(</span><em>thing</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/qualities/client.html#apply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.client.apply" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Parameters:</dt>
+<dd>thing(object):          thing being turned into a client</dd>
+<dt>Returns:</dt>
+<dd>object:                 thing now that it is a client</dd>
+</dl>
+<p>A client has an addr, send_buffer, and recv_buffer. A client also has
+commands, and is given the commands, echo, and finger commands. The
+client is also given a send() method.</p>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="qtmud.qualities.client.Client.addr">
-<code class="descname">addr</code><a class="headerlink" href="#qtmud.qualities.client.Client.addr" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>tuple</em> &#8211; The address the Client is connected from,
-expected to be a tuple of (str, int) where
-the string is their IP address and the int
-is what port they&#8217;re connecting over.</p>
+<dl class="function">
+<dt id="qtmud.qualities.client.build_finger">
+<code class="descclassname">qtmud.qualities.client.</code><code class="descname">build_finger</code><span class="sig-paren">(</span><em>fingeree</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/qualities/client.html#build_finger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.client.build_finger" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Parameters:</dt>
+<dd>fingeree(object):       The Thing being fingered.</dd>
+<dt>Returns:</dt>
+<dd>str:                    The finger information of <cite>fingeree</cite></dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="qtmud.qualities.client.Client.send_buffer">
-<code class="descname">send_buffer</code><a class="headerlink" href="#qtmud.qualities.client.Client.send_buffer" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>string</em> &#8211; What&#8217;s going to be sent to the client on
-<a class="reference internal" href="qtmud.services.mudsocket.html#qtmud.services.mudsocket.MUDSocket" title="qtmud.services.mudsocket.MUDSocket"><code class="xref py py-class docutils literal"><span class="pre">MUDSocket()'s</span></code></a> next
+<dl class="function">
+<dt id="qtmud.qualities.client.commands_cmd">
+<code class="descclassname">qtmud.qualities.client.</code><code class="descname">commands_cmd</code><span class="sig-paren">(</span><em>commander</em>, <em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/qualities/client.html#commands_cmd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.client.commands_cmd" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Parameters:</dt>
+<dd><p class="first">commander(object):          thing with commands
+line(str):                  input from commander&#8217;s client,</p>
+<blockquote class="last">
+<div>unused here.</div></blockquote>
+</dd>
+<dt>Return:</dt>
+<dd>bool:                       True</dd>
+</dl>
+<p>Schedules the send()ing of commander&#8217;s commands to commander.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="qtmud.qualities.client.finger_cmd">
+<code class="descclassname">qtmud.qualities.client.</code><code class="descname">finger_cmd</code><span class="sig-paren">(</span><em>fingerer</em>, <em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/qualities/client.html#finger_cmd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.client.finger_cmd" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Parameters:</dt>
+<dd><p class="first">fingerer(object):       thing fingering another client.
+line(str):              client input, expected to be the name of</p>
+<blockquote class="last">
+<div>a client</div></blockquote>
+</dd>
+<dt>Returns:</dt>
+<dd>bool:                   True</dd>
+</dl>
+<p>Builds a finger of the client mentioned in <cite>line</cite>, and schedules its
+send()ing.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="qtmud.qualities.client.send">
+<code class="descclassname">qtmud.qualities.client.</code><code class="descname">send</code><span class="sig-paren">(</span><em>thing</em>, <em>text</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/qualities/client.html#send"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.client.send" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Parameters:</dt>
+<dd>thing(object):          client to which text will be send
+text(str):              text which will be sent to client.</dd>
+<dt>Return:</dt>
+<dd>bool:                   True</dd>
+</dl>
+<p>Adds text to the thing&#8217;s send_buffer - if the thing is connected
+through the socket server, this will get pushed to them and reset every
 tick.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="qtmud.qualities.client.Client.recv_buffer">
-<code class="descname">recv_buffer</code><a class="headerlink" href="#qtmud.qualities.client.Client.recv_buffer" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>string</em> &#8211; A string of what the client has sent so
-far, updated each tick. Only processed
-(usually) after each line.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="qtmud.qualities.client.Client.apply">
-<code class="descname">apply</code><span class="sig-paren">(</span><em>thing</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/qualities/client.html#Client.apply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.client.Client.apply" title="Permalink to this definition">¶</a></dt>
-<dd><p>Applies the Client quality to <cite>thing</cite></p>
-<div class="versionadded">
-<p><span class="versionmodified">New in version 0.0.1.</span></p>
-</div>
-<div class="versionchanged">
-<p><span class="versionmodified">Changed in version 0.0.1-feature/organizing: </span>added basic attribute overwrite protection</p>
-</div>
-<div class="versionchanged">
-<p><span class="versionmodified">Changed in version 0.0.1-feature/parser: </span>added commands dict to Client</p>
-</div>
-<div class="versionchanged">
-<p><span class="versionmodified">Changed in version 0.0.2-feature/nametags: </span>added nametags client, player, to quality application</p>
-</div>
-<div class="versionchanged">
-<p><span class="versionmodified">Changed in version 0.0.2-feature/textblob: </span>updated application of nametags now that they&#8217;re a set.</p>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>thing</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><em>object</em></a>) &#8211; The <a class="reference internal" href="qtmud.html#qtmud.Thing" title="qtmud.Thing"><code class="xref py py-class docutils literal"><span class="pre">thing</span></code></a> we&#8217;re
-going to be giving the qualities of client
-to.</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="staticmethod">
-<dt id="qtmud.qualities.client.Client.echo">
-<em class="property">static </em><code class="descname">echo</code><span class="sig-paren">(</span><em>thing</em>, <em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/qualities/client.html#Client.echo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.client.Client.echo" title="Permalink to this definition">¶</a></dt>
-<dd><p>echo some text to the client)</p>
-<div class="versionadded">
-<p><span class="versionmodified">New in version 0.0.1-feature/parser.</span></p>
-</div>
-<div class="versionchanged">
-<p><span class="versionmodified">Changed in version 0.0.2-feature/textblob: </span>changed to be a staticmethod</p>
-</div>
-</dd></dl>
-
-<dl class="staticmethod">
-<dt id="qtmud.qualities.client.Client.foo">
-<em class="property">static </em><code class="descname">foo</code><span class="sig-paren">(</span><em>client</em>, <em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/qualities/client.html#Client.foo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.client.Client.foo" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="staticmethod">
-<dt id="qtmud.qualities.client.Client.get">
-<em class="property">static </em><code class="descname">get</code><span class="sig-paren">(</span><em>client</em>, <em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/qualities/client.html#Client.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.client.Client.get" title="Permalink to this definition">¶</a></dt>
-<dd><p>returns the value of the attribute in line.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>client</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><em>object</em></a>) &#8211; <p>The client (a <a class="reference internal" href="qtmud.html#qtmud.Thing" title="qtmud.Thing"><code class="xref py py-class docutils literal"><span class="pre">thing</span></code></a> that we&#8217;re looking for</p>
-<blockquote>
-<div>the attribute of.</div></blockquote>
-</li>
-<li><strong>line</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; get() only uses the first word (split
-on space) to see which attribute we&#8217;re
-looking for.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The value of whatever attribute the first word of line is.</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="staticmethod">
-<dt id="qtmud.qualities.client.Client.send">
-<em class="property">static </em><code class="descname">send</code><span class="sig-paren">(</span><em>thing</em>, <em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/qualities/client.html#Client.send"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.client.Client.send" title="Permalink to this definition">¶</a></dt>
-<dd><p>prepare data to be sent to a client.</p>
-<div class="versionadded">
-<p><span class="versionmodified">New in version 0.0.1.</span></p>
-</div>
-<div class="versionchanged">
-<p><span class="versionmodified">Changed in version 0.0.2-feature/parser: </span>moved the end-of-line tagging to the Renderer service.</p>
-</div>
-<div class="versionchanged">
-<p><span class="versionmodified">Changed in version 0.0.2-feature/textblob: </span>changed to be a staticmethod</p>
-</div>
-</dd></dl>
-
-<dl class="staticmethod">
-<dt id="qtmud.qualities.client.Client.set">
-<em class="property">static </em><code class="descname">set</code><span class="sig-paren">(</span><em>client</em>, <em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/qualities/client.html#Client.set"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.client.Client.set" title="Permalink to this definition">¶</a></dt>
-<dd><p>sets an attribute in the client, meant to be used with the
-set command</p>
-<div class="versionadded">
-<p><span class="versionmodified">New in version 0.0.2-feature/parser.</span></p>
-</div>
-<div class="versionchanged">
-<p><span class="versionmodified">Changed in version 0.0.2-feature/textblob: </span>changed to be a staticmethod</p>
-</div>
-</dd></dl>
-
-<dl class="staticmethod">
-<dt id="qtmud.qualities.client.Client.whoami">
-<em class="property">static </em><code class="descname">whoami</code><span class="sig-paren">(</span><em>thing</em>, <em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/qualities/client.html#Client.whoami"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.qualities.client.Client.whoami" title="Permalink to this definition">¶</a></dt>
-<dd><p>tells the thing their name and identity</p>
-<div class="versionadded">
-<p><span class="versionmodified">New in version 0.0.1-feature/parser.</span></p>
-</div>
-<div class="versionchanged">
-<p><span class="versionmodified">Changed in version 0.0.2-feature/textblob: </span>changed to be a staticmethod</p>
-</div>
-</dd></dl>
-
 </dd></dl>
 
 </div>
@@ -212,13 +132,7 @@ set command</p>
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper"><div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="index.html">Documentation overview</a><ul>
-  </ul></li>
-</ul>
-</div>
+        <div class="sphinxsidebarwrapper">
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -240,20 +154,21 @@ set command</p>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="footer">
-      &copy;2016, emsenn.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
-      
-      |
-      <a href="_sources/qtmud.qualities.client.txt"
-          rel="nofollow">Page source</a>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">qtmud 0.0.4 documentation</a> &#187;</li> 
+      </ul>
     </div>
-
-    
-
-    
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, emsenn.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
   </body>
 </html>

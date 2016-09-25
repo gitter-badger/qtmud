@@ -1,0 +1,20 @@
+starhopper package
+==================
+
+Submodules
+----------
+
+.. toctree::
+
+   starhopper.builders
+   starhopper.cmds
+   starhopper.subscriptions
+   starhopper.txt
+
+Module contents
+---------------
+
+.. automodule:: starhopper
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -1,0 +1,7 @@
+yeolderpg.qualities.noisy module
+================================
+
+.. automodule:: yeolderpg.qualities.noisy
+    :members:
+    :undoc-members:
+    :show-inheritance:

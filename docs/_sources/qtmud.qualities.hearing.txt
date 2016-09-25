@@ -1,7 +1,0 @@
-qtmud.qualities.hearing module
-==============================
-
-.. automodule:: qtmud.qualities.hearing
-    :members:
-    :undoc-members:
-    :show-inheritance:

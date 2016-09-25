@@ -1,0 +1,7 @@
+yeolderpg.qualities.container module
+====================================
+
+.. automodule:: yeolderpg.qualities.container
+    :members:
+    :undoc-members:
+    :show-inheritance:

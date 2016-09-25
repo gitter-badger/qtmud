@@ -1,0 +1,7 @@
+yeolderpg.qualities.speaking module
+===================================
+
+.. automodule:: yeolderpg.qualities.speaking
+    :members:
+    :undoc-members:
+    :show-inheritance:

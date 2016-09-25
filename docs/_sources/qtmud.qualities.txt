@@ -7,14 +7,6 @@ Submodules
 .. toctree::
 
    qtmud.qualities.client
-   qtmud.qualities.container
-   qtmud.qualities.hearing
-   qtmud.qualities.physical
-   qtmud.qualities.prehensile
-   qtmud.qualities.renderable
-   qtmud.qualities.room
-   qtmud.qualities.sighted
-   qtmud.qualities.speaking
 
 Module contents
 ---------------

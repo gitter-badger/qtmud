@@ -6,15 +6,15 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>qtmud.services &#8212; qtmud 0.0.3 documentation</title>
+    <title>qtmud.services &#8212; qtmud 0.0.4 documentation</title>
     
-    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.0.3',
+        VERSION:     '0.0.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,17 +23,25 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="qtmud 0.0.3 documentation" href="../../index.html" />
-    <link rel="up" title="qtmud" href="../qtmud.html" />
-   
-  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
-
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="qtmud 0.0.4 documentation" href="../../index.html" />
+    <link rel="up" title="qtmud" href="../qtmud.html" /> 
   </head>
   <body role="document">
-  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">qtmud 0.0.4 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../qtmud.html" accesskey="U">qtmud</a> &#187;</li> 
+      </ul>
+    </div>  
 
     <div class="document">
       <div class="documentwrapper">
@@ -41,112 +49,58 @@
           <div class="body" role="main">
             
   <h1>Source code for qtmud.services</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot; Services are subscribed to events that they process each tick()</span>
+<span></span><span class="sd">&quot;&quot;&quot; core qtmud methods</span>
 
-<span class="sd">    .. moduleauthor: emsenn &lt;morgan.sennhauser@gmail.com&gt;</span>
-
-<span class="sd">    .. versionadded:: 0.0.1</span>
-<span class="sd">    </span>
-<span class="sd">    Every action that occurs within :mod:`qtmud` should be handled by a </span>
-<span class="sd">    service. These services have tick() functions, which have events passed </span>
-<span class="sd">    to them each time the :class:`manager &lt;qtmud.Manager&gt;` :func:`tick()s </span>
-<span class="sd">    &lt;qtmud.Manager.tick&gt;`.</span>
-<span class="sd">    </span>
-<span class="sd">    Services expect to be instanced through the manager&#39;s :func:`add_service() </span>
-<span class="sd">    &lt;qtmud.Manager.addservice&gt;` method, which passes itself as an argument </span>
-<span class="sd">    to the service&#39;s ``__init__`` function.</span>
-<span class="sd">    </span>
-<span class="sd">    The rest of this file is used to demonstrate what a basic Service </span>
-<span class="sd">    looks like, so you have something to model your development off.</span>
-<span class="sd">    </span>
+<span class="sd">    .. versionadded:: 0.0.4</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">qtmud.services.mover</span> <span class="k">import</span> <span class="n">Mover</span>
-<span class="kn">from</span> <span class="nn">qtmud.services.renderer</span> <span class="k">import</span> <span class="n">Renderer</span>
-<span class="kn">from</span> <span class="nn">qtmud.services.parser</span> <span class="k">import</span> <span class="n">Parser</span>
+<span class="kn">import</span> <span class="nn">qtmud</span>
 
-<div class="viewcode-block" id="Service"><a class="viewcode-back" href="../../qtmud.services.html#qtmud.services.Service">[docs]</a><span class="k">class</span> <span class="nc">Service</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; **This class is for API documentation only. Not to be used.**</span>
-<span class="sd">    </span>
-<span class="sd">        .. versionadded:: 0.0.1</span>
-<span class="sd">        .. versionchanged:: 0.0.1-features/parser</span>
-<span class="sd">            Turned into API example</span>
-<span class="sd">        </span>
+
+<span class="n">loaded</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="send"><a class="viewcode-back" href="../../qtmud.services.html#qtmud.services.send">[docs]</a><span class="k">def</span> <span class="nf">send</span><span class="p">(</span><span class="n">recipient</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; send text to recipient</span>
+
 <span class="sd">        Parameters:</span>
-<span class="sd">            manager(object):        The instance of :class:`qtmud.Manager` </span>
-<span class="sd">                                    that is adding the Service through the </span>
-<span class="sd">                                    :func:`add_service() </span>
-<span class="sd">                                    &lt;qtmud.Manager.add_service&gt;` function.</span>
-<span class="sd">        </span>
-<span class="sd">        Attributes:</span>
-<span class="sd">            manager(object):        whatever object is passed when instanced.</span>
-<span class="sd">            subscriptions(list):    events (as strings) that this service </span>
-<span class="sd">                                    is subscribed to. In the tuples listed </span>
-<span class="sd">                                    in :attr:`qtmud.Manager.events`, these </span>
-<span class="sd">                                    would be the first element.</span>
-<span class="sd">        </span>
-<span class="sd">        A service registers its subscriptions with the :class:`manager </span>
-<span class="sd">        &lt;qtmud.Manager&gt;`, and then matching events are sent to the service&#39;s </span>
-<span class="sd">        ``tick()`` function.</span>
+<span class="sd">            recipient(object):      thing to whom text will be sent</span>
+<span class="sd">            text(str):              text to send to thing</span>
+<span class="sd">        Return:</span>
+<span class="sd">            bool:                   True</span>
+
+<span class="sd">        If recipient has a send() method (i.e. is a client, send them text.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">manager</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; </span>
-<span class="sd">            </span>
-<span class="sd">            .. versionadded:: 0.0.1</span>
-<span class="sd">            .. versionchanged:: 0.0.1-features/parsing</span>
-<span class="sd">                Turned into API documentation.</span>
-<span class="sd">                </span>
-<span class="sd">            </span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">Service</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">manager</span> <span class="o">=</span> <span class="n">manager</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">subscriptions</span> <span class="o">=</span> <span class="p">[]</span>
-        
-        <span class="k">def</span> <span class="nf">tick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">events</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-            <span class="sd">&quot;&quot;&quot; Handle one tick of gameplay</span>
-<span class="sd">        </span>
-<span class="sd">                .. versionadded:: 0.0.1-features/parser</span>
-<span class="sd">            </span>
-<span class="sd">                Parameters:</span>
-<span class="sd">                    events(list):   set to False by default, expected to be </span>
-<span class="sd">                                    a list of tuples in the format of </span>
-<span class="sd">                                    [(&#39;event&#39;, {payload})]</span>
-<span class="sd">            </span>
-<span class="sd">                Returns:</span>
-<span class="sd">                    bool:           False if the tick() fails for whatever </span>
-<span class="sd">                                    reason, otherwise true.</span>
-<span class="sd">            </span>
-<span class="sd">                Every time the qtmud :func:`tick()s &lt;qtmud.Manager.tick&gt;`, it </span>
-<span class="sd">                calls the ``tick()`` function of every service that has been </span>
-<span class="sd">                instanced through :func:`add_services() </span>
-<span class="sd">                &lt;qtmud.Manager.add_services&gt;`. If the event has any </span>
-<span class="sd">                :attr:`subscriptions &lt;qtmud.services.Service.subscriptions&gt;`, </span>
-<span class="sd">                matching :attr:`events &lt;qtmud.Manager.events&gt;` will be sent </span>
-<span class="sd">                as a list of tuples, where the first element is the keyword </span>
-<span class="sd">                the service is subscribed to, and the second element is the </span>
-<span class="sd">                payload of the event.</span>
-<span class="sd">            &quot;&quot;&quot;</span>
-            <span class="k">if</span> <span class="n">events</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span> <span class="k">return</span> <span class="kc">False</span>
-            <span class="k">for</span> <span class="n">event</span><span class="p">,</span> <span class="n">payload</span> <span class="ow">in</span> <span class="n">events</span><span class="p">:</span> <span class="c1">#pylint: disable=unused-variable</span>
-                <span class="k">pass</span>
-            <span class="k">return</span> <span class="kc">True</span></div>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">recipient</span><span class="p">,</span> <span class="s1">&#39;send&#39;</span><span class="p">):</span>
+        <span class="n">recipient</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
+<span class="n">qtmud</span><span class="o">.</span><span class="n">subscriptions</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">send</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="tick"><a class="viewcode-back" href="../../qtmud.services.html#qtmud.services.tick">[docs]</a><span class="k">def</span> <span class="nf">tick</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; main game ticker</span>
+
+<span class="sd">        Return:</span>
+<span class="sd">            bool:           True</span>
+
+<span class="sd">        Sends events out to the methods subscribed to them and ticks services.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">qtmud</span><span class="o">.</span><span class="n">events</span><span class="p">:</span>
+        <span class="n">current_events</span> <span class="o">=</span> <span class="n">qtmud</span><span class="o">.</span><span class="n">events</span>
+        <span class="n">qtmud</span><span class="o">.</span><span class="n">events</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">current_events</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">call</span> <span class="ow">in</span> <span class="n">current_events</span><span class="p">[</span><span class="n">event</span><span class="p">]:</span>
+                <span class="n">event</span><span class="p">(</span><span class="o">**</span><span class="n">call</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">service</span> <span class="ow">in</span> <span class="n">loaded</span><span class="p">:</span>
+        <span class="n">service</span><span class="o">.</span><span class="n">tick</span><span class="p">()</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
 </pre></div>
 
           </div>
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper"><div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="../../index.html">Documentation overview</a><ul>
-  <li><a href="../index.html">Module code</a><ul>
-  <li><a href="../qtmud.html">qtmud</a><ul>
-  </ul></li>
-  </ul></li>
-  </ul></li>
-</ul>
-</div>
+        <div class="sphinxsidebarwrapper">
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../search.html" method="get">
@@ -161,17 +115,23 @@
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="footer">
-      &copy;2016, emsenn.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
-      
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">qtmud 0.0.4 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../qtmud.html" >qtmud</a> &#187;</li> 
+      </ul>
     </div>
-
-    
-
-    
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, emsenn.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
   </body>
 </html>

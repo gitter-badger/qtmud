@@ -1,0 +1,17 @@
+yeolderpg.services package
+==========================
+
+Submodules
+----------
+
+.. toctree::
+
+   yeolderpg.services.noisemaker
+
+Module contents
+---------------
+
+.. automodule:: yeolderpg.services
+    :members:
+    :undoc-members:
+    :show-inheritance:
