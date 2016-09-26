@@ -1,0 +1,452 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>starhopper.subscriptions &mdash; qtmud 0.0.4 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="qtmud 0.0.4 documentation" href="../../index.html"/>
+        <link rel="up" title="starhopper" href="../starhopper.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> qtmud
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.4
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <!-- Local TOC -->
+                <div class="local-toc"></div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">qtmud</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      
+          <li><a href="../starhopper.html">starhopper</a> &raquo;</li>
+      
+    <li>starhopper.subscriptions</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for starhopper.subscriptions</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">hashlib</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+
+<span class="kn">import</span> <span class="nn">qtmud</span>
+
+<span class="kn">from</span> <span class="nn">qtmud.services</span> <span class="k">import</span> <span class="n">MUDSocket</span>
+<span class="kn">from</span> <span class="nn">mudlib</span> <span class="k">import</span> <span class="n">starhopper</span>
+<span class="kn">from</span> <span class="nn">mudlib.starhopper</span> <span class="k">import</span> <span class="n">builders</span><span class="p">,</span> <span class="n">txt</span>
+
+
+<div class="viewcode-block" id="alert"><a class="viewcode-back" href="../../starhopper.html#starhopper.subscriptions.alert">[docs]</a><span class="k">def</span> <span class="nf">alert</span><span class="p">(</span><span class="n">system</span><span class="p">,</span> <span class="n">ship</span><span class="p">):</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;You were briefly out of warp.&#39;</span><span class="p">]</span>
+    <span class="c1"># TODO replace with skill check</span>
+    <span class="k">for</span> <span class="n">alerted</span> <span class="ow">in</span> <span class="n">system</span><span class="o">.</span><span class="n">ships</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">alerted</span> <span class="o">==</span> <span class="n">ship</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]):</span>
+                <span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="s1">&#39;You notice </span><span class="si">{}</span><span class="s1"> enter the system&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ship</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">alerted</span><span class="p">,</span> <span class="s1">&#39;aggressive&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">ship</span><span class="o">.</span><span class="n">aggressive</span><span class="p">:</span>
+                    <span class="n">output</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> notices your presence.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ship</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">]):</span>
+                        <span class="n">output</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="s1">&#39;They decide to attack!&#39;</span>
+                        <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;attack&#39;</span><span class="p">,</span> <span class="n">attacker</span><span class="o">=</span><span class="n">ship</span><span class="p">,</span> <span class="n">defender</span><span class="o">=</span><span class="n">ship</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">output</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="s1">&#39;They leave you alone.&#39;</span>
+    <span class="k">if</span> <span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+        <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;send&#39;</span><span class="p">,</span> <span class="n">recipient</span><span class="o">=</span><span class="n">alerted</span><span class="p">,</span><span class="n">text</span><span class="o">=</span><span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">output</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;send&#39;</span><span class="p">,</span> <span class="n">recipient</span><span class="o">=</span><span class="n">ship</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">output</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="score"><a class="viewcode-back" href="../../starhopper.html#starhopper.subscriptions.score">[docs]</a><span class="k">def</span> <span class="nf">score</span><span class="p">(</span><span class="n">ship</span><span class="p">,</span> <span class="n">points</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">ship</span><span class="o">.</span><span class="n">score</span> <span class="o">+=</span> <span class="n">points</span>
+    <span class="k">if</span> <span class="n">ship</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">starhopper</span><span class="o">.</span><span class="n">accounts</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">starhopper</span><span class="o">.</span><span class="n">accounts</span><span class="p">[</span><span class="n">ship</span><span class="o">.</span><span class="n">name</span><span class="p">][</span><span class="s1">&#39;score&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ship</span><span class="o">.</span><span class="n">score</span>
+        <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;save&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="attack"><a class="viewcode-back" href="../../starhopper.html#starhopper.subscriptions.attack">[docs]</a><span class="k">def</span> <span class="nf">attack</span><span class="p">(</span><span class="n">attacker</span><span class="p">,</span> <span class="n">defender</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">attacker</span><span class="o">.</span><span class="n">battery</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;send&#39;</span><span class="p">,</span> <span class="n">recipient</span><span class="o">=</span><span class="n">attacker</span><span class="p">,</span>
+                       <span class="n">text</span><span class="o">=</span><span class="s1">&#39;You need more battery.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;You are attacked!</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;You attack!</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">]</span>
+    <span class="n">attacker</span><span class="o">.</span><span class="n">battery</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="o">-</span><span class="p">(</span><span class="n">attacker</span><span class="o">.</span><span class="n">attack</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">damage</span> <span class="o">=</span> <span class="n">attacker</span><span class="o">.</span><span class="n">attack</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">defender</span><span class="o">.</span><span class="n">defense</span>
+    <span class="k">if</span> <span class="n">damage</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">defender</span><span class="o">.</span><span class="n">damage</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="n">damage</span>
+        <span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="s1">&#39;You</span><span class="se">\&#39;</span><span class="s1">re hit for </span><span class="si">{}</span><span class="s1"> damage</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">damage</span><span class="p">)</span>
+        <span class="n">output</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="s1">&#39;You damage </span><span class="si">{}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">defender</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">defender</span><span class="o">.</span><span class="n">damage</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">defender</span><span class="o">.</span><span class="n">damage</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;death&#39;</span><span class="p">,</span>
+                           <span class="n">departed</span><span class="o">=</span><span class="n">defender</span><span class="p">)</span>
+            <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;score&#39;</span><span class="p">,</span> <span class="n">ship</span><span class="o">=</span><span class="n">attacker</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">damage</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="s1">&#39;The engagement is a stalemate.</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="n">output</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="s1">&#39;The engagement is a stalemate.</span><span class="se">\n</span><span class="s1">&#39;</span>
+    <span class="k">elif</span> <span class="n">damage</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="s1">&#39;Your defenses enable you to counter.</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="n">output</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="s1">&#39;Your opponent</span><span class="se">\&#39;</span><span class="s1">s defense enables them to counter.</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;attack&#39;</span><span class="p">,</span> <span class="n">attacker</span><span class="o">=</span><span class="n">defender</span><span class="p">,</span> <span class="n">defender</span><span class="o">=</span><span class="n">attacker</span><span class="p">)</span>
+    <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;send&#39;</span><span class="p">,</span> <span class="n">recipient</span><span class="o">=</span><span class="n">defender</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;send&#39;</span><span class="p">,</span> <span class="n">recipient</span><span class="o">=</span><span class="n">attacker</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">output</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="client_disconnect"><a class="viewcode-back" href="../../starhopper.html#starhopper.subscriptions.client_disconnect">[docs]</a><span class="k">def</span> <span class="nf">client_disconnect</span><span class="p">(</span><span class="n">client</span><span class="p">):</span>
+    <span class="n">qtmud</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;disconnecting </span><span class="si">%s</span><span class="s1"> from starhopper&#39;</span><span class="p">,</span> <span class="n">client</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">starhopper</span><span class="o">.</span><span class="n">players</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+    <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;death&#39;</span><span class="p">,</span> <span class="n">departed</span><span class="o">=</span><span class="n">client</span><span class="p">,</span> <span class="n">wreck</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="client_login"><a class="viewcode-back" href="../../starhopper.html#starhopper.subscriptions.client_login">[docs]</a><span class="k">def</span> <span class="nf">client_login</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="s1">&#39;login_stage&#39;</span><span class="p">):</span>
+        <span class="n">client</span><span class="o">.</span><span class="n">login_stage</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">txt</span><span class="o">.</span><span class="n">SPLASH</span>
+    <span class="k">elif</span> <span class="n">client</span><span class="o">.</span><span class="n">login_stage</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">starhopper</span><span class="o">.</span><span class="n">accounts</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="s1">&#39;returning player. password?&#39;</span>
+            <span class="n">client</span><span class="o">.</span><span class="n">captain_name</span> <span class="o">=</span> <span class="n">line</span>
+            <span class="n">client</span><span class="o">.</span><span class="n">login_stage</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="c1"># TODO better name validity checks</span>
+        <span class="k">elif</span> <span class="n">line</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="s1">&#39;new player. password?&#39;</span>
+            <span class="n">client</span><span class="o">.</span><span class="n">captain_name</span> <span class="o">=</span> <span class="n">line</span>
+            <span class="n">client</span><span class="o">.</span><span class="n">login_stage</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="s1">&#39;your name can</span><span class="se">\&#39;</span><span class="s1">t be blank, input [desired] captain name&#39;</span>
+    <span class="k">elif</span> <span class="n">client</span><span class="o">.</span><span class="n">login_stage</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">starhopper</span><span class="o">.</span><span class="n">accounts</span><span class="p">[</span><span class="n">client</span><span class="o">.</span><span class="n">captain_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;password&#39;</span> <span class="p">:</span> <span class="n">line</span><span class="p">,</span>
+                                                    <span class="s1">&#39;score&#39;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="s1">&#39;press enter to complete login&#39;</span>
+        <span class="n">client</span><span class="o">.</span><span class="n">login_stage</span> <span class="o">=</span> <span class="mi">9</span>
+    <span class="k">elif</span> <span class="n">client</span><span class="o">.</span><span class="n">login_stage</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">password</span> <span class="o">=</span> <span class="n">starhopper</span><span class="o">.</span><span class="n">accounts</span><span class="p">[</span><span class="n">client</span><span class="o">.</span><span class="n">captain_name</span><span class="p">][</span><span class="s1">&#39;password&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">line</span> <span class="o">==</span> <span class="n">password</span><span class="p">:</span>
+            <span class="n">client</span><span class="o">.</span><span class="n">login_stage</span> <span class="o">=</span> <span class="mi">9</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="s1">&#39;press enter to complete login&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">client</span><span class="o">.</span><span class="n">login_stage</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="s1">&#39;wrong password. input [desired] captain name.&#39;</span>
+    <span class="k">elif</span> <span class="n">client</span><span class="o">.</span><span class="n">login_stage</span> <span class="o">==</span> <span class="mi">9</span><span class="p">:</span>
+        <span class="n">qtmud</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Captain </span><span class="si">%s</span><span class="s1"> has logged in and is controlling </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span>
+                       <span class="n">client</span><span class="o">.</span><span class="n">captain_name</span><span class="p">,</span>
+                       <span class="n">client</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">captain</span> <span class="o">=</span> <span class="n">builders</span><span class="o">.</span><span class="n">build_captain</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+        <span class="n">captain</span><span class="o">.</span><span class="n">ship</span> <span class="o">=</span> <span class="n">builders</span><span class="o">.</span><span class="n">build_ship</span><span class="p">()</span>
+        <span class="n">captain</span><span class="o">.</span><span class="n">backstory</span> <span class="o">=</span> <span class="n">builders</span><span class="o">.</span><span class="n">generate_backstory</span><span class="p">(</span><span class="n">captain</span><span class="o">.</span><span class="n">ship</span><span class="p">)</span>
+        <span class="n">starhopper</span><span class="o">.</span><span class="n">players</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">captain</span><span class="p">)</span>
+        <span class="n">qtmud</span><span class="o">.</span><span class="n">active_services</span><span class="p">[</span><span class="n">MUDSocket</span><span class="p">]</span><span class="o">.</span><span class="n">logging_in</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+        <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;save&#39;</span><span class="p">)</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">txt</span><span class="o">.</span><span class="n">PLAYER_LOGIN</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="nb">locals</span><span class="p">())</span>
+        <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;hop&#39;</span><span class="p">,</span> <span class="n">ship</span><span class="o">=</span><span class="n">captain</span><span class="o">.</span><span class="n">ship</span><span class="p">,</span>
+                       <span class="n">destination</span><span class="o">=</span><span class="n">starhopper</span><span class="o">.</span><span class="n">START_SYSTEM</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">output</span><span class="p">:</span>
+        <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;send&#39;</span><span class="p">,</span> <span class="n">recipient</span><span class="o">=</span><span class="n">client</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">output</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="death"><a class="viewcode-back" href="../../starhopper.html#starhopper.subscriptions.death">[docs]</a><span class="k">def</span> <span class="nf">death</span><span class="p">(</span><span class="n">departed</span><span class="p">,</span> <span class="n">wreck</span><span class="o">=</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">])):</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;COMPLETE SYSTEM FAILURE!</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> suffers system failure.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">departed</span><span class="o">.</span><span class="n">name</span><span class="p">)]</span>
+    <span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="s1">&#39;Your ship suddenly falls out of warp.</span><span class="se">\n</span><span class="s1">&#39;</span>
+    <span class="n">output</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="s1">&#39;Their magnetic signature suddenly fades away.   ;_;7</span><span class="se">\n</span><span class="s1">&#39;</span>
+    <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;hop&#39;</span><span class="p">,</span> <span class="n">ship</span><span class="o">=</span><span class="n">departed</span><span class="p">,</span> <span class="n">destination</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">wreck</span><span class="p">:</span>
+        <span class="n">departed</span><span class="o">.</span><span class="n">local_system</span><span class="o">.</span><span class="n">debris</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">builders</span><span class="o">.</span><span class="n">build_wreck</span><span class="p">(</span><span class="n">departed</span><span class="p">))</span>
+        <span class="n">output</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="s1">&#39;Your scanners detect </span><span class="si">{}</span><span class="s1"> &#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">departed</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;send&#39;</span><span class="p">,</span> <span class="n">recipient</span><span class="o">=</span><span class="n">departed</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">local_ship</span> <span class="ow">in</span> <span class="n">departed</span><span class="o">.</span><span class="n">local_system</span><span class="o">.</span><span class="n">ships</span><span class="p">:</span>
+        <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;send&#39;</span><span class="p">,</span> <span class="n">recipient</span><span class="o">=</span><span class="n">local_ship</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">output</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="hop"><a class="viewcode-back" href="../../starhopper.html#starhopper.subscriptions.hop">[docs]</a><span class="k">def</span> <span class="nf">hop</span><span class="p">(</span><span class="n">ship</span><span class="p">,</span> <span class="n">destination</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">ship</span><span class="o">.</span><span class="n">local_system</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">ship</span><span class="o">.</span><span class="n">local_system</span><span class="o">.</span><span class="n">ships</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">ship</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="n">qtmud</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> not in their local_system.ships&#39;</span>
+                            <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ship</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">destination</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="n">ship</span><span class="o">.</span><span class="n">local_system</span> <span class="o">=</span> <span class="n">destination</span>
+    <span class="n">destination</span><span class="o">.</span><span class="n">ships</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">ship</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">nearby_ship</span> <span class="ow">in</span> <span class="n">destination</span><span class="o">.</span><span class="n">ships</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">nearby_ship</span> <span class="o">!=</span> <span class="n">ship</span><span class="p">:</span>
+            <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;alert&#39;</span><span class="p">,</span> <span class="n">ship</span><span class="o">=</span><span class="n">nearby_ship</span><span class="p">,</span> <span class="n">incoming</span><span class="o">=</span><span class="n">ship</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="salvage"><a class="viewcode-back" href="../../starhopper.html#starhopper.subscriptions.salvage">[docs]</a><span class="k">def</span> <span class="nf">salvage</span><span class="p">(</span><span class="n">salvager</span><span class="p">,</span> <span class="n">wreck</span><span class="p">):</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="n">space</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">salvager</span><span class="o">.</span><span class="n">salvage</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">salvager</span><span class="o">.</span><span class="n">salvage</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">space</span> <span class="o">&gt;=</span> <span class="n">wreck</span><span class="o">.</span><span class="n">salvage</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+        <span class="n">salvager</span><span class="o">.</span><span class="n">salvage</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="n">wreck</span><span class="o">.</span><span class="n">salvage</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">wreck</span><span class="o">.</span><span class="n">salvage</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">output</span> <span class="o">+=</span> <span class="s1">&#39;You salvage the </span><span class="si">{}</span><span class="s1">.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">wreck</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">salvager</span><span class="o">.</span><span class="n">salvage</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="n">space</span>
+        <span class="n">wreck</span><span class="o">.</span><span class="n">salvage</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-=</span> <span class="n">space</span>
+        <span class="n">output</span> <span class="o">+=</span> <span class="s1">&#39;Your ship is almost full, but you salvage what you can</span><span class="se">\n</span><span class="s1">&#39;</span>
+    <span class="k">if</span> <span class="n">wreck</span><span class="o">.</span><span class="n">salvage</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">salvager</span><span class="o">.</span><span class="n">local_system</span><span class="o">.</span><span class="n">debris</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">wreck</span><span class="p">)</span>
+        <span class="n">output</span> <span class="o">+=</span> <span class="p">(</span><span class="s1">&#39;As the last of the salvage is collected from </span><span class="si">{}</span><span class="s1">, &#39;</span>
+                   <span class="s1">&#39;its magnetic signature fades.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">wreck</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+    <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;send&#39;</span><span class="p">,</span> <span class="n">recipient</span><span class="o">=</span><span class="n">salvager</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">output</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="save"><a class="viewcode-back" href="../../starhopper.html#starhopper.subscriptions.save">[docs]</a><span class="k">def</span> <span class="nf">save</span><span class="p">():</span>
+    <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">starhopper</span><span class="o">.</span><span class="n">accounts</span><span class="p">,</span>
+                <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;./data/starhopper_accounts.p&quot;</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">))</span>
+    <span class="n">qtmud</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;saving starhopper player_accounts&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="survey_planet"><a class="viewcode-back" href="../../starhopper.html#starhopper.subscriptions.survey_planet">[docs]</a><span class="k">def</span> <span class="nf">survey_planet</span><span class="p">(</span><span class="n">scanner</span><span class="p">,</span> <span class="n">planet</span><span class="p">):</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="s1">&#39;You break from warp, doing a fly-by survey of </span><span class="si">{planet.name}</span><span class="s1">]</span><span class="se">\n</span><span class="s1">&#39;</span>
+    <span class="c1">#qtmud.schedule(&#39;alert&#39;, system=scanner.local_system, ship=scanner)</span>
+    <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;send&#39;</span><span class="p">,</span> <span class="n">recipient</span><span class="o">=</span><span class="n">scanner</span><span class="p">,</span>
+                   <span class="n">text</span><span class="o">=</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="nb">locals</span><span class="p">())</span> <span class="o">+</span>
+                         <span class="n">builders</span><span class="o">.</span><span class="n">generate_survey</span><span class="p">(</span><span class="n">planet</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="scan_ship"><a class="viewcode-back" href="../../starhopper.html#starhopper.subscriptions.scan_ship">[docs]</a><span class="k">def</span> <span class="nf">scan_ship</span><span class="p">(</span><span class="n">scanner</span><span class="p">,</span> <span class="n">ship</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">scanner</span> <span class="o">==</span> <span class="n">ship</span><span class="p">:</span>
+        <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;status&#39;</span><span class="p">,</span> <span class="p">)</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="s1">&#39;...scanning </span><span class="si">{}</span><span class="s1">...</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ship</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">output</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ship</span><span class="o">.</span><span class="n">score</span><span class="p">)</span>
+    <span class="n">output</span> <span class="o">+=</span> <span class="s1">&#39;BATTERY: </span><span class="si">{}</span><span class="s1"> out of </span><span class="si">{}</span><span class="s1">.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ship</span><span class="o">.</span><span class="n">battery</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                                                <span class="n">ship</span><span class="o">.</span><span class="n">battery</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">output</span> <span class="o">+=</span> <span class="s1">&#39;DAMAGE: </span><span class="si">{}</span><span class="s1">, can tolerate </span><span class="si">{}</span><span class="s1">.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ship</span><span class="o">.</span><span class="n">damage</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                                                      <span class="n">ship</span><span class="o">.</span><span class="n">damage</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">output</span> <span class="o">+=</span> <span class="s1">&#39;SALVAGE: </span><span class="si">{}</span><span class="s1">, can hold </span><span class="si">{}</span><span class="s1">.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ship</span><span class="o">.</span><span class="n">salvage</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                                                   <span class="n">ship</span><span class="o">.</span><span class="n">salvage</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">output</span> <span class="o">+=</span> <span class="s1">&#39;ATTACK: </span><span class="si">{}</span><span class="s1"> (cost: </span><span class="si">{}</span><span class="s1">)</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ship</span><span class="o">.</span><span class="n">attack</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ship</span><span class="o">.</span><span class="n">attack</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">output</span> <span class="o">+=</span> <span class="s1">&#39;DEFENSE: </span><span class="si">{}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ship</span><span class="o">.</span><span class="n">defense</span><span class="p">)</span>
+    <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;send&#39;</span><span class="p">,</span> <span class="n">recipient</span><span class="o">=</span><span class="n">scanner</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">output</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+
+<div class="viewcode-block" id="scan_star"><a class="viewcode-back" href="../../starhopper.html#starhopper.subscriptions.scan_star">[docs]</a><span class="k">def</span> <span class="nf">scan_star</span><span class="p">(</span><span class="n">scanner</span><span class="p">,</span> <span class="n">star</span><span class="p">):</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="s1">&#39;    </span><span class="si">{}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">star</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span>
+    <span class="n">output</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> Stellar Scan</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">star</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">output</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> is a </span><span class="si">{}</span><span class="s1"> klass star.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">star</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                                                <span class="n">star</span><span class="o">.</span><span class="n">klass</span><span class="p">)</span>
+    <span class="n">output</span> <span class="o">+=</span> <span class="s1">&#39;    </span><span class="si">{}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">star</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span>
+    <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;send&#39;</span><span class="p">,</span> <span class="n">recipient</span><span class="o">=</span><span class="n">scanner</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">output</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="scan_system"><a class="viewcode-back" href="../../starhopper.html#starhopper.subscriptions.scan_system">[docs]</a><span class="k">def</span> <span class="nf">scan_system</span><span class="p">(</span><span class="n">scanner</span><span class="p">,</span> <span class="n">system</span><span class="p">):</span>
+    <span class="n">planet_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">system</span><span class="o">.</span><span class="n">planets</span><span class="p">)</span>
+    <span class="n">ship_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">system</span><span class="o">.</span><span class="n">ships</span><span class="p">)</span>
+    <span class="n">exit_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">system</span><span class="o">.</span><span class="n">neighbors</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">exit_count</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="s1">&#39;backward&#39;</span> <span class="ow">in</span> <span class="n">system</span><span class="o">.</span><span class="n">neighbors</span><span class="p">:</span>
+        <span class="n">exit_text</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;You</span><span class="se">\r</span><span class="s1">e at the edge of charted space. Hop backward to &#39;</span>
+                     <span class="s1">&#39;safety, or hop forward into the unknown. &#39;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">exit_count</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">exit_text</span> <span class="o">=</span> <span class="s1">&#39;You can hop backward or hop forward from here. &#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">exit_text</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;You</span><span class="se">\&#39;</span><span class="s1">re at the start of your journey, and can only hop &#39;</span>
+                     <span class="s1">&#39;forward from here. &#39;</span><span class="p">)</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;Breaking warp bubble for system scan...</span><span class="se">\n</span><span class="s1">&#39;</span>
+              <span class="s1">&#39;This is the </span><span class="si">{system.identity}</span><span class="s1"> system, or </span><span class="si">{system.name}</span><span class="s1">. It has &#39;</span>
+              <span class="s1">&#39;a </span><span class="si">{system.star.klass[0]}{system.star.klass[1]}</span><span class="s1"> klass sun and &#39;</span>
+              <span class="s1">&#39;</span><span class="si">{planet_count}</span><span class="s1"> planets in orbit around it. </span><span class="si">{exit_text}</span><span class="s1">&#39;</span>
+              <span class="s1">&#39;There are </span><span class="si">{ship_count}</span><span class="s1"> ship(s) flying around.&#39;</span>
+              <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="nb">locals</span><span class="p">()))</span>
+    <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;send&#39;</span><span class="p">,</span> <span class="n">recipient</span><span class="o">=</span><span class="n">scanner</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">output</span><span class="p">)</span>
+    <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;alert&#39;</span><span class="p">,</span> <span class="n">system</span><span class="o">=</span><span class="n">system</span><span class="p">,</span> <span class="n">ship</span><span class="o">=</span><span class="n">scanner</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="scan_wreck"><a class="viewcode-back" href="../../starhopper.html#starhopper.subscriptions.scan_wreck">[docs]</a><span class="k">def</span> <span class="nf">scan_wreck</span><span class="p">(</span><span class="n">scanner</span><span class="p">,</span> <span class="n">wreck</span><span class="p">):</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="s1">&#39;...scanning </span><span class="si">{}</span><span class="s1">...</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">wreck</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">output</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">wreck</span><span class="o">.</span><span class="n">nouns</span><span class="p">)</span>
+    <span class="n">output</span> <span class="o">+=</span> <span class="s1">&#39;SALVAGE: </span><span class="si">{}</span><span class="s1">, can hold </span><span class="si">{}</span><span class="s1">.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">wreck</span><span class="o">.</span><span class="n">salvage</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                                                   <span class="n">wreck</span><span class="o">.</span><span class="n">salvage</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;send&#39;</span><span class="p">,</span><span class="n">recipient</span><span class="o">=</span><span class="n">scanner</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">output</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="upgrade"><a class="viewcode-back" href="../../starhopper.html#starhopper.subscriptions.upgrade">[docs]</a><span class="k">def</span> <span class="nf">upgrade</span><span class="p">(</span><span class="n">ship</span><span class="p">,</span> <span class="n">upgrade</span><span class="p">):</span>
+    <span class="nb">type</span> <span class="o">=</span> <span class="n">upgrade</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">type</span> <span class="o">==</span> <span class="s1">&#39;charge&#39;</span><span class="p">:</span>
+        <span class="n">ship</span><span class="o">.</span><span class="n">battery</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="n">upgrade</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">ship</span><span class="o">.</span><span class="n">battery</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">ship</span><span class="o">.</span><span class="n">battery</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">ship</span><span class="o">.</span><span class="n">battery</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">ship</span><span class="o">.</span><span class="n">battery</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">type</span> <span class="o">==</span> <span class="s1">&#39;battery&#39;</span><span class="p">:</span>
+        <span class="n">ship</span><span class="o">.</span><span class="n">battery</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="n">upgrade</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">type</span> <span class="o">==</span> <span class="s1">&#39;attack&#39;</span><span class="p">:</span>
+        <span class="n">ship</span><span class="o">.</span><span class="n">attack</span> <span class="o">=</span> <span class="p">[</span><span class="n">upgrade</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">upgrade</span><span class="p">[</span><span class="mi">3</span><span class="p">]]</span>
+    <span class="k">if</span> <span class="nb">type</span> <span class="o">==</span> <span class="s1">&#39;defense&#39;</span><span class="p">:</span>
+        <span class="n">ship</span><span class="o">.</span><span class="n">defense</span> <span class="o">=</span> <span class="n">upgrade</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ship</span><span class="p">,</span> <span class="s1">&#39;send&#39;</span><span class="p">):</span>
+        <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;send&#39;</span><span class="p">,</span> <span class="n">recipient</span><span class="o">=</span><span class="n">ship</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;You upgrade!&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, emsenn.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.0.4',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

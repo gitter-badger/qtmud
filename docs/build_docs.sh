@@ -1,7 +1,7 @@
 #!/bin/bash
 
-sphinx-apidoc -f -e -o ./source/ ../
+sphinx-apidoc -o ./source/ ../qtmud
+sphinx-apidoc -o ./source/ ../mudlib/starhopper/
+sphinx-apidoc -o ./source/ ../mudlib/yeolderpg/
 make html
-
-rm ./source/modules.rst
-rm ./source/qtmud*rst
+make doctest

@@ -1,539 +1,374 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>qtmud &#8212; qtmud 0.0.3 documentation</title>
-    
-    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../',
-        VERSION:     '0.0.3',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="qtmud 0.0.3 documentation" href="../index.html" />
-    <link rel="up" title="Module code" href="index.html" />
-   
-  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
   
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
-
-  </head>
-  <body role="document">
+  <title>qtmud &mdash; qtmud 0.0.4 documentation</title>
   
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body" role="main">
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="qtmud 0.0.4 documentation" href="../index.html"/>
+        <link rel="up" title="Module code" href="index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> qtmud
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.4
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <!-- Local TOC -->
+                <div class="local-toc"></div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">qtmud</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="index.html">Module code</a> &raquo;</li>
+      
+    <li>qtmud</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
             
   <h1>Source code for qtmud</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot; qtmud&#39;s main module contains Manager &amp; Thing, and a few constants.</span>
-
-<span class="sd">    .. moduleauthor: Morgan Sennhauser &lt;morgan.sennhauser@gmail.com&gt;</span>
-<span class="sd">    </span>
-<span class="sd">    .. versionadded:: 0.0.1</span>
-<span class="sd">    .. versionchanged:: 0.0.1-feature/parsing</span>
-<span class="sd">        expanded documentation</span>
-<span class="sd">        </span>
-<span class="sd">    This is the main module of qtmud. It contains two objects, Thing and </span>
-<span class="sd">    Manager, as well as several constants.</span>
-<span class="sd">    </span>
-<span class="sd">    qtmud expects to be started by having the </span>
-<span class="sd">    :class:`Manager &lt;qtmud.Manager&gt;` instanced, and then that object having </span>
-<span class="sd">    the :func:`add_services &lt;qtmud.Manager.add_services&gt;` function called.</span>
-<span class="sd">    </span>
-<span class="sd">    Attributes:</span>
-<span class="sd">        NAME(str):      the name of the MUD being presented by qtmud.</span>
-<span class="sd">        VERSION(str):   the version of the MUD</span>
-<span class="sd">        HOST(str):      the hostname the MUD should be served through</span>
-<span class="sd">        MUD_PORT(int):  the port the MUDSocket should bind to.</span>
+<span></span><span class="sd">&quot;&quot;&quot; The main qtmud module houses some constants, the Thing class, and methods</span>
+<span class="sd">    for start()ing and tick()ing the MUD engine.</span>
 <span class="sd">&quot;&quot;&quot;</span>
-
 
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">uuid</span>
-<span class="kn">import</span> <span class="nn">traceback</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span>
+<span class="kn">from</span> <span class="nn">inspect</span> <span class="k">import</span> <span class="n">getmembers</span><span class="p">,</span> <span class="n">isfunction</span><span class="p">,</span> <span class="n">isclass</span>
+<span class="kn">from</span> <span class="nn">qtmud</span> <span class="k">import</span> <span class="n">services</span><span class="p">,</span> <span class="n">subscriptions</span><span class="p">,</span> <span class="n">txt</span>
 
 
-<span class="c1"># Whatever you want your MUD to be called. Should be a string</span>
-<span class="n">NAME</span>        <span class="o">=</span> <span class="s1">&#39;qtmud&#39;</span>
-<span class="c1"># The version of your MUD. check docs/versioning. should be a string</span>
-<span class="n">VERSION</span>     <span class="o">=</span> <span class="s1">&#39;0.0.3&#39;</span>
-<span class="c1"># &#39;localhost&#39; for development, &#39;0.0.0.0&#39; for production.</span>
-<span class="n">HOST</span>        <span class="o">=</span> <span class="s1">&#39;localhost&#39;</span>
-<span class="c1"># the port you want the MUDSocket service to listen over. should be integer</span>
-<span class="n">MUD_PORT</span>    <span class="o">=</span> <span class="mi">5787</span>
+<span class="n">NAME</span> <span class="o">=</span> <span class="s1">&#39;qtmud&#39;</span>
+<span class="sd">&quot;&quot;&quot; Name of the MUD engine. &quot;&quot;&quot;</span>
+<span class="n">VERSION</span> <span class="o">=</span> <span class="s1">&#39;0.0.3&#39;</span>
+<span class="sd">&quot;&quot;&quot; MUD engine version &quot;&quot;&quot;</span>
+<span class="n">SPLASH</span> <span class="o">=</span> <span class="n">txt</span><span class="o">.</span><span class="n">SPLASH</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="nb">locals</span><span class="p">())</span>
+<span class="sd">&quot;&quot;&quot; Text new clients see, filled out from :attr:`txt.SPLASH`&quot;&quot;&quot;</span>
 
 
-<span class="c1"># Currently set up to record all logging to debug.log, with only INFO </span>
-<span class="c1"># and higher priority messages going to console.</span>
-<span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;debug.log&#39;</span><span class="p">,</span> <span class="n">filemode</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">,</span> 
+<span class="n">events</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+<span class="sd">&quot;&quot;&quot; events scheduled to occur next tick, populated by :func:`schedule`&quot;&quot;&quot;</span>
+<span class="n">things</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+<span class="sd">&quot;&quot;&quot; all the things that new_thing() has made&quot;&quot;&quot;</span>
+<span class="n">subscribers</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+<span class="sd">&quot;&quot;&quot; methods registered as qtmud events &quot;&quot;&quot;</span>
+<span class="n">active_services</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+<span class="sd">&quot;&quot;&quot; services to be tick()ed &quot;&quot;&quot;</span>
+
+
+<span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;debug.log&#39;</span><span class="p">,</span> <span class="n">filemode</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">,</span>
                     <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%(asctime)s</span><span class="s1"> </span><span class="si">%(name)-12s</span><span class="s1"> </span><span class="si">%(levelname)-8s</span><span class="s1"> &#39;</span>
                            <span class="s1">&#39;</span><span class="si">%(message)s</span><span class="s1">&#39;</span><span class="p">,</span>
                     <span class="n">datefmt</span><span class="o">=</span><span class="s1">&#39;%m-</span><span class="si">%d</span><span class="s1"> %H:%M&#39;</span><span class="p">,</span>
                     <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
-<span class="n">CONSOLE</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">StreamHandler</span><span class="p">()</span>
-<span class="c1"># Change this to logging.DEBUG if you want everything on the console.</span>
-<span class="n">CONSOLE</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
-<span class="n">CONSOLE</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%(name)-12s</span><span class="s1"> </span><span class="si">%(levelname)-8s</span><span class="s1"> &#39;</span>
-                                       <span class="s1">&#39;</span><span class="si">%(message)s</span><span class="s1">&#39;</span><span class="p">))</span>
+<span class="n">console</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">StreamHandler</span><span class="p">()</span>
+<span class="n">console</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
+<span class="n">console</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%(name)-12s</span><span class="s1"> </span><span class="si">%(levelname)-8s</span><span class="s1"> </span><span class="si">%(message)s</span><span class="s1">&#39;</span><span class="p">))</span>
+<span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">NAME</span><span class="p">)</span>
+<span class="sd">&quot;&quot;&quot; An instance of :class:`logging.Logger`&quot;&quot;&quot;</span>
+<span class="n">log</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">console</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="start"><a class="viewcode-back" href="../qtmud.html#qtmud.start">[docs]</a><span class="k">def</span> <span class="nf">start</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; Most importantly, loads every function from</span>
+<span class="sd">    :mod:`qtmud.subscriptions` and every class from :mod:`qtmud.services`</span>
+<span class="sd">    into :attr:`subscribers` and :attr:`active_services`, respectively.</span>
+
+<span class="sd">    Also sets up</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">subscribers</span>
+    <span class="k">global</span> <span class="n">active_services</span>
+    <span class="k">global</span> <span class="n">log</span>
+    <span class="k">global</span> <span class="n">console</span>
+    <span class="n">subscribers</span> <span class="o">=</span> <span class="p">{</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">__name__</span><span class="p">:</span> <span class="p">[</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="k">for</span>
+                    <span class="n">s</span> <span class="ow">in</span> <span class="n">getmembers</span><span class="p">(</span><span class="n">subscriptions</span><span class="p">)</span> <span class="k">if</span> <span class="n">isfunction</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">])}</span>
+    <span class="n">active_services</span> <span class="o">=</span> <span class="p">{</span><span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">]()</span> <span class="k">for</span>
+                        <span class="n">t</span> <span class="ow">in</span> <span class="n">getmembers</span><span class="p">(</span><span class="n">services</span><span class="p">)</span> <span class="k">if</span> <span class="n">isclass</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">])}</span></div>
+
+
+<div class="viewcode-block" id="new_thing"><a class="viewcode-back" href="../qtmud.html#qtmud.new_thing">[docs]</a><span class="k">def</span> <span class="nf">new_thing</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; Creates a new thing with an identity from :func:`uuid.uuid4()`, and</span>
+<span class="sd">    adds its identity as a key to :attr:`qtmud.things` with the thing itself</span>
+<span class="sd">    as the value.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">identity</span> <span class="o">=</span> <span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">identity</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">things</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">break</span>
+    <span class="n">thing</span> <span class="o">=</span> <span class="n">Thing</span><span class="p">(</span><span class="n">identity</span><span class="p">)</span>
+    <span class="n">things</span><span class="p">[</span><span class="n">identity</span><span class="p">]</span> <span class="o">=</span> <span class="n">thing</span>
+    <span class="k">return</span> <span class="n">thing</span></div>
+
+
+<div class="viewcode-block" id="schedule"><a class="viewcode-back" href="../qtmud.html#qtmud.schedule">[docs]</a><span class="k">def</span> <span class="nf">schedule</span><span class="p">(</span><span class="n">sub</span><span class="p">,</span> <span class="o">**</span><span class="n">payload</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">subscribers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">sub</span><span class="p">,</span> <span class="p">[]):</span>
+        <span class="k">if</span> <span class="n">method</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">events</span><span class="p">:</span>
+            <span class="n">events</span><span class="p">[</span><span class="n">method</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">events</span><span class="p">[</span><span class="n">method</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="search_by_noun"><a class="viewcode-back" href="../qtmud.html#qtmud.search_by_noun">[docs]</a><span class="k">def</span> <span class="nf">search_by_noun</span><span class="p">(</span><span class="n">reference</span><span class="p">,</span> <span class="n">adjectives</span><span class="p">,</span> <span class="n">search_noun</span><span class="p">):</span>
+    <span class="n">matches</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">reference</span><span class="p">,</span> <span class="s1">&#39;contents&#39;</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">content</span> <span class="ow">in</span> <span class="n">reference</span><span class="o">.</span><span class="n">contents</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">noun</span> <span class="ow">in</span> <span class="n">content</span><span class="o">.</span><span class="n">nouns</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">noun</span> <span class="o">==</span> <span class="n">search_noun</span><span class="p">:</span>
+                    <span class="n">matches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">reference</span><span class="p">,</span> <span class="s1">&#39;location&#39;</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">content</span> <span class="ow">in</span> <span class="n">reference</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">contents</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">noun</span> <span class="ow">in</span> <span class="n">content</span><span class="o">.</span><span class="n">nouns</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">noun</span> <span class="o">==</span> <span class="n">search_noun</span><span class="p">:</span>
+                    <span class="n">matches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">noun</span> <span class="ow">in</span> <span class="n">reference</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">nouns</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">noun</span> <span class="o">==</span> <span class="n">search_noun</span><span class="p">:</span>
+                <span class="n">matches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">reference</span><span class="o">.</span><span class="n">location</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">adjectives</span><span class="p">:</span>
+        <span class="n">old_matches</span> <span class="o">=</span> <span class="n">matches</span>
+        <span class="n">new_matches</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">match</span> <span class="ow">in</span> <span class="n">old_matches</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">adjective</span> <span class="ow">in</span> <span class="n">adjectives</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">adjective</span> <span class="ow">in</span> <span class="n">match</span><span class="o">.</span><span class="n">adjectives</span><span class="p">:</span>
+                    <span class="n">matching_adjectives</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">matching_adjectives</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="n">matching_adjectives</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="n">new_matches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">match</span><span class="p">)</span>
+        <span class="n">matches</span> <span class="o">=</span> <span class="n">new_matches</span>
+    <span class="k">return</span> <span class="n">matches</span></div>
+
+
+<div class="viewcode-block" id="tick"><a class="viewcode-back" href="../qtmud.html#qtmud.tick">[docs]</a><span class="k">def</span> <span class="nf">tick</span><span class="p">():</span>
+    <span class="k">global</span> <span class="n">events</span>
+    <span class="k">if</span> <span class="n">events</span><span class="p">:</span>
+        <span class="n">current_events</span> <span class="o">=</span> <span class="n">events</span>
+        <span class="n">events</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">current_events</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">call</span> <span class="ow">in</span> <span class="n">current_events</span><span class="p">[</span><span class="n">event</span><span class="p">]:</span>
+                <span class="n">event</span><span class="p">(</span><span class="o">**</span><span class="n">call</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">service</span> <span class="ow">in</span> <span class="n">active_services</span><span class="p">:</span>
+        <span class="n">active_services</span><span class="p">[</span><span class="n">service</span><span class="p">]</span><span class="o">.</span><span class="n">tick</span><span class="p">()</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
 
 
 <div class="viewcode-block" id="Thing"><a class="viewcode-back" href="../qtmud.html#qtmud.Thing">[docs]</a><span class="k">class</span> <span class="nc">Thing</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; The object to be instanced by manager.new_thing()</span>
-<span class="sd">        </span>
-<span class="sd">        .. versionadded:: 0.0.1</span>
-<span class="sd">        .. versionchanged:: 0.0.1-feature/parsing</span>
-<span class="sd">            added return of successfully changed attributes to Thing.update()</span>
-<span class="sd">        .. versionchanged:: 0.0.2-feature/nametags</span>
-<span class="sd">        .. versionchanged:: 0.0.2-feature/textblob</span>
-<span class="sd">            changed nametags to be a set instead of a list</span>
-<span class="sd">        </span>
-<span class="sd">        Parameters:</span>
-<span class="sd">            identity(str):      a UUID created automatically by the </span>
-<span class="sd">                                manager.new_thing() function</span>
-<span class="sd">            manager(object):    the manager instance which is instancing the </span>
-<span class="sd">                                thing.</span>
-<span class="sd">        </span>
-<span class="sd">        Attributes:</span>
-<span class="sd">            identity(str):      the unique identifier for the instance, </span>
-<span class="sd">                                assigned by manager.new_thing()</span>
-<span class="sd">            manager(object):    the thing&#39;s manager, the same object that </span>
-<span class="sd">                                called new_thing()</span>
-<span class="sd">            nametags(set):      A set of strings that one might refer to</span>
-<span class="sd">                                this thing with.</span>
-<span class="sd">            qualities(list):    the instances of </span>
-<span class="sd">                                :class:`qualities &lt;qtmud.Qualities&gt;` which </span>
-<span class="sd">                                have been applied to the thing.</span>
+    <span class="sd">&quot;&quot;&quot; Most objects clients interact with are Things</span>
 
-<span class="sd">        Thing anticipates being instanced by the </span>
-<span class="sd">        :func:`new_thing() &lt;qtmud.Manager.new_thing&gt;`, which is why it </span>
-<span class="sd">        expects the `identity` and `manage` parameters.</span>
+<span class="sd">        :param identity: a UUID as created by :func:`uuid.uuid4()`</span>
+
+<span class="sd">        Created with :func:`new_thing`, things are objects with a few</span>
+<span class="sd">        attributes added on, mostly for enabling in-game reference of the</span>
+<span class="sd">        objects.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">identity</span><span class="p">,</span> <span class="n">manager</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            .. versionadded:: 0.0.1</span>
-<span class="sd">            </span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">identity</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">identity</span> <span class="o">=</span> <span class="n">identity</span>
+        <span class="sd">&quot;&quot;&quot; Passed by :func:`new_thing`, `identity` is stored as a UUID &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nouns</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;thing&#39;</span><span class="p">}</span>
+        <span class="sd">&quot;&quot;&quot; `nouns` represent lower-case nouns which may be used to reference</span>
+<span class="sd">            the thing.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">identity</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">manager</span> <span class="o">=</span> <span class="n">identity</span><span class="p">,</span> <span class="n">manager</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">nametags</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;thing&#39;</span><span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">identity</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">adjectives</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">qualities</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">return</span>
-    
-    <span class="k">def</span> <span class="nf">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; If thing has set_attr function, use it as a custom setter</span>
 
-<span class="sd">            .. versionadded:: 0.0.2-feature/nametags</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Properly-cased full name of a thing</span>
+<span class="sd">            Any name a thing is given is also added to :attr:`Thing.nouns`,</span>
+<span class="sd">            with the old name being removed. Same for adjectives.</span>
 
-<span class="sd">            Paramters:</span>
-<span class="sd">                attr:       The attribute to be set</span>
-<span class="sd">                value:      The value ``attr`` is going to be set to.</span>
-<span class="sd">            </span>
-<span class="sd">            Returns:</span>
-<span class="sd">                bool:       True if attribute properly set, otherwise False.</span>
-
-<span class="sd">            If a thing has a ``set_attr`` function, when something goes to </span>
-<span class="sd">            set ``attr``, use the ``set_attr`` function instead. For </span>
-<span class="sd">            example, :attr:`names &lt;qtmud.qualities.renderable.Renderable.name&gt;`</span>
-<span class="sd">            have a :func:`set_name() </span>
-<span class="sd">            &lt;qtmud.qualities.renderable.Renderable.set_name&gt;` function that</span>
-<span class="sd">            adds the last word of the new thing&#39;s name as a nametag.</span>
-
-<span class="sd">            Example:</span>
-<span class="sd">                Making a new thing and setting it&#39;s name</span>
-<span class="sd">            </span>
-<span class="sd">                &gt;&gt;&gt; womble = manager.new_thing(Renderable)</span>
-<span class="sd">                &gt;&gt;&gt; womble.nametags</span>
-<span class="sd">                [ &#39;thing&#39; ]</span>
-<span class="sd">                &gt;&gt;&gt; womble.name = &#39;Jeffrey&#39;</span>
-<span class="sd">                &gt;&gt;&gt; womble.nametags</span>
-<span class="sd">                [ &#39;jeffrey&#39;, &#39;thing&#39;]</span>
+<span class="sd">            .. warning:: This has some wonkiness, in that &quot;Eric Baez&quot; can be</span>
+<span class="sd">                         referred to as &quot;Eric Baez&quot; or &quot;Baez&quot; but not &quot;Eric&quot;.</span>
+<span class="sd">                         &quot;Eric Thing&quot; would work, though.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="s1">&#39;set_</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">attr</span><span class="p">,)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span><span class="p">[</span><span class="s1">&#39;set_</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">attr</span><span class="p">,)](</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span><span class="p">[</span><span class="n">attr</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
 
-<div class="viewcode-block" id="Thing.set_adjectives"><a class="viewcode-back" href="../qtmud.html#qtmud.Thing.set_adjectives">[docs]</a>    <span class="k">def</span> <span class="nf">set_adjectives</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">adjectives</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            .. versionadded:: 0.0.2-feature/textblob</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">adjectives</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">set</span> <span class="ow">and</span> <span class="n">adjectives</span> <span class="o">!=</span> <span class="p">{}:</span>
+    <span class="nd">@name</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">old_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">old_name</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">old_adjectives</span> <span class="o">=</span> <span class="n">old_name</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">adjective</span> <span class="ow">in</span> <span class="n">old_adjectives</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">adjectives</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">adjective</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                    <span class="k">pass</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">nouns</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">old_name</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="n">new_name</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nouns</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">new_name</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_name</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">adjectives</span> <span class="o">=</span> <span class="n">new_name</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
             <span class="k">for</span> <span class="n">adjective</span> <span class="ow">in</span> <span class="n">adjectives</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">nametags</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">adjective</span><span class="p">)</span>
-        <span class="k">return</span></div>
+                <span class="bp">self</span><span class="o">.</span><span class="n">adjectives</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">adjective</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nouns</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">new_name</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">value</span>
 
-<div class="viewcode-block" id="Thing.set_nametags"><a class="viewcode-back" href="../qtmud.html#qtmud.Thing.set_nametags">[docs]</a>    <span class="k">def</span> <span class="nf">set_nametags</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nametags</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            .. versionadded:: 0.0.2-feature/textblob</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">nametags</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">set</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">nametag</span> <span class="ow">in</span> <span class="n">nametags</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">nametags</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">nametag</span><span class="p">)</span>
-        <span class="k">return</span></div>
-
-<div class="viewcode-block" id="Thing.search"><a class="viewcode-back" href="../qtmud.html#qtmud.Thing.search">[docs]</a>    <span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subject</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">adjectives</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pnp_clauses</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; search for in this local environment.</span>
-<span class="sd">        </span>
-<span class="sd">            .. versionadded:: 0.0.2-feature/nametags</span>
-<span class="sd">            .. versionadded:: 0.0.2-feature/textblob</span>
-<span class="sd">                rewritten to handle the output produced by Parser.parse_line()</span>
-<span class="sd">            </span>
-<span class="sd">            Parameters:</span>
-<span class="sd">                target(string):         The nametag you&#39;re looking for in</span>
-<span class="sd">                                        this thing&#39;s local environment.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">matches</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">if</span> <span class="n">subject</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;contents&#39;</span><span class="p">):</span>
-                <span class="k">for</span> <span class="n">content</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">contents</span><span class="p">:</span>
-                    <span class="k">for</span> <span class="n">nametag</span> <span class="ow">in</span> <span class="n">content</span><span class="o">.</span><span class="n">nametags</span><span class="p">:</span>
-                        <span class="k">if</span> <span class="n">nametag</span> <span class="o">==</span> <span class="n">subject</span><span class="p">:</span>
-                            <span class="n">matches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
-            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;location&#39;</span><span class="p">):</span>
-                <span class="k">for</span> <span class="n">content</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">contents</span><span class="p">:</span>
-                        <span class="k">for</span> <span class="n">nametag</span> <span class="ow">in</span> <span class="n">content</span><span class="o">.</span><span class="n">nametags</span><span class="p">:</span>
-                                <span class="k">if</span> <span class="n">nametag</span> <span class="o">==</span> <span class="n">subject</span><span class="p">:</span>
-                                    <span class="n">matches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">adjectives</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">old_matches</span> <span class="o">=</span> <span class="n">matches</span>
-                <span class="n">new_matches</span> <span class="o">=</span> <span class="p">[]</span>
-                <span class="k">for</span> <span class="n">match</span> <span class="ow">in</span> <span class="n">old_matches</span><span class="p">:</span>
-                    <span class="k">for</span> <span class="n">adjective</span> <span class="ow">in</span> <span class="n">adjectives</span><span class="p">:</span>
-                        <span class="k">if</span> <span class="n">adjective</span> <span class="ow">in</span> <span class="n">match</span><span class="o">.</span><span class="n">adjectives</span><span class="p">:</span>
-                            <span class="n">matching_adjectives</span> <span class="o">=</span> <span class="kc">True</span>
-                        <span class="k">else</span><span class="p">:</span>
-                            <span class="n">matching_adjectives</span> <span class="o">=</span> <span class="kc">False</span>
-                    <span class="k">if</span> <span class="n">matching_adjectives</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
-                        <span class="n">new_matches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">match</span><span class="p">)</span>
-                <span class="n">matches</span> <span class="o">=</span> <span class="n">new_matches</span>
-        <span class="k">return</span> <span class="n">matches</span></div>
-
-<div class="viewcode-block" id="Thing.update"><a class="viewcode-back" href="../qtmud.html#qtmud.Thing.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Modify multiple attributes of the thing at once.</span>
-<span class="sd">        </span>
-<span class="sd">            .. versionadded:: 0.0.1</span>
-<span class="sd">            .. versionchanged:: 0.0.1-feature/parsing</span>
-<span class="sd">                added return of successfully updated attributes.</span>
-<span class="sd">        </span>
-<span class="sd">            Parameters:</span>
-<span class="sd">                _dict(dict):    a dict of `{attr : value}` where attr is </span>
-<span class="sd">                                an attribute of the thing.</span>
-<span class="sd">            </span>
-<span class="sd">            Returns:</span>
-<span class="sd">                dict:           a dict of successfully modified attributes and </span>
-<span class="sd">                                the value they were changed to.</span>
-<span class="sd">            </span>
-<span class="sd">            Example:</span>
-<span class="sd">                MUDSocket after creating a qualified thing for a new client</span>
-<span class="sd">                </span>
-<span class="sd">                &gt;&gt;&gt; client.update({&#39;addr&#39;: addr,</span>
-<span class="sd">                &gt;&gt;&gt;                &#39;send_buffer&#39; : &#39;&#39;,</span>
-<span class="sd">                &gt;&gt;&gt;                &#39;recv_buffer&#39; : &#39;&#39;})</span>
-<span class="sd">                {&#39;addr&#39;: (&#39;127.0.0.1&#39;, 40440), &#39;recv_buffer&#39;: &#39;&#39;, </span>
-<span class="sd">                &#39;send_buffer&#39;: &#39;&#39;}</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">for</span> <span class="n">attribute</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="k">if</span> <span class="s1">&#39;set_</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">attribute</span><span class="p">,)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span><span class="p">[</span><span class="s1">&#39;set_</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">attribute</span><span class="p">,)](</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span><span class="p">[</span><span class="n">attribute</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span></div></div>
-
-<div class="viewcode-block" id="Manager"><a class="viewcode-back" href="../qtmud.html#qtmud.Manager">[docs]</a><span class="k">class</span> <span class="nc">Manager</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; The manager of all qtmud things and services.</span>
-<span class="sd">    </span>
-<span class="sd">        .. versionadded:: 0.0.1</span>
-<span class="sd">        .. versionchanged:: 0.0.2-feature/nametags</span>
-<span class="sd">            removed unnecessary junk from __init__()</span>
-<span class="sd"> </span>
-<span class="sd">        When qtmud is started, it creates an instance of this class. This </span>
-<span class="sd">        instance is then used to handle pretty much every game occurence.</span>
-<span class="sd">        For a design overview, check the main README.</span>
-<span class="sd">        </span>
-<span class="sd">        Attributes:</span>
-<span class="sd">            log(object):                an instance of :class:`Logger </span>
-<span class="sd">                                        &lt;logging.get_Logger&gt;`, is used </span>
-<span class="sd">                                        throughout the engine with</span>
-<span class="sd">                                        :func:`qtmud.Manager.log.debug`,</span>
-<span class="sd">                                        :func:`qtmud.Manager.log.info`,</span>
-<span class="sd">                                        :func:`qtmud.Manager.log.warning`,</span>
-<span class="sd">                                        :func:`qtmud.Manager.log.error`, and </span>
-<span class="sd">                                        :func:`qtmud.Manager.log.critical`.</span>
-<span class="sd">            things(list):               a list of every thing that the </span>
-<span class="sd">                                        manager has instanced this session.</span>
-<span class="sd">            qualities(dict):            every quality which has been applied </span>
-<span class="sd">                                        this session, with every thing it </span>
-<span class="sd">                                        has been applied to as a value.</span>
-<span class="sd">            services(OrderedDict):      an OrderedDict() of every service </span>
-<span class="sd">                                        the manager is controlling (sending </span>
-<span class="sd">                                        events to during tick()</span>
-<span class="sd">            subscriptions(dict):        events and which services are looking </span>
-<span class="sd">                                        for them</span>
-<span class="sd">            events(dict):</span>
-<span class="sd">                                        the events that will occur during </span>
-<span class="sd">                                        the next tick().</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            .. versionadded:: 0.0.1</span>
-<span class="sd">        </span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__module__</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">CONSOLE</span><span class="p">)</span>
-        <span class="c1"># list of all the instanced things</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">things</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="c1"># dict of key:qualities, value: instanced things with those qualities</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">qualities</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="c1"># list of all the instanced services</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">services</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
-        <span class="c1"># commands the Manager is looking to pass out</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">subscriptions</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="c1"># instructions and who gave them, resets every tick()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">events</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">return</span>
-    
-<div class="viewcode-block" id="Manager.add_services"><a class="viewcode-back" href="../qtmud.html#qtmud.Manager.add_services">[docs]</a>    <span class="k">def</span> <span class="nf">add_services</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">services</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Instance services and subscribe them to their subscriptions.</span>
-<span class="sd">        </span>
-<span class="sd">            .. versionadded:: 0.0.1</span>
-<span class="sd">        </span>
-<span class="sd">            Parameters:</span>
-<span class="sd">                *services(list):    a list of the classes to be added as </span>
-<span class="sd">                                    services.</span>
-<span class="sd">            </span>
-<span class="sd">            Returns:</span>
-<span class="sd">                list:               a list of the services which were </span>
-<span class="sd">                                    successfully instanced</span>
-<span class="sd">            </span>
-<span class="sd">            Example:</span>
-<span class="sd">                qtmud start script after instancing :class:`qtmud.Manager`</span>
-<span class="sd">                </span>
-<span class="sd">                &gt;&gt;&gt; manager.add_services(MUDSocket, Mover, Parser)</span>
-<span class="sd">                [&lt;qtmud.services.mudsocket.MUDSocket object at 0x7f39bbbb10f0&gt;, </span>
-<span class="sd">                &lt;qtmud.services.parser.Parser object at 0x7f39bce5fdd8&gt;, </span>
-<span class="sd">                &lt;qtmud.services.mover.Mover object at 0x7f39bce6e668&gt;]</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># Add services and their subscriptions</span>
-        <span class="n">added_services</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">service</span> <span class="ow">in</span> <span class="n">services</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;adding </span><span class="si">%s</span><span class="s1"> as service&#39;</span><span class="p">,</span> <span class="n">service</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
-            <span class="n">service</span> <span class="o">=</span> <span class="n">service</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">service</span><span class="p">,</span> <span class="s1">&#39;subscriptions&#39;</span><span class="p">):</span>
-                <span class="n">service</span><span class="o">.</span><span class="n">subscriptions</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="k">for</span> <span class="n">sub</span> <span class="ow">in</span> <span class="n">service</span><span class="o">.</span><span class="n">subscriptions</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">service</span><span class="p">,</span><span class="n">sub</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;subscribing </span><span class="si">%s</span><span class="s1"> to event </span><span class="si">%s</span><span class="s1">&#39;</span>
-                               <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">service</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">sub</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">services</span><span class="p">[</span><span class="n">service</span><span class="p">]</span> <span class="o">=</span> <span class="n">service</span>
-            
-            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> successfully added as service&#39;</span>
-                           <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">service</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
-            <span class="n">added_services</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">service</span><span class="p">)</span> 
-        <span class="k">return</span> <span class="n">added_services</span></div>
-                
-<div class="viewcode-block" id="Manager.schedule"><a class="viewcode-back" href="../qtmud.html#qtmud.Manager.schedule">[docs]</a>    <span class="k">def</span> <span class="nf">schedule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">,</span> <span class="o">**</span><span class="n">payload</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; schedules a `command` to be fired next `tick()`</span>
-<span class="sd">        </span>
-<span class="sd">            .. versionadded:: 0.0.1</span>
-<span class="sd">            </span>
-<span class="sd">            Parameters:</span>
-<span class="sd">                command(str):       The command that services are </span>
-<span class="sd">                                    subscribed to.</span>
-<span class="sd">                **payload(dict):    Any additional arguments, collapsed </span>
-<span class="sd">                                    into a dict to be handed off to the </span>
-<span class="sd">                                    subscribed service.</span>
-
-<span class="sd">            Returns:</span>
-<span class="sd">                tuple:              the event as given to the manager, a </span>
-<span class="sd">                                    tuple of (command, **payload))</span>
-<span class="sd">        </span>
-<span class="sd">            Checks for services that are subscribed to `command`, and </span>
-<span class="sd">            adds the event to any service which is.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">event</span> <span class="o">=</span> <span class="p">(</span><span class="n">command</span><span class="p">,</span> <span class="n">payload</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">service</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">subscriptions</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">command</span><span class="p">,</span> <span class="p">[]):</span>
-            <span class="k">if</span> <span class="n">service</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">events</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">events</span><span class="p">[</span><span class="n">service</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">events</span><span class="p">[</span><span class="n">service</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">event</span></div>
-
-<div class="viewcode-block" id="Manager.subscribe"><a class="viewcode-back" href="../qtmud.html#qtmud.Manager.subscribe">[docs]</a>    <span class="k">def</span> <span class="nf">subscribe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">service</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; subscribes a service to events</span>
-<span class="sd">        </span>
-<span class="sd">            Parameters:</span>
-<span class="sd">                service(object):    The service which will be notified of </span>
-<span class="sd">                                    the event.</span>
-<span class="sd">                event(str):         The event the service will be notified </span>
-<span class="sd">                                    of, such as &#39;parse&#39; or &#39;move&#39;</span>
-<span class="sd">            </span>
-<span class="sd">            Returns:</span>
-<span class="sd">                bool:               True if the service was successfully </span>
-<span class="sd">                                    subscribed to the event.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">service</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">subscriptions</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">subscriptions</span><span class="p">[</span><span class="n">event</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">subscriptions</span><span class="p">[</span><span class="n">event</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">service</span><span class="p">)</span>
-        <span class="k">return</span> <span class="kc">True</span></div>
-    
-<div class="viewcode-block" id="Manager.new_thing"><a class="viewcode-back" href="../qtmud.html#qtmud.Manager.new_thing">[docs]</a>    <span class="k">def</span> <span class="nf">new_thing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">qualities</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; create a new thing and passes *qualities to </span>
-<span class="sd">            add_qualities(thing, quality)</span>
-<span class="sd">        </span>
-<span class="sd">            Parameters:</span>
-<span class="sd">                *qualities(list):   A list of Qualities (classes) to be </span>
-<span class="sd">                                    applied to the new thing.</span>
-<span class="sd">            </span>
-<span class="sd">            Returns:</span>
-<span class="sd">                object:             The thing that was created, with all </span>
-<span class="sd">                                    qualities applied.</span>
-<span class="sd">        </span>
-<span class="sd">            Creates a new instance of :class:`qtmud.Thing` and gives it an </span>
-<span class="sd">            :attr:`identity &lt;qtmud.Thing.identity&gt;`. Then, adds the thing </span>
-<span class="sd">            to :attr:`qtmud.Manager.things`, before calling </span>
-<span class="sd">            :func:`add_qualities(thing, qualities) </span>
-<span class="sd">            &lt;qtmud.Manager.add_qualities&gt;` to apply the desired qualities </span>
-<span class="sd">            to the thing.</span>
-<span class="sd">            </span>
-<span class="sd">            This function then returns the finished thing, with all of its </span>
-<span class="sd">            qualities.</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="n">identity</span> <span class="o">=</span> <span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span>
-            <span class="k">if</span> <span class="n">identity</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">things</span><span class="p">:</span>
-                <span class="k">break</span>
-        <span class="n">thing</span> <span class="o">=</span> <span class="n">Thing</span><span class="p">(</span><span class="n">identity</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">things</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">thing</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;creating new thing...&#39;</span><span class="p">)</span>
-        <span class="n">thing</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_qualities</span><span class="p">(</span><span class="n">thing</span><span class="p">,</span> <span class="n">qualities</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">thing</span></div>
-
-<div class="viewcode-block" id="Manager.add_qualities"><a class="viewcode-back" href="../qtmud.html#qtmud.Manager.add_qualities">[docs]</a>    <span class="k">def</span> <span class="nf">add_qualities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">thing</span><span class="p">,</span> <span class="n">qualities</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; adds qualities to :class:`things &lt;qtmud.Thing&gt;`</span>
-<span class="sd">        </span>
-<span class="sd">            .. versionadded:: 0.0.1</span>
-<span class="sd">            .. versionchanged:: 0.0.2-feature/nametags</span>
-<span class="sd">                Changed from imperative to applicative method</span>
-<span class="sd">        </span>
-<span class="sd">            Parameters:</span>
-<span class="sd">                thing(object):      The :class:`thing &lt;qtmud.Thing&gt;` which </span>
-<span class="sd">                                    will have qualities applied to it.</span>
-<span class="sd">                qualities(list):    The :mod:`qualities &lt;qtmud.qualities&gt;` </span>
-<span class="sd">                                    to be applied to ``thing``</span>
-<span class="sd">            </span>
-<span class="sd">            Returns:</span>
-<span class="sd">                object:             The thing after having the qualities </span>
-<span class="sd">                                    :func:`applied </span>
-<span class="sd">                                    &lt;qtmud.qualities.Quality.apply&gt;`.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">for</span> <span class="n">quality</span> <span class="ow">in</span> <span class="n">qualities</span><span class="p">:</span>
-            <span class="c1"># TODO make sure quality is a class</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">quality</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">qualities</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">qualities</span><span class="p">[</span><span class="n">quality</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">qualities</span><span class="p">[</span><span class="n">quality</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">thing</span><span class="p">)</span>
-            <span class="n">thing</span> <span class="o">=</span> <span class="n">quality</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">thing</span><span class="p">)</span>
-            <span class="n">thing</span><span class="o">.</span><span class="n">qualities</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">quality</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;added </span><span class="si">%s</span><span class="s1"> quality to the thing&#39;</span>
-                           <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">quality</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">thing</span></div>
-        
-
-<div class="viewcode-block" id="Manager.run"><a class="viewcode-back" href="../qtmud.html#qtmud.Manager.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Keep the manager alive</span>
-<span class="sd">        </span>
-<span class="sd">            .. versionadded:: 0.0.1</span>
-<span class="sd">            </span>
-<span class="sd">            Until a KeyboardInterrupt is noticed, this function keeps </span>
-<span class="sd">            qtmud calling the manager&#39;s :func:`tick() &lt;qtmud.Manager.tick&gt;` </span>
-<span class="sd">            function, keeping the game running.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">tick</span><span class="p">()</span></div>
-    
-<div class="viewcode-block" id="Manager.tick"><a class="viewcode-back" href="../qtmud.html#qtmud.Manager.tick">[docs]</a>    <span class="k">def</span> <span class="nf">tick</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; qtmud&#39;s &quot;heartbeat&quot;</span>
-<span class="sd">            </span>
-<span class="sd">            .. versionadded:: 0.0.1</span>
-<span class="sd">            </span>
-<span class="sd">            Returns:</span>
-<span class="sd">                bool:       True as long as nothing crashes the server.</span>
-<span class="sd">            </span>
-<span class="sd">            For every :class:`service &lt;qtmud.services.Service&gt;` in </span>
-<span class="sd">            :attr:`qtmud.services`, pass any </span>
-<span class="sd">            :attr:`events &lt;qtmud.Manager.events&gt;` they&#39;re</span>
-<span class="sd">            :func:`subscribed &lt;qtmud.Manager.subscribe&gt;` to that service&#39;s </span>
-<span class="sd">            :func:`tick() &lt;qtmud.services.Service.tick&gt;` function.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># Main game sequence. Should push events out to subscribers.</span>
-        <span class="n">events</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">events</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">events</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">for</span> <span class="n">service</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">services</span><span class="p">:</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">service</span><span class="o">.</span><span class="n">tick</span><span class="p">(</span><span class="n">events</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">service</span><span class="p">,</span> <span class="p">[]))</span>
-            <span class="c1"># service.tick()s shouldn&#39;t be failing, but if they do, it </span>
-            <span class="c1"># probably shouldn&#39;t be fatal...</span>
-            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span> <span class="c1">#pylint: disable=broad-except</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> failed to tick: </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span>
-                                 <span class="n">service</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
-                <span class="n">traceback</span><span class="o">.</span><span class="n">print_exc</span><span class="p">()</span>
+<div class="viewcode-block" id="Thing.update"><a class="viewcode-back" href="../qtmud.html#qtmud.Thing.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attributes</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">attribute</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">attributes</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span><span class="p">[</span><span class="n">attribute</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
         <span class="k">return</span> <span class="kc">True</span></div></div>
 </pre></div>
 
+           </div>
           </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, emsenn.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper"><div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="../index.html">Documentation overview</a><ul>
-  <li><a href="index.html">Module code</a><ul>
-  </ul></li>
-  </ul></li>
-</ul>
-</div>
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <form class="search" action="../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="footer">
-      &copy;2016, emsenn.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
-      
-    </div>
 
-    
+    </section>
 
-    
-  </body>
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.0.4',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
 </html>

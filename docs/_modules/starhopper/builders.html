@@ -1,0 +1,405 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>starhopper.builders &mdash; qtmud 0.0.4 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="qtmud 0.0.4 documentation" href="../../index.html"/>
+        <link rel="up" title="starhopper" href="../starhopper.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> qtmud
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.4
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <!-- Local TOC -->
+                <div class="local-toc"></div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">qtmud</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      
+          <li><a href="../starhopper.html">starhopper</a> &raquo;</li>
+      
+    <li>starhopper.builders</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for starhopper.builders</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; Builders for in-game things.</span>
+
+<span class="sd">    The methods in this module create in-game :class:`things &lt;qtmud.Thing&gt;` and</span>
+<span class="sd">    provide supporting functionality.</span>
+
+<span class="sd">    Methods which start with `build_` are used to create things, while methods</span>
+<span class="sd">    which start with `generate_` create other information.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">string</span>
+<span class="kn">import</span> <span class="nn">types</span>
+<span class="kn">from</span> <span class="nn">inspect</span> <span class="k">import</span> <span class="n">getmembers</span><span class="p">,</span> <span class="n">isfunction</span>
+
+<span class="kn">import</span> <span class="nn">qtmud</span>
+<span class="kn">from</span> <span class="nn">mudlib.starhopper</span> <span class="k">import</span> <span class="n">cmds</span><span class="p">,</span> <span class="n">txt</span>
+
+
+
+<div class="viewcode-block" id="build_captain"><a class="viewcode-back" href="../../starhopper.html#starhopper.builders.build_captain">[docs]</a><span class="k">def</span> <span class="nf">build_captain</span><span class="p">(</span><span class="n">client</span><span class="p">):</span>
+    <span class="n">captain</span> <span class="o">=</span> <span class="n">client</span>
+    <span class="k">for</span> <span class="n">command</span><span class="p">,</span> <span class="n">function</span> <span class="ow">in</span> <span class="p">[</span><span class="n">m</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">getmembers</span><span class="p">(</span><span class="n">cmds</span><span class="p">)</span> <span class="k">if</span> <span class="n">isfunction</span><span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">])]:</span>
+        <span class="n">captain</span><span class="o">.</span><span class="n">commands</span><span class="p">[</span><span class="n">command</span><span class="p">]</span> <span class="o">=</span> <span class="n">types</span><span class="o">.</span><span class="n">MethodType</span><span class="p">(</span><span class="n">function</span><span class="p">,</span> <span class="n">captain</span><span class="p">)</span>
+    <span class="n">captain</span><span class="o">.</span><span class="n">score</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">return</span> <span class="n">captain</span></div>
+
+<div class="viewcode-block" id="build_planet"><a class="viewcode-back" href="../../starhopper.html#starhopper.builders.build_planet">[docs]</a><span class="k">def</span> <span class="nf">build_planet</span><span class="p">(</span><span class="n">basis</span><span class="p">:</span> <span class="nb">object</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">system</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">distance</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">points</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">basis</span><span class="p">:</span>
+        <span class="n">planet</span> <span class="o">=</span> <span class="n">basis</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">planet</span> <span class="o">=</span> <span class="n">qtmud</span><span class="o">.</span><span class="n">new_thing</span><span class="p">()</span>
+    <span class="n">planet</span><span class="o">.</span><span class="n">nouns</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s1">&#39;planet&#39;</span><span class="p">)</span>
+    <span class="n">planet</span><span class="o">.</span><span class="n">klass</span> <span class="o">=</span> <span class="s1">&#39;foo&#39;</span>
+    <span class="n">planet</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{system.name}</span><span class="s1"> </span><span class="si">{distance}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="nb">locals</span><span class="p">())</span>
+    <span class="n">system</span><span class="o">.</span><span class="n">points</span> <span class="o">-=</span> <span class="n">points</span>
+    <span class="n">planet</span><span class="o">.</span><span class="n">points</span> <span class="o">=</span> <span class="n">points</span>
+    <span class="k">return</span> <span class="n">planet</span></div>
+
+
+<div class="viewcode-block" id="build_rat"><a class="viewcode-back" href="../../starhopper.html#starhopper.builders.build_rat">[docs]</a><span class="k">def</span> <span class="nf">build_rat</span><span class="p">(</span><span class="n">points</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">rat</span> <span class="o">=</span> <span class="n">build_ship</span><span class="p">()</span>
+    <span class="n">rat</span><span class="o">.</span><span class="n">nouns</span><span class="o">.</span><span class="n">update</span><span class="p">([</span><span class="s1">&#39;pirate&#39;</span><span class="p">,</span> <span class="s1">&#39;rat&#39;</span><span class="p">,</span> <span class="s1">&#39;scum&#39;</span><span class="p">,</span> <span class="s1">&#39;mob&#39;</span><span class="p">])</span>
+    <span class="n">rat</span><span class="o">.</span><span class="n">local_system</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">]):</span>
+        <span class="n">rat</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">txt</span><span class="o">.</span><span class="n">RAT_NAMES</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">rat</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">generate_rat_name</span><span class="p">()</span>
+    <span class="n">rat</span><span class="o">.</span><span class="n">aggressive</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="n">rat</span></div>
+
+
+<div class="viewcode-block" id="build_frigate"><a class="viewcode-back" href="../../starhopper.html#starhopper.builders.build_frigate">[docs]</a><span class="k">def</span> <span class="nf">build_frigate</span><span class="p">(</span><span class="n">ship</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">ship</span><span class="p">:</span>
+        <span class="n">ship</span> <span class="o">=</span> <span class="n">qtmud</span><span class="o">.</span><span class="n">build_ship</span><span class="p">()</span>
+    <span class="n">ship</span><span class="o">.</span><span class="n">klass</span> <span class="o">=</span> <span class="s1">&#39;frigate&#39;</span>
+    <span class="n">frigate</span> <span class="o">=</span> <span class="n">ship</span>
+    <span class="k">return</span> <span class="n">frigate</span></div>
+
+
+<div class="viewcode-block" id="build_ship"><a class="viewcode-back" href="../../starhopper.html#starhopper.builders.build_ship">[docs]</a><span class="k">def</span> <span class="nf">build_ship</span><span class="p">(</span><span class="n">client</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">points</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">ship</span> <span class="o">=</span> <span class="n">qtmud</span><span class="o">.</span><span class="n">new_thing</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">client</span><span class="p">:</span>
+        <span class="n">ship</span><span class="o">.</span><span class="n">captain</span> <span class="o">=</span> <span class="n">client</span>
+    <span class="n">ship</span> <span class="o">=</span> <span class="n">build_frigate</span><span class="p">(</span><span class="n">ship</span><span class="o">=</span><span class="n">ship</span><span class="p">)</span>
+    <span class="n">ship</span><span class="o">.</span><span class="n">local_system</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">ship</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="s1">&#39;Firefly&#39;</span><span class="p">,</span> <span class="s1">&#39;Petunia&#39;</span><span class="p">,</span> <span class="s1">&#39;Imperial Deathbat&#39;</span><span class="p">])</span>
+    <span class="n">ship</span><span class="o">.</span><span class="n">charge</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">ship</span><span class="o">.</span><span class="n">battery</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="n">ship</span><span class="o">.</span><span class="n">health</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="n">ship</span><span class="o">.</span><span class="n">damage</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="n">ship</span><span class="o">.</span><span class="n">salvage</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
+    <span class="n">ship</span><span class="o">.</span><span class="n">attack</span> <span class="o">=</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+    <span class="n">ship</span><span class="o">.</span><span class="n">defense</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">ship</span><span class="o">.</span><span class="n">score</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">return</span> <span class="n">ship</span></div>
+
+
+<div class="viewcode-block" id="build_star"><a class="viewcode-back" href="../../starhopper.html#starhopper.builders.build_star">[docs]</a><span class="k">def</span> <span class="nf">build_star</span><span class="p">(</span><span class="n">system</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    :param system: expected to be a :class:`qtmud.Thing&gt;`</span>
+<span class="sd">    :return:</span>
+<span class="sd">    +-----------+------------------------------+-----------+----------------+</span>
+<span class="sd">    | attribute | meaning                      | example   | affects        |</span>
+<span class="sd">    +===========+==============================+===========+================+</span>
+<span class="sd">    | klass     | Harvard-style classification | M3 Klass  | planet types   |</span>
+<span class="sd">    +-----------+------------------------------+-----------+----------------+</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">star</span> <span class="o">=</span> <span class="n">qtmud</span><span class="o">.</span><span class="n">new_thing</span><span class="p">()</span>
+    <span class="n">star</span><span class="o">.</span><span class="n">nouns</span><span class="o">.</span><span class="n">update</span><span class="p">([</span><span class="s1">&#39;sun&#39;</span><span class="p">,</span> <span class="s1">&#39;star&#39;</span><span class="p">])</span>
+    <span class="n">star</span><span class="o">.</span><span class="n">klass</span> <span class="o">=</span> <span class="p">[</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="s1">&#39;M&#39;</span><span class="p">,</span> <span class="s1">&#39;K&#39;</span><span class="p">,</span> <span class="s1">&#39;G&#39;</span><span class="p">,</span> <span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;O&#39;</span><span class="p">]),</span>
+                  <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">9</span><span class="p">))]</span>
+    <span class="k">if</span> <span class="n">system</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">star</span><span class="o">.</span><span class="n">klass</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;O&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;M&#39;</span><span class="p">]:</span>
+            <span class="n">system</span><span class="o">.</span><span class="n">points</span> <span class="o">-=</span> <span class="mi">20</span><span class="o">+</span><span class="n">star</span><span class="o">.</span><span class="n">klass</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">star</span><span class="o">.</span><span class="n">klass</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="s1">&#39;K&#39;</span><span class="p">]:</span>
+            <span class="n">system</span><span class="o">.</span><span class="n">points</span> <span class="o">+=</span> <span class="n">star</span><span class="o">.</span><span class="n">klass</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">star</span><span class="o">.</span><span class="n">klass</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;G&#39;</span><span class="p">]:</span>
+            <span class="n">system</span><span class="o">.</span><span class="n">points</span> <span class="o">+=</span> <span class="mi">20</span><span class="o">+</span><span class="n">star</span><span class="o">.</span><span class="n">klass</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">star</span></div>
+
+
+<div class="viewcode-block" id="build_station"><a class="viewcode-back" href="../../starhopper.html#starhopper.builders.build_station">[docs]</a><span class="k">def</span> <span class="nf">build_station</span><span class="p">(</span><span class="n">difficulty</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">station</span> <span class="o">=</span> <span class="n">qtmud</span><span class="o">.</span><span class="n">new_thing</span><span class="p">()</span>
+    <span class="n">station</span><span class="o">.</span><span class="n">nouns</span><span class="o">.</span><span class="n">update</span><span class="p">([</span><span class="s1">&#39;station&#39;</span><span class="p">,</span> <span class="s1">&#39;store&#39;</span><span class="p">])</span>
+    <span class="n">station</span><span class="o">.</span><span class="n">inventory</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">upgrade</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">4</span><span class="p">)):</span>
+        <span class="n">station</span><span class="o">.</span><span class="n">inventory</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">generate_upgrade</span><span class="p">(</span><span class="n">difficulty</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">station</span></div>
+
+
+<div class="viewcode-block" id="build_planets"><a class="viewcode-back" href="../../starhopper.html#starhopper.builders.build_planets">[docs]</a><span class="k">def</span> <span class="nf">build_planets</span><span class="p">(</span><span class="n">system</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">planets</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">system</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">system</span><span class="o">.</span><span class="n">points</span><span class="o">/</span><span class="mi">20</span><span class="p">),</span>
+                                                <span class="nb">int</span><span class="p">(</span><span class="n">system</span><span class="o">.</span><span class="n">points</span><span class="o">/</span><span class="mi">10</span><span class="p">))):</span>
+                <span class="n">investment</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span>
+                <span class="n">planets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">build_planet</span><span class="p">(</span><span class="n">system</span><span class="o">=</span><span class="n">system</span><span class="p">,</span><span class="n">points</span><span class="o">=</span><span class="n">investment</span><span class="p">,</span>
+                                            <span class="n">distance</span><span class="o">=</span><span class="n">count</span><span class="p">))</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="k">pass</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">4</span><span class="p">)):</span>
+            <span class="n">planets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">build_planet</span><span class="p">(</span><span class="n">system</span><span class="o">=</span><span class="n">system</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">planets</span></div>
+
+<div class="viewcode-block" id="build_system"><a class="viewcode-back" href="../../starhopper.html#starhopper.builders.build_system">[docs]</a><span class="k">def</span> <span class="nf">build_system</span><span class="p">(</span><span class="n">points</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">difficulty</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">qtmud</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;building new system&#39;</span><span class="p">)</span>
+    <span class="n">system</span> <span class="o">=</span> <span class="n">qtmud</span><span class="o">.</span><span class="n">new_thing</span><span class="p">()</span>
+    <span class="n">system</span><span class="o">.</span><span class="n">points</span> <span class="o">=</span> <span class="n">points</span>
+    <span class="n">system</span><span class="o">.</span><span class="n">difficulty</span> <span class="o">=</span> <span class="n">difficulty</span>
+    <span class="n">system</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">generate_system_name</span><span class="p">()</span>
+    <span class="n">system</span><span class="o">.</span><span class="n">star</span> <span class="o">=</span> <span class="n">build_star</span><span class="p">(</span><span class="n">system</span><span class="o">=</span><span class="n">system</span><span class="p">)</span>
+    <span class="n">system</span><span class="o">.</span><span class="n">planets</span> <span class="o">=</span> <span class="n">build_planets</span><span class="p">(</span><span class="n">system</span><span class="o">=</span><span class="n">system</span><span class="p">)</span>
+    <span class="n">system</span><span class="o">.</span><span class="n">ships</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="n">system</span><span class="o">.</span><span class="n">debris</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="n">system</span><span class="o">.</span><span class="n">neighbors</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="n">qtmud</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;built </span><span class="si">%s</span><span class="s1"> system, </span><span class="si">%s</span><span class="s1"> points unspent&#39;</span><span class="p">,</span> <span class="n">system</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                   <span class="n">system</span><span class="o">.</span><span class="n">points</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">system</span></div>
+
+
+<div class="viewcode-block" id="build_wreck"><a class="viewcode-back" href="../../starhopper.html#starhopper.builders.build_wreck">[docs]</a><span class="k">def</span> <span class="nf">build_wreck</span><span class="p">(</span><span class="n">ship</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">ship</span><span class="p">:</span>
+        <span class="n">ship</span> <span class="o">=</span> <span class="n">build_ship</span><span class="p">()</span>
+    <span class="n">ship</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;wreck of </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ship</span><span class="o">.</span><span class="n">model</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ship</span></div>
+
+
+<div class="viewcode-block" id="generate_backstory"><a class="viewcode-back" href="../../starhopper.html#starhopper.builders.generate_backstory">[docs]</a><span class="k">def</span> <span class="nf">generate_backstory</span><span class="p">(</span><span class="n">ship</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="se">\n</span><span class="si">{}</span><span class="se">\n</span><span class="si">{}</span><span class="se">\n</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">txt</span><span class="o">.</span><span class="n">EXODUS_BACKSTORIES</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                               <span class="o">**</span><span class="nb">locals</span><span class="p">()),</span>
+                               <span class="n">txt</span><span class="o">.</span><span class="n">INTERIM_BACKSTORY</span><span class="p">,</span>
+                               <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">txt</span><span class="o">.</span><span class="n">CAPTAIN_BACKSTORIES</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                               <span class="o">**</span><span class="nb">locals</span><span class="p">()),</span>
+                               <span class="n">txt</span><span class="o">.</span><span class="n">END_BACKSTORY</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="generate_survey"><a class="viewcode-back" href="../../starhopper.html#starhopper.builders.generate_survey">[docs]</a><span class="k">def</span> <span class="nf">generate_survey</span><span class="p">(</span><span class="n">planet</span><span class="p">):</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;Planetary Survey of </span><span class="si">{planet.name}</span><span class="se">\n</span><span class="s1">&#39;</span>
+              <span class="s1">&#39;</span><span class="si">{planet.name}</span><span class="s1"> is a </span><span class="si">{planet.klass}</span><span class="s1"> klass planet. It has &#39;</span>
+              <span class="s1">&#39;</span><span class="si">{planet.points}</span><span class="s1"> invested in it.&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">output</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="nb">locals</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="generate_status"><a class="viewcode-back" href="../../starhopper.html#starhopper.builders.generate_status">[docs]</a><span class="k">def</span> <span class="nf">generate_status</span><span class="p">(</span><span class="n">ship</span><span class="p">):</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;You</span><span class="se">\&#39;</span><span class="s1">re flying a </span><span class="si">{ship.model}</span><span class="s1">, which is a </span><span class="si">{ship.klass}</span><span class="s1">.</span><span class="se">\n</span><span class="s1">&#39;</span>
+              <span class="s1">&#39;Your capacitor has </span><span class="si">{ship.charge}</span><span class="s1"> out of </span><span class="si">{ship.battery}</span><span class="s1">.</span><span class="se">\n</span><span class="s1">&#39;</span>
+              <span class="s1">&#39;You can tolerate </span><span class="si">{ship.health}</span><span class="s1"> damage, and &#39;</span>
+              <span class="s1">&#39;has taken </span><span class="si">{ship.damage}</span><span class="s1">.</span><span class="se">\n</span><span class="s1">&#39;</span>
+              <span class="s1">&#39;Your attacks cost </span><span class="si">{ship.attack[1]}</span><span class="s1"> and do </span><span class="si">{ship.attack[0]}</span><span class="s1"> &#39;</span>
+              <span class="s1">&#39;damage. Your ship has </span><span class="si">{ship.defense}</span><span class="s1"> defense.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">output</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="nb">locals</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="generate_system_name"><a class="viewcode-back" href="../../starhopper.html#starhopper.builders.generate_system_name">[docs]</a><span class="k">def</span> <span class="nf">generate_system_name</span><span class="p">():</span>
+    <span class="n">start_sounds</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">ascii_lowercase</span><span class="p">)</span> <span class="o">-</span> <span class="p">{</span><span class="s1">&#39;aeiou&#39;</span><span class="p">}</span>
+                        <span class="o">-</span> <span class="p">{</span><span class="s1">&#39;qxc&#39;</span><span class="p">}</span>
+                        <span class="o">|</span> <span class="p">{</span><span class="s1">&#39;bl&#39;</span><span class="p">,</span> <span class="s1">&#39;br&#39;</span><span class="p">,</span> <span class="s1">&#39;cl&#39;</span><span class="p">,</span> <span class="s1">&#39;cr&#39;</span><span class="p">,</span> <span class="s1">&#39;dr&#39;</span><span class="p">,</span> <span class="s1">&#39;fl&#39;</span><span class="p">,</span> <span class="s1">&#39;fr&#39;</span><span class="p">,</span> <span class="s1">&#39;gl&#39;</span><span class="p">,</span>
+                           <span class="s1">&#39;gr&#39;</span><span class="p">,</span> <span class="s1">&#39;pl&#39;</span><span class="p">,</span> <span class="s1">&#39;pr&#39;</span><span class="p">,</span> <span class="s1">&#39;sk&#39;</span><span class="p">,</span> <span class="s1">&#39;sl&#39;</span><span class="p">,</span> <span class="s1">&#39;sm&#39;</span><span class="p">,</span> <span class="s1">&#39;sn&#39;</span><span class="p">,</span> <span class="s1">&#39;sp&#39;</span><span class="p">,</span>
+                           <span class="s1">&#39;st&#39;</span><span class="p">,</span> <span class="s1">&#39;str&#39;</span><span class="p">,</span> <span class="s1">&#39;sw&#39;</span><span class="p">,</span> <span class="s1">&#39;tr&#39;</span><span class="p">,</span> <span class="s1">&#39;ch&#39;</span><span class="p">,</span> <span class="s1">&#39;sh&#39;</span><span class="p">})</span>
+    <span class="n">end_sounds</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">ascii_lowercase</span><span class="p">)</span> <span class="o">-</span> <span class="p">{</span><span class="s1">&#39;aeiou&#39;</span><span class="p">}</span>
+                      <span class="o">-</span> <span class="p">{</span><span class="s1">&#39;qxcsj&#39;</span><span class="p">}</span>
+                      <span class="o">|</span> <span class="p">{</span><span class="s1">&#39;ct&#39;</span><span class="p">,</span> <span class="s1">&#39;ft&#39;</span><span class="p">,</span> <span class="s1">&#39;mp&#39;</span><span class="p">,</span> <span class="s1">&#39;nd&#39;</span><span class="p">,</span> <span class="s1">&#39;ng&#39;</span><span class="p">,</span> <span class="s1">&#39;nk&#39;</span><span class="p">,</span> <span class="s1">&#39;nt&#39;</span><span class="p">,</span> <span class="s1">&#39;pt&#39;</span><span class="p">,</span>
+                         <span class="s1">&#39;sk&#39;</span><span class="p">,</span> <span class="s1">&#39;sp&#39;</span><span class="p">,</span> <span class="s1">&#39;ss&#39;</span><span class="p">,</span> <span class="s1">&#39;st&#39;</span><span class="p">,</span> <span class="s1">&#39;ch&#39;</span><span class="p">,</span> <span class="s1">&#39;sh&#39;</span><span class="p">})</span>
+    <span class="n">vowels</span> <span class="o">=</span> <span class="s1">&#39;aeiou&#39;</span>
+    <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="p">(</span><span class="n">start_sounds</span><span class="p">,</span> <span class="n">vowels</span><span class="p">,</span>
+                                              <span class="n">end_sounds</span><span class="p">))</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="generate_rat_name"><a class="viewcode-back" href="../../starhopper.html#starhopper.builders.generate_rat_name">[docs]</a><span class="k">def</span> <span class="nf">generate_rat_name</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]):</span>
+        <span class="k">return</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">txt</span><span class="o">.</span><span class="n">RAT_NAMES</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">start_sounds</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;oo&#39;</span><span class="p">,</span> <span class="s1">&#39;uo&#39;</span><span class="p">,</span> <span class="s1">&#39;ou&#39;</span><span class="p">,</span> <span class="s1">&#39;eo&#39;</span><span class="p">,</span> <span class="s1">&#39;u&#39;</span><span class="p">,</span> <span class="s1">&#39;oe&#39;</span><span class="p">,</span> <span class="s1">&#39;ue&#39;</span><span class="p">,</span> <span class="s1">&#39;eu&#39;</span><span class="p">]</span>
+        <span class="n">end_sounds</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ra&#39;</span><span class="p">,</span> <span class="s1">&#39;la&#39;</span><span class="p">,</span> <span class="s1">&#39;ba&#39;</span><span class="p">,</span> <span class="s1">&#39;mar&#39;</span><span class="p">,</span> <span class="s1">&#39;il&#39;</span><span class="p">]</span>
+        <span class="n">break_sounds</span> <span class="o">=</span> <span class="s1">&#39;ktpdb&#39;</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="p">(</span><span class="n">start_sounds</span><span class="p">,</span> <span class="n">break_sounds</span><span class="p">,</span>
+                                                  <span class="n">end_sounds</span><span class="p">))</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="generate_upgrade"><a class="viewcode-back" href="../../starhopper.html#starhopper.builders.generate_upgrade">[docs]</a><span class="k">def</span> <span class="nf">generate_upgrade</span><span class="p">(</span><span class="n">difficulty</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]):</span>
+        <span class="n">upgrade</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;charge&#39;</span><span class="p">,</span> <span class="n">difficulty</span><span class="p">,</span> <span class="n">difficulty</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]):</span>
+        <span class="n">upgrade</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;battery&#39;</span><span class="p">,</span> <span class="n">difficulty</span><span class="p">,</span> <span class="n">difficulty</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]):</span>
+        <span class="n">upgrade</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;attack&#39;</span><span class="p">,</span> <span class="n">difficulty</span><span class="p">,</span> <span class="n">difficulty</span><span class="p">,</span> <span class="n">difficulty</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">upgrade</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;defense&#39;</span><span class="p">,</span> <span class="n">difficulty</span><span class="p">,</span> <span class="n">difficulty</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">upgrade</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, emsenn.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.0.4',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
