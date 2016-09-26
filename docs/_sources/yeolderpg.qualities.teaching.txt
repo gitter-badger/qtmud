@@ -1,7 +1,0 @@
-yeolderpg.qualities.teaching module
-===================================
-
-.. automodule:: yeolderpg.qualities.teaching
-    :members:
-    :undoc-members:
-    :show-inheritance:

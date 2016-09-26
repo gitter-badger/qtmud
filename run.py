@@ -1,31 +1,23 @@
 #!/usr/bin/python3
 """ qtmud startup script
-
-    .. versionadded:: 0.0.1
 """
 
 
 import qtmud
-from qtmud.services import mudsocket
-import mudlib
-
+from mudlib import starhopper
 
 if __name__ == '__main__':
-    qtmud.log.info('loading core services')
-    qtmud.services.loaded.extend([mudsocket])
-    qtmud.log.info('adding subscriptions')
-    for sub in qtmud.subscriptions:
-        qtmud.subscribe(sub)
-    qtmud.log.info('binding mudsocket')
-    if qtmud.services.mudsocket.bind(('localhost', 5787)):
-        qtmud.log.info('running qtmud.services.tick() until interrupt')
+    qtmud.start()
+    if qtmud.active_services[qtmud.services.MUDSocket].bind(('localhost',
+                                                             5787)):
+        qtmud.log.info('bound mudsocket')
+        starhopper.start()
         try:
             while True:
-                qtmud.services.tick()
-        except KeyboardInterrupt as err:
-            qtmud.log.critical('keyboard interrupt received, shutting down')
+                qtmud.tick()
+        except KeyboardInterrupt:
+            qtmud.log.critical('keyboard interrupt, shutting down')
             exit()
     else:
-        qtmud.log.error('failed to bind')
-        qtmud.log.critical('fatal, shutting down')
+        qtmud.log.critical('failed to bind, shutting down')
         exit()

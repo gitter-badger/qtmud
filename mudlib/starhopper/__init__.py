@@ -2,47 +2,47 @@
 
     .. versionadded:: 0.0.4
 
-    Starhopper is the first MUD library (mudlib) produced using qtmud. A simple
-    action adventure game, Starhopper works best when played as a session-based
-    game with a few friends.
+    Starhopper is the first MUD library (mudlib) produced using qtmud.
 
-    Attributes:
-        START_LOCATION(object):     first system, where new players start.
-        startup_services(None):     required by qtmud
+    In Starhopper, new players awake as starship captains, part of a scattered
+    fleet fleeing from their homeland to a new world.
+
+    As you get closer to New Earth, the challenges you will lead your crew
+    through get harder.
 """
+
+
+import pickle
+from inspect import getmembers, isfunction
 
 
 import qtmud
 from mudlib.starhopper import builders, subscriptions, txt
 
-SPLASH=txt.SPLASH
-START_LOCATION = builders.build_system()
-qtmud.subscriptions.update([subscriptions.alert, subscriptions.attack,
-                            subscriptions.death, subscriptions.hop,
-                            subscriptions.salvage, subscriptions.scan_planet,
-                            subscriptions.scan_ship, subscriptions.scan_star,
-                            subscriptions.scan_system,
-                            subscriptions.scan_wreck, subscriptions.upgrade])
+
+NAME = "STARHOPPER"
+SPLASH = txt.SPLASH
+START_SYSTEM = None
+END_SYSTEM = None
+accounts = {}
 players = []
 
 
 
 
-
-
-def add_client(client):
-    """ turn a client into a starship """
-    qtmud.log.debug('%s is entering STARHOPPER', client.name)
-    player = client
-    player = builders.build_ship(player)
-    players.append(player)
-    qtmud.schedule('hop',
-                   ship=player,
-                   destination=START_LOCATION)
-    return player
-
-
-def remove_client(client):
-    if hasattr(client, 'local_system'):
-        client.local_system.ships.remove(client)
-    return True
+def start():
+    global accounts
+    global START_SYSTEM
+    global END_SYSTEM
+    qtmud.subscribers.update({s[1].__name__: [s[1]] for s
+                              in getmembers(subscriptions) if isfunction(s[1])})
+    try:
+        accounts = pickle.load(open("./data/starhopper_accounts.p", 'rb'))
+    except FileNotFoundError:
+        qtmud.log.debug('no save file found')
+        qtmud.schedule('save')
+    qtmud.log.info('starhopper start()ed')
+    START_SYSTEM = builders.build_system()
+    qtmud.log.info('starhopper.START_SYSTEM is %s', START_SYSTEM.name)
+    END_SYSTEM = builders.generate_system_name()
+    qtmud.log.info('starhopper.END_SYSTEM is going to be %s', END_SYSTEM)

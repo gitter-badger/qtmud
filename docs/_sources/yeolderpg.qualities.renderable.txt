@@ -1,7 +1,0 @@
-yeolderpg.qualities.renderable module
-=====================================
-
-.. automodule:: yeolderpg.qualities.renderable
-    :members:
-    :undoc-members:
-    :show-inheritance:

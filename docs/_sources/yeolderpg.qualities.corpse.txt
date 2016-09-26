@@ -1,7 +1,0 @@
-yeolderpg.qualities.corpse module
-=================================
-
-.. automodule:: yeolderpg.qualities.corpse
-    :members:
-    :undoc-members:
-    :show-inheritance:

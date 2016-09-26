@@ -1,63 +1,67 @@
-""" qtmud core methods & Thing
-
-    .. versionadded 0.0.4
-
-    .. warning:: Do not rely on this API! I'm a newbie programmer and changing
-                 things all the time.
-
-    Methods for handling the schedule, instancing Things, and looking those
-    things back up.
-
-    Attributes:
-        NAME(str):                      name of the MUD engine
-        VERSION(str):                   version of the MUD engine
-        SPLASH_LINES(list):             funny lines that go under the version
-                                        number
-        SPLASH(str):                    the text clients see when they connect
-        log(object):                    handles logging for qtmud
-        events(dict):                   things that are going to happen next
-                                        tick()
-        things(dict):                   all the things made through new_thing()
-        subscriptions(set):             every method that wants to subscribe
-        loaded_subscriptions(dict):     every method that has been subscribed
+""" The main qtmud module houses some constants, the Thing class, and methods
+    for start()ing and tick()ing the MUD engine.
 """
 
 import logging
-import random
 import uuid
+from inspect import getmembers, isfunction, isclass
+from qtmud import services, subscriptions, txt
 
 
 NAME = 'qtmud'
+""" Name of the MUD engine. """
 VERSION = '0.0.3'
-SPLASH_LINES = open('./.splash_lines').read().splitlines()
-SPLASH = ('{}\nversion {}\n     {}\n'.format(NAME,
-                                             VERSION,
-                                             random.choice(SPLASH_LINES)))
+""" MUD engine version """
+SPLASH = txt.SPLASH.format(**locals())
+""" Text new clients see, filled out from :attr:`txt.SPLASH`"""
 
 
-# Currently set up to record all logging to debug.log, with only INFO
-# and higher priority messages going to console.
+events = dict()
+""" events scheduled to occur next tick, populated by :func:`schedule`"""
+things = dict()
+""" all the things that new_thing() has made"""
+subscribers = dict()
+""" methods registered as qtmud events """
+active_services = dict()
+""" services to be tick()ed """
+
+
 logging.basicConfig(filename='debug.log', filemode='w',
                     format='%(asctime)s %(name)-12s %(levelname)-8s '
                            '%(message)s',
                     datefmt='%m-%d %H:%M',
                     level=logging.DEBUG)
-CONSOLE = logging.StreamHandler()
-# Change this to logging.DEBUG if you want everything on the console.
-CONSOLE.setLevel(logging.INFO)
-CONSOLE.setFormatter(logging.Formatter('%(name)-12s %(levelname)-8s '
-                                       '%(message)s'))
-log = logging.getLogger('qtmud')
-log.addHandler(CONSOLE)
+console = logging.StreamHandler()
+console.setLevel(logging.INFO)
+console.setFormatter(
+    logging.Formatter('%(name)-12s %(levelname)-8s %(message)s'))
+log = logging.getLogger(NAME)
+""" An instance of :class:`logging.Logger`"""
+log.addHandler(console)
 
 
-events = dict()
-things = dict()
-subscriptions = set()
-loaded_subscriptions = dict()
+def start():
+    """ Most importantly, loads every function from
+    :mod:`qtmud.subscriptions` and every class from :mod:`qtmud.services`
+    into :attr:`subscribers` and :attr:`active_services`, respectively.
+
+    Also sets up
+    """
+    global subscribers
+    global active_services
+    global log
+    global console
+    subscribers = {s[1].__name__: [s[1]] for
+                    s in getmembers(subscriptions) if isfunction(s[1])}
+    active_services = {t[1]: t[1]() for
+                        t in getmembers(services) if isclass(t[1])}
 
 
 def new_thing():
+    """ Creates a new thing with an identity from :func:`uuid.uuid4()`, and
+    adds its identity as a key to :attr:`qtmud.things` with the thing itself
+    as the value.
+    """
     while True:
         identity = uuid.uuid4()
         if identity not in things.keys():
@@ -68,7 +72,7 @@ def new_thing():
 
 
 def schedule(sub, **payload):
-    for method in loaded_subscriptions.get(sub, []):
+    for method in subscribers.get(sub, []):
         if method not in events:
             events[method] = []
         events[method].append(payload)
@@ -105,20 +109,36 @@ def search_by_noun(reference, adjectives, search_noun):
     return matches
 
 
-def subscribe(*methods):
-    for method in methods:
-        name = method.__name__
-        if name not in loaded_subscriptions:
-            loaded_subscriptions[name] = []
-        loaded_subscriptions[name].append(method)
+def tick():
+    global events
+    if events:
+        current_events = events
+        events = dict()
+        for event in current_events:
+            for call in current_events[event]:
+                event(**call)
+    for service in active_services:
+        active_services[service].tick()
     return True
 
 
 class Thing(object):
+    """ Most objects clients interact with are Things
+
+        :param identity: a UUID as created by :func:`uuid.uuid4()`
+
+        Created with :func:`new_thing`, things are objects with a few
+        attributes added on, mostly for enabling in-game reference of the
+        objects.
+    """
     def __init__(self, identity):
         self._name = str()
         self.identity = identity
+        """ Passed by :func:`new_thing`, `identity` is stored as a UUID """
         self.nouns = {'thing'}
+        """ `nouns` represent lower-case nouns which may be used to reference
+            the thing.
+        """
         self.name = str(identity)
         self.adjectives = set()
         self.qualities = []
@@ -126,6 +146,14 @@ class Thing(object):
 
     @property
     def name(self):
+        """ Properly-cased full name of a thing
+            Any name a thing is given is also added to :attr:`Thing.nouns`,
+            with the old name being removed. Same for adjectives.
+
+            .. warning:: This has some wonkiness, in that "Eric Baez" can be
+                         referred to as "Eric Baez" or "Baez" but not "Eric".
+                         "Eric Thing" would work, though.
+        """
         return self._name
 
     @name.setter
@@ -151,7 +179,7 @@ class Thing(object):
         self.nouns.add(new_name[-1])
         self._name = value
 
-    def update(self, to_update):
-        for attribute, value in to_update.items():
+    def update(self, attributes):
+        for attribute, value in attributes.items():
             self.__dict__[attribute] = value
         return True

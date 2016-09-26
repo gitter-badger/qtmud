@@ -1,7 +1,0 @@
-starhopper.builders module
-==========================
-
-.. automodule:: starhopper.builders
-    :members:
-    :undoc-members:
-    :show-inheritance:
