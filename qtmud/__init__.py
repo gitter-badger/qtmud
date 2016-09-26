@@ -10,7 +10,7 @@ from qtmud import services, subscriptions, txt
 
 NAME = 'qtmud'
 """ Name of the MUD engine. """
-VERSION = '0.0.3'
+VERSION = '0.0.4'
 """ MUD engine version """
 SPLASH = txt.SPLASH.format(**locals())
 """ Text new clients see, filled out from :attr:`txt.SPLASH`"""
