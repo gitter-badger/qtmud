@@ -1,7 +1,5 @@
 #!/usr/bin/python3
 """ qtmud startup script
-
-    .. versionadded:: 0.0.1
 """
 
 
@@ -9,8 +7,11 @@ import qtmud
 from mudlib import starhopper
 
 if __name__ == '__main__':
+    qtmud.start()
     if qtmud.active_services[qtmud.services.MUDSocket].bind(('localhost',
                                                              5787)):
+        qtmud.log.info('bound mudsocket')
+        starhopper.start()
         try:
             while True:
                 qtmud.tick()

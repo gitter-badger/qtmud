@@ -1,12 +1,14 @@
 import qtmud
+from qtmud import builders
 from qtmud.services import MUDSocket
+
 
 def finger(fingerer, fingeree):
     mudsocket = qtmud.active_services[MUDSocket]
     line = fingeree.split(' ')
     if len(line) == 2:
         if line[1] in ['me', 'self']:
-            fingeree= fingerer
+            fingeree = fingerer
         else:
             for socket in mudsocket.clients:
                 client = mudsocket.clients[socket]
@@ -16,7 +18,7 @@ def finger(fingerer, fingeree):
         if not fingeree:
             output = 'No such thing'
         else:
-            mudsocket.build_finger(fingeree)
+            builders.generate_finger(fingeree)
     else:
         output = 'syntax: finger <thing>'
     qtmud.schedule('send',

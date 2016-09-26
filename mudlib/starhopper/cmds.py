@@ -6,8 +6,12 @@ from mudlib.starhopper import builders
 # TODO survey() planets
 
 def status(ship, line):
-    qtmud.schedule('scan_ship',scanner=ship, ship=ship)
+    qtmud.schedule('send', recipient=ship, text=builders.generate_status(ship))
     return True
+def christen(captain, line):
+    captain.ship.name = ' '.join(line.split(' ')[1:])
+    return True
+
 
 def scan(scanner, line):
     line = ' '.join(line.split(' ')[1:])
@@ -15,18 +19,19 @@ def scan(scanner, line):
     matches = []
     if not line:
         line = 'system'
-    if line in ['here', 'system', scanner.local_system.name.lower()]:
+    if line in ['here', 'system', scanner.ship.local_system.name.lower()]:
         qtmud.schedule('scan_system', scanner=scanner,
-                       system=scanner.local_system)
+                       system=scanner.ship.local_system)
         return True
     if line in ['me', 'myself', scanner.name.lower()]:
-        qtmud.schedule('scan_ship', scanner=scanner, ship=scanner)
+        qtmud.schedule('send', recipient=scanner.ship,
+                       text=builders.generate_status(scanner.ship))
         return True
     if line in ['star', 'sun']:
         qtmud.schedule('scan_star', scanner=scanner,
-                       star=scanner.local_system.sun)
+                       star=scanner.ship.local_system.sun)
         return True
-    for ship in scanner.local_system.ships:
+    for ship in scanner.ship.local_system.ships:
         if ship.name.lower() == line:
             matches.append(ship)
         elif line.split(' ')[-1] in ship.nouns:
@@ -34,15 +39,15 @@ def scan(scanner, line):
     if len(matches) == 1:
         qtmud.schedule('scan_ship',scanner=scanner, ship=ship)
         return True
-    for planet in scanner.local_system.planets:
+    for planet in scanner.ship.local_system.planets:
         if planet.name.lower() == line:
             matches.append(planet)
         elif line.split(' ')[-1] in planet.nouns:
             matches.append(planet)
     if len(matches) == 1:
-        qtmud.schedule('scan_planet', scanner=scanner, planet=planet)
+        qtmud.schedule('survey_planet', scanner=scanner, planet=planet)
         return True
-    for wreck in scanner.local_system.debris:
+    for wreck in scanner.ship.local_system.debris:
         if wreck.name.lower() == line:
             matches.append(wreck)
         elif line.split(' ')[-1] in wreck.nouns:
@@ -59,11 +64,14 @@ def scan(scanner, line):
     qtmud.schedule('send',
                    recipient=scanner,
                    text=output)
+    qtmud.schedule('alert',system=scanner.ship.local_system,
+                   ship=scanners.ship)
     return True
 
 
-def hop(ship, line):
+def hop(hopper, line):
     line = line.split(' ')[-1]
+    ship = hopper.ship
     if line in ['hop']:
         line = 'forward'
     if ship.local_system:
@@ -72,16 +80,20 @@ def hop(ship, line):
             destination = system.neighbors[line]
             output = 'You hop to {}'.format(destination.name)
         elif line in ['forward']:
-            output = 'You hop forward into the unknown!!!!'
             destination = builders.build_system(system.difficulty+1)
             system.neighbors['forward'] = destination
-            destination.neighbors['back'] = system
+            destination.neighbors['backward'] = system
+            output = ('You hop from {system.name} to {destination.name}, '
+                      'maintaining a protective warp bubble upon arrival. '
+                      '"scan" the system to gain your bearings, or keep '
+                      '"hop"ping forward to try and reach your '
+                      'ultimate destination.'.format(**locals()))
         else:
             output = 'You cannot hop there.'
             destination = None
         if destination:
             qtmud.schedule('hop', ship=ship, destination=destination)
-    qtmud.schedule('send', recipient=ship, text=output)
+    qtmud.schedule('send', recipient=hopper, text=output)
     return True
 
 
@@ -109,7 +121,8 @@ def radio(speaker, line):
     for recipient in starhopper.players:
         qtmud.schedule('send', recipient=recipient, text=output)
 
-def salvage(ship, line):
+def salvage(salvager, line):
+    ship = salvager.ship
     line = ' '.join(line.split(' ')[1:])
     output = None
     matches = []
@@ -133,9 +146,7 @@ def salvage(ship, line):
             output += '{}\n'.format(match.name)
     elif output is None:
         output = 'You cannot salvage that.'
-    qtmud.schedule('send',
-                   recipient=ship,
-                   text=output)
+    qtmud.schedule('send', recipient=ship, text=output)
 
 
 def buy(shopper, line):

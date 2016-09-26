@@ -1,7 +1,0 @@
-yeolderpg.qualities.physical module
-===================================
-
-.. automodule:: yeolderpg.qualities.physical
-    :members:
-    :undoc-members:
-    :show-inheritance:

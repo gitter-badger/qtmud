@@ -1,7 +1,0 @@
-starhopper.subscriptions module
-===============================
-
-.. automodule:: starhopper.subscriptions
-    :members:
-    :undoc-members:
-    :show-inheritance:

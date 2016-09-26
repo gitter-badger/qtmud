@@ -1,7 +1,0 @@
-yeolderpg.services.noisemaker module
-====================================
-
-.. automodule:: yeolderpg.services.noisemaker
-    :members:
-    :undoc-members:
-    :show-inheritance:

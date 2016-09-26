@@ -1,12 +1,5 @@
-""" qtmud core methods & Thing
-
-    .. versionadded 0.0.4
-
-    .. warning:: Do not rely on this API! I'm a newbie programmer and changing
-                 things all the time.
-
-    Methods for handling the schedule, instancing Things, and looking those
-    things back up.
+""" The main qtmud module houses some constants, the Thing class, and methods
+    for start()ing and tick()ing the MUD engine.
 """
 
 import logging
@@ -14,49 +7,61 @@ import uuid
 from inspect import getmembers, isfunction, isclass
 from qtmud import services, subscriptions, txt
 
+
 NAME = 'qtmud'
 """ Name of the MUD engine. """
-
-
 VERSION = '0.0.3'
 """ MUD engine version """
-
-
 SPLASH = txt.SPLASH.format(**locals())
+""" Text new clients see, filled out from :attr:`txt.SPLASH`"""
+
 
 events = dict()
-""" events scheduled to occur next tick"""
-
-
+""" events scheduled to occur next tick, populated by :func:`schedule`"""
 things = dict()
 """ all the things that new_thing() has made"""
-
-
-subscribers = dict({s[1].__name__: [s[1]] for
-                    s in getmembers(subscriptions) if isfunction(s[1])})
+subscribers = dict()
 """ methods registered as qtmud events """
-active_services = dict({t[1]: t[1]() for
-                        t in getmembers(services) if isclass(t[1])})
+active_services = dict()
 """ services to be tick()ed """
 
 
-# Currently set up to record all logging to debug.log, with only INFO
-# and higher priority messages going to console.
 logging.basicConfig(filename='debug.log', filemode='w',
                     format='%(asctime)s %(name)-12s %(levelname)-8s '
                            '%(message)s',
                     datefmt='%m-%d %H:%M',
                     level=logging.DEBUG)
-CONSOLE = logging.StreamHandler()
-# Change this to logging.DEBUG if you want everything on the console.
-CONSOLE.setLevel(logging.INFO)
-CONSOLE.setFormatter(logging.Formatter('%(name)-12s %(levelname)-8s %(message)s'))
-log = logging.getLogger('qtmud')
-""" qtmud's logging handler, see :mod:`logging.Logger`. """
-log.addHandler(CONSOLE)
+console = logging.StreamHandler()
+console.setLevel(logging.INFO)
+console.setFormatter(
+    logging.Formatter('%(name)-12s %(levelname)-8s %(message)s'))
+log = logging.getLogger(NAME)
+""" An instance of :class:`logging.Logger`"""
+log.addHandler(console)
+
+
+def start():
+    """ Most importantly, loads every function from
+    :mod:`qtmud.subscriptions` and every class from :mod:`qtmud.services`
+    into :attr:`subscribers` and :attr:`active_services`, respectively.
+
+    Also sets up
+    """
+    global subscribers
+    global active_services
+    global log
+    global console
+    subscribers = {s[1].__name__: [s[1]] for
+                    s in getmembers(subscriptions) if isfunction(s[1])}
+    active_services = {t[1]: t[1]() for
+                        t in getmembers(services) if isclass(t[1])}
 
 
 def new_thing():
+    """ Creates a new thing with an identity from :func:`uuid.uuid4()`, and
+    adds its identity as a key to :attr:`qtmud.things` with the thing itself
+    as the value.
+    """
     while True:
         identity = uuid.uuid4()
         if identity not in things.keys():
@@ -118,10 +123,22 @@ def tick():
 
 
 class Thing(object):
+    """ Most objects clients interact with are Things
+
+        :param identity: a UUID as created by :func:`uuid.uuid4()`
+
+        Created with :func:`new_thing`, things are objects with a few
+        attributes added on, mostly for enabling in-game reference of the
+        objects.
+    """
     def __init__(self, identity):
         self._name = str()
         self.identity = identity
+        """ Passed by :func:`new_thing`, `identity` is stored as a UUID """
         self.nouns = {'thing'}
+        """ `nouns` represent lower-case nouns which may be used to reference
+            the thing.
+        """
         self.name = str(identity)
         self.adjectives = set()
         self.qualities = []
@@ -129,6 +146,14 @@ class Thing(object):
 
     @property
     def name(self):
+        """ Properly-cased full name of a thing
+            Any name a thing is given is also added to :attr:`Thing.nouns`,
+            with the old name being removed. Same for adjectives.
+
+            .. warning:: This has some wonkiness, in that "Eric Baez" can be
+                         referred to as "Eric Baez" or "Baez" but not "Eric".
+                         "Eric Thing" would work, though.
+        """
         return self._name
 
     @name.setter

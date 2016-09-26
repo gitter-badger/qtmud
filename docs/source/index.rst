@@ -23,7 +23,7 @@ relevant source code:
     handle the interaction of of :class:`things <qtmud.Thing>` which
     :mod:`builders <qtmud.builders>` have built into game objects.
 
-MUD libaries (or mudlibs) are built around this framework. :mod:`Starhopper
+MUD libaries (or mudlibs) are built around this framework. :doc:`Starhopper
 <starhopper>` is the first mudlib built for qtmud, and it demonstrates how
 one might use qtmud to develop your own game.
 
@@ -36,21 +36,19 @@ The best way to get qtmud is to `clone the repository
 `GitHub <https://github.com/emsenn/qtmud>`_.
 
 
+Configure qtmud
+===============
+
+
 Run qtmud
 =========
-
-Once you have a copy of qtmud locally, running it as simple as executing
-./run.py.
-
-It'll start up the core qtmud functions, and then load whichever mudlib is
-imported.
 
 
 Login
 =====
 
 Once qtmud is up and running, you can login through your favorite MUD client.
-I recommend tinyfugue. Or, simply `telnet localhost 5787`
+I recommend tinyfugue. Or, simply `telnet localhost 5787`.
 
 
 Module Index

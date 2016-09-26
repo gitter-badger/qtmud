@@ -1,6 +1,6 @@
 import random
 import hashlib
-
+import pickle
 
 import qtmud
 
@@ -9,28 +9,31 @@ from mudlib import starhopper
 from mudlib.starhopper import builders, txt
 
 
-def alert(ship, incoming):
-    output = ['', '']
-    if random.choice([True, False]):
-        output[0] += 'You notice {} enter the system'.format(incoming.name)
-        if hasattr(ship, 'aggressive') and ship.aggressive:
-            output[1] += '{} notices your presence.\n'.format(ship.name)
-            if random.choice([True, False, False]):
-                output[1] += 'They decide to attack!'
-                qtmud.schedule('attack', attacker=ship, defender=incoming)
-            else:
-                output[1] += 'They leave you alone.'
+def alert(system, ship):
+    output = ['', 'You were briefly out of warp.']
+    # TODO replace with skill check
+    for alerted in system.ships:
+        if not alerted == ship:
+            if random.choice([True, False]):
+                output[0] += 'You notice {} enter the system'.format(ship.name)
+                if hasattr(alerted, 'aggressive') and ship.aggressive:
+                    output[1] += '{} notices your presence.\n'.format(ship.name)
+                    if random.choice([True, False, False]):
+                        output[1] += 'They decide to attack!'
+                        qtmud.schedule('attack', attacker=ship, defender=ship)
+                    else:
+                        output[1] += 'They leave you alone.'
     if output[0]:
-        qtmud.schedule('send', recipient=ship,text=output[0])
+        qtmud.schedule('send', recipient=alerted,text=output[0])
     if output[1]:
-        qtmud.schedule('send', recipient=incoming, text=output[1])
+        qtmud.schedule('send', recipient=ship, text=output[1])
     return True
 
 
 def score(ship, points=1):
     ship.score += points
-    if ship.name in starhopper.player_accounts.keys():
-        starhopper.player_accounts[ship.name]['score'] = ship.score
+    if ship.name in starhopper.accounts.keys():
+        starhopper.accounts[ship.name]['score'] = ship.score
         qtmud.schedule('save')
     return True
 
@@ -75,20 +78,24 @@ def client_login(client, line):
         client.login_stage = 0
         output = txt.SPLASH
     elif client.login_stage == 0:
-        if line in starhopper.player_accounts.keys():
+        if line in starhopper.accounts.keys():
             output = 'returning player. password?'
-            client.name = line
+            client.captain_name = line
             client.login_stage = 2
-        else:
+        # TODO better name validity checks
+        elif line:
             output = 'new player. password?'
-            client.name = line
+            client.captain_name = line
             client.login_stage = 1
+        else:
+            output = 'your name can\'t be blank, input [desired] captain name'
     elif client.login_stage == 1:
-        starhopper.player_accounts[client.name] = {'password' : line,
-                                                   'score' : 0}
+        starhopper.accounts[client.captain_name] = {'password' : line,
+                                                    'score' : 0}
+        output = 'press enter to complete login'
         client.login_stage = 9
     elif client.login_stage == 2:
-        password = starhopper.player_accounts[client.name]['password']
+        password = starhopper.accounts[client.captain_name]['password']
         if line == password:
             client.login_stage = 9
             output = 'press enter to complete login'
@@ -96,11 +103,18 @@ def client_login(client, line):
             client.login_stage = 0
             output = 'wrong password. input [desired] captain name.'
     elif client.login_stage == 9:
-        client = builders.build_ship(client)
-        starhopper.players.append(client)
+        qtmud.log.info('Captain %s has logged in and is controlling %s',
+                       client.captain_name,
+                       client.name)
+        captain = builders.build_captain(client)
+        captain.ship = builders.build_ship()
+        captain.backstory = builders.generate_backstory(captain.ship)
+        starhopper.players.append(captain)
         qtmud.active_services[MUDSocket].logging_in.remove(client)
         qtmud.schedule('save')
-        qtmud.schedule('hop', ship=client, destination=starhopper.START_SYSTEM)
+        output = txt.PLAYER_LOGIN.format(**locals())
+        qtmud.schedule('hop', ship=captain.ship,
+                       destination=starhopper.START_SYSTEM)
     if output:
         qtmud.schedule('send', recipient=client, text=output)
     return True
@@ -135,10 +149,6 @@ def hop(ship, destination=None):
     for nearby_ship in destination.ships:
         if nearby_ship != ship:
             qtmud.schedule('alert', ship=nearby_ship, incoming=ship)
-    _name = '{{0: <{}}}'.format((15-len(destination.name)))
-    _name = _name.format(destination.name)
-    qtmud.schedule('send', recipient=ship, text=(txt.ASCII_HOP.format(_name)))
-    qtmud.schedule('scan_system', scanner=ship, system=destination)
     return True
 
 
@@ -160,18 +170,18 @@ def salvage(salvager, wreck):
     qtmud.schedule('send', recipient=salvager, text=output)
     return True
 
-
 def save():
-    starhopper.save()
+    pickle.dump(starhopper.accounts,
+                open("./data/starhopper_accounts.p", 'wb'))
+    qtmud.log.debug('saving starhopper player_accounts')
     return True
 
-def scan_planet(scanner, planet):
-    output = '    {}'.format(planet.identity)
-    output += '... scanning the surface of {} ...\n'.format(planet.name)
-    output += '{} is a {} klass planet.'.format(planet.name,
-                                                planet.klass)
-    output += '    {}'.format(planet.identity)
-    qtmud.schedule('send', recipient=scanner, text=output)
+def survey_planet(scanner, planet):
+    output = 'You break from warp, doing a fly-by survey of {planet.name}]\n'
+    #qtmud.schedule('alert', system=scanner.local_system, ship=scanner)
+    qtmud.schedule('send', recipient=scanner,
+                   text=(output.format(**locals()) +
+                         builders.generate_survey(planet)))
     return True
 
 
@@ -203,45 +213,25 @@ def scan_star(scanner, star):
 
 
 def scan_system(scanner, system):
-    output =  ('... preparing to drop out of warp...\n'
-               '...warp broken!! ...scanning {0}.. .\n'.format(system.name))
-
-    if hasattr(system, 'difficulty'):
-        output += 'This is a {} difficulty system.\n'.format(system.difficulty)
-    if hasattr(system, 'sun'):
-        output += 'It has a {} class sun\n'.format(system.sun.klass)
-    if hasattr(system, 'planets'):
-        output += ('There are {} planets in orbit around it.\n'
-                   ''.format(len(system.planets)))
-    if hasattr(system, 'ships'):
-        output += ('Your scanner picks up {} ships.\n'
-                   ''.format(len(system.ships)))
-        for ship in system.ships:
-            output += '    {}\n'.format(ship.name)
-    if hasattr(system, 'station'):
-        output += ('There\'s a station here! You can "shop" for upgrades.\n')
-    if hasattr(system, 'adjacent'):
-        directions = len(system.adjacent.keys())
-        if directions == 0:
-            output += ('You\'re at the start of the universe!\n'
-                       '"hop forward" into the unknown!\n')
-        elif directions == 1:
-            output += ('You\'re at the end of the universe!\n'
-                       '"hop backward" to go to safer space -or-\n'
-                       '"hop forward" into the unknown!\n')
-        else:
-            output += 'Here\'s where you can hop:\n'
-            for direction in system.adjacent:
-                output += '     {}\n'.format(direction)
-    if hasattr(system, 'debris'):
-        debris = system.debris
-        if len(debris) > 0:
-            output += 'There\'s some wrecks here:\n'
-            for wreck in debris:
-                output += '{}\n'.format(wreck.name)
-
-    output += '    {}\n'.format(system.identity)
+    planet_count = len(system.planets)
+    ship_count = len(system.ships)
+    exit_count = len(system.neighbors)
+    if exit_count == 1 and 'backward' in system.neighbors:
+        exit_text = ('You\re at the edge of charted space. Hop backward to '
+                     'safety, or hop forward into the unknown. ')
+    elif exit_count == 2:
+        exit_text = 'You can hop backward or hop forward from here. '
+    else:
+        exit_text = ('You\'re at the start of your journey, and can only hop '
+                     'forward from here. ')
+    output = ('Breaking warp bubble for system scan...\n'
+              'This is the {system.identity} system, or {system.name}. It has '
+              'a {system.star.klass[0]}{system.star.klass[1]} klass sun and '
+              '{planet_count} planets in orbit around it. {exit_text}'
+              'There are {ship_count} ship(s) flying around.'
+              ''.format(**locals()))
     qtmud.schedule('send', recipient=scanner, text=output)
+    qtmud.schedule('alert', system=system, ship=scanner)
     return True
 
 

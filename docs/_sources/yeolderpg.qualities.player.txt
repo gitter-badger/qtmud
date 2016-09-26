@@ -1,7 +1,0 @@
-yeolderpg.qualities.player module
-=================================
-
-.. automodule:: yeolderpg.qualities.player
-    :members:
-    :undoc-members:
-    :show-inheritance:

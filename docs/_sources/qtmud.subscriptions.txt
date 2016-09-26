@@ -1,7 +1,0 @@
-qtmud.subscriptions module
-==========================
-
-.. automodule:: qtmud.subscriptions
-    :members:
-    :undoc-members:
-    :show-inheritance:
