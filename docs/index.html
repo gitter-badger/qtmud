@@ -82,8 +82,13 @@
                 <!-- Local TOC -->
                 <div class="local-toc"><ul>
 <li><a class="reference internal" href="#">qtMUD</a><ul>
-<li><a class="reference internal" href="#getting-started">Getting Started</a><ul>
-<li><a class="reference internal" href="#download-qtmud">Download qtmud</a></li>
+<li><a class="reference internal" href="#a-brief-history-of-muds">A Brief History of MUDs</a><ul>
+<li><a class="reference internal" href="#or-why-qtmud">or Why qtMUD?</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#how-it-works">How it Works</a></li>
+<li><a class="reference internal" href="#download-qtmud">Download qtMUD</a><ul>
+<li><a class="reference internal" href="#id1">Download qtmud</a></li>
 <li><a class="reference internal" href="#run-qtmud">Run qtMUD</a></li>
 <li><a class="reference internal" href="#pick-mudlib">Pick mudlib</a></li>
 </ul>
@@ -137,26 +142,56 @@
             
   <div class="section" id="qtmud">
 <h1>qtMUD<a class="headerlink" href="#qtmud" title="Permalink to this headline">¶</a></h1>
-<p>qtMUD is a Python package for managing a multi-user dimension, or MUD, written
-by emsenn and released under the WTF license.</p>
-<p>Players receive verbose text descriptions of their environments and the
-activity around them, and interact by typing out commands for what they wish
-to do, such as <code class="docutils literal"><span class="pre">survey</span> <span class="pre">planet</span></code> or <code class="docutils literal"><span class="pre">fight</span> <span class="pre">dragon</span></code>.</p>
+<p>qtMUD is a Python package for developing and managing a multi-user dimension,
+or <a class="reference internal" href="qtmud.html#term-mud"><span class="xref std std-term">MUD</span></a> , written by <a class="reference external" href="https://github.com/emsenn/">emsenn</a>
+and released under the <a class="reference external" href="http://www.wtfpl.com">WTFPL</a>.</p>
+<p>In MUDs, players receive verbose text descriptions of their environments and
+the activity around them, and interact by typing out commands for what they
+wish to do, such as <code class="docutils literal"><span class="pre">survey</span> <span class="pre">planet</span></code> or <code class="docutils literal"><span class="pre">fight</span> <span class="pre">dragon</span></code>.</p>
+<p>By providing a clearly documented API focused on granular module design,
+qtMUD is built to be the non-programmer&#8217;s way to create and run a MUD.</p>
+<div class="toctree-wrapper compound">
+</div>
+<div class="section" id="a-brief-history-of-muds">
+<h2>A Brief History of MUDs<a class="headerlink" href="#a-brief-history-of-muds" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="or-why-qtmud">
+<h3>or Why qtMUD?<a class="headerlink" href="#or-why-qtmud" title="Permalink to this headline">¶</a></h3>
+<p>Thanks to their text-driven format, MUDs are one of the oldest multiplayer
+formats on the Internet. You can get a detailed history on <a class="reference external" href="https://www.wikiwand.com/en/MUD">Wikipedia</a>, but the important takeaway is that MUDs
+are old - and not just MUDs as a genre, but many individual MUDs.</p>
+<p>This age cultivated the same systemic problems any older project might have.
+Documentation is sparse, there are a dozen ways to do a simple task, and so
+on. These problems are especially severe for many MUDs, as they recruit
+developers from within their player-base, who frequently aren&#8217;t developers
+themselves.</p>
+<p>With these problems, it can be exceptionally difficult to develop your own
+MUD, or even use another person&#8217;s as a starting point. There are more modern
+MUD engines out there which address many of these problems, however they
+still assume the person running the MUD has some sort of familiarity with
+programming.</p>
+<p>qtMUD is designed to cater to that niche - people who want to run a MUD but
+who have no prior programming experience. Maybe you&#8217;re a big fan of table-top
+RPGs, and want to set up a way for your friends across the world to go
+through a campaign. Maybe you want a chat service for friends that also lets
+you play a card game.</p>
+</div>
+</div>
+<div class="section" id="how-it-works">
+<h2>How it Works<a class="headerlink" href="#how-it-works" title="Permalink to this headline">¶</a></h2>
 <p>The game uses a series of <a class="reference internal" href="qtmud.html#qtmud.tick" title="qtmud.tick"><code class="xref py py-func docutils literal"><span class="pre">tick()s</span></code></a> to broadcast messages
 to <a class="reference internal" href="qtmud.html#module-qtmud.subscriptions" title="qtmud.subscriptions"><code class="xref py py-mod docutils literal"><span class="pre">subscriptions</span></code></a> and <code class="xref py py-mod docutils literal"><span class="pre">services</span>
 <span class="pre">qtmud.services&gt;</span></code>. Most subscribers and services handle the interaction of
 <a class="reference internal" href="qtmud.html#qtmud.Thing" title="qtmud.Thing"><code class="xref py py-class docutils literal"><span class="pre">things</span></code></a> which <a class="reference internal" href="qtmud.html#module-qtmud.builders" title="qtmud.builders"><code class="xref py py-mod docutils literal"><span class="pre">builders</span></code></a> have built
 into game objects.</p>
-<p>MUD libraries (or <a class="reference internal" href="qtmud.html#term-mudlib"><span class="xref std std-term">mudlibs</span></a>) build on this framework to create
-full games.</p>
-<div class="section" id="getting-started">
-<h2>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="download-qtmud">
+<h2>Download qtMUD<a class="headerlink" href="#download-qtmud" title="Permalink to this headline">¶</a></h2>
 <p>To be clear, qtMUD is the game <em>engine</em>, not any game itself. If you&#8217;re
 interested in getting started with any of the bundled mudlibs, check out the
 documentation for <a class="reference internal" href="starhopper.html"><span class="doc">Starhopper</span></a> or
 <a class="reference internal" href="yeolderpg.html"><span class="doc">Yeolde RPG</span></a>.</p>
-<div class="section" id="download-qtmud">
-<h3>Download qtmud<a class="headerlink" href="#download-qtmud" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id1">
+<h3>Download qtmud<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <p>The best way to get qtmud is to <a class="reference external" href="https://help.github.com/articles/cloning-a-repository/">clone the repository</a> that we host on
 <a class="reference external" href="https://github.com/emsenn/qtmud">GitHub</a>.</p>
 </div>

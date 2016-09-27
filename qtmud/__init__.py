@@ -101,19 +101,16 @@ def load():
     subscribers = {s[1].__name__: [s[1]] for
                     s in getmembers(subscriptions) if isfunction(s[1])}
     log.info('adding qtmud.services to qtmud.active_services')
-    active_services = {t[1]: t[1]() for
+    active_services = {t[1].__name__.lower(): t[1]() for
                         t in getmembers(services) if isclass(t[1])}
     log.info('start()ing active services')
     for service in active_services:
         if active_services[service].start():
-            log.info('%s start()ed', service.__name__)
+            log.info('%s start()ed', service)
             pass
         else:
-            log.warning('%s failed to start()', service.__name__)
+            log.warning('%s failed to start()', service)
     log.info('qtmud.load()ed')
-    log.debug('subscribers are: %s', ', '.join(subscribers))
-    log.debug('services are: %s',
-              ', '.join([s.__name__ for s in active_services]))
     #####
     #
     # load mudlib
@@ -139,6 +136,11 @@ def load():
         pass
     else:
         log.warning('client_accounts failed to load')
+    log.debug('qtmud.load() finished, subscribers and active_services to '
+              'follow.')
+    log.debug('subscribers are: %s', ', '.join(subscribers))
+    log.debug('active_services are: %s',
+              ', '.join([s for s in active_services]))
     return True
 
 def load_client_accounts(file=CLIENT_ACCOUNT_FILE):
@@ -147,8 +149,7 @@ def load_client_accounts(file=CLIENT_ACCOUNT_FILE):
     global client_accounts
     log.debug('filling qtmud.client_accounts from %s', file)
     try:
-        client_accounts = pickle.load(open(file,
-                                           'rb'))
+        client_accounts = pickle.load(open(file, 'rb'))
         log.debug('qtmud.client_accounts filled from %s', file)
         return True
     except FileNotFoundError:

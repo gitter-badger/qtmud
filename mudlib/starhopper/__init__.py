@@ -1,17 +1,3 @@
-""" STARHOPPER
-
-    .. versionadded:: 0.0.4
-
-    Starhopper is the first MUD library (mudlib) produced using qtmud.
-
-    In Starhopper, new players awake as starship captains, part of a scattered
-    fleet fleeing from their homeland to a new world.
-
-    As you get closer to New Earth, the challenges you will lead your crew
-    through get harder.
-"""
-
-
 import pickle
 from inspect import getmembers, isfunction
 

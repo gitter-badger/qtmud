@@ -1,6 +1,9 @@
 yeolderpg package
 =================
 
+.. warning:: THIS IS ALL OUTDATED AND WONT WORK JUST GO AWAY.
+
+
 Subpackages
 -----------
 

@@ -17,16 +17,37 @@ def generate_finger(fingeree):
     return finger
 
 
-def build_client(basis=None):
-    if not basis:
+def build_client(thing=None):
+    #####
+    #
+    # make a client thing
+    #
+    #####
+    if not thing:
         client = qtmud.new_thing()
     else:
-        client = basis
+        client = thing
+    #####
+    #
+    # add commands to the client
+    #
+    #####
     client.commands = dict()
     for command, function in [m for m in getmembers(cmds) if isfunction(m[1])]:
         client.commands[command] = types.MethodType(function, client)
+    #####
+    #
+    # add aliases
+    #
+    #####
     client.input_parser = 'client_command_parser'
+    #####
+    #
+    # address, send_buffer, recv_buffer
+    #
+    #####
     client.addr = tuple()
     client.send_buffer = str()
     client.recv_buffer = str()
+    client.channels = list()
     return client

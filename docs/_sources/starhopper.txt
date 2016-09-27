@@ -1,13 +1,17 @@
 starhopper package
-==================
+##################
 
 Starhopper is the first :term:`mudlib` built for :doc:`qtmud`.
 
-When you import the package...
+In Starhopper, new players awake as starship captains, part of a scattered
+fleet fleeing from their homeland to a new world.
+
+As you get closer to New Earth, the challenges you will lead your crew
+through get harder.
 
 
-Module contents
----------------
+Starhopper Module
+=================
 
 .. automodule:: starhopper
     :members:

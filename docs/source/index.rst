@@ -6,12 +6,52 @@
 qtMUD
 #####
 
-qtMUD is a Python package for managing a multi-user dimension, or MUD, written
-by emsenn and released under the WTF license.
+qtMUD is a Python package for developing and managing a multi-user dimension,
+or :term:`MUD` , written by `emsenn <https://github.com/emsenn/>`_
+and released under the `WTFPL <http://www.wtfpl.com>`_.
 
-Players receive verbose text descriptions of their environments and the
-activity around them, and interact by typing out commands for what they wish
-to do, such as ``survey planet`` or ``fight dragon``.
+In MUDs, players receive verbose text descriptions of their environments and
+the activity around them, and interact by typing out commands for what they
+wish to do, such as ``survey planet`` or ``fight dragon``.
+
+By providing a clearly documented API focused on granular module design,
+qtMUD is built to be the non-programmer's way to create and run a MUD.
+
+
+.. toctree::
+    :maxdepth: 2
+
+A Brief History of MUDs
+=======================
+or Why qtMUD?
+-------------
+
+Thanks to their text-driven format, MUDs are one of the oldest multiplayer
+formats on the Internet. You can get a detailed history on `Wikipedia
+<https://www.wikiwand.com/en/MUD>`_, but the important takeaway is that MUDs
+are old - and not just MUDs as a genre, but many individual MUDs.
+
+This age cultivated the same systemic problems any older project might have.
+Documentation is sparse, there are a dozen ways to do a simple task, and so
+on. These problems are especially severe for many MUDs, as they recruit
+developers from within their player-base, who frequently aren't developers
+themselves.
+
+With these problems, it can be exceptionally difficult to develop your own
+MUD, or even use another person's as a starting point. There are more modern
+MUD engines out there which address many of these problems, however they
+still assume the person running the MUD has some sort of familiarity with
+programming.
+
+qtMUD is designed to cater to that niche - people who want to run a MUD but
+who have no prior programming experience. Maybe you're a big fan of table-top
+RPGs, and want to set up a way for your friends across the world to go
+through a campaign. Maybe you want a chat service for friends that also lets
+you play a card game.
+
+
+How it Works
+============
 
 The game uses a series of :func:`tick()s <qtmud.tick>` to broadcast messages
 to :mod:`subscriptions <qtmud.subscriptions>` and :mod:`services
@@ -19,21 +59,9 @@ qtmud.services>`. Most subscribers and services handle the interaction of
 :class:`things <qtmud.Thing>` which :mod:`builders <qtmud.builders>` have built
 into game objects.
 
-MUD libraries (or :term:`mudlibs <mudlib>`) build on this framework to create
-full games.
 
-
-Getting Started
-===============
-
-To be clear, qtMUD is the game *engine*, not any game itself. If you're
-interested in getting started with any of the bundled mudlibs, check out the
-documentation for :doc:`Starhopper <starhopper>` or
-:doc:`Yeolde RPG <yeolderpg>`.
-
-
-Download qtmud
---------------
+Download qtMUD
+==============
 
 The best way to get qtmud is to `clone the repository
 <https://help.github.com/articles/cloning-a-repository/>`_ that we host on

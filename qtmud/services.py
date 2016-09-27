@@ -8,6 +8,7 @@ from qtmud.builders import build_client
 
 
 class MUDSocket(object):
+    """ Handles a socket service. """
     def __init__(self):
         self.logging_in = set()
         self.clients = dict()
@@ -64,7 +65,6 @@ class MUDSocket(object):
                                            0)
         if read:
             for conn in read:
-                print(conn)
                 if conn is self.ip4_socket or conn is self.ip6_socket:
                     new_conn, addr = conn.accept()
                     qtmud.log.debug('new connection accepted from %s', format(addr))
@@ -102,3 +102,20 @@ class MUDSocket(object):
                 conn.send(self.clients[conn].send_buffer.encode('utf8'))
                 self.clients[conn].send_buffer = ''
         return True
+
+
+class Talker(object):
+    """ The Talker service handles the global chat channels. """
+    def __init__(self):
+        self.channels = {'one': list()}
+        self.history = {'one': list()}
+
+    def tune_in(self, client, channel):
+        self.channels[channel].append(client)
+        client.channels.append(channel)
+
+    def start(self):
+        return
+
+    def tick(self):
+        return

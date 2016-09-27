@@ -11,6 +11,19 @@ import qtmud
 from qtmud import builders
 from qtmud.services import MUDSocket
 
+def broadcast(channel, speaker, message):
+    if not message:
+        qtmud.schedule('send', recipient=speaker,
+                       text= 'syntax: {} <message>'.format(channel))
+    else:
+        for listener in qtmud.active_services['talker'].channels[channel]:
+            qtmud.schedule('send',
+                           recipient=listener,
+                           text='({}) {}: {}'.format(channel, speaker, message))
+            qtmud.active_services['talker'].history[
+                channel].append('{}: {}'.format(speaker, message))
+    return True
+
 
 def client_login_parser(client, line):
     """ Handle log-in for arriving players - right now, just a basic check
@@ -50,7 +63,8 @@ def client_login_parser(client, line):
     #
     #####
     elif client.login_stage == 1:
-        qtmud.client_accounts[client.name] = {'password' : line}
+        qtmud.client_accounts[client.name] = {'password': line}
+        qtmud.save_client_accounts()
         client.login_stage = 9
         output = ('Client account registered with name {}, press '
                   '<enter> to finish logging in.'.format(client.name))
@@ -70,10 +84,10 @@ def client_login_parser(client, line):
                       'type your [desired] client name and press <enter>.')
     elif client.login_stage == 9:
         client = qtmud.builders.build_client(client)
+        qtmud.active_services['talker'].tune_in(channel='one', client=client)
     if output:
         qtmud.schedule('send', recipient=client, text=output)
     return True
-
 
 
 def client_input_parser(client, line):
@@ -87,15 +101,21 @@ def client_command_parser(client, line):
     """ The default qtmud command parser, what client input is run through
     once they've logged in.
     """
-    command = line.split(' ')[0]
-    if command in client.commands:
-        client.commands[command](line)
-    else:
-        qtmud.schedule('send',
-                       recipient=client,
-                       text=('{} is not a valid command; check '
-                             '"commands" for your commands.'.format(
-                               command)))
+    if line:
+        command = line.split(' ')[0]
+        if command in client.commands:
+            client.commands[command](' '.join(line.split(' ')[1:]))
+        elif command in client.channels:
+            message = ' '.join(line.split(' ')[1:])
+            qtmud.schedule('broadcast', channel=command,
+                           speaker=client.name,
+                           message=message)
+        else:
+            qtmud.schedule('send',
+                           recipient=client,
+                           text=('{} is not a valid command; check '
+                                 '"commands" for your commands.'.format(
+                                   command)))
     return True
 
 
