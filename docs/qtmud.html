@@ -152,6 +152,35 @@ full games, however. Check out <a class="reference internal" href="starhopper.ht
 <p>The main qtmud module houses some constants, the Thing class, and methods
 for start()ing and tick()ing the MUD engine.</p>
 <dl class="data">
+<dt id="qtmud.CLIENT_ACCOUNT_FILE">
+<code class="descclassname">qtmud.</code><code class="descname">CLIENT_ACCOUNT_FILE</code><em class="property"> = './data/client_accounts.p'</em><a class="headerlink" href="#qtmud.CLIENT_ACCOUNT_FILE" title="Permalink to this definition">¶</a></dt>
+<dd><p>The file where pickled client accounts should be stored.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="qtmud.IP4_ADDRESS">
+<code class="descclassname">qtmud.</code><code class="descname">IP4_ADDRESS</code><em class="property"> = ('0.0.0.0', 5787)</em><a class="headerlink" href="#qtmud.IP4_ADDRESS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Your IPv4 address is expected to be a tuple of (&#8216;address&#8217;, port), where
+address is a string and port is an integer. Set your address to &#8216;localhost&#8217;
+for testing and development, and &#8216;0.0.0.0&#8217; for production/gameplay.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="qtmud.IP6_ADDRESS">
+<code class="descclassname">qtmud.</code><code class="descname">IP6_ADDRESS</code><em class="property"> = ('2606:a000:4701:b900:5604:830e:39f3:12f8', 5788, 0, 0)</em><a class="headerlink" href="#qtmud.IP6_ADDRESS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Your IPv6 address is expected to be a four-element tuple, where the first
+element is your IPv6 address, the second is qtmud&#8217;s bound IPv6 port,
+and I don&#8217;t know what the last two elements do, to be quite honest.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="qtmud.MUDLIB">
+<code class="descclassname">qtmud.</code><code class="descname">MUDLIB</code><em class="property"> = None</em><a class="headerlink" href="#qtmud.MUDLIB" title="Permalink to this definition">¶</a></dt>
+<dd><p>The module representing the <a class="reference internal" href="#term-mudlib"><span class="xref std std-term">mudlib</span></a> you want to load. Expected to
+have a load() method for loading itself into qtmud.</p>
+</dd></dl>
+
+<dl class="data">
 <dt id="qtmud.NAME">
 <code class="descclassname">qtmud.</code><code class="descname">NAME</code><em class="property"> = 'qtmud'</em><a class="headerlink" href="#qtmud.NAME" title="Permalink to this definition">¶</a></dt>
 <dd><p>Name of the MUD engine.</p>
@@ -159,8 +188,8 @@ for start()ing and tick()ing the MUD engine.</p>
 
 <dl class="data">
 <dt id="qtmud.SPLASH">
-<code class="descclassname">qtmud.</code><code class="descname">SPLASH</code><em class="property"> = '\nqtmud               0.0.4\n\nPress enter...\n'</em><a class="headerlink" href="#qtmud.SPLASH" title="Permalink to this definition">¶</a></dt>
-<dd><p>Text new clients see, filled out from <code class="xref py py-attr docutils literal"><span class="pre">txt.SPLASH</span></code></p>
+<code class="descclassname">qtmud.</code><code class="descname">SPLASH</code><em class="property"> = '\nqtmud               0.0.4\n\nSuccessfully connected to qtmud, press enter to continue login...\n'</em><a class="headerlink" href="#qtmud.SPLASH" title="Permalink to this definition">¶</a></dt>
+<dd><p>The text new connections see.</p>
 </dd></dl>
 
 <dl class="class">
@@ -209,7 +238,22 @@ the thing.</p>
 <dl class="method">
 <dt id="qtmud.Thing.update">
 <code class="descname">update</code><span class="sig-paren">(</span><em>attributes</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud.html#Thing.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.Thing.update" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Update multiple attributes of Thing at once.</p>
+<dl class="docutils">
+<dt>Example:</dt>
+<dd><div class="first last highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">foo</span> <span class="o">=</span> <span class="n">new_thing</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">foo</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;eric&#39;</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">foo</span><span class="o">.</span><span class="n">name</span>
+<span class="go">eric</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Does not properly recognize setters</p>
+</div>
+</dd></dl>
 
 </dd></dl>
 
@@ -222,52 +266,81 @@ the thing.</p>
 <dl class="data">
 <dt id="qtmud.active_services">
 <code class="descclassname">qtmud.</code><code class="descname">active_services</code><em class="property"> = {}</em><a class="headerlink" href="#qtmud.active_services" title="Permalink to this definition">¶</a></dt>
-<dd><p>services to be tick()ed</p>
+<dd><p>Services which will have their tick() function called by
+<a class="reference internal" href="#qtmud.tick" title="qtmud.tick"><code class="xref py py-func docutils literal"><span class="pre">qtmud.tick()</span></code></a>. Populated by <a class="reference internal" href="#qtmud.load" title="qtmud.load"><code class="xref py py-func docutils literal"><span class="pre">qtmud.load()</span></code></a> to contain instances of
+the classes in <a class="reference internal" href="#module-qtmud.services" title="qtmud.services"><code class="xref py py-mod docutils literal"><span class="pre">qtmud.services</span></code></a> referenced by class name.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="qtmud.client_accounts">
+<code class="descclassname">qtmud.</code><code class="descname">client_accounts</code><em class="property"> = {}</em><a class="headerlink" href="#qtmud.client_accounts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Populated by load_client_accounts(), a list of client accounts stored by
+registered name.</p>
 </dd></dl>
 
 <dl class="data">
 <dt id="qtmud.events">
 <code class="descclassname">qtmud.</code><code class="descname">events</code><em class="property"> = {}</em><a class="headerlink" href="#qtmud.events" title="Permalink to this definition">¶</a></dt>
-<dd><p>events scheduled to occur next tick, populated by <a class="reference internal" href="#qtmud.schedule" title="qtmud.schedule"><code class="xref py py-func docutils literal"><span class="pre">schedule()</span></code></a></p>
+<dd><p>Events scheduled to occur next tick, populated by <a class="reference internal" href="#qtmud.schedule" title="qtmud.schedule"><code class="xref py py-func docutils literal"><span class="pre">schedule()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="qtmud.load">
+<code class="descclassname">qtmud.</code><code class="descname">load</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud.html#load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Most importantly, puts every function from
+<a class="reference internal" href="#module-qtmud.subscriptions" title="qtmud.subscriptions"><code class="xref py py-mod docutils literal"><span class="pre">qtmud.subscriptions</span></code></a> and every class from <a class="reference internal" href="#module-qtmud.services" title="qtmud.services"><code class="xref py py-mod docutils literal"><span class="pre">qtmud.services</span></code></a>
+into <a class="reference internal" href="#qtmud.subscribers" title="qtmud.subscribers"><code class="xref py py-attr docutils literal"><span class="pre">subscribers</span></code></a> and <a class="reference internal" href="#qtmud.active_services" title="qtmud.active_services"><code class="xref py py-attr docutils literal"><span class="pre">active_services</span></code></a>, respectively.</p>
+<p>After populating <cite>subscribers</cite> and <cite>active_services</cite>, calls the start()
+method for each class in <cite>active_services</cite>, then attempts to load
+<a class="reference internal" href="#qtmud.MUDLIB" title="qtmud.MUDLIB"><code class="xref py py-attr docutils literal"><span class="pre">MUDLIB</span></code></a>, if one is specified, and finally calls
+<a class="reference internal" href="#qtmud.load_client_accounts" title="qtmud.load_client_accounts"><code class="xref py py-func docutils literal"><span class="pre">load_client_accounts()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="qtmud.load_client_accounts">
+<code class="descclassname">qtmud.</code><code class="descname">load_client_accounts</code><span class="sig-paren">(</span><em>file='./data/client_accounts.p'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud.html#load_client_accounts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.load_client_accounts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Populates <a class="reference internal" href="#qtmud.client_accounts" title="qtmud.client_accounts"><code class="xref py py-attr docutils literal"><span class="pre">qtmud.client_accounts</span></code></a> with the pickle file
+specified.</p>
 </dd></dl>
 
 <dl class="data">
 <dt id="qtmud.log">
 <code class="descclassname">qtmud.</code><code class="descname">log</code><em class="property"> = &lt;logging.Logger object&gt;</em><a class="reference internal" href="_modules/logging.html#log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.log" title="Permalink to this definition">¶</a></dt>
-<dd><p>An instance of <a class="reference external" href="https://docs.python.org/2/library/logging.html#logging.Logger" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">logging.Logger</span></code></a></p>
+<dd><p>An instance of <a class="reference external" href="https://docs.python.org/2/library/logging.html#logging.Logger" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">logging.Logger</span></code></a>, intended to be used as the main
+logger for qtmud and the mudlib, called through <cite>qtmud.log</cite>.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="qtmud.new_thing">
-<code class="descclassname">qtmud.</code><code class="descname">new_thing</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud.html#new_thing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.new_thing" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">qtmud.</code><code class="descname">new_thing</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud.html#new_thing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.new_thing" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a new thing with an identity from <a class="reference external" href="https://docs.python.org/2/library/uuid.html#uuid.uuid4" title="(in Python v2.7)"><code class="xref py py-func docutils literal"><span class="pre">uuid.uuid4()</span></code></a>, and
 adds its identity as a key to <a class="reference internal" href="#qtmud.things" title="qtmud.things"><code class="xref py py-attr docutils literal"><span class="pre">qtmud.things</span></code></a> with the thing itself
 as the value.</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="qtmud.run">
+<code class="descclassname">qtmud.</code><code class="descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud.html#run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>main loop</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="qtmud.save_client_accounts">
+<code class="descclassname">qtmud.</code><code class="descname">save_client_accounts</code><span class="sig-paren">(</span><em>file='./data/client_accounts.p'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud.html#save_client_accounts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.save_client_accounts" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
 <dt id="qtmud.schedule">
 <code class="descclassname">qtmud.</code><code class="descname">schedule</code><span class="sig-paren">(</span><em>sub</em>, <em>**payload</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud.html#schedule"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.schedule" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="qtmud.search_by_noun">
-<code class="descclassname">qtmud.</code><code class="descname">search_by_noun</code><span class="sig-paren">(</span><em>reference</em>, <em>adjectives</em>, <em>search_noun</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud.html#search_by_noun"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.search_by_noun" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="qtmud.start">
-<code class="descclassname">qtmud.</code><code class="descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud.html#start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.start" title="Permalink to this definition">¶</a></dt>
-<dd><p>Most importantly, loads every function from
-<a class="reference internal" href="#module-qtmud.subscriptions" title="qtmud.subscriptions"><code class="xref py py-mod docutils literal"><span class="pre">qtmud.subscriptions</span></code></a> and every class from <a class="reference internal" href="#module-qtmud.services" title="qtmud.services"><code class="xref py py-mod docutils literal"><span class="pre">qtmud.services</span></code></a>
-into <a class="reference internal" href="#qtmud.subscribers" title="qtmud.subscribers"><code class="xref py py-attr docutils literal"><span class="pre">subscribers</span></code></a> and <a class="reference internal" href="#qtmud.active_services" title="qtmud.active_services"><code class="xref py py-attr docutils literal"><span class="pre">active_services</span></code></a>, respectively.</p>
-<p>Also sets up</p>
+<dd><p>Schedules a call to sub with payload passed as paramters.</p>
 </dd></dl>
 
 <dl class="data">
 <dt id="qtmud.subscribers">
 <code class="descclassname">qtmud.</code><code class="descname">subscribers</code><em class="property"> = {}</em><a class="headerlink" href="#qtmud.subscribers" title="Permalink to this definition">¶</a></dt>
-<dd><p>methods registered as qtmud events</p>
+<dd><p>Methods which will be called for any relevant <a class="reference internal" href="#qtmud.events" title="qtmud.events"><code class="xref py py-attr docutils literal"><span class="pre">events</span></code></a>. Populated
+by <a class="reference internal" href="#qtmud.load" title="qtmud.load"><code class="xref py py-func docutils literal"><span class="pre">qtmud.load()</span></code></a> to contain bound methods of the methods in
+<a class="reference internal" href="#module-qtmud.subscriptions" title="qtmud.subscriptions"><code class="xref py py-mod docutils literal"><span class="pre">qtmud.subscriptions</span></code></a> referenced by method name.</p>
 </dd></dl>
 
 <dl class="data">
@@ -362,8 +435,8 @@ verb(str):</dd>
 <em class="property">class </em><code class="descclassname">qtmud.services.</code><code class="descname">MUDSocket</code><a class="reference internal" href="_modules/qtmud/services.html#MUDSocket"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.services.MUDSocket" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <dl class="method">
-<dt id="qtmud.services.MUDSocket.bind">
-<code class="descname">bind</code><span class="sig-paren">(</span><em>address</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/services.html#MUDSocket.bind"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.services.MUDSocket.bind" title="Permalink to this definition">¶</a></dt>
+<dt id="qtmud.services.MUDSocket.start">
+<code class="descname">start</code><span class="sig-paren">(</span><em>ip4_address=None</em>, <em>ip6_address=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/services.html#MUDSocket.start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.services.MUDSocket.start" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -376,20 +449,79 @@ verb(str):</dd>
 </div>
 <div class="section" id="module-qtmud.subscriptions">
 <span id="qtmud-subscriptions-module"></span><h2>qtmud.subscriptions module<a class="headerlink" href="#module-qtmud.subscriptions" title="Permalink to this headline">¶</a></h2>
+<p>Subscriptions are methods which handle the interaction and manipulation
+of <a class="reference internal" href="#qtmud.Thing" title="qtmud.Thing"><code class="xref py py-class docutils literal"><span class="pre">things</span></code></a>.</p>
+<p>Every method in this module is added to <a class="reference internal" href="#qtmud.subscribers" title="qtmud.subscribers"><code class="xref py py-attr docutils literal"><span class="pre">qtmud.subscribers</span></code></a> when
+<code class="xref py py-func docutils literal"><span class="pre">qtmud.start()</span></code>. Calls to these methods which have been <a class="reference internal" href="#qtmud.schedule" title="qtmud.schedule"><code class="xref py py-func docutils literal"><span class="pre">scheduled</span></code></a> as <code class="xref py py-attr docutils literal"><span class="pre">events</span> <span class="pre">qtmud.events&gt;</span></code> will be called when
+<a class="reference internal" href="#qtmud.tick" title="qtmud.tick"><code class="xref py py-func docutils literal"><span class="pre">qtmud.tick()</span></code></a> is called.</p>
+<dl class="function">
+<dt id="qtmud.subscriptions.client_command_parser">
+<code class="descclassname">qtmud.subscriptions.</code><code class="descname">client_command_parser</code><span class="sig-paren">(</span><em>client</em>, <em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/subscriptions.html#client_command_parser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.subscriptions.client_command_parser" title="Permalink to this definition">¶</a></dt>
+<dd><p>The default qtmud command parser, what client input is run through
+once they&#8217;ve logged in.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="qtmud.subscriptions.client_input_parser">
+<code class="descclassname">qtmud.subscriptions.</code><code class="descname">client_input_parser</code><span class="sig-paren">(</span><em>client</em>, <em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/subscriptions.html#client_input_parser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.subscriptions.client_input_parser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pushes a client&#8217;s input to their designated parser subscription.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="qtmud.subscriptions.client_login_parser">
+<code class="descclassname">qtmud.subscriptions.</code><code class="descname">client_login_parser</code><span class="sig-paren">(</span><em>client</em>, <em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/subscriptions.html#client_login_parser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.subscriptions.client_login_parser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handle log-in for arriving players - right now, just a basic check
+against qtmud.client_accounts to see if the client is there already.</p>
+</dd></dl>
+
 <dl class="function">
 <dt id="qtmud.subscriptions.finger">
 <code class="descclassname">qtmud.subscriptions.</code><code class="descname">finger</code><span class="sig-paren">(</span><em>fingerer</em>, <em>fingeree</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/subscriptions.html#finger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.subscriptions.finger" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="qtmud.subscriptions.process_client_input">
-<code class="descclassname">qtmud.subscriptions.</code><code class="descname">process_client_input</code><span class="sig-paren">(</span><em>client</em>, <em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/subscriptions.html#process_client_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.subscriptions.process_client_input" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>A bad mimic of the <a href="#id1"><span class="problematic" id="id2">*</span></a>nix finger command, returns information about a
+client account.</p>
+<blockquote>
+<div><div class="admonition-todo admonition" id="index-0">
+<p class="first admonition-title">Todo</p>
+<p class="last">update to only use data in qtmud.client_accounts</p>
+</div>
+</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>fingerer</strong> &#8211; the person requesting the finger sheet</li>
+<li><strong>fingeree</strong> &#8211; the person who the finger sheet will be built for.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="qtmud.subscriptions.send">
 <code class="descclassname">qtmud.subscriptions.</code><code class="descname">send</code><span class="sig-paren">(</span><em>recipient</em>, <em>text</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/subscriptions.html#send"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.subscriptions.send" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Prepares text to be sent to the recipient</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>recipient</strong> &#8211; expected to be a :class:<a href="#id3"><span class="problematic" id="id4">`</span></a>thing &lt;qtmud.Thing&gt;,
+specifically one with a send_buffer. (In qtmud, this
+is only clients, though mudlibs may have more things
+with send_buffers.</li>
+<li><strong>text</strong> &#8211; the text to be appended to the recipient&#8217;s send_buffer</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">True if text is added to recipient&#8217;s send_buffer, otherwise False.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </div>
 <div class="section" id="module-qtmud.txt">
@@ -403,6 +535,8 @@ verb(str):</dd>
 <dd>Multi-User Dimension. A more historic term for MMORPG, MUDs were some
 of the earliest multiplayer games. <a class="reference external" href="https://www.wikiwand.com/en/MUD">Wikipedia</a> has a pretty comprehensive
 article on them.</dd>
+<dt id="term-mud-client">MUD client</dt>
+<dd>A specialized client for playing MUDs. (duh)</dd>
 <dt id="term-mud-engine">MUD engine</dt>
 <dd>Also known as drivers, MUD engines are game engines meant for
 presenting <a class="reference internal" href="#term-mud"><span class="xref std std-term">MUDs</span></a>. There have traditionally been two main

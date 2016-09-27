@@ -76,7 +76,7 @@ def client_login(client, line):
     output = ''
     if not hasattr(client, 'login_stage'):
         client.login_stage = 0
-        output = txt.SPLASH
+        output = txt.SPLASH.format(**locals())
     elif client.login_stage == 0:
         if line in starhopper.accounts.keys():
             output = 'returning player. password?'

@@ -11,6 +11,7 @@ only real quality that qtmud can apply is to turn a generic thing into a
 client. This basic framework is used by :term:`mudlibs <mudlib>` to create
 full games, however. Check out :doc:`Starhopper <starhopper>` for one example.
 
+
 Module contents
 ---------------
 
@@ -30,6 +31,8 @@ qtmud's submodules have been broken up into a few rough groups:
 * Parser isn't currently used, but houses NLTK functions
 * services are constantly-running game services
 * Subscriptions are events qtmud.tick() fires to
+
+
 qtmud.builders module
 ---------------------
 
@@ -90,6 +93,8 @@ These are the terms which have a specific meaning under qtmud
         of the earliest multiplayer games. `Wikipedia
         <https://www.wikiwand.com/en/MUD>`_ has a pretty comprehensive
         article on them.
+    MUD client
+        A specialized client for playing MUDs. (duh)
     MUD engine
         Also known as drivers, MUD engines are game engines meant for
         presenting :term:`MUDs <MUD>`. There have traditionally been two main

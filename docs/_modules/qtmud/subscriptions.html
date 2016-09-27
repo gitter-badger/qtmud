@@ -127,12 +127,116 @@
            <div itemprop="articleBody">
             
   <h1>Source code for qtmud.subscriptions</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">qtmud</span>
+<span></span><span class="sd">&quot;&quot;&quot; Subscriptions are methods which handle the interaction and manipulation</span>
+<span class="sd">of :class:`things &lt;qtmud.Thing&gt;`.</span>
+
+<span class="sd">Every method in this module is added to :attr:`qtmud.subscribers` when</span>
+<span class="sd">:func:`qtmud.start`. Calls to these methods which have been :func:`scheduled</span>
+<span class="sd">&lt;qtmud.schedule&gt;` as :attr:`events qtmud.events&gt;` will be called when</span>
+<span class="sd">:func:`qtmud.tick` is called.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">qtmud</span>
 <span class="kn">from</span> <span class="nn">qtmud</span> <span class="k">import</span> <span class="n">builders</span>
 <span class="kn">from</span> <span class="nn">qtmud.services</span> <span class="k">import</span> <span class="n">MUDSocket</span>
 
 
+<div class="viewcode-block" id="client_login_parser"><a class="viewcode-back" href="../../qtmud.html#qtmud.subscriptions.client_login_parser">[docs]</a><span class="k">def</span> <span class="nf">client_login_parser</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Handle log-in for arriving players - right now, just a basic check</span>
+<span class="sd">    against qtmud.client_accounts to see if the client is there already.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="c1">#####</span>
+    <span class="c1">#</span>
+    <span class="c1"># start login process</span>
+    <span class="c1">#</span>
+    <span class="c1">#####</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="s1">&#39;login_stage&#39;</span><span class="p">):</span>
+        <span class="n">client</span><span class="o">.</span><span class="n">login_stage</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="s1">&#39;Input [desired] client name and press &lt;enter&gt;.&#39;</span>
+    <span class="c1">#####</span>
+    <span class="c1">#</span>
+    <span class="c1"># check if client exits</span>
+    <span class="c1">#</span>
+    <span class="c1">#####</span>
+    <span class="k">elif</span> <span class="n">client</span><span class="o">.</span><span class="n">login_stage</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">qtmud</span><span class="o">.</span><span class="n">client_accounts</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;There</span><span class="se">\&#39;</span><span class="s1">s a client named </span><span class="si">{}</span><span class="s1">, if you</span><span class="se">\&#39;</span><span class="s1">re them, type your &#39;</span>
+                      <span class="s1">&#39;password and press &lt;enter&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">line</span><span class="p">))</span>
+            <span class="n">client</span><span class="o">.</span><span class="n">login_stage</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="k">elif</span> <span class="n">line</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;No client named </span><span class="si">{}</span><span class="s1">, going to make an account with that &#39;</span>
+                      <span class="s1">&#39;name. Type your desired password and press &lt;enter&gt;.&#39;</span>
+                      <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">line</span><span class="p">))</span>
+            <span class="n">client</span><span class="o">.</span><span class="n">login_stage</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;Your client name can</span><span class="se">\&#39;</span><span class="s1">t be blank. Input what name &#39;</span>
+                      <span class="s1">&#39;you</span><span class="se">\&#39;</span><span class="s1">d like to use and press &lt;enter&gt;.&#39;</span><span class="p">)</span>
+        <span class="n">client</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">line</span>
+    <span class="c1">#####</span>
+    <span class="c1">#</span>
+    <span class="c1"># register new client</span>
+    <span class="c1">#</span>
+    <span class="c1">#####</span>
+    <span class="k">elif</span> <span class="n">client</span><span class="o">.</span><span class="n">login_stage</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">qtmud</span><span class="o">.</span><span class="n">client_accounts</span><span class="p">[</span><span class="n">client</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;password&#39;</span> <span class="p">:</span> <span class="n">line</span><span class="p">}</span>
+        <span class="n">client</span><span class="o">.</span><span class="n">login_stage</span> <span class="o">=</span> <span class="mi">9</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;Client account registered with name </span><span class="si">{}</span><span class="s1">, press &#39;</span>
+                  <span class="s1">&#39;&lt;enter&gt; to finish logging in.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">client</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+    <span class="c1">#####</span>
+    <span class="c1">#</span>
+    <span class="c1"># login existing account</span>
+    <span class="c1">#</span>
+    <span class="c1">#####</span>
+    <span class="k">elif</span> <span class="n">client</span><span class="o">.</span><span class="n">login_stage</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">line</span> <span class="o">==</span> <span class="n">qtmud</span><span class="o">.</span><span class="n">client_accounts</span><span class="p">[</span><span class="n">client</span><span class="o">.</span><span class="n">name</span><span class="p">][</span><span class="s1">&#39;password&#39;</span><span class="p">]:</span>
+            <span class="n">client</span><span class="o">.</span><span class="n">login_stage</span> <span class="o">=</span> <span class="mi">9</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;That</span><span class="se">\&#39;</span><span class="s1">s the correct password, press &lt;enter&gt; to finish &#39;</span>
+                      <span class="s1">&#39;logging in.&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">client</span><span class="o">.</span><span class="n">login_stage</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;That</span><span class="se">\&#39;</span><span class="s1">s not the right password for that account - &#39;</span>
+                      <span class="s1">&#39;type your [desired] client name and press &lt;enter&gt;.&#39;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">client</span><span class="o">.</span><span class="n">login_stage</span> <span class="o">==</span> <span class="mi">9</span><span class="p">:</span>
+        <span class="n">client</span> <span class="o">=</span> <span class="n">qtmud</span><span class="o">.</span><span class="n">builders</span><span class="o">.</span><span class="n">build_client</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">output</span><span class="p">:</span>
+        <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;send&#39;</span><span class="p">,</span> <span class="n">recipient</span><span class="o">=</span><span class="n">client</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">output</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+
+
+<div class="viewcode-block" id="client_input_parser"><a class="viewcode-back" href="../../qtmud.html#qtmud.subscriptions.client_input_parser">[docs]</a><span class="k">def</span> <span class="nf">client_input_parser</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Pushes a client&#39;s input to their designated parser subscription.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">client</span><span class="o">.</span><span class="n">input_parser</span><span class="p">),</span> <span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">,</span> <span class="n">line</span><span class="o">=</span><span class="n">line</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="client_command_parser"><a class="viewcode-back" href="../../qtmud.html#qtmud.subscriptions.client_command_parser">[docs]</a><span class="k">def</span> <span class="nf">client_command_parser</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; The default qtmud command parser, what client input is run through</span>
+<span class="sd">    once they&#39;ve logged in.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">command</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">command</span> <span class="ow">in</span> <span class="n">client</span><span class="o">.</span><span class="n">commands</span><span class="p">:</span>
+        <span class="n">client</span><span class="o">.</span><span class="n">commands</span><span class="p">[</span><span class="n">command</span><span class="p">](</span><span class="n">line</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;send&#39;</span><span class="p">,</span>
+                       <span class="n">recipient</span><span class="o">=</span><span class="n">client</span><span class="p">,</span>
+                       <span class="n">text</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> is not a valid command; check &#39;</span>
+                             <span class="s1">&#39;&quot;commands&quot; for your commands.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                               <span class="n">command</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+
 <div class="viewcode-block" id="finger"><a class="viewcode-back" href="../../qtmud.html#qtmud.subscriptions.finger">[docs]</a><span class="k">def</span> <span class="nf">finger</span><span class="p">(</span><span class="n">fingerer</span><span class="p">,</span> <span class="n">fingeree</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; A bad mimic of the *nix finger command, returns information about a</span>
+<span class="sd">    client account.</span>
+
+<span class="sd">        .. todo:: update to only use data in qtmud.client_accounts</span>
+
+<span class="sd">    :param fingerer: the person requesting the finger sheet</span>
+<span class="sd">    :param fingeree: the person who the finger sheet will be built for.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">mudsocket</span> <span class="o">=</span> <span class="n">qtmud</span><span class="o">.</span><span class="n">active_services</span><span class="p">[</span><span class="n">MUDSocket</span><span class="p">]</span>
     <span class="n">line</span> <span class="o">=</span> <span class="n">fingeree</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
@@ -145,7 +249,7 @@
                     <span class="n">fingeree</span> <span class="o">=</span> <span class="n">client</span>
                     <span class="k">break</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">fingeree</span><span class="p">:</span>
-            <span class="n">output</span> <span class="o">=</span> <span class="s1">&#39;No such thing&#39;</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="s1">&#39;No such client&#39;</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">builders</span><span class="o">.</span><span class="n">generate_finger</span><span class="p">(</span><span class="n">fingeree</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
@@ -155,21 +259,23 @@
                    <span class="n">text</span><span class="o">=</span><span class="n">output</span><span class="p">)</span>
     <span class="k">return</span> <span class="kc">True</span></div>
 
+
 <div class="viewcode-block" id="send"><a class="viewcode-back" href="../../qtmud.html#qtmud.subscriptions.send">[docs]</a><span class="k">def</span> <span class="nf">send</span><span class="p">(</span><span class="n">recipient</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Prepares text to be sent to the recipient</span>
+
+<span class="sd">    :param recipient: expected to be a :class:`thing &lt;qtmud.Thing&gt;,</span>
+<span class="sd">                      specifically one with a send_buffer. (In qtmud, this</span>
+<span class="sd">                      is only clients, though mudlibs may have more things</span>
+<span class="sd">                      with send_buffers.</span>
+<span class="sd">    :param text: the text to be appended to the recipient&#39;s send_buffer</span>
+<span class="sd">    :return: True if text is added to recipient&#39;s send_buffer, otherwise False.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">recipient</span><span class="p">,</span> <span class="s1">&#39;send_buffer&#39;</span><span class="p">):</span>
         <span class="n">recipient</span><span class="o">.</span><span class="n">send_buffer</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-    <span class="k">return</span> <span class="kc">True</span></div>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="kc">False</span></div>
 
-<div class="viewcode-block" id="process_client_input"><a class="viewcode-back" href="../../qtmud.html#qtmud.subscriptions.process_client_input">[docs]</a><span class="k">def</span> <span class="nf">process_client_input</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
-    <span class="n">command</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="k">if</span> <span class="n">command</span> <span class="ow">in</span> <span class="n">client</span><span class="o">.</span><span class="n">commands</span><span class="p">:</span>
-        <span class="n">client</span><span class="o">.</span><span class="n">commands</span><span class="p">[</span><span class="n">command</span><span class="p">](</span><span class="n">line</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;send&#39;</span><span class="p">,</span>
-                       <span class="n">recipient</span><span class="o">=</span><span class="n">client</span><span class="p">,</span>
-                       <span class="n">text</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;invalid command: </span><span class="si">{}</span><span class="s1">. &quot;commands&quot; will show &#39;</span>
-                             <span class="s1">&#39;you available commands.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">line</span><span class="p">)))</span>
-    <span class="k">return</span> <span class="kc">True</span></div>
+
 </pre></div>
 
            </div>

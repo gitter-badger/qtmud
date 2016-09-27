@@ -1,5 +1,5 @@
 SPLASH = """
 {NAME:<20}{VERSION}
 
-Press enter...
+Successfully connected to {NAME}, press enter to continue login...
 """

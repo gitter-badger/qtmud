@@ -80,6 +80,10 @@ RAT_NAMES = ['Billy', 'Bob', 'Captain Bone Marrow', 'Mr. Shivers',
 SPLASH = """
 STARHOPPER
     HOP between STARS
+https://emsenn.github.io/qtmud/starhopper.html
 
-Input your [desired] name, captain.
+In Starhopper, you play a brave spaceship captain leading your crew to a new
+homeworld.
+
+To get started, type your [desired] name, captain, and press enter.
 """

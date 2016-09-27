@@ -25,6 +25,7 @@ def build_client(basis=None):
     client.commands = dict()
     for command, function in [m for m in getmembers(cmds) if isfunction(m[1])]:
         client.commands[command] = types.MethodType(function, client)
+    client.input_parser = 'client_command_parser'
     client.addr = tuple()
     client.send_buffer = str()
     client.recv_buffer = str()

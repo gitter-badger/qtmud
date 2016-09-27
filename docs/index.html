@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>qtmud &mdash; qtmud 0.0.4 documentation</title>
+  <title>qtMUD &mdash; qtmud 0.0.4 documentation</title>
   
 
   
@@ -81,12 +81,14 @@
             
                 <!-- Local TOC -->
                 <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">qtmud</a><ul>
-<li><a class="reference internal" href="#get-qtmud">Get qtmud</a></li>
-<li><a class="reference internal" href="#configure-qtmud">Configure qtmud</a></li>
-<li><a class="reference internal" href="#run-qtmud">Run qtmud</a></li>
-<li><a class="reference internal" href="#login">Login</a></li>
-<li><a class="reference internal" href="#module-index">Module Index</a></li>
+<li><a class="reference internal" href="#">qtMUD</a><ul>
+<li><a class="reference internal" href="#getting-started">Getting Started</a><ul>
+<li><a class="reference internal" href="#download-qtmud">Download qtmud</a></li>
+<li><a class="reference internal" href="#run-qtmud">Run qtMUD</a></li>
+<li><a class="reference internal" href="#pick-mudlib">Pick mudlib</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#developing-with-qtmud">Developing with qtMUD</a></li>
 </ul>
 </li>
 </ul>
@@ -119,7 +121,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href="#">Docs</a> &raquo;</li>
       
-    <li>qtmud</li>
+    <li>qtMUD</li>
       <li class="wy-breadcrumbs-aside">
         
           
@@ -134,43 +136,89 @@
            <div itemprop="articleBody">
             
   <div class="section" id="qtmud">
-<h1>qtmud<a class="headerlink" href="#qtmud" title="Permalink to this headline">¶</a></h1>
-<p>qtmud is a Python package for managing a multi-user dimension, or MUD, written
+<h1>qtMUD<a class="headerlink" href="#qtmud" title="Permalink to this headline">¶</a></h1>
+<p>qtMUD is a Python package for managing a multi-user dimension, or MUD, written
 by emsenn and released under the WTF license.</p>
 <p>Players receive verbose text descriptions of their environments and the
 activity around them, and interact by typing out commands for what they wish
 to do, such as <code class="docutils literal"><span class="pre">survey</span> <span class="pre">planet</span></code> or <code class="docutils literal"><span class="pre">fight</span> <span class="pre">dragon</span></code>.</p>
-<p><strong>Know what you&#8217;re doing?</strong>
-If you want to dive into qtmud&#8217;s code, here&#8217;s an overview, with links to the
-relevant source code:</p>
-<blockquote>
-<div><a class="reference internal" href="qtmud.html#qtmud.tick" title="qtmud.tick"><code class="xref py py-func docutils literal"><span class="pre">qtmud.tick()</span></code></a> iterates through <a class="reference internal" href="qtmud.html#module-qtmud.subscriptions" title="qtmud.subscriptions"><code class="xref py py-mod docutils literal"><span class="pre">subscriptions</span></code></a>
-and <a class="reference internal" href="qtmud.html#module-qtmud.services" title="qtmud.services"><code class="xref py py-mod docutils literal"><span class="pre">services</span></code></a>, sending any <a class="reference internal" href="qtmud.html#qtmud.events" title="qtmud.events"><code class="xref py py-attr docutils literal"><span class="pre">events</span></code></a> to the relevant subscriber. Most subscribers and services
-handle the interaction of of <a class="reference internal" href="qtmud.html#qtmud.Thing" title="qtmud.Thing"><code class="xref py py-class docutils literal"><span class="pre">things</span></code></a> which
-<a class="reference internal" href="qtmud.html#module-qtmud.builders" title="qtmud.builders"><code class="xref py py-mod docutils literal"><span class="pre">builders</span></code></a> have built into game objects.</div></blockquote>
-<p>MUD libaries (or mudlibs) are built around this framework. <a class="reference internal" href="starhopper.html"><span class="doc">Starhopper</span></a> is the first mudlib built for qtmud, and it demonstrates how
-one might use qtmud to develop your own game.</p>
-<div class="section" id="get-qtmud">
-<h2>Get qtmud<a class="headerlink" href="#get-qtmud" title="Permalink to this headline">¶</a></h2>
+<p>The game uses a series of <a class="reference internal" href="qtmud.html#qtmud.tick" title="qtmud.tick"><code class="xref py py-func docutils literal"><span class="pre">tick()s</span></code></a> to broadcast messages
+to <a class="reference internal" href="qtmud.html#module-qtmud.subscriptions" title="qtmud.subscriptions"><code class="xref py py-mod docutils literal"><span class="pre">subscriptions</span></code></a> and <code class="xref py py-mod docutils literal"><span class="pre">services</span>
+<span class="pre">qtmud.services&gt;</span></code>. Most subscribers and services handle the interaction of
+<a class="reference internal" href="qtmud.html#qtmud.Thing" title="qtmud.Thing"><code class="xref py py-class docutils literal"><span class="pre">things</span></code></a> which <a class="reference internal" href="qtmud.html#module-qtmud.builders" title="qtmud.builders"><code class="xref py py-mod docutils literal"><span class="pre">builders</span></code></a> have built
+into game objects.</p>
+<p>MUD libraries (or <a class="reference internal" href="qtmud.html#term-mudlib"><span class="xref std std-term">mudlibs</span></a>) build on this framework to create
+full games.</p>
+<div class="section" id="getting-started">
+<h2>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
+<p>To be clear, qtMUD is the game <em>engine</em>, not any game itself. If you&#8217;re
+interested in getting started with any of the bundled mudlibs, check out the
+documentation for <a class="reference internal" href="starhopper.html"><span class="doc">Starhopper</span></a> or
+<a class="reference internal" href="yeolderpg.html"><span class="doc">Yeolde RPG</span></a>.</p>
+<div class="section" id="download-qtmud">
+<h3>Download qtmud<a class="headerlink" href="#download-qtmud" title="Permalink to this headline">¶</a></h3>
 <p>The best way to get qtmud is to <a class="reference external" href="https://help.github.com/articles/cloning-a-repository/">clone the repository</a> that we host on
 <a class="reference external" href="https://github.com/emsenn/qtmud">GitHub</a>.</p>
 </div>
-<div class="section" id="configure-qtmud">
-<h2>Configure qtmud<a class="headerlink" href="#configure-qtmud" title="Permalink to this headline">¶</a></h2>
-</div>
 <div class="section" id="run-qtmud">
-<h2>Run qtmud<a class="headerlink" href="#run-qtmud" title="Permalink to this headline">¶</a></h2>
+<h3>Run qtMUD<a class="headerlink" href="#run-qtmud" title="Permalink to this headline">¶</a></h3>
+<p>There are two ways to start qtmud:</p>
+<p>From the terminal:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ ./run.py
+qtmud        INFO     qtmud.load() called
+qtmud        INFO     qtmud load()ed successfully
+qtmud        INFO     qtmud.run()ning
+</pre></div>
 </div>
-<div class="section" id="login">
-<h2>Login<a class="headerlink" href="#login" title="Permalink to this headline">¶</a></h2>
-<p>Once qtmud is up and running, you can login through your favorite MUD client.
-I recommend tinyfugue. Or, simply <cite>telnet localhost 5787</cite>.</p>
+<p>From the Python interpreter:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">qtmud</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qtmud</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+<span class="go">qtmud        INFO     qtmud.load() called</span>
+<span class="go">qtmud        INFO     [... more loading info ...]</span>
+<span class="go">qtmud        INFO     qtmud.load()ed</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qtmud</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="go">qtmud        INFO     qtmud.run()ning</span>
+</pre></div>
 </div>
-<div class="section" id="module-index">
-<h2>Module Index<a class="headerlink" href="#module-index" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
-</ul>
+<p>If there are any errors, do your best to handle them, but if you can&#8217;t, head
+over to our <a class="reference external" href="https://github.com/emsenn/qtmud/issues">GitHub Issues</a> and
+search for your problem to see if there&#8217;s any known solution. If you can&#8217;t
+find an answer, create a new issue and someone should be along to address it
+promptly.</p>
+<blockquote>
+<div>(The most common error is probably that your addresses are set incorrectly -
+check the documentation for <a class="reference internal" href="qtmud.html#qtmud.IP4_ADDRESS" title="qtmud.IP4_ADDRESS"><code class="xref py py-attr docutils literal"><span class="pre">IPv4</span></code></a> or
+<a class="reference internal" href="qtmud.html#qtmud.IP6_ADDRESS" title="qtmud.IP6_ADDRESS"><code class="xref py py-attr docutils literal"><span class="pre">IPv6</span></code></a> addresses, depending on which you plan on
+using.)</div></blockquote>
+<p>Once qtMUD is running on your system, connect to it using your
+<a class="reference internal" href="qtmud.html#term-mud-client"><span class="xref std std-term">MUD client</span></a> of choice. If you don&#8217;t have one, go to a command-line and
+just use telnet. Once you&#8217;ve connnected, your client should display something
+similar to:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">Trying</span> <span class="n">to</span> <span class="n">connect</span> <span class="n">to</span> <span class="n">qtmud</span><span class="o">-</span><span class="n">dev</span><span class="p">:</span> <span class="mf">127.0</span><span class="o">.</span><span class="mf">0.1</span> <span class="mf">5787.</span>
+<span class="o">%</span> <span class="n">Connected</span> <span class="n">to</span> <span class="n">qtmud</span><span class="o">-</span><span class="n">dev</span><span class="o">.</span>
+
+<span class="n">qtmud</span>               <span class="mf">0.0</span><span class="o">.</span><span class="mi">4</span>
+
+<span class="n">Successfully</span> <span class="n">connected</span> <span class="n">to</span> <span class="n">qtmud</span><span class="p">,</span> <span class="n">press</span> <span class="n">enter</span> <span class="n">to</span> <span class="k">continue</span> <span class="n">login</span><span class="o">...</span>
+</pre></div>
+</div>
+<p>You can go through the client login/registration process, and then once
+you&#8217;re in, enter &#8220;commands&#8221; to see what all your client has available to you.</p>
+<p>Unfortunately, beyond some basic methods for retrieving and manipulating
+client account information, qtmud itself doesn&#8217;t come with too many features.</p>
+<p>That&#8217;s why, even if you plan on developing your own game, you should pick a
+mudlib.</p>
+</div>
+<div class="section" id="pick-mudlib">
+<h3>Pick mudlib<a class="headerlink" href="#pick-mudlib" title="Permalink to this headline">¶</a></h3>
+<p>Right now, the only functional mudlib is <a class="reference internal" href="starhopper.html"><span class="doc">Starhopper</span></a> so this
+should be an easy choice.</p>
+</div>
+</div>
+<div class="section" id="developing-with-qtmud">
+<h2>Developing with qtMUD<a class="headerlink" href="#developing-with-qtmud" title="Permalink to this headline">¶</a></h2>
+<p>If you plan on developing your own mudlib, or expanding one of ours, you
+should read the full <a class="reference internal" href="qtmud.html#module-qtmud" title="qtmud"><code class="xref py py-mod docutils literal"><span class="pre">qtmud</span></code></a> module documentation.</p>
 </div>
 </div>
 

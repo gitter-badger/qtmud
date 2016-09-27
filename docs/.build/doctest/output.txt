@@ -1,9 +1,66 @@
-Results of doctest builder run on 2016-09-26 03:37:25
+Results of doctest builder run on 2016-09-27 04:31:30
 =====================================================
+
+Document: index
+---------------
+**********************************************************************
+File "index.rst", line ?, in default
+Failed example:
+    qtmud.load()
+Exception raised:
+    Traceback (most recent call last):
+      File "/home/emsenn/dev/qtmud/qtmud/__init__.py", line 131, in load_client_accounts
+        'rb'))
+    FileNotFoundError: [Errno 2] No such file or directory: './data/client_accounts.p'
+
+    During handling of the above exception, another exception occurred:
+
+    Traceback (most recent call last):
+      File "/usr/lib/python3.5/doctest.py", line 1321, in __run
+        compileflags, 1), test.globs)
+      File "<doctest default[1]>", line 1, in <module>
+        qtmud.load()
+      File "/home/emsenn/dev/qtmud/qtmud/__init__.py", line 120, in load
+        if load_client_accounts():
+      File "/home/emsenn/dev/qtmud/qtmud/__init__.py", line 136, in load_client_accounts
+        pickle.dump({}, open('./data/client_accounts.p', 'wb'))
+    FileNotFoundError: [Errno 2] No such file or directory: './data/client_accounts.p'
+**********************************************************************
+File "index.rst", line ?, in default
+Failed example:
+    qtmud.run()
+Exception raised:
+    Traceback (most recent call last):
+      File "/home/emsenn/dev/qtmud/qtmud/__init__.py", line 155, in run
+        tick()
+      File "/home/emsenn/dev/qtmud/qtmud/__init__.py", line 224, in tick
+        active_services[service].tick()
+      File "/home/emsenn/dev/qtmud/qtmud/services.py", line 60, in tick
+        [conn for conn,
+    KeyboardInterrupt
+
+    During handling of the above exception, another exception occurred:
+
+    Traceback (most recent call last):
+      File "/usr/lib/python3.5/doctest.py", line 1321, in __run
+        compileflags, 1), test.globs)
+      File "<doctest default[2]>", line 1, in <module>
+        qtmud.run()
+      File "/home/emsenn/dev/qtmud/qtmud/__init__.py", line 158, in run
+        exit()
+      File "/usr/lib/python3.5/_sitebuiltins.py", line 26, in __call__
+        raise SystemExit(code)
+    SystemExit
+**********************************************************************
+1 items had failures:
+   2 of   3 in default
+3 tests in 1 items.
+1 passed and 2 failed.
+***Test Failed*** 2 failures.
 
 Doctest summary
 ===============
-    0 tests
-    0 failures in tests
+    3 tests
+    2 failures in tests
     0 failures in setup code
     0 failures in cleanup code

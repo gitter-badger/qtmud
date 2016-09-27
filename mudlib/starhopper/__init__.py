@@ -21,7 +21,6 @@ from mudlib.starhopper import builders, subscriptions, txt
 
 
 NAME = "STARHOPPER"
-SPLASH = txt.SPLASH
 START_SYSTEM = None
 END_SYSTEM = None
 accounts = {}
@@ -30,7 +29,7 @@ players = []
 
 
 
-def start():
+def load():
     global accounts
     global START_SYSTEM
     global END_SYSTEM

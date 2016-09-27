@@ -3,55 +3,107 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-qtmud
+qtMUD
 #####
 
-qtmud is a Python package for managing a multi-user dimension, or MUD, written
+qtMUD is a Python package for managing a multi-user dimension, or MUD, written
 by emsenn and released under the WTF license.
 
 Players receive verbose text descriptions of their environments and the
 activity around them, and interact by typing out commands for what they wish
 to do, such as ``survey planet`` or ``fight dragon``.
 
-**Know what you're doing?**
-If you want to dive into qtmud's code, here's an overview, with links to the
-relevant source code:
-    :func:`qtmud.tick` iterates through :mod:`subscriptions
-    <qtmud.subscriptions>`
-    and :mod:`services <qtmud.services>`, sending any :attr:`events
-    <qtmud.events>` to the relevant subscriber. Most subscribers and services
-    handle the interaction of of :class:`things <qtmud.Thing>` which
-    :mod:`builders <qtmud.builders>` have built into game objects.
+The game uses a series of :func:`tick()s <qtmud.tick>` to broadcast messages
+to :mod:`subscriptions <qtmud.subscriptions>` and :mod:`services
+qtmud.services>`. Most subscribers and services handle the interaction of
+:class:`things <qtmud.Thing>` which :mod:`builders <qtmud.builders>` have built
+into game objects.
 
-MUD libaries (or mudlibs) are built around this framework. :doc:`Starhopper
-<starhopper>` is the first mudlib built for qtmud, and it demonstrates how
-one might use qtmud to develop your own game.
+MUD libraries (or :term:`mudlibs <mudlib>`) build on this framework to create
+full games.
 
 
-Get qtmud
-=========
+Getting Started
+===============
+
+To be clear, qtMUD is the game *engine*, not any game itself. If you're
+interested in getting started with any of the bundled mudlibs, check out the
+documentation for :doc:`Starhopper <starhopper>` or
+:doc:`Yeolde RPG <yeolderpg>`.
+
+
+Download qtmud
+--------------
 
 The best way to get qtmud is to `clone the repository
 <https://help.github.com/articles/cloning-a-repository/>`_ that we host on
 `GitHub <https://github.com/emsenn/qtmud>`_.
 
 
-Configure qtmud
-===============
+Run qtMUD
+---------
+
+There are two ways to start qtmud:
+
+From the terminal::
+
+    $ ./run.py
+    qtmud        INFO     qtmud.load() called
+    qtmud        INFO     qtmud load()ed successfully
+    qtmud        INFO     qtmud.run()ning
+
+From the Python interpreter:
+
+    >>> import qtmud
+    >>> qtmud.load()
+    qtmud        INFO     qtmud.load() called
+    qtmud        INFO     [... more loading info ...]
+    qtmud        INFO     qtmud.load()ed
+    >>> qtmud.run()
+    qtmud        INFO     qtmud.run()ning
+
+If there are any errors, do your best to handle them, but if you can't, head
+over to our `GitHub Issues <https://github.com/emsenn/qtmud/issues>`_ and
+search for your problem to see if there's any known solution. If you can't
+find an answer, create a new issue and someone should be along to address it
+promptly.
+
+ (The most common error is probably that your addresses are set incorrectly -
+ check the documentation for :attr:`IPv4 <qtmud.IP4_ADDRESS>` or
+ :attr:`IPv6 <qtmud.IP6_ADDRESS>` addresses, depending on which you plan on
+ using.)
+
+Once qtMUD is running on your system, connect to it using your
+:term:`MUD client` of choice. If you don't have one, go to a command-line and
+just use telnet. Once you've connnected, your client should display something
+similar to::
+
+    % Trying to connect to qtmud-dev: 127.0.0.1 5787.
+    % Connected to qtmud-dev.
+
+    qtmud               0.0.4
+
+    Successfully connected to qtmud, press enter to continue login...
+
+You can go through the client login/registration process, and then once
+you're in, enter "commands" to see what all your client has available to you.
+
+Unfortunately, beyond some basic methods for retrieving and manipulating
+client account information, qtmud itself doesn't come with too many features.
+
+That's why, even if you plan on developing your own game, you should pick a
+mudlib.
 
 
-Run qtmud
-=========
+Pick mudlib
+-----------
+
+Right now, the only functional mudlib is :doc:`Starhopper <starhopper>` so this
+should be an easy choice.
 
 
-Login
-=====
+Developing with qtMUD
+=====================
 
-Once qtmud is up and running, you can login through your favorite MUD client.
-I recommend tinyfugue. Or, simply `telnet localhost 5787`.
-
-
-Module Index
-============
-
-* :ref:`modindex`
+If you plan on developing your own mudlib, or expanding one of ours, you
+should read the full :mod:`qtmud` module documentation.
