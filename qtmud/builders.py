@@ -27,6 +27,7 @@ def build_client(thing=None):
         client = qtmud.new_thing()
     else:
         client = thing
+    qtmud.connected_clients.append(client)
     #####
     #
     # add commands to the client

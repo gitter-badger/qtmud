@@ -12,7 +12,8 @@ from inspect import getmembers, isfunction, isclass
 from qtmud import services, subscriptions, txt
 
 # Pick which MUDLIB you wanna load
-from mudlib import starhopper
+from mudlib import fireside
+# from mudlib import starhopper
 # from mudlib import yeolderpg
 
 
@@ -23,7 +24,7 @@ VERSION = '0.0.4'
 """ MUD engine version """
 
 # MUDLIB
-MUDLIB = None  # choices: starhopper, yeolderpg,
+MUDLIB = fireside # choices: starhopper, yeolderpg,
 """ The module representing the :term:`mudlib` you want to load. Expected to
 have a load() method for loading itself into qtmud. """
 
@@ -59,7 +60,7 @@ active_services = dict()
 """ Services which will have their tick() function called by
 :func:`qtmud.tick`. Populated by :func:`qtmud.load` to contain instances of
 the classes in :mod:`qtmud.services` referenced by class name. """
-
+connected_clients = list()
 
 logging.basicConfig(filename='debug.log', filemode='w',
                     format='%(asctime)s %(name)-12s %(levelname)-8s '
@@ -120,9 +121,6 @@ def load():
         log.info('load()ing the %s mudlib', MUDLIB.__name__)
         if MUDLIB.load():
             log.info('%s load()ed', MUDLIB.__name__)
-            log.debug('subscribers are: %s', ', '.join(subscribers))
-            log.debug('services are: %s', ', '.join([s.__name__ for s in
-                                                     active_services]))
         else:
             log.warning('%s failed to load', MUDLIB.__name__)
     else:
@@ -170,14 +168,15 @@ def save_client_accounts(file=CLIENT_ACCOUNT_FILE):
 
 def run():
     """ main loop """
+    # TODO better shutdown process
     log.info('qtmud.run()ning')
     try:
         while True:
             tick()
     except KeyboardInterrupt:
-        log.info('keyboard interrupt, shutting down')
-        exit()
-        return False
+        log.info('shutdown started')
+        schedule('shutdown')
+        tick()
 
 
 def new_thing(**kwargs):

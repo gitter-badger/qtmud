@@ -18,7 +18,6 @@ class MUDSocket(object):
         self.ip6_socket = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
         self.ip6_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
-
     def start(self, ip4_address=None, ip6_address=None):
         qtmud.log.info('start()ing MUDsocket')
         if not ip4_address and hasattr(qtmud, 'IP4_ADDRESS'):
@@ -110,9 +109,15 @@ class Talker(object):
         self.channels = {'one': list()}
         self.history = {'one': list()}
 
+    def new_channel(self, channel):
+        self.channels[channel] = list()
+        self.history[channel] = list()
+        return True
+
     def tune_in(self, client, channel):
         self.channels[channel].append(client)
         client.channels.append(channel)
+        return True
 
     def start(self):
         return

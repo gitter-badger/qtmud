@@ -11,6 +11,7 @@ import qtmud
 from qtmud import builders
 from qtmud.services import MUDSocket
 
+
 def broadcast(channel, speaker, message):
     if not message:
         qtmud.schedule('send', recipient=speaker,
@@ -19,9 +20,11 @@ def broadcast(channel, speaker, message):
         for listener in qtmud.active_services['talker'].channels[channel]:
             qtmud.schedule('send',
                            recipient=listener,
-                           text='({}) {}: {}'.format(channel, speaker, message))
+                           text='({}) {}: {}'.format(channel,
+                                                     speaker.name,
+                                                     message))
             qtmud.active_services['talker'].history[
-                channel].append('{}: {}'.format(speaker, message))
+                channel].append('{}: {}'.format(speaker.name, message))
     return True
 
 
@@ -83,11 +86,25 @@ def client_login_parser(client, line):
             output = ('That\'s not the right password for that account - '
                       'type your [desired] client name and press <enter>.')
     elif client.login_stage == 9:
-        client = qtmud.builders.build_client(client)
+        client = qtmud.MUDLIB.build_client(client)
+        client.input_parser = 'client_command_parser'
         qtmud.active_services['talker'].tune_in(channel='one', client=client)
     if output:
         qtmud.schedule('send', recipient=client, text=output)
     return True
+
+
+
+def shutdown():
+    qtmud.log.debug('shutdown() occurring')
+    for client in qtmud.connected_clients:
+        qtmud.schedule('client_disconnect', client=client)
+    while True:
+        if qtmud.events:
+            qtmud.log.debug('processing final events: {}'.format(qtmud.events))
+            qtmud.tick()
+        else:
+            exit()
 
 
 def client_input_parser(client, line):
@@ -108,7 +125,7 @@ def client_command_parser(client, line):
         elif command in client.channels:
             message = ' '.join(line.split(' ')[1:])
             qtmud.schedule('broadcast', channel=command,
-                           speaker=client.name,
+                           speaker=client,
                            message=message)
         else:
             qtmud.schedule('send',

@@ -9,16 +9,17 @@ def finger(fingerer, line):
 
 
 def commands(commander, line):
+    output = ('Your commands are: {}'
+              ''.format(', '.join([c for c in commander.commands.keys()])))
     qtmud.schedule('send',
                    recipient=commander,
-                   text='{}'.format(commander.commands.keys()))
+                   text=output)
     return True
 
 def help(client, query=''):
     """ Sends the docstring for a command to helpee.
 
-        in-game syntax: help <command>
-        Pythonic syntax: help(client, 'command')
+        in-game syntax: help [domain] <command|subscriber|service>
 
         :param client: the client who is asking for help
         :param query: the topic being queried for help.
@@ -29,8 +30,8 @@ def help(client, query=''):
     domain = None
     matches = []
     if not query:
-        output = ('syntax: help [domain] <command>. "commands" to see all '
-                 'your commands.')
+        output = ('syntax: help [domain] <command|subscriber|service>. '
+                  '"commands" to see all your commands.')
     #####
     #
     #
@@ -99,8 +100,14 @@ def whoami(client, line):
                    text='You are {}'.format(client.name))
     return True
 
+def discard(client, line):
+    qtmud.schedule('send', recipient=client,
+                   text='Discard function goes here.')
+    return True
+
 
 def talker(client, line):
+    output = ''
     if not line:
         output = 'you\'re listening to {}'.format([c for c in client.channels])
     else:
@@ -114,6 +121,8 @@ def talker(client, line):
                                                qtmud.active_services[
                                                    'talker'].history[
                                                    channel]))
+    if not output:
+        output = ('Invalid syntax, check "help talker" for more.')
     qtmud.schedule('send', recipient=client, text=output)
 
 
