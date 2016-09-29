@@ -10,3 +10,29 @@ get different ones, but note that you can only have up to five cards in your
 hand at a time.
 
 Type "commands" to see a list of commands, and "help" for more information."""
+
+SERVER_RESET = """
+
+        \           OH NO           /
+         \      {player.name}      /
+          \ broke into the server /
+           ]     and deleted     [
+           ]  everyone's hand!   [
+           ]___               ___[
+           ]  ]\             /[  [
+           ]  ] \           / [  [
+           ]  ]  ]         [  [  [
+           ]  ]  ]__     __[  [  [
+           ]  ]  ] ]\   /[ [  [  [
+           ]  ]  ] ]     [ [  [  [
+           ]  ]  ]_]     [_[  [  [
+           ]  ]  ]         [  [  [
+           ]  ] /   `       \ [  [
+           ]__]/             \[__[
+           ]                     [
+           ]                     [
+           ]                     [
+          /                       \\
+         /                         \\
+        /                           \\
+"""
