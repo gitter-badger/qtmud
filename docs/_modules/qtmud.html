@@ -139,7 +139,8 @@
 <span class="kn">from</span> <span class="nn">qtmud</span> <span class="k">import</span> <span class="n">services</span><span class="p">,</span> <span class="n">subscriptions</span><span class="p">,</span> <span class="n">txt</span>
 
 <span class="c1"># Pick which MUDLIB you wanna load</span>
-<span class="kn">from</span> <span class="nn">mudlib</span> <span class="k">import</span> <span class="n">starhopper</span>
+<span class="kn">from</span> <span class="nn">mudlib</span> <span class="k">import</span> <span class="n">fireside</span>
+<span class="c1"># from mudlib import starhopper</span>
 <span class="c1"># from mudlib import yeolderpg</span>
 
 
@@ -150,7 +151,7 @@
 <span class="sd">&quot;&quot;&quot; MUD engine version &quot;&quot;&quot;</span>
 
 <span class="c1"># MUDLIB</span>
-<span class="n">MUDLIB</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># choices: starhopper, yeolderpg,</span>
+<span class="n">MUDLIB</span> <span class="o">=</span> <span class="n">fireside</span> <span class="c1"># choices: starhopper, yeolderpg,</span>
 <span class="sd">&quot;&quot;&quot; The module representing the :term:`mudlib` you want to load. Expected to</span>
 <span class="sd">have a load() method for loading itself into qtmud. &quot;&quot;&quot;</span>
 
@@ -186,7 +187,7 @@
 <span class="sd">&quot;&quot;&quot; Services which will have their tick() function called by</span>
 <span class="sd">:func:`qtmud.tick`. Populated by :func:`qtmud.load` to contain instances of</span>
 <span class="sd">the classes in :mod:`qtmud.services` referenced by class name. &quot;&quot;&quot;</span>
-
+<span class="n">connected_clients</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
 
 <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;debug.log&#39;</span><span class="p">,</span> <span class="n">filemode</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">,</span>
                     <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%(asctime)s</span><span class="s1"> </span><span class="si">%(name)-12s</span><span class="s1"> </span><span class="si">%(levelname)-8s</span><span class="s1"> &#39;</span>
@@ -228,19 +229,16 @@
     <span class="n">subscribers</span> <span class="o">=</span> <span class="p">{</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">__name__</span><span class="p">:</span> <span class="p">[</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="k">for</span>
                     <span class="n">s</span> <span class="ow">in</span> <span class="n">getmembers</span><span class="p">(</span><span class="n">subscriptions</span><span class="p">)</span> <span class="k">if</span> <span class="n">isfunction</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">])}</span>
     <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;adding qtmud.services to qtmud.active_services&#39;</span><span class="p">)</span>
-    <span class="n">active_services</span> <span class="o">=</span> <span class="p">{</span><span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">]()</span> <span class="k">for</span>
+    <span class="n">active_services</span> <span class="o">=</span> <span class="p">{</span><span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">__name__</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span> <span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">]()</span> <span class="k">for</span>
                         <span class="n">t</span> <span class="ow">in</span> <span class="n">getmembers</span><span class="p">(</span><span class="n">services</span><span class="p">)</span> <span class="k">if</span> <span class="n">isclass</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">])}</span>
     <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;start()ing active services&#39;</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">service</span> <span class="ow">in</span> <span class="n">active_services</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">active_services</span><span class="p">[</span><span class="n">service</span><span class="p">]</span><span class="o">.</span><span class="n">start</span><span class="p">():</span>
-            <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> start()ed&#39;</span><span class="p">,</span> <span class="n">service</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> start()ed&#39;</span><span class="p">,</span> <span class="n">service</span><span class="p">)</span>
             <span class="k">pass</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> failed to start()&#39;</span><span class="p">,</span> <span class="n">service</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> failed to start()&#39;</span><span class="p">,</span> <span class="n">service</span><span class="p">)</span>
     <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;qtmud.load()ed&#39;</span><span class="p">)</span>
-    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;subscribers are: </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">subscribers</span><span class="p">))</span>
-    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;services are: </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span>
-              <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">s</span><span class="o">.</span><span class="n">__name__</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">active_services</span><span class="p">]))</span>
     <span class="c1">#####</span>
     <span class="c1">#</span>
     <span class="c1"># load mudlib</span>
@@ -250,9 +248,6 @@
         <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;load()ing the </span><span class="si">%s</span><span class="s1"> mudlib&#39;</span><span class="p">,</span> <span class="n">MUDLIB</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">MUDLIB</span><span class="o">.</span><span class="n">load</span><span class="p">():</span>
             <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> load()ed&#39;</span><span class="p">,</span> <span class="n">MUDLIB</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
-            <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;subscribers are: </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">subscribers</span><span class="p">))</span>
-            <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;services are: </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">s</span><span class="o">.</span><span class="n">__name__</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span>
-                                                     <span class="n">active_services</span><span class="p">]))</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> failed to load&#39;</span><span class="p">,</span> <span class="n">MUDLIB</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
@@ -263,10 +258,16 @@
     <span class="c1">#</span>
     <span class="c1">#####</span>
     <span class="k">if</span> <span class="n">load_client_accounts</span><span class="p">():</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;qtmud.client_accounts populated from &#39;</span>
+                  <span class="s1">&#39;qtmud.load_client_accounts()&#39;</span><span class="p">)</span>
         <span class="k">pass</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;client_accounts failed to load&#39;</span><span class="p">)</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;qtmud.load() finished, subscribers and active_services to &#39;</span>
+              <span class="s1">&#39;follow.&#39;</span><span class="p">)</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;subscribers are: </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">subscribers</span><span class="p">))</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;active_services are: </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">active_services</span><span class="p">]))</span>
     <span class="k">return</span> <span class="kc">True</span></div>
+
 
 <div class="viewcode-block" id="load_client_accounts"><a class="viewcode-back" href="../qtmud.html#qtmud.load_client_accounts">[docs]</a><span class="k">def</span> <span class="nf">load_client_accounts</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="n">CLIENT_ACCOUNT_FILE</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Populates :attr:`qtmud.client_accounts` with the pickle file</span>
@@ -274,8 +275,7 @@
     <span class="k">global</span> <span class="n">client_accounts</span>
     <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;filling qtmud.client_accounts from </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">client_accounts</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span>
-                                           <span class="s1">&#39;rb&#39;</span><span class="p">))</span>
+        <span class="n">client_accounts</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">))</span>
         <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;qtmud.client_accounts filled from </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">True</span>
     <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
@@ -283,27 +283,16 @@
         <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">({},</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">))</span>
         <span class="k">return</span> <span class="kc">False</span></div>
 
-<div class="viewcode-block" id="save_client_accounts"><a class="viewcode-back" href="../qtmud.html#qtmud.save_client_accounts">[docs]</a><span class="k">def</span> <span class="nf">save_client_accounts</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="n">CLIENT_ACCOUNT_FILE</span><span class="p">):</span>
-    <span class="k">global</span> <span class="n">client_accounts</span>
-    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;saving client_accounts&#39;</span><span class="p">)</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">client_accounts</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">))</span>
-        <span class="k">return</span> <span class="kc">True</span>
-    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
-        <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;failed to save client_accounts&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="kc">False</span></div>
 
-
-<div class="viewcode-block" id="run"><a class="viewcode-back" href="../qtmud.html#qtmud.run">[docs]</a><span class="k">def</span> <span class="nf">run</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot; main loop &quot;&quot;&quot;</span>
-    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;qtmud.run()ning&#39;</span><span class="p">)</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="n">tick</span><span class="p">()</span>
-    <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
-        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;keyboard interrupt, shutting down&#39;</span><span class="p">)</span>
-        <span class="n">exit</span><span class="p">()</span>
-        <span class="k">return</span> <span class="kc">False</span></div>
+<div class="viewcode-block" id="new_client_account"><a class="viewcode-back" href="../qtmud.html#qtmud.new_client_account">[docs]</a><span class="k">def</span> <span class="nf">new_client_account</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">birthtime</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Create a new client account in :attr:`client_accounts`&quot;&quot;&quot;</span>
+    <span class="n">client_accounts</span><span class="p">[</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
+                            <span class="s1">&#39;password&#39;</span><span class="p">:</span> <span class="n">password</span><span class="p">}</span>
+    <span class="k">if</span> <span class="n">birthtime</span><span class="p">:</span>
+        <span class="n">client_accounts</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s1">&#39;birthtime&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">birthtime</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;made the new client </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+    <span class="n">save_client_accounts</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">client_accounts</span><span class="p">[</span><span class="n">name</span><span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="new_thing"><a class="viewcode-back" href="../qtmud.html#qtmud.new_thing">[docs]</a><span class="k">def</span> <span class="nf">new_thing</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -322,14 +311,50 @@
     <span class="k">return</span> <span class="n">thing</span></div>
 
 
+<div class="viewcode-block" id="run"><a class="viewcode-back" href="../qtmud.html#qtmud.run">[docs]</a><span class="k">def</span> <span class="nf">run</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; main loop &quot;&quot;&quot;</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;qtmud.run()ning&#39;</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">tick</span><span class="p">()</span>
+    <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;shutdown started&#39;</span><span class="p">)</span>
+        <span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;shutdown&#39;</span><span class="p">)</span>
+        <span class="n">tick</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="save_client_accounts"><a class="viewcode-back" href="../qtmud.html#qtmud.save_client_accounts">[docs]</a><span class="k">def</span> <span class="nf">save_client_accounts</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="n">CLIENT_ACCOUNT_FILE</span><span class="p">):</span>
+    <span class="k">global</span> <span class="n">client_accounts</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;saving client_accounts&#39;</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">client_accounts</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;failed to save client_accounts&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+
 <div class="viewcode-block" id="schedule"><a class="viewcode-back" href="../qtmud.html#qtmud.schedule">[docs]</a><span class="k">def</span> <span class="nf">schedule</span><span class="p">(</span><span class="n">sub</span><span class="p">,</span> <span class="o">**</span><span class="n">payload</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Schedules a call to sub with payload passed as paramters.</span>
+    <span class="sd">&quot;&quot;&quot; Schedules a call to sub with payload passed as parameters.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">subscribers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">sub</span><span class="p">,</span> <span class="p">[]):</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;Tried to schedule a </span><span class="si">%s</span><span class="s1"> event, no subscribers &#39;</span>
+                          <span class="s1">&#39;listen to it though.&#39;</span><span class="p">,</span> <span class="n">sub</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span>
     <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">subscribers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">sub</span><span class="p">,</span> <span class="p">[]):</span>
         <span class="k">if</span> <span class="n">method</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">events</span><span class="p">:</span>
             <span class="n">events</span><span class="p">[</span><span class="n">method</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">events</span><span class="p">[</span><span class="n">method</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
     <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="search_connected_clients_by_name"><a class="viewcode-back" href="../qtmud.html#qtmud.search_connected_clients_by_name">[docs]</a><span class="k">def</span> <span class="nf">search_connected_clients_by_name</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">connected_clients</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">connected_clients</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">c</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span></div>
+
+
+<div class="viewcode-block" id="search_client_accounts_by_name"><a class="viewcode-back" href="../qtmud.html#qtmud.search_client_accounts_by_name">[docs]</a><span class="k">def</span> <span class="nf">search_client_accounts_by_name</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">client_accounts</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span></div>
 
 
 <div class="viewcode-block" id="tick"><a class="viewcode-back" href="../qtmud.html#qtmud.tick">[docs]</a><span class="k">def</span> <span class="nf">tick</span><span class="p">():</span>

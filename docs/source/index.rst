@@ -18,8 +18,9 @@ By providing a clearly documented API focused on granular module design,
 qtMUD is built to be the non-programmer's way to create and run a MUD.
 
 
-.. toctree::
-    :maxdepth: 2
+.. note:: If you're interested in using qtMUD to host a game, skip ahead to the
+          :ref:`Mudlibs` section of this document.
+
 
 A Brief History of MUDs
 =======================
@@ -41,27 +42,31 @@ With these problems, it can be exceptionally difficult to develop your own
 MUD, or even use another person's as a starting point. There are more modern
 MUD engines out there which address many of these problems, however they
 still assume the person running the MUD has some sort of familiarity with
-programming.
+programming, or at the least, a connection to the MUD development community.
 
-qtMUD is designed to cater to that niche - people who want to run a MUD but
-who have no prior programming experience. Maybe you're a big fan of table-top
-RPGs, and want to set up a way for your friends across the world to go
-through a campaign. Maybe you want a chat service for friends that also lets
-you play a card game.
+qtMUD is designed to cater to an unaddressed niche - people who want to run a
+MUD but who have no prior programming experience, in general or with MUDs.
+Maybe you're a big fan of table-top RPGs, and want to set up a way for your
+friends across the world to go through a campaign. Maybe you want a chat
+service for friends that also lets you play a card game.
 
 
 How it Works
 ============
 
-The game uses a series of :func:`tick()s <qtmud.tick>` to broadcast messages
+qtMUD uses a series of :func:`tick()s <qtmud.tick>` to broadcast messages
 to :mod:`subscriptions <qtmud.subscriptions>` and :mod:`services
 qtmud.services>`. Most subscribers and services handle the interaction of
 :class:`things <qtmud.Thing>` which :mod:`builders <qtmud.builders>` have built
 into game objects.
 
 
+Getting Started
+===============
+
+
 Download qtMUD
-==============
+--------------
 
 The best way to get qtmud is to `clone the repository
 <https://help.github.com/articles/cloning-a-repository/>`_ that we host on
@@ -119,19 +124,25 @@ you're in, enter "commands" to see what all your client has available to you.
 Unfortunately, beyond some basic methods for retrieving and manipulating
 client account information, qtmud itself doesn't come with too many features.
 
-That's why, even if you plan on developing your own game, you should pick a
-mudlib.
-
-
-Pick mudlib
------------
-
-Right now, the only functional mudlib is :doc:`Starhopper <starhopper>` so this
-should be an easy choice.
-
 
 Developing with qtMUD
 =====================
 
 If you plan on developing your own mudlib, or expanding one of ours, you
-should read the full :mod:`qtmud` module documentation.
+should read the full :doc:`qtmud` module documentation.
+
+
+Mudlibs
+=======
+
+qtMUD itself only provides the core functionality, that MUD libraries (or
+:term:`mudlibs`) use to create their own game. Right now, qtMUD comes bundled
+with 3 libraries that you can use to play a game right away.:
+
+* :doc:`Fireside <fireside>` is the most simple, providing an all-versus-all
+  perpetual card game where players gain mana by chatting and use that mana
+  to play cards various effects.
+* :doc:`Starhopper <starhopper>` is an episodic space adventure game, meant to
+  be played by small groups in a single session.
+* :doc:`Yeolde RPG <yeolderpg>` is a persistent MMORPG. Due to the complexity,
+  this mudlib is very buggy, all the time. You've been warned.

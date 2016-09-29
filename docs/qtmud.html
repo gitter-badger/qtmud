@@ -175,7 +175,7 @@ and I don&#8217;t know what the last two elements do, to be quite honest.</p>
 
 <dl class="data">
 <dt id="qtmud.MUDLIB">
-<code class="descclassname">qtmud.</code><code class="descname">MUDLIB</code><em class="property"> = None</em><a class="headerlink" href="#qtmud.MUDLIB" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">qtmud.</code><code class="descname">MUDLIB</code><em class="property"> = &lt;module 'mudlib.fireside' from '/home/emsenn/dev/qtmud/mudlib/fireside/__init__.py'&gt;</em><a class="headerlink" href="#qtmud.MUDLIB" title="Permalink to this definition">¶</a></dt>
 <dd><p>The module representing the <a class="reference internal" href="#term-mudlib"><span class="xref std std-term">mudlib</span></a> you want to load. Expected to
 have a load() method for loading itself into qtmud.</p>
 </dd></dl>
@@ -311,6 +311,12 @@ logger for qtmud and the mudlib, called through <cite>qtmud.log</cite>.</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="qtmud.new_client_account">
+<code class="descclassname">qtmud.</code><code class="descname">new_client_account</code><span class="sig-paren">(</span><em>name</em>, <em>password</em>, <em>birthtime=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud.html#new_client_account"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.new_client_account" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new client account in <a class="reference internal" href="#qtmud.client_accounts" title="qtmud.client_accounts"><code class="xref py py-attr docutils literal"><span class="pre">client_accounts</span></code></a></p>
+</dd></dl>
+
+<dl class="function">
 <dt id="qtmud.new_thing">
 <code class="descclassname">qtmud.</code><code class="descname">new_thing</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud.html#new_thing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.new_thing" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a new thing with an identity from <a class="reference external" href="https://docs.python.org/2/library/uuid.html#uuid.uuid4" title="(in Python v2.7)"><code class="xref py py-func docutils literal"><span class="pre">uuid.uuid4()</span></code></a>, and
@@ -332,8 +338,18 @@ as the value.</p>
 <dl class="function">
 <dt id="qtmud.schedule">
 <code class="descclassname">qtmud.</code><code class="descname">schedule</code><span class="sig-paren">(</span><em>sub</em>, <em>**payload</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud.html#schedule"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.schedule" title="Permalink to this definition">¶</a></dt>
-<dd><p>Schedules a call to sub with payload passed as paramters.</p>
+<dd><p>Schedules a call to sub with payload passed as parameters.</p>
 </dd></dl>
+
+<dl class="function">
+<dt id="qtmud.search_client_accounts_by_name">
+<code class="descclassname">qtmud.</code><code class="descname">search_client_accounts_by_name</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud.html#search_client_accounts_by_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.search_client_accounts_by_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="qtmud.search_connected_clients_by_name">
+<code class="descclassname">qtmud.</code><code class="descname">search_connected_clients_by_name</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud.html#search_connected_clients_by_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.search_connected_clients_by_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="data">
 <dt id="qtmud.subscribers">
@@ -370,7 +386,7 @@ by <a class="reference internal" href="#qtmud.load" title="qtmud.load"><code cla
 <span id="qtmud-builders-module"></span><h2>qtmud.builders module<a class="headerlink" href="#module-qtmud.builders" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="qtmud.builders.build_client">
-<code class="descclassname">qtmud.builders.</code><code class="descname">build_client</code><span class="sig-paren">(</span><em>basis=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/builders.html#build_client"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.builders.build_client" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">qtmud.builders.</code><code class="descname">build_client</code><span class="sig-paren">(</span><em>thing=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/builders.html#build_client"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.builders.build_client" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
@@ -389,6 +405,41 @@ by <a class="reference internal" href="#qtmud.load" title="qtmud.load"><code cla
 <dl class="function">
 <dt id="qtmud.cmds.finger">
 <code class="descclassname">qtmud.cmds.</code><code class="descname">finger</code><span class="sig-paren">(</span><em>fingerer</em>, <em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/cmds.html#finger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.cmds.finger" title="Permalink to this definition">¶</a></dt>
+<dd><p>Command for fingering a client.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="qtmud.cmds.help">
+<code class="descclassname">qtmud.cmds.</code><code class="descname">help</code><span class="sig-paren">(</span><em>client</em>, <em>query=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/cmds.html#help"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.cmds.help" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sends the docstring for a command to helpee.</p>
+<p>in-game syntax: help [domain] &lt;command|subscriber|service&gt;</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>client</strong> &#8211; the client who is asking for help</li>
+<li><strong>query</strong> &#8211; the topic being queried for help.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="qtmud.cmds.talker">
+<code class="descclassname">qtmud.cmds.</code><code class="descname">talker</code><span class="sig-paren">(</span><em>client</em>, <em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/cmds.html#talker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.cmds.talker" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="qtmud.cmds.who">
+<code class="descclassname">qtmud.cmds.</code><code class="descname">who</code><span class="sig-paren">(</span><em>client</em>, <em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/cmds.html#who"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.cmds.who" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="qtmud.cmds.whoami">
+<code class="descclassname">qtmud.cmds.</code><code class="descname">whoami</code><span class="sig-paren">(</span><em>client</em>, <em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/cmds.html#whoami"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.cmds.whoami" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
@@ -434,6 +485,7 @@ verb(str):</dd>
 <dt id="qtmud.services.MUDSocket">
 <em class="property">class </em><code class="descclassname">qtmud.services.</code><code class="descname">MUDSocket</code><a class="reference internal" href="_modules/qtmud/services.html#MUDSocket"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.services.MUDSocket" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>Handles a socket service.</p>
 <dl class="method">
 <dt id="qtmud.services.MUDSocket.start">
 <code class="descname">start</code><span class="sig-paren">(</span><em>ip4_address=None</em>, <em>ip6_address=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/services.html#MUDSocket.start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.services.MUDSocket.start" title="Permalink to this definition">¶</a></dt>
@@ -446,6 +498,33 @@ verb(str):</dd>
 
 </dd></dl>
 
+<dl class="class">
+<dt id="qtmud.services.Talker">
+<em class="property">class </em><code class="descclassname">qtmud.services.</code><code class="descname">Talker</code><a class="reference internal" href="_modules/qtmud/services.html#Talker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.services.Talker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>The Talker service handles the global chat channels.</p>
+<dl class="method">
+<dt id="qtmud.services.Talker.new_channel">
+<code class="descname">new_channel</code><span class="sig-paren">(</span><em>channel</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/services.html#Talker.new_channel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.services.Talker.new_channel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="qtmud.services.Talker.start">
+<code class="descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/services.html#Talker.start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.services.Talker.start" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="qtmud.services.Talker.tick">
+<code class="descname">tick</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/services.html#Talker.tick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.services.Talker.tick" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="qtmud.services.Talker.tune_in">
+<code class="descname">tune_in</code><span class="sig-paren">(</span><em>client</em>, <em>channel</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/services.html#Talker.tune_in"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.services.Talker.tune_in" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
 <div class="section" id="module-qtmud.subscriptions">
 <span id="qtmud-subscriptions-module"></span><h2>qtmud.subscriptions module<a class="headerlink" href="#module-qtmud.subscriptions" title="Permalink to this headline">¶</a></h2>
@@ -454,6 +533,11 @@ of <a class="reference internal" href="#qtmud.Thing" title="qtmud.Thing"><code c
 <p>Every method in this module is added to <a class="reference internal" href="#qtmud.subscribers" title="qtmud.subscribers"><code class="xref py py-attr docutils literal"><span class="pre">qtmud.subscribers</span></code></a> when
 <code class="xref py py-func docutils literal"><span class="pre">qtmud.start()</span></code>. Calls to these methods which have been <a class="reference internal" href="#qtmud.schedule" title="qtmud.schedule"><code class="xref py py-func docutils literal"><span class="pre">scheduled</span></code></a> as <code class="xref py py-attr docutils literal"><span class="pre">events</span> <span class="pre">qtmud.events&gt;</span></code> will be called when
 <a class="reference internal" href="#qtmud.tick" title="qtmud.tick"><code class="xref py py-func docutils literal"><span class="pre">qtmud.tick()</span></code></a> is called.</p>
+<dl class="function">
+<dt id="qtmud.subscriptions.broadcast">
+<code class="descclassname">qtmud.subscriptions.</code><code class="descname">broadcast</code><span class="sig-paren">(</span><em>channel</em>, <em>speaker</em>, <em>message</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/subscriptions.html#broadcast"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.subscriptions.broadcast" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="function">
 <dt id="qtmud.subscriptions.client_command_parser">
 <code class="descclassname">qtmud.subscriptions.</code><code class="descname">client_command_parser</code><span class="sig-paren">(</span><em>client</em>, <em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/subscriptions.html#client_command_parser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.subscriptions.client_command_parser" title="Permalink to this definition">¶</a></dt>
@@ -475,31 +559,6 @@ against qtmud.client_accounts to see if the client is there already.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="qtmud.subscriptions.finger">
-<code class="descclassname">qtmud.subscriptions.</code><code class="descname">finger</code><span class="sig-paren">(</span><em>fingerer</em>, <em>fingeree</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/subscriptions.html#finger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.subscriptions.finger" title="Permalink to this definition">¶</a></dt>
-<dd><p>A bad mimic of the <a href="#id1"><span class="problematic" id="id2">*</span></a>nix finger command, returns information about a
-client account.</p>
-<blockquote>
-<div><div class="admonition-todo admonition" id="index-0">
-<p class="first admonition-title">Todo</p>
-<p class="last">update to only use data in qtmud.client_accounts</p>
-</div>
-</div></blockquote>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>fingerer</strong> &#8211; the person requesting the finger sheet</li>
-<li><strong>fingeree</strong> &#8211; the person who the finger sheet will be built for.</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
 <dt id="qtmud.subscriptions.send">
 <code class="descclassname">qtmud.subscriptions.</code><code class="descname">send</code><span class="sig-paren">(</span><em>recipient</em>, <em>text</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/subscriptions.html#send"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.subscriptions.send" title="Permalink to this definition">¶</a></dt>
 <dd><p>Prepares text to be sent to the recipient</p>
@@ -508,7 +567,7 @@ client account.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>recipient</strong> &#8211; expected to be a :class:<a href="#id3"><span class="problematic" id="id4">`</span></a>thing &lt;qtmud.Thing&gt;,
+<li><strong>recipient</strong> &#8211; expected to be a :class:<a href="#id1"><span class="problematic" id="id2">`</span></a>thing &lt;qtmud.Thing&gt;,
 specifically one with a send_buffer. (In qtmud, this
 is only clients, though mudlibs may have more things
 with send_buffers.</li>
@@ -522,6 +581,11 @@ with send_buffers.</li>
 </tbody>
 </table>
 </dd></dl>
+
+<dl class="function">
+<dt id="qtmud.subscriptions.shutdown">
+<code class="descclassname">qtmud.subscriptions.</code><code class="descname">shutdown</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qtmud/subscriptions.html#shutdown"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qtmud.subscriptions.shutdown" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </div>
 <div class="section" id="module-qtmud.txt">

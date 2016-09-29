@@ -1,0 +1,272 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>fireside &mdash; qtmud 0.0.4 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="qtmud 0.0.4 documentation" href="../index.html"/>
+        <link rel="up" title="Module code" href="index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> qtmud
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.4
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <!-- Local TOC -->
+                <div class="local-toc"></div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">qtmud</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="index.html">Module code</a> &raquo;</li>
+      
+    <li>fireside</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for fireside</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">import</span> <span class="nn">types</span>
+
+<span class="kn">from</span> <span class="nn">inspect</span> <span class="k">import</span> <span class="n">getmembers</span><span class="p">,</span> <span class="n">isfunction</span><span class="p">,</span> <span class="n">isclass</span>
+
+
+<span class="kn">import</span> <span class="nn">qtmud</span>
+<span class="kn">import</span> <span class="nn">qtmud.subscriptions</span>
+<span class="kn">from</span> <span class="nn">mudlib.fireside</span> <span class="k">import</span> <span class="n">cards</span><span class="p">,</span> <span class="n">cmds</span><span class="p">,</span> <span class="n">services</span><span class="p">,</span> <span class="n">subscriptions</span><span class="p">,</span> <span class="n">txt</span>
+
+
+<span class="n">player_hands</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+<span class="sd">&quot;&quot;&quot; All the hands currently held by different players, in the format of</span>
+<span class="sd">``{ player : [ list, of, cards ] }``&quot;&quot;&quot;</span>
+<span class="n">DECK</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+<span class="sd">&quot;&quot;&quot; built from the classes in :mod:`fireside.cards` when :func:`load` is</span>
+<span class="sd">called. &quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="build_client"><a class="viewcode-back" href="../fireside.html#fireside.build_client">[docs]</a><span class="k">def</span> <span class="nf">build_client</span><span class="p">(</span><span class="n">client</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Expecting to be passed an instance of :class:`qtmud.Thing`,</span>
+<span class="sd">    this method turns a client into a Fireside player.</span>
+
+<span class="sd">    That means giving the client several attributes:</span>
+
+<span class="sd">    +------------+------+------------------------------------------------------+</span>
+<span class="sd">    | attribute  | type | use                                                  |</span>
+<span class="sd">    +============+======+======================================================+</span>
+<span class="sd">    | hand       | list | the cards the player holds. mirrored in              |</span>
+<span class="sd">    |            |      | :attr:`player_hands`.                                |</span>
+<span class="sd">    +------------+------+------------------------------------------------------+</span>
+<span class="sd">    | mana       | int  | increased by talking, decreased by playing cards.    |</span>
+<span class="sd">    +------------+------+------------------------------------------------------+</span>
+<span class="sd">    | health     | int  | if this reaches 0, the player                        |</span>
+<span class="sd">    |            |      | :func:`dies &lt;fireside.subscriptions.death&gt;`.         |</span>
+<span class="sd">    +------------+------+------------------------------------------------------+</span>
+<span class="sd">    | armor      | int  | additional protection from damage.                   |</span>
+<span class="sd">    +------------+------+------------------------------------------------------+</span>
+<span class="sd">    | word_count | int  | additional protection from damage.                   |</span>
+<span class="sd">    +------------+------+------------------------------------------------------+</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;send&#39;</span><span class="p">,</span><span class="n">recipient</span><span class="o">=</span><span class="n">client</span><span class="p">,</span><span class="n">text</span><span class="o">=</span><span class="n">txt</span><span class="o">.</span><span class="n">SPLASH</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">command</span><span class="p">,</span> <span class="n">function</span> <span class="ow">in</span> <span class="p">[</span><span class="n">m</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">getmembers</span><span class="p">(</span><span class="n">cmds</span><span class="p">)</span> <span class="k">if</span> <span class="n">isfunction</span><span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">])]:</span>
+        <span class="n">client</span><span class="o">.</span><span class="n">commands</span><span class="p">[</span><span class="n">command</span><span class="p">]</span> <span class="o">=</span> <span class="n">types</span><span class="o">.</span><span class="n">MethodType</span><span class="p">(</span><span class="n">function</span><span class="p">,</span> <span class="n">client</span><span class="p">)</span>
+    <span class="n">qtmud</span><span class="o">.</span><span class="n">active_services</span><span class="p">[</span><span class="s1">&#39;talker&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tune_in</span><span class="p">(</span><span class="n">channel</span><span class="o">=</span><span class="s1">&#39;fireside&#39;</span><span class="p">,</span><span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">)</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">hand</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">mana</span> <span class="o">=</span> <span class="mi">20</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">health</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">armor</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">word_count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">return</span> <span class="n">client</span></div>
+
+<div class="viewcode-block" id="search_hand"><a class="viewcode-back" href="../fireside.html#fireside.search_hand">[docs]</a><span class="k">def</span> <span class="nf">search_hand</span><span class="p">(</span><span class="n">player</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Searches player&#39;s hands for any cards whose name matches text,</span>
+<span class="sd">    or whose name has one word matching with text if text is one word.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">matches</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">))</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">card</span> <span class="ow">in</span> <span class="n">player</span><span class="o">.</span><span class="n">hand</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">[</span><span class="n">w</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">card</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)]:</span>
+                <span class="n">matches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">card</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">card</span> <span class="ow">in</span> <span class="n">player</span><span class="o">.</span><span class="n">hand</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">card</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+            <span class="n">matches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">card</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">matches</span></div>
+
+
+<div class="viewcode-block" id="load"><a class="viewcode-back" href="../fireside.html#fireside.load">[docs]</a><span class="k">def</span> <span class="nf">load</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; Adds Fireside :mod:`subscriptions &lt;fireside.subscriptions&gt;` to</span>
+<span class="sd">    :attr:`qtmud.active_subscribers` and builds :attr:`DECK` from the classes</span>
+<span class="sd">    in :mod:`fireside.cards`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">DECK</span>
+    <span class="n">qtmud</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;load()ing Fireside&#39;</span><span class="p">)</span>
+    <span class="n">qtmud</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;adding fireside.subscriptions to qtmud.subscribers&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">getmembers</span><span class="p">(</span><span class="n">subscriptions</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">isfunction</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">__name__</span> <span class="ow">in</span> <span class="n">qtmud</span><span class="o">.</span><span class="n">subscribers</span><span class="p">:</span>
+                <span class="n">qtmud</span><span class="o">.</span><span class="n">subscribers</span><span class="p">[</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">__name__</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+            <span class="n">qtmud</span><span class="o">.</span><span class="n">subscribers</span><span class="p">[</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">__name__</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">qtmud</span><span class="o">.</span><span class="n">active_services</span><span class="p">[</span><span class="s1">&#39;talker&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">new_channel</span><span class="p">(</span><span class="s1">&#39;fireside&#39;</span><span class="p">)</span>
+    <span class="n">DECK</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">getmembers</span><span class="p">(</span><span class="n">cards</span><span class="p">)</span> <span class="k">if</span> <span class="n">isclass</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, emsenn.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.0.4',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

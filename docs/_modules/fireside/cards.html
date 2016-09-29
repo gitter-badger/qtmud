@@ -1,0 +1,331 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>fireside.cards &mdash; qtmud 0.0.4 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="qtmud 0.0.4 documentation" href="../../index.html"/>
+        <link rel="up" title="fireside" href="../fireside.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> qtmud
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.4
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <!-- Local TOC -->
+                <div class="local-toc"></div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">qtmud</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      
+          <li><a href="../fireside.html">fireside</a> &raquo;</li>
+      
+    <li>fireside.cards</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for fireside.cards</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">random</span>
+
+<span class="kn">import</span> <span class="nn">qtmud</span>
+
+<span class="c1"># TODO cards for checking a player&#39;s score</span>
+
+<div class="viewcode-block" id="HamfistedOgre"><a class="viewcode-back" href="../../fireside.html#fireside.cards.HamfistedOgre">[docs]</a><span class="k">class</span> <span class="nc">HamfistedOgre</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; The Hamfisted Ogre will do 8 damage to your target, and 4 damage to</span>
+<span class="sd">    you. Costs 6 mana. &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Hamfisted Ogre&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cost</span> <span class="o">=</span> <span class="mi">6</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">damage</span> <span class="o">=</span> <span class="mi">6</span>
+
+<div class="viewcode-block" id="HamfistedOgre.play"><a class="viewcode-back" href="../../fireside.html#fireside.cards.HamfistedOgre.play">[docs]</a>    <span class="k">def</span> <span class="nf">play</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">player</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;damage&#39;</span><span class="p">,</span> <span class="n">player</span><span class="o">=</span><span class="n">target</span><span class="p">,</span> <span class="n">amount</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">damage</span><span class="p">)</span>
+        <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;damage&#39;</span><span class="p">,</span> <span class="n">player</span><span class="o">=</span><span class="n">player</span><span class="p">,</span> <span class="n">amount</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">damage</span><span class="o">/</span><span class="mi">2</span><span class="p">))</span>
+        <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;broadcast&#39;</span><span class="p">,</span> <span class="n">channel</span><span class="o">=</span><span class="s1">&#39;fireside&#39;</span><span class="p">,</span> <span class="n">speaker</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
+                       <span class="n">message</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{player.name}</span><span class="s1"> plays his </span><span class="si">{self.name}</span><span class="s1"> against &#39;</span>
+                                <span class="s1">&#39;</span><span class="si">{target.name}</span><span class="s1">, doing </span><span class="si">{self.damage}</span><span class="s1">. &#39;</span>
+                                <span class="s1">&#39;Unfortunately, the Hamfisted Ogre also &#39;</span>
+                                <span class="s1">&#39;attacked </span><span class="si">{player.name}</span><span class="s1"> for half damage.&#39;</span>
+                                <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="nb">locals</span><span class="p">())))</span></div></div>
+
+<div class="viewcode-block" id="RecklessEngineer"><a class="viewcode-back" href="../../fireside.html#fireside.cards.RecklessEngineer">[docs]</a><span class="k">class</span> <span class="nc">RecklessEngineer</span><span class="p">():</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Reckless Engineer&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cost</span> <span class="o">=</span> <span class="mi">4</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">repair</span> <span class="o">=</span> <span class="mi">4</span>
+
+<div class="viewcode-block" id="RecklessEngineer.play"><a class="viewcode-back" href="../../fireside.html#fireside.cards.RecklessEngineer.play">[docs]</a>    <span class="k">def</span> <span class="nf">play</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">player</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;armor&#39;</span><span class="p">,</span> <span class="n">player</span><span class="o">=</span><span class="n">target</span><span class="p">,</span> <span class="n">amount</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">repair</span><span class="p">)</span>
+        <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;broadcast&#39;</span><span class="p">,</span> <span class="n">channel</span><span class="o">=</span><span class="s1">&#39;fireside&#39;</span><span class="p">,</span> <span class="n">speaker</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
+                       <span class="n">message</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;Adding </span><span class="si">{self.repair}</span><span class="s1"> to {player.name&#39;</span>
+                                <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="nb">locals</span><span class="p">())))</span></div></div>
+
+
+<div class="viewcode-block" id="Spam"><a class="viewcode-back" href="../../fireside.html#fireside.cards.Spam">[docs]</a><span class="k">class</span> <span class="nc">Spam</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; what does this card do &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Spam&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cost</span> <span class="o">=</span> <span class="mi">5</span>
+
+<div class="viewcode-block" id="Spam.play"><a class="viewcode-back" href="../../fireside.html#fireside.cards.Spam.play">[docs]</a>    <span class="k">def</span> <span class="nf">play</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">player</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">target_count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">client</span> <span class="ow">in</span> <span class="n">qtmud</span><span class="o">.</span><span class="n">connected_clients</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">client</span> <span class="o">==</span> <span class="n">player</span><span class="p">:</span>
+                <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;send&#39;</span><span class="p">,</span> <span class="n">recipient</span><span class="o">=</span><span class="n">client</span><span class="p">,</span>
+                               <span class="n">text</span><span class="o">=</span> <span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> played the SPAM card!</span><span class="se">\n</span><span class="s1">&#39;</span>
+                                      <span class="s1">&#39;       SSSSS  PPPP   AA   M  M  M</span><span class="se">\n</span><span class="s1">&#39;</span>
+                                      <span class="s1">&#39;       S      P  P  A  A  MM M MM</span><span class="se">\n</span><span class="s1">&#39;</span>
+                                      <span class="s1">&#39;       SSSSS  PPPP  AAAA  M M M M</span><span class="se">\n</span><span class="s1">&#39;</span>
+                                      <span class="s1">&#39;           S  P     A  A  M     M</span><span class="se">\n</span><span class="s1">&#39;</span>
+                                      <span class="s1">&#39;       SSSSS  P     A  A  M     M &#39;</span>
+                                      <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">player</span><span class="o">.</span><span class="n">name</span><span class="p">)))</span>
+                <span class="n">target_count</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">player</span><span class="o">.</span><span class="n">armor</span> <span class="o">+=</span> <span class="n">target_count</span>
+        <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;send&#39;</span><span class="p">,</span> <span class="n">recipient</span><span class="o">=</span><span class="n">player</span><span class="p">,</span>
+                       <span class="n">text</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;Hit </span><span class="si">{}</span><span class="s1"> players with your SPAM, so you</span><span class="se">\&#39;</span><span class="s1">ve &#39;</span>
+                             <span class="s1">&#39;gained that much armor&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">target_count</span><span class="p">)))</span></div></div>
+
+
+<div class="viewcode-block" id="Ork"><a class="viewcode-back" href="../../fireside.html#fireside.cards.Ork">[docs]</a><span class="k">class</span> <span class="nc">Ork</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; Randomly attacks another player for 2 damage - Ork might hurt the</span>
+<span class="sd">    player who plays it, so watch out. &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Ork&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cost</span> <span class="o">=</span> <span class="mi">3</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">damage</span> <span class="o">=</span> <span class="mi">2</span>
+
+<div class="viewcode-block" id="Ork.play"><a class="viewcode-back" href="../../fireside.html#fireside.cards.Ork.play">[docs]</a>    <span class="k">def</span> <span class="nf">play</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">player</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+        <span class="n">victim</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">qtmud</span><span class="o">.</span><span class="n">connected_clients</span><span class="p">)</span>
+        <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;damage&#39;</span><span class="p">,</span> <span class="n">player</span><span class="o">=</span><span class="n">victim</span><span class="p">,</span> <span class="n">amount</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">damage</span><span class="p">)</span>
+        <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;send&#39;</span><span class="p">,</span>
+                       <span class="n">recipient</span><span class="o">=</span><span class="n">player</span><span class="p">,</span>
+                       <span class="n">text</span><span class="o">=</span><span class="s1">&#39;You attack </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">victim</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+        <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;send&#39;</span><span class="p">,</span>
+                       <span class="n">recipient</span><span class="o">=</span><span class="n">victim</span><span class="p">,</span>
+                       <span class="n">text</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1">s Ork attacks you.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">player</span><span class="o">.</span><span class="n">name</span><span class="p">))</span></div></div>
+
+
+
+<div class="viewcode-block" id="Grunt"><a class="viewcode-back" href="../../fireside.html#fireside.cards.Grunt">[docs]</a><span class="k">class</span> <span class="nc">Grunt</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; Boosts your armor by 2 points &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Grunt&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cost</span> <span class="o">=</span> <span class="mi">3</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">armor_boost</span> <span class="o">=</span> <span class="mi">2</span>
+
+<div class="viewcode-block" id="Grunt.play"><a class="viewcode-back" href="../../fireside.html#fireside.cards.Grunt.play">[docs]</a>    <span class="k">def</span> <span class="nf">play</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">player</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+        <span class="n">player</span><span class="o">.</span><span class="n">armor</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">armor_boost</span>
+        <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;send&#39;</span><span class="p">,</span> <span class="n">recipient</span><span class="o">=</span><span class="n">player</span><span class="p">,</span>
+                       <span class="n">text</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{self.name}</span><span class="s1"> moves to defend you, giving you &#39;</span>
+                             <span class="s1">&#39;</span><span class="si">{self.armor_boost}</span><span class="s1"> more armor.&#39;</span>
+                             <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="nb">locals</span><span class="p">())))</span></div></div>
+
+
+<div class="viewcode-block" id="Neckbeard"><a class="viewcode-back" href="../../fireside.html#fireside.cards.Neckbeard">[docs]</a><span class="k">class</span> <span class="nc">Neckbeard</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; what does this card do &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Neckbeard&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cost</span> <span class="o">=</span> <span class="mi">3</span>
+
+<div class="viewcode-block" id="Neckbeard.play"><a class="viewcode-back" href="../../fireside.html#fireside.cards.Neckbeard.play">[docs]</a>    <span class="k">def</span> <span class="nf">play</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">player</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+        <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;send&#39;</span><span class="p">,</span> <span class="n">recipient</span><span class="o">=</span><span class="n">player</span><span class="p">,</span>
+                       <span class="n">text</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;This card doesn</span><span class="se">\&#39;</span><span class="s1">t do anything yet!&#39;</span><span class="p">))</span></div></div>
+
+<div class="viewcode-block" id="Pablo"><a class="viewcode-back" href="../../fireside.html#fireside.cards.Pablo">[docs]</a><span class="k">class</span> <span class="nc">Pablo</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; Pablo costs 7 mana, and adds 2 points to every player&#39;s armor -</span>
+<span class="sd">    except one. That unfortunate player (can&#39;t be the person who played</span>
+<span class="sd">    Pablo) loses all of their armor. &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Pablo&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cost</span> <span class="o">=</span> <span class="mi">7</span>
+
+<div class="viewcode-block" id="Pablo.play"><a class="viewcode-back" href="../../fireside.html#fireside.cards.Pablo.play">[docs]</a>    <span class="k">def</span> <span class="nf">play</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">player</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+        <span class="n">players</span> <span class="o">=</span> <span class="n">qtmud</span><span class="o">.</span><span class="n">connected_clients</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">players</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;send&#39;</span><span class="p">,</span> <span class="n">recipient</span><span class="o">=</span><span class="n">player</span><span class="p">,</span>
+                           <span class="n">text</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;You</span><span class="se">\&#39;</span><span class="s1">re the only player, so Pablo chills &#39;</span>
+                                 <span class="s1">&#39;with you for a bit. You gain 8 mana.&#39;</span><span class="p">))</span>
+            <span class="n">player</span><span class="o">.</span><span class="n">mana</span> <span class="o">+=</span> <span class="mi">8</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">players</span><span class="p">)</span>
+        <span class="n">victim</span> <span class="o">=</span> <span class="n">players</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">victim</span> <span class="o">==</span> <span class="n">player</span><span class="p">:</span>
+            <span class="k">while</span> <span class="n">victim</span> <span class="o">==</span> <span class="n">player</span><span class="p">:</span>
+                <span class="n">players</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">victim</span><span class="p">)</span>
+                <span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">players</span><span class="p">)</span>
+                <span class="n">victim</span> <span class="o">=</span> <span class="n">players</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+        <span class="n">victim</span><span class="o">.</span><span class="n">armor</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;send&#39;</span><span class="p">,</span> <span class="n">recipient</span><span class="o">=</span><span class="n">victim</span><span class="p">,</span>
+                       <span class="n">text</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{player}</span><span class="s1"> plays </span><span class="si">{card.name}</span><span class="s1">, and it destroys all &#39;</span>
+                             <span class="s1">&#39;your armor!&#39;</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">players</span><span class="p">:</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">armor</span> <span class="o">+=</span> <span class="mi">2</span>
+            <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;send&#39;</span><span class="p">,</span><span class="n">recipient</span><span class="o">=</span><span class="n">p</span><span class="p">,</span>
+                       <span class="n">text</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{player}</span><span class="s1"> played </span><span class="si">{card.name}</span><span class="s1">, so you &#39;</span>
+                             <span class="s1">&#39;gained 2 armor.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="nb">locals</span><span class="p">())))</span>
+        <span class="k">return</span> <span class="kc">True</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, emsenn.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.0.4',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

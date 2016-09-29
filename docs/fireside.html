@@ -1,0 +1,464 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Fireside &mdash; qtmud 0.0.4 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="qtmud 0.0.4 documentation" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> qtmud
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.4
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <!-- Local TOC -->
+                <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Fireside</a><ul>
+<li><a class="reference internal" href="#module-fireside">Fireside module</a></li>
+<li><a class="reference internal" href="#submodules">Submodules</a><ul>
+<li><a class="reference internal" href="#module-fireside.cmds">fireside.cmds module</a></li>
+<li><a class="reference internal" href="#module-fireside.subscriptions">fireside.subscriptions module</a></li>
+<li><a class="reference internal" href="#module-fireside.txt">fireside.txt module</a></li>
+<li><a class="reference internal" href="#module-fireside.cards">fireside.cards module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">qtmud</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Fireside</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/fireside.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="fireside">
+<h1>Fireside<a class="headerlink" href="#fireside" title="Permalink to this headline">¶</a></h1>
+<p>Fireside is a the most lightweight <a class="reference internal" href="qtmud.html#term-mudlib"><span class="xref std std-term">mudlib</span></a> built for <span class="xref doc">qtMUD</span>.
+Building on the <a class="reference internal" href="qtmud.html#qtmud.services.Talker" title="qtmud.services.Talker"><code class="xref py py-class docutils literal"><span class="pre">Talker</span></code></a>, Fireside allocates
+mana to players based on how much they talk on the various talker
+<span class="xref std std-term">channels</span>.</p>
+<p>These mana points can be spent to play cards, which generally either hurt
+other players or help yourself.</p>
+<div class="section" id="module-fireside">
+<span id="fireside-module"></span><h2>Fireside module<a class="headerlink" href="#module-fireside" title="Permalink to this headline">¶</a></h2>
+<dl class="data">
+<dt id="fireside.DECK">
+<code class="descclassname">fireside.</code><code class="descname">DECK</code><em class="property"> = {}</em><a class="headerlink" href="#fireside.DECK" title="Permalink to this definition">¶</a></dt>
+<dd><p>built from the classes in <a class="reference internal" href="#module-fireside.cards" title="fireside.cards"><code class="xref py py-mod docutils literal"><span class="pre">fireside.cards</span></code></a> when <a class="reference internal" href="#fireside.load" title="fireside.load"><code class="xref py py-func docutils literal"><span class="pre">load()</span></code></a> is
+called.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="fireside.build_client">
+<code class="descclassname">fireside.</code><code class="descname">build_client</code><span class="sig-paren">(</span><em>client</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fireside.html#build_client"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fireside.build_client" title="Permalink to this definition">¶</a></dt>
+<dd><p>Expecting to be passed an instance of <a class="reference internal" href="qtmud.html#qtmud.Thing" title="qtmud.Thing"><code class="xref py py-class docutils literal"><span class="pre">qtmud.Thing</span></code></a>,
+this method turns a client into a Fireside player.</p>
+<p>That means giving the client several attributes:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="17%" />
+<col width="8%" />
+<col width="75%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">attribute</th>
+<th class="head">type</th>
+<th class="head">use</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>hand</td>
+<td>list</td>
+<td>the cards the player holds. mirrored in
+<a class="reference internal" href="#fireside.player_hands" title="fireside.player_hands"><code class="xref py py-attr docutils literal"><span class="pre">player_hands</span></code></a>.</td>
+</tr>
+<tr class="row-odd"><td>mana</td>
+<td>int</td>
+<td>increased by talking, decreased by playing cards.</td>
+</tr>
+<tr class="row-even"><td>health</td>
+<td>int</td>
+<td>if this reaches 0, the player
+<a class="reference internal" href="#fireside.subscriptions.death" title="fireside.subscriptions.death"><code class="xref py py-func docutils literal"><span class="pre">dies</span></code></a>.</td>
+</tr>
+<tr class="row-odd"><td>armor</td>
+<td>int</td>
+<td>additional protection from damage.</td>
+</tr>
+<tr class="row-even"><td>word_count</td>
+<td>int</td>
+<td>additional protection from damage.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="fireside.load">
+<code class="descclassname">fireside.</code><code class="descname">load</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/fireside.html#load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fireside.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds Fireside <a class="reference internal" href="#module-fireside.subscriptions" title="fireside.subscriptions"><code class="xref py py-mod docutils literal"><span class="pre">subscriptions</span></code></a> to
+<code class="xref py py-attr docutils literal"><span class="pre">qtmud.active_subscribers</span></code> and builds <a class="reference internal" href="#fireside.DECK" title="fireside.DECK"><code class="xref py py-attr docutils literal"><span class="pre">DECK</span></code></a> from the classes
+in <a class="reference internal" href="#module-fireside.cards" title="fireside.cards"><code class="xref py py-mod docutils literal"><span class="pre">fireside.cards</span></code></a>.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="fireside.player_hands">
+<code class="descclassname">fireside.</code><code class="descname">player_hands</code><em class="property"> = {}</em><a class="headerlink" href="#fireside.player_hands" title="Permalink to this definition">¶</a></dt>
+<dd><p>All the hands currently held by different players, in the format of
+<code class="docutils literal"><span class="pre">{</span> <span class="pre">player</span> <span class="pre">:</span> <span class="pre">[</span> <span class="pre">list,</span> <span class="pre">of,</span> <span class="pre">cards</span> <span class="pre">]</span> <span class="pre">}</span></code></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="fireside.search_hand">
+<code class="descclassname">fireside.</code><code class="descname">search_hand</code><span class="sig-paren">(</span><em>player</em>, <em>text</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fireside.html#search_hand"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fireside.search_hand" title="Permalink to this definition">¶</a></dt>
+<dd><p>Searches player&#8217;s hands for any cards whose name matches text,
+or whose name has one word matching with text if text is one word.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+<p>Like <span class="xref doc">qtMUD</span>, Fireside is has a subscriptions, cmds, and txt module. It
+also has a cards module, which is where the various cards in Fireside&#8217;s deck
+live.</p>
+<div class="section" id="module-fireside.cmds">
+<span id="fireside-cmds-module"></span><h3>fireside.cmds module<a class="headerlink" href="#module-fireside.cmds" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="fireside.cmds.deck">
+<code class="descclassname">fireside.cmds.</code><code class="descname">deck</code><span class="sig-paren">(</span><em>player</em>, <em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fireside/cmds.html#deck"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fireside.cmds.deck" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="fireside.cmds.discard">
+<code class="descclassname">fireside.cmds.</code><code class="descname">discard</code><span class="sig-paren">(</span><em>client</em>, <em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fireside/cmds.html#discard"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fireside.cmds.discard" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="fireside.cmds.draw">
+<code class="descclassname">fireside.cmds.</code><code class="descname">draw</code><span class="sig-paren">(</span><em>player</em>, <em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fireside/cmds.html#draw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fireside.cmds.draw" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="fireside.cmds.hand">
+<code class="descclassname">fireside.cmds.</code><code class="descname">hand</code><span class="sig-paren">(</span><em>player</em>, <em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fireside/cmds.html#hand"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fireside.cmds.hand" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="fireside.cmds.info">
+<code class="descclassname">fireside.cmds.</code><code class="descname">info</code><span class="sig-paren">(</span><em>player</em>, <em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fireside/cmds.html#info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fireside.cmds.info" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="fireside.cmds.play">
+<code class="descclassname">fireside.cmds.</code><code class="descname">play</code><span class="sig-paren">(</span><em>player</em>, <em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fireside/cmds.html#play"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fireside.cmds.play" title="Permalink to this definition">¶</a></dt>
+<dd><p>Play a card in your hand.</p>
+<p>in-game syntax: play &lt;card&gt; [[at] &lt;target&gt;]
+Pythonic syntax: play(player, line)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="fireside.cmds.score">
+<code class="descclassname">fireside.cmds.</code><code class="descname">score</code><span class="sig-paren">(</span><em>player</em>, <em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fireside/cmds.html#score"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fireside.cmds.score" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-fireside.subscriptions">
+<span id="fireside-subscriptions-module"></span><h3>fireside.subscriptions module<a class="headerlink" href="#module-fireside.subscriptions" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="fireside.subscriptions.armor">
+<code class="descclassname">fireside.subscriptions.</code><code class="descname">armor</code><span class="sig-paren">(</span><em>player</em>, <em>amount=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fireside/subscriptions.html#armor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fireside.subscriptions.armor" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="fireside.subscriptions.broadcast">
+<code class="descclassname">fireside.subscriptions.</code><code class="descname">broadcast</code><span class="sig-paren">(</span><em>channel</em>, <em>speaker</em>, <em>message</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fireside/subscriptions.html#broadcast"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fireside.subscriptions.broadcast" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="fireside.subscriptions.client_disconnect">
+<code class="descclassname">fireside.subscriptions.</code><code class="descname">client_disconnect</code><span class="sig-paren">(</span><em>client</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fireside/subscriptions.html#client_disconnect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fireside.subscriptions.client_disconnect" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="fireside.subscriptions.damage">
+<code class="descclassname">fireside.subscriptions.</code><code class="descname">damage</code><span class="sig-paren">(</span><em>player</em>, <em>amount=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fireside/subscriptions.html#damage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fireside.subscriptions.damage" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="fireside.subscriptions.death">
+<code class="descclassname">fireside.subscriptions.</code><code class="descname">death</code><span class="sig-paren">(</span><em>player</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fireside/subscriptions.html#death"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fireside.subscriptions.death" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="fireside.subscriptions.discard">
+<code class="descclassname">fireside.subscriptions.</code><code class="descname">discard</code><span class="sig-paren">(</span><em>player</em>, <em>cards=None</em>, <em>all=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fireside/subscriptions.html#discard"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fireside.subscriptions.discard" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="fireside.subscriptions.draw">
+<code class="descclassname">fireside.subscriptions.</code><code class="descname">draw</code><span class="sig-paren">(</span><em>player</em>, <em>count=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fireside/subscriptions.html#draw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fireside.subscriptions.draw" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-fireside.txt">
+<span id="fireside-txt-module"></span><h3>fireside.txt module<a class="headerlink" href="#module-fireside.txt" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="module-fireside.cards">
+<span id="fireside-cards-module"></span><h3>fireside.cards module<a class="headerlink" href="#module-fireside.cards" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="fireside.cards.Grunt">
+<em class="property">class </em><code class="descclassname">fireside.cards.</code><code class="descname">Grunt</code><a class="reference internal" href="_modules/fireside/cards.html#Grunt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fireside.cards.Grunt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>Boosts your armor by 2 points</p>
+<dl class="method">
+<dt id="fireside.cards.Grunt.play">
+<code class="descname">play</code><span class="sig-paren">(</span><em>player</em>, <em>target</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fireside/cards.html#Grunt.play"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fireside.cards.Grunt.play" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="fireside.cards.HamfistedOgre">
+<em class="property">class </em><code class="descclassname">fireside.cards.</code><code class="descname">HamfistedOgre</code><a class="reference internal" href="_modules/fireside/cards.html#HamfistedOgre"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fireside.cards.HamfistedOgre" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>The Hamfisted Ogre will do 8 damage to your target, and 4 damage to
+you. Costs 6 mana.</p>
+<dl class="method">
+<dt id="fireside.cards.HamfistedOgre.play">
+<code class="descname">play</code><span class="sig-paren">(</span><em>player</em>, <em>target=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fireside/cards.html#HamfistedOgre.play"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fireside.cards.HamfistedOgre.play" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="fireside.cards.Neckbeard">
+<em class="property">class </em><code class="descclassname">fireside.cards.</code><code class="descname">Neckbeard</code><a class="reference internal" href="_modules/fireside/cards.html#Neckbeard"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fireside.cards.Neckbeard" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>what does this card do</p>
+<dl class="method">
+<dt id="fireside.cards.Neckbeard.play">
+<code class="descname">play</code><span class="sig-paren">(</span><em>player</em>, <em>target</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fireside/cards.html#Neckbeard.play"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fireside.cards.Neckbeard.play" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="fireside.cards.Ork">
+<em class="property">class </em><code class="descclassname">fireside.cards.</code><code class="descname">Ork</code><a class="reference internal" href="_modules/fireside/cards.html#Ork"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fireside.cards.Ork" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>Randomly attacks another player for 2 damage - Ork might hurt the
+player who plays it, so watch out.</p>
+<dl class="method">
+<dt id="fireside.cards.Ork.play">
+<code class="descname">play</code><span class="sig-paren">(</span><em>player</em>, <em>target</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fireside/cards.html#Ork.play"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fireside.cards.Ork.play" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="fireside.cards.Pablo">
+<em class="property">class </em><code class="descclassname">fireside.cards.</code><code class="descname">Pablo</code><a class="reference internal" href="_modules/fireside/cards.html#Pablo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fireside.cards.Pablo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>Pablo costs 7 mana, and adds 2 points to every player&#8217;s armor -
+except one. That unfortunate player (can&#8217;t be the person who played
+Pablo) loses all of their armor.</p>
+<dl class="method">
+<dt id="fireside.cards.Pablo.play">
+<code class="descname">play</code><span class="sig-paren">(</span><em>player</em>, <em>target</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fireside/cards.html#Pablo.play"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fireside.cards.Pablo.play" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="fireside.cards.RecklessEngineer">
+<em class="property">class </em><code class="descclassname">fireside.cards.</code><code class="descname">RecklessEngineer</code><a class="reference internal" href="_modules/fireside/cards.html#RecklessEngineer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fireside.cards.RecklessEngineer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="fireside.cards.RecklessEngineer.play">
+<code class="descname">play</code><span class="sig-paren">(</span><em>player</em>, <em>target=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fireside/cards.html#RecklessEngineer.play"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fireside.cards.RecklessEngineer.play" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="fireside.cards.Spam">
+<em class="property">class </em><code class="descclassname">fireside.cards.</code><code class="descname">Spam</code><a class="reference internal" href="_modules/fireside/cards.html#Spam"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fireside.cards.Spam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>what does this card do</p>
+<dl class="method">
+<dt id="fireside.cards.Spam.play">
+<code class="descname">play</code><span class="sig-paren">(</span><em>player</em>, <em>target=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fireside/cards.html#Spam.play"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fireside.cards.Spam.play" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, emsenn.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.0.4',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

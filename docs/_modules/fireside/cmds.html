@@ -1,0 +1,283 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>fireside.cmds &mdash; qtmud 0.0.4 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="qtmud 0.0.4 documentation" href="../../index.html"/>
+        <link rel="up" title="fireside" href="../fireside.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> qtmud
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.4
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <!-- Local TOC -->
+                <div class="local-toc"></div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">qtmud</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      
+          <li><a href="../fireside.html">fireside</a> &raquo;</li>
+      
+    <li>fireside.cmds</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for fireside.cmds</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">qtmud</span>
+<span class="kn">from</span> <span class="nn">mudlib</span> <span class="k">import</span> <span class="n">fireside</span>
+
+<div class="viewcode-block" id="hand"><a class="viewcode-back" href="../../fireside.html#fireside.cmds.hand">[docs]</a><span class="k">def</span> <span class="nf">hand</span><span class="p">(</span><span class="n">player</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+    <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;send&#39;</span><span class="p">,</span>
+                   <span class="n">recipient</span><span class="o">=</span><span class="n">player</span><span class="p">,</span>
+                   <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Cards in your hand:</span><span class="se">\n</span><span class="s1">&#39;</span>
+                        <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">c</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">player</span><span class="o">.</span><span class="n">hand</span><span class="p">])))</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
+<div class="viewcode-block" id="score"><a class="viewcode-back" href="../../fireside.html#fireside.cmds.score">[docs]</a><span class="k">def</span> <span class="nf">score</span><span class="p">(</span><span class="n">player</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+    <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;send&#39;</span><span class="p">,</span> <span class="n">recipient</span><span class="o">=</span><span class="n">player</span><span class="p">,</span>
+                   <span class="n">text</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;HEALTH: </span><span class="si">{player.health}</span><span class="se">\n</span><span class="s1">&#39;</span>
+                         <span class="s1">&#39;ARMOR:  </span><span class="si">{player.armor}</span><span class="se">\n</span><span class="s1">&#39;</span>
+                         <span class="s1">&#39;MANA:   </span><span class="si">{player.mana}</span><span class="se">\n\n</span><span class="s1">&#39;</span>
+                         <span class="s1">&#39;SCORE:  </span><span class="si">{player.score}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="nb">locals</span><span class="p">())))</span></div>
+
+<div class="viewcode-block" id="deck"><a class="viewcode-back" href="../../fireside.html#fireside.cmds.deck">[docs]</a><span class="k">def</span> <span class="nf">deck</span><span class="p">(</span><span class="n">player</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+    <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;send&#39;</span><span class="p">,</span> <span class="n">recipient</span><span class="o">=</span><span class="n">player</span><span class="p">,</span>
+                   <span class="n">text</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> cards in the deck.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">fireside</span><span class="o">.</span><span class="n">DECK</span><span class="p">)))</span></div>
+
+<div class="viewcode-block" id="play"><a class="viewcode-back" href="../../fireside.html#fireside.cmds.play">[docs]</a><span class="k">def</span> <span class="nf">play</span><span class="p">(</span><span class="n">player</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Play a card in your hand.</span>
+
+<span class="sd">        in-game syntax: play &lt;card&gt; [[at] &lt;target&gt;]</span>
+<span class="sd">        Pythonic syntax: play(player, line)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="n">valid</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">matches</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">card</span> <span class="ow">in</span> <span class="n">player</span><span class="o">.</span><span class="n">hand</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">line</span> <span class="o">==</span> <span class="n">card</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">or</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">))</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">line</span> <span class="o">==</span>
+            <span class="n">card</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()):</span>
+            <span class="n">matches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">card</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">matches</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">card</span> <span class="o">=</span> <span class="n">matches</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">output</span> <span class="o">+=</span> <span class="s1">&#39;Attempting to play the </span><span class="si">{}</span><span class="s1"> card... &#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">card</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">player</span><span class="o">.</span><span class="n">mana</span> <span class="o">&gt;=</span> <span class="n">card</span><span class="o">.</span><span class="n">cost</span><span class="p">:</span>
+            <span class="n">player</span><span class="o">.</span><span class="n">mana</span> <span class="o">+=</span> <span class="o">-</span><span class="n">card</span><span class="o">.</span><span class="n">cost</span>
+            <span class="n">output</span> <span class="o">+=</span> <span class="p">(</span><span class="s1">&#39;took </span><span class="si">{}</span><span class="s1"> mana, now you have </span><span class="si">{}</span><span class="s1"> mana... &#39;</span>
+                       <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">card</span><span class="o">.</span><span class="n">cost</span><span class="p">,</span> <span class="n">player</span><span class="o">.</span><span class="n">mana</span><span class="p">))</span>
+            <span class="n">output</span> <span class="o">+=</span> <span class="p">(</span><span class="s1">&#39;shuffling </span><span class="si">{}</span><span class="s1"> back into the deck... &#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">card</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+            <span class="n">player</span><span class="o">.</span><span class="n">hand</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">card</span><span class="p">)</span>
+            <span class="n">fireside</span><span class="o">.</span><span class="n">DECK</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">card</span><span class="o">.</span><span class="n">__class__</span><span class="p">)</span>
+            <span class="n">valid</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">+=</span> <span class="p">(</span><span class="s1">&#39;you need </span><span class="si">{}</span><span class="s1"> to play this but only have </span><span class="si">{}</span><span class="s1">... &#39;</span>
+                       <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">card</span><span class="o">.</span><span class="n">cost</span><span class="p">,</span> <span class="n">player</span><span class="o">.</span><span class="n">mana</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">matches</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">output</span> <span class="o">+=</span> <span class="s1">&#39;Couldn</span><span class="se">\&#39;</span><span class="s1">t find that card in your hand.&#39;</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">matches</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">output</span> <span class="o">+=</span> <span class="s1">&#39;More than one match for that card.&#39;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">output</span><span class="p">:</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="s1">&#39;Play failed for some reason.&#39;</span>
+    <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;send&#39;</span><span class="p">,</span> <span class="n">recipient</span><span class="o">=</span><span class="n">player</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">output</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">valid</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">card</span><span class="o">.</span><span class="n">play</span><span class="p">(</span><span class="n">player</span><span class="o">=</span><span class="n">player</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">line</span><span class="p">[</span><span class="mi">1</span><span class="p">:]))</span>
+
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="info"><a class="viewcode-back" href="../../fireside.html#fireside.cmds.info">[docs]</a><span class="k">def</span> <span class="nf">info</span><span class="p">(</span><span class="n">player</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="n">matches</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">card</span> <span class="ow">in</span> <span class="n">player</span><span class="o">.</span><span class="n">hand</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">card</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+            <span class="n">matches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">card</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">matches</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">card</span> <span class="o">=</span> <span class="n">matches</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">output</span> <span class="o">+=</span> <span class="p">(</span><span class="s1">&#39;--- </span><span class="si">{card.name}</span><span class="s1"> ---</span><span class="se">\n</span><span class="s1">&#39;</span>
+                   <span class="s1">&#39;COST:      </span><span class="si">{card.cost}</span><span class="se">\n</span><span class="s1">&#39;</span>
+                   <span class="s1">&#39;INFO:      </span><span class="si">{card.__doc__}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="nb">locals</span><span class="p">()))</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">output</span><span class="p">:</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="s1">&#39;Can</span><span class="se">\&#39;</span><span class="s1">t get that cards info for some reason.&#39;</span>
+    <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;send&#39;</span><span class="p">,</span> <span class="n">recipient</span><span class="o">=</span><span class="n">player</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">output</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="discard"><a class="viewcode-back" href="../../fireside.html#fireside.cmds.discard">[docs]</a><span class="k">def</span> <span class="nf">discard</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+    <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;send&#39;</span><span class="p">,</span> <span class="n">recipient</span><span class="o">=</span><span class="n">client</span><span class="p">,</span>
+                   <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Discard function goes here.&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="draw"><a class="viewcode-back" href="../../fireside.html#fireside.cmds.draw">[docs]</a><span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="n">player</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">player</span><span class="o">.</span><span class="n">hand</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">5</span><span class="p">:</span>
+        <span class="n">output</span> <span class="o">+=</span> <span class="s1">&#39;Can</span><span class="se">\&#39;</span><span class="s1">t draw any more cards, &quot;play&quot; or &quot;discard&quot; one.&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;draw&#39;</span><span class="p">,</span> <span class="n">player</span><span class="o">=</span><span class="n">player</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">qtmud</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="s1">&#39;send&#39;</span><span class="p">,</span> <span class="n">recipient</span><span class="o">=</span><span class="n">player</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">output</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, emsenn.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.0.4',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
