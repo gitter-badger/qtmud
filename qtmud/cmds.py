@@ -123,6 +123,10 @@ def talker(client, line):
     qtmud.schedule('send', recipient=client, text=output)
 
 
+def quit(client, line):
+    qtmud.schedule('send')
+
+
 def who(client, line):
     qtmud.schedule('send',
                    recipient=client,

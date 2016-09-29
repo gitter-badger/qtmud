@@ -104,13 +104,6 @@ def load():
     log.info('adding qtmud.services to qtmud.active_services')
     active_services = {t[1].__name__.lower(): t[1]() for
                         t in getmembers(services) if isclass(t[1])}
-    log.info('start()ing active services')
-    for service in active_services:
-        if active_services[service].start():
-            log.info('%s start()ed', service)
-            pass
-        else:
-            log.warning('%s failed to start()', service)
     log.info('qtmud.load()ed')
     #####
     #
@@ -229,6 +222,16 @@ def search_connected_clients_by_name(name):
 def search_client_accounts_by_name(name):
     return [c for c in client_accounts.keys() if c.lower() == name.lower()]
 
+
+def start():
+    log.info('start()ing active_services')
+    for service in active_services:
+        if active_services[service].start():
+            log.info('%s start()ed', service)
+            pass
+        else:
+            log.warning('%s failed to start()', service)
+    return True
 
 def tick():
     global events
