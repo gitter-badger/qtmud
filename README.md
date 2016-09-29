@@ -1,7 +1,8 @@
-# Qualities of Things Multi-User Dimension
-## (qtmud)
+# qtMUD
 
-qtmud is an 
+[![codecov](https://codecov.io/gh/emsenn/qtmud/branch/master/graph/badge.svg)](https://codecov.io/gh/emsenn/qtmud)[![Documentation Status](https://readthedocs.org/projects/qtmud/badge/?version=latest)](http://qtmud.readthedocs.io/en/latest/?badge=latest)
+
+qtMUD is an 
 
 * early alpha
 * multiplayer
@@ -13,4 +14,4 @@ virtual world simulator.
 ------------------------
 
 The main documentation is available [locally](./docs/index.html) or 
-through [GitHub](https://emsenn.github.io/qtmud/)
+through at [http://qtmud.readthedocs.io/en/latest/](http://qtmud.readthedocs.io/en/latest/)
