@@ -131,15 +131,16 @@ def load():
     #
     #####
     if load_client_accounts():
+        log.debug('qtmud.client_accounts populated from '
+                  'qtmud.load_client_accounts()')
         pass
-    else:
-        log.warning('client_accounts failed to load')
     log.debug('qtmud.load() finished, subscribers and active_services to '
               'follow.')
     log.debug('subscribers are: %s', ', '.join(subscribers))
     log.debug('active_services are: %s',
               ', '.join([s for s in active_services]))
     return True
+
 
 def load_client_accounts(file=CLIENT_ACCOUNT_FILE):
     """ Populates :attr:`qtmud.client_accounts` with the pickle file
@@ -155,28 +156,16 @@ def load_client_accounts(file=CLIENT_ACCOUNT_FILE):
         pickle.dump({}, open(file, 'wb'))
         return False
 
-def save_client_accounts(file=CLIENT_ACCOUNT_FILE):
-    global client_accounts
-    log.debug('saving client_accounts')
-    try:
-        pickle.dump(client_accounts, open(file, 'wb'))
-        return True
-    except Exception as err:
-        log.debug('failed to save client_accounts')
-        return False
 
-
-def run():
-    """ main loop """
-    # TODO better shutdown process
-    log.info('qtmud.run()ning')
-    try:
-        while True:
-            tick()
-    except KeyboardInterrupt:
-        log.info('shutdown started')
-        schedule('shutdown')
-        tick()
+def new_client_account(name, password, birthtime=None):
+    """ Create a new client account in :attr:`client_accounts`"""
+    client_accounts[name.lower()] = {'name': name,
+                            'password': password}
+    if birthtime:
+        client_accounts[name]['birthtime'] = birthtime
+    log.debug('made the new client %s', name)
+    save_client_accounts()
+    return client_accounts[name]
 
 
 def new_thing(**kwargs):
@@ -195,14 +184,50 @@ def new_thing(**kwargs):
     return thing
 
 
+def run():
+    """ main loop """
+    log.info('qtmud.run()ning')
+    try:
+        while True:
+            tick()
+    except KeyboardInterrupt:
+        log.info('shutdown started')
+        schedule('shutdown')
+        tick()
+
+
+def save_client_accounts(file=CLIENT_ACCOUNT_FILE):
+    global client_accounts
+    log.debug('saving client_accounts')
+    try:
+        pickle.dump(client_accounts, open(file, 'wb'))
+        return True
+    except Exception as err:
+        log.debug('failed to save client_accounts')
+        return False
+
+
 def schedule(sub, **payload):
-    """ Schedules a call to sub with payload passed as paramters.
+    """ Schedules a call to sub with payload passed as parameters.
     """
+    if not subscribers.get(sub, []):
+        log.warning('Tried to schedule a %s event, no subscribers '
+                          'listen to it though.', sub)
+        return False
     for method in subscribers.get(sub, []):
         if method not in events:
             events[method] = []
         events[method].append(payload)
     return True
+
+
+def search_connected_clients_by_name(name):
+    return [connected_clients[c] for c in connected_clients
+            if hasattr(c, 'name') and c.name.lower() == name.lower()]
+
+
+def search_client_accounts_by_name(name):
+    return [c for c in client_accounts.keys() if c.lower() == name.lower()]
 
 
 def tick():

@@ -2,6 +2,38 @@ import random
 
 import qtmud
 
+# TODO cards for checking a player's score
+
+class HamfistedOgre():
+    """ The Hamfisted Ogre will do 8 damage to your target, and 4 damage to
+    you. Costs 6 mana. """
+    def __init__(self):
+        self.name = 'Hamfisted Ogre'
+        self.cost = 6
+        self.damage = 6
+
+    def play(self, player, target=None):
+        qtmud.schedule('damage', player=target, amount=self.damage)
+        qtmud.schedule('damage', player=player, amount=int(self.damage/2))
+        qtmud.schedule('broadcast', channel='fireside', speaker=self,
+                       message=('{player.name} plays his {self.name} against '
+                                '{target.name}, doing {self.damage}. '
+                                'Unfortunately, the Hamfisted Ogre also '
+                                'attacked {player.name} for half damage.'
+                                ''.format(**locals())))
+
+class RecklessEngineer():
+    def __init__(self):
+        self.name = 'Reckless Engineer'
+        self.cost = 4
+        self.repair = 4
+
+    def play(self, player, target=None):
+        qtmud.schedule('armor', player=target, amount=self.repair)
+        qtmud.schedule('broadcast', channel='fireside', speaker=self,
+                       message=('Adding {self.repair} to {player.name'
+                                ''.format(**locals())))
+
 
 class Spam():
     """ what does this card do """
@@ -74,12 +106,35 @@ class Neckbeard():
                        text=('This card doesn\'t do anything yet!'))
 
 class Pablo():
-    """ what does this card do """
+    """ Pablo costs 7 mana, and adds 2 points to every player's armor -
+    except one. That unfortunate player (can't be the person who played
+    Pablo) loses all of their armor. """
     def __init__(self):
         self.name = 'Pablo'
-        self.cost = 3
+        self.cost = 7
 
     def play(self, player, target):
-        qtmud.schedule('send', recipient=player,
-                       text=('This card doesn\'t do anything yet!'))
-
+        players = qtmud.connected_clients
+        if len(players) == 1:
+            qtmud.schedule('send', recipient=player,
+                           text=('You\'re the only player, so Pablo chills '
+                                 'with you for a bit. You gain 8 mana.'))
+            player.mana += 8
+            return True
+        random.shuffle(players)
+        victim = players.pop()
+        if victim == player:
+            while victim == player:
+                players.append(victim)
+                random.shuffle(players)
+                victim = players.pop()
+        victim.armor = 0
+        qtmud.schedule('send', recipient=victim,
+                       text=('{player} plays {card.name}, and it destroys all '
+                             'your armor!'))
+        for p in players:
+            p.armor += 2
+            qtmud.schedule('send',recipient=p,
+                       text=('{player} played {card.name}, so you '
+                             'gained 2 armor.'.format(**locals())))
+        return True

@@ -5,6 +5,26 @@ import random
 import qtmud
 from mudlib import fireside
 
+
+def armor(player, amount=0):
+    player.armor += amount
+    if player.armor < 0:
+        player.armor = 0
+    return True
+
+
+def broadcast(channel, speaker, message):
+    if hasattr(speaker, 'word_count'):
+        if message:
+            speaker.word_count += len(message.split(' '))
+            if speaker.word_count >= 50:
+                speaker.word_count = speaker.word_count - 50
+                speaker.mana += 1
+                qtmud.schedule('send', recipient=speaker,
+                               text='You gain a mana point.')
+    return True
+
+
 def client_disconnect(client):
     qtmud.log.debug('disconnecting {} from Fireside.'.format(client.name))
     for other in qtmud.connected_clients:
@@ -12,41 +32,30 @@ def client_disconnect(client):
                        recipient=other,
                        text='{} disconnected.'.format(client.name))
     if hasattr(client, 'hand'):
-        for card in client.hand:
-            qtmud.schedule('undraw', player=client, card=card)
+        qtmud.schedule('discard', player=client, all=True)
     return True
 
-def undraw(player, card):
-    qtmud.log.debug('moving {} from {}\'s hand to the deck.'
-                    ''.format(card.name, player.name))
-    player.hand.remove(card)
-    fireside.DECK.append(card.__class__)
+
+def death(player):
+    qtmud.log.debug('{} killed.'.format(player.name))
+    qtmud.schedule('discard', player=player, all=True)
+    qtmud.schedule('heal', player=player, full=True)
+    player.armor = 0
+
+
+def discard(player, cards=None, all=False):
+    if all is True:
+        cards = [c for c in player.hand]
+    for card in cards:
+        qtmud.log.debug('moving {} from {}\'s hand to the deck.'
+                        ''.format(card.name, player.name))
+        player.hand.remove(card)
+        fireside.DECK.append(card.__class__)
     return
 
 
-def broadcast(channel, speaker, message):
-    if not message:
-        qtmud.schedule('send', recipient=speaker,
-                       text= 'syntax: {} <message>'.format(channel))
-    else:
-        for listener in qtmud.active_services['talker'].channels[channel]:
-            qtmud.schedule('send',
-                           recipient=listener,
-                           text='({}) {}: {}'.format(channel,
-                                                     speaker.name,
-                                                     message))
-            qtmud.active_services['talker'].history[
-                channel].append('{}: {}'.format(speaker.name, message))
-        speaker.word_count += len(message.split(' '))
-        if speaker.word_count >= 50:
-            speaker.word_count = speaker.word_count - 50
-            speaker.mana += 1
-            qtmud.schedule('send', recipient=speaker,
-                           text='You gain a mana point.')
-    return True
-
-
 def damage(player, amount=0):
+    # if a player dies, zero their mana and discard their hand
     if player.armor > 0:
         player.armor += -amount
         amount = 0
@@ -54,6 +63,8 @@ def damage(player, amount=0):
             amount = abs(player.armor)
             player.armor = 0
     player.health += -amount
+    if player.health <= 0:
+        qtmud.schedule('death', player=player)
     return True
 
 
@@ -74,10 +85,4 @@ def draw(player, count=1):
         qtmud.schedule('send', recipient=player,
                        text='Drew {} card[s]'.format(', '.join([c.name for c in
                                                                 drawn_cards])))
-    qtmud.schedule('save_player_hands')
-    return True
-
-
-def score(player, change=1):
-    player.score += change
     return True

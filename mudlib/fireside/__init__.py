@@ -10,9 +10,6 @@ from mudlib.fireside import cards, cmds, services, subscriptions, txt
 
 
 player_hands = dict()
-PLAYER_HANDS_PICKLE = './data/fireside_player_hands'
-
-
 DECK = dict()
 
 
@@ -39,13 +36,19 @@ def build_client(client):
         qtmud.schedule('draw', player=client, count=2)
     return client
 
+def search_hand(player, text):
+    return True
+
 
 def load():
     global DECK
     qtmud.log.info('load()ing Fireside')
     qtmud.log.info('adding fireside.subscriptions to qtmud.subscribers')
-    qtmud.subscribers.update({s[1].__name__: [s[1]] for
-                    s in getmembers(subscriptions) if isfunction(s[1])})
+    for s in getmembers(subscriptions):
+        if isfunction(s[1]):
+            if not s[1].__name__ in qtmud.subscribers:
+                qtmud.subscribers[s[1].__name__] = list()
+            qtmud.subscribers[s[1].__name__].append(s[1])
     qtmud.active_services['talker'].new_channel('fireside')
     DECK = [c[1] for c in getmembers(cards) if isclass(c[1])]
     return True

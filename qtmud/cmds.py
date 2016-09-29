@@ -100,10 +100,7 @@ def whoami(client, line):
                    text='You are {}'.format(client.name))
     return True
 
-def discard(client, line):
-    qtmud.schedule('send', recipient=client,
-                   text='Discard function goes here.')
-    return True
+
 
 
 def talker(client, line):

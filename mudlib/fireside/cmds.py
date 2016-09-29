@@ -27,9 +27,9 @@ def play(player, line):
     output = ''
     valid = False
     matches = []
-    line = line.split(' ')
     for card in player.hand:
-        if line[0] == card.name.lower():
+        if line == card.name.lower() or (len(line.split(' ')) == 1 and line ==
+            card.name.split(' ')[-1].lower()):
             matches.append(card)
     if len(matches) == 1:
         card = matches[0]
@@ -45,11 +45,16 @@ def play(player, line):
         else:
             output += ('you need {} to play this but only have {}... '
                        ''.format(card.cost, player.mana))
+    elif len(matches) == 0:
+        output += 'Couldn\'t find that card in your hand.'
+    elif len(matches) > 1:
+        output += 'More than one match for that card.'
     if not output:
         output = 'Play failed for some reason.'
     qtmud.schedule('send', recipient=player, text=output)
     if valid is True:
         card.play(player=player, target=' '.join(line[1:]))
+
     return True
 
 
@@ -69,6 +74,13 @@ def info(player, line):
         output = 'Can\'t get that cards info for some reason.'
     qtmud.schedule('send', recipient=player, text=output)
     return True
+
+
+def discard(client, line):
+    qtmud.schedule('send', recipient=client,
+                   text='Discard function goes here.')
+    return True
+
 
 def draw(player, line):
     output = ''

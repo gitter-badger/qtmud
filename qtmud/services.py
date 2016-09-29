@@ -120,7 +120,7 @@ class Talker(object):
         return True
 
     def start(self):
-        return
+        return True
 
     def tick(self):
         return

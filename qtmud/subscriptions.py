@@ -13,6 +13,7 @@ from qtmud.services import MUDSocket
 
 
 def broadcast(channel, speaker, message):
+    # TODO: emotes
     if not message:
         qtmud.schedule('send', recipient=speaker,
                        text= 'syntax: {} <message>'.format(channel))
@@ -134,39 +135,6 @@ def client_command_parser(client, line):
                                  '"commands" for your commands.'.format(
                                    command)))
     return True
-
-
-def finger(fingerer, fingeree):
-    """ A bad mimic of the *nix finger command, returns information about a
-    client account.
-
-        .. todo:: update to only use data in qtmud.client_accounts
-
-    :param fingerer: the person requesting the finger sheet
-    :param fingeree: the person who the finger sheet will be built for.
-    """
-    mudsocket = qtmud.active_services[MUDSocket]
-    line = fingeree.split(' ')
-    if len(line) == 2:
-        if line[1] in ['me', 'self']:
-            fingeree = fingerer
-        else:
-            for socket in mudsocket.clients:
-                client = mudsocket.clients[socket]
-                if line[1] == client.name.lower():
-                    fingeree = client
-                    break
-        if not fingeree:
-            output = 'No such client'
-        else:
-            builders.generate_finger(fingeree)
-    else:
-        output = 'syntax: finger <thing>'
-    qtmud.schedule('send',
-                   recipient=fingerer,
-                   text=output)
-    return True
-
 
 def send(recipient, text):
     """ Prepares text to be sent to the recipient
