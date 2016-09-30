@@ -107,19 +107,6 @@ def load():
     log.info('qtmud.load()ed')
     #####
     #
-    # load mudlib
-    #
-    #####
-    if MUDLIB:
-        log.info('load()ing the %s mudlib', MUDLIB.__name__)
-        if MUDLIB.load():
-            log.info('%s load()ed', MUDLIB.__name__)
-        else:
-            log.warning('%s failed to load', MUDLIB.__name__)
-    else:
-        log.info('no mudlib specified')
-    #####
-    #
     # load client accounts
     #
     #####
@@ -215,7 +202,8 @@ def schedule(sub, **payload):
 
 
 def search_connected_clients_by_name(name):
-    return [connected_clients[c] for c in connected_clients
+    return [connected_clients[connected_clients.index(c)] for c in
+            connected_clients
             if hasattr(c, 'name') and c.name.lower() == name.lower()]
 
 

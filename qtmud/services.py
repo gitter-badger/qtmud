@@ -55,6 +55,14 @@ class MUDSocket(object):
             return False
         return True
 
+    def shutdown(self):
+        qtmud.log.debug('shutdown() and close() MUDSocket.ip4_socket & '
+                        'MUDSocket.ip6_socket')
+        self.ip4_socket.shutdown(socket.SHUT_RDWR)
+        self.ip4_socket.close()
+        self.ip6_socket.shutdown(socket.SHUT_RDWR)
+        self.ip6_socket.close()
+
     def tick(self):
         read, write, error = select.select(self.connections,
                                            [conn for conn,

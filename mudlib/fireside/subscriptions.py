@@ -50,7 +50,7 @@ def discard(player, cards=None, all=False):
         qtmud.log.debug('moving {} from {}\'s hand to the deck.'
                         ''.format(card.name, player.name))
         player.hand.remove(card)
-        fireside.DECK.append(card.__class__)
+        fireside.DECK.append(card)
     return
 
 
@@ -73,7 +73,7 @@ def draw(player, count=1):
     drawn_cards = list()
     for c in range(count):
         try:
-            drawn_cards.append(fireside.DECK.pop()())
+            drawn_cards.append(fireside.DECK.pop())
         except Exception as err:
             qtmud.schedule('send', recipient=player,
                            text='The deck is empty! Wait for someone to play '
@@ -81,8 +81,18 @@ def draw(player, count=1):
     if drawn_cards:
         for card in drawn_cards:
             player.hand.append(card)
+            card.owner = player
             fireside.player_hands[player.name] = player.hand
         qtmud.schedule('send', recipient=player,
                        text='Drew {} card[s]'.format(', '.join([c.name for c in
                                                                 drawn_cards])))
     return True
+
+
+def heal(player, amount=0, full=False):
+    if full is True:
+        player.health = 20
+    else:
+        player.health += amount
+        if player.health > 20:
+            player.health = 20

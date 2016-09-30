@@ -12,9 +12,11 @@ from mudlib.fireside import cards, cmds, services, subscriptions, txt
 player_hands = dict()
 """ All the hands currently held by different players, in the format of
 ``{ player : [ list, of, cards ] }``"""
-DECK = dict()
+DECK = list()
 """ built from the classes in :mod:`fireside.cards` when :func:`load` is
 called. """
+
+
 
 
 def build_client(client):
@@ -43,9 +45,10 @@ def build_client(client):
     for command, function in [m for m in getmembers(cmds) if isfunction(m[1])]:
         client.commands[command] = types.MethodType(function, client)
     qtmud.active_services['talker'].tune_in(channel='fireside',client=client)
+    client.history = list()
     client.hand = list()
-    client.mana = 20
-    client.health = 10
+    client.mana = 2000
+    client.health = 20
     client.armor = 0
     client.word_count = 0
     return client
@@ -55,13 +58,19 @@ def search_hand(player, text):
     or whose name has one word matching with text if text is one word.
     """
     matches = list()
-    if len(text.split(' ')) == 1:
-        for card in player.hand:
-            if text.lower() in [w.lower() for w in card.name.split(' ')]:
-                matches.append(card)
+    digit = None
+    if text[-1].isdigit():
+        digit = text.split(' ')[-1]
+        text = ' '.join(text.split(' ')[0:-1])
+        print(digit)
+        print(text)
     for card in player.hand:
-        if card.name.split(' ')[-1].lower() == text.lower():
+        if text == card.name.lower() or \
+                (len(text.split(' ')) == 1 and
+                         text == card.name.split(' ')[-1].lower()):
             matches.append(card)
+    if matches and digit:
+        matches = [matches[int(digit)]]
     return matches
 
 
@@ -79,9 +88,13 @@ def load():
                 qtmud.subscribers[s[1].__name__] = list()
             qtmud.subscribers[s[1].__name__].append(s[1])
     qtmud.active_services['talker'].new_channel('fireside')
-    DECK = [c[1] for c in getmembers(cards) if isclass(c[1])]
+    for card in [c[1]() for c in getmembers(cards) if isclass(c[1])]:
+        for _ in range(card.rarity):
+            DECK.append(card.__class__())
+    print(DECK)
     return True
 
 
 def start():
     return True
+

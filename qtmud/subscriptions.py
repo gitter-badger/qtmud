@@ -100,6 +100,11 @@ def shutdown():
     qtmud.log.debug('shutdown() occurring')
     for client in qtmud.connected_clients:
         qtmud.schedule('client_disconnect', client=client)
+    for service in qtmud.active_services:
+        try:
+            service.shutdown()
+        except:
+            pass
     while True:
         if qtmud.events:
             qtmud.log.debug('processing final events: {}'.format(qtmud.events))

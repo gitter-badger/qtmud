@@ -25,25 +25,29 @@ def play(player, line):
         Pythonic syntax: play(player, line)
     """
     output = ''
+    card_line = line
+    target_line = ''
+    target = line
     valid = False
-    matches = []
-    for card in player.hand:
-        if line == card.name.lower() or (len(line.split(' ')) == 1 and line ==
-            card.name.split(' ')[-1].lower()):
-            matches.append(card)
+    if 'at' in line.split(' ') and len(line.split(' ')) > 2:
+        card_line = ' '.join(line.split(' ')[0:((line.split(' ').index('at')))])
+        target_line = ' '.join(line.split(' ')[((line.split(' ').index('at')) +
+                                             1):])
+    matches = fireside.search_hand(player, card_line)
     if len(matches) == 1:
+        valid = True
         card = matches[0]
         output += 'Attempting to play the {} card... '.format(card.name)
-        if player.mana >= card.cost:
-            player.mana += -card.cost
-            output += ('took {} mana, now you have {} mana... '
-                       ''.format(card.cost, player.mana))
-            output += ('shuffling {} back into the deck... '.format(card.name))
-            player.hand.remove(card)
-            fireside.DECK.append(card.__class__)
-            valid = True
-        else:
-            output += ('you need {} to play this but only have {}... '
+        target = qtmud.search_connected_clients_by_name(target_line)
+        if hasattr(card, 'needs_target') and len(target) <= 0:
+            output += '...need a target, didn\'t get one... '
+            valid = False
+        if hasattr(card, 'needs_singular_target') and len(target) != 1:
+            output += '...need a single target...'
+            valid = False
+        if valid is True and player.mana <= card.cost:
+            valid = False
+            output += ('...you need {} to play this but only have {}... '
                        ''.format(card.cost, player.mana))
     elif len(matches) == 0:
         output += 'Couldn\'t find that card in your hand.'
@@ -51,30 +55,44 @@ def play(player, line):
         output += 'More than one match for that card.'
     if not output:
         output = 'Play failed for some reason.'
-    qtmud.schedule('send', recipient=player, text=output)
     if valid is True:
-        card.play(player=player, target=' '.join(line[1:]))
-
+        player.mana += -card.cost
+        output += ('...took {} mana, now you have {} mana... '
+                   ''.format(card.cost, player.mana))
+        output += ('shuffling {} back into the deck... '.format(card.name))
+        player.hand.remove(card)
+        fireside.DECK.append(card)
+        player.history.append(card.name)
+        card.play(player=player,
+                  target=None)
+    qtmud.schedule('send', recipient=player, text=output)
     return True
 
 
 def info(player, line):
     output = ''
-    matches = []
-    line = line.split(' ')
-    for card in player.hand:
-        if line[0] == card.name.lower():
-            matches.append(card)
+    matches = fireside.search_hand(player, line)
     if len(matches) == 1:
         card = matches[0]
         output += ('--- {card.name} ---\n'
-                   'COST:      {card.cost}\n'
-                   'INFO:      {card.__doc__}\n'.format(**locals()))
+                   'NAME .....  {card.cost:.>5}\n'
+                   'RARITY....  {card.rarity:.>5}\n'.format(**locals()))
+        if hasattr(card, 'stats'):
+            for stat in card.stats:
+                  output += ('{:.<10}  {:.>5}\n'.format(stat.upper(),
+                                                 card.stats[stat]))
+        if hasattr(card, 'ability'):
+            output += card.ability+'\n'
     if not output:
         output = 'Can\'t get that cards info for some reason.'
     qtmud.schedule('send', recipient=player, text=output)
     return True
 
+
+def foo(client, line):
+    output = fireside.DECK
+    qtmud.schedule('send', recipient=client, text='{}'.format(output))
+    return True
 
 def discard(client, line):
     qtmud.schedule('send', recipient=client,
