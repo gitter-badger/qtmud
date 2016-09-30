@@ -18,8 +18,15 @@ class MUDSocket(object):
         self.ip6_socket = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
         self.ip6_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
+    def get_socket_by_thing(self, thing):
+        _socket = None
+        for s in self.clients:
+                if self.clients[s] == thing:
+                    self.clients[s]
+        return _socket
+
     def start(self, ip4_address=None, ip6_address=None):
-        qtmud.log.info('start()ing MUDsocket')
+        qtmud.log.info('start()ing MUDSocket')
         if not ip4_address and hasattr(qtmud, 'IP4_ADDRESS'):
                 ip4_address = qtmud.IP4_ADDRESS
         if not ip6_address and hasattr(qtmud, 'IP6_ADDRESS'):

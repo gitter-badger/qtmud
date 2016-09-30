@@ -8,7 +8,7 @@ import qtmud
 import qtmud.subscriptions
 from mudlib.fireside import cards, cmds, services, subscriptions, txt
 
-
+connected_players = list()
 player_hands = dict()
 """ All the hands currently held by different players, in the format of
 ``{ player : [ list, of, cards ] }``"""
@@ -41,17 +41,25 @@ def build_client(client):
     | word_count | int  | additional protection from damage.                   |
     +------------+------+------------------------------------------------------+
     """
+    connected_players.append(client)
     qtmud.schedule('send',recipient=client,text=txt.SPLASH)
     for command, function in [m for m in getmembers(cmds) if isfunction(m[1])]:
         client.commands[command] = types.MethodType(function, client)
     qtmud.active_services['talker'].tune_in(channel='fireside',client=client)
+    client.max_hand = 7
+    client.max_health = 20
     client.history = list()
     client.hand = list()
-    client.mana = 2000
+    client.mana = 10
     client.health = 20
     client.armor = 0
     client.word_count = 0
     return client
+
+
+def search_connected_players_by_name(name):
+    return [p for p in connected_players if p.name.lower() == name.lower()]
+
 
 def search_hand(player, text):
     """ Searches player's hands for any cards whose name matches text,
@@ -91,7 +99,8 @@ def load():
     for card in [c[1]() for c in getmembers(cards) if isclass(c[1])]:
         for _ in range(card.rarity):
             DECK.append(card.__class__())
-    print(DECK)
+    qtmud.log.info('Built the Fireside deck - {} cards total.'
+                   ''.format(len(DECK)))
     return True
 
 

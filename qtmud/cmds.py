@@ -16,6 +16,13 @@ def commands(commander, line):
                    text=output)
     return True
 
+def foo(client, line):
+    mudsocket = qtmud.active_services['mudsocket']
+    output = mudsocket.connections
+    qtmud.schedule('send', recipient=client, text='{}'.format(output))
+    return True
+
+
 def help(client, query=''):
     """ Sends the docstring for a command to helpee.
 
@@ -124,15 +131,15 @@ def talker(client, line):
 
 
 def quit(client, line):
-    qtmud.schedule('send')
+    qtmud.schedule('send', recipient=client, text='you quit goodbye')
+    qtmud.schedule('client_disconnect', client=client)
 
 
 def who(client, line):
     qtmud.schedule('send',
                    recipient=client,
                    text='The following clients are currently connected:\n'
-                        '{}'.format('\n'.join([qtmud.active_services[
-                                        'mudsocket'].clients[c].name for c in
-                                    qtmud.active_services[
-                                        'mudsocket'].clients])))
+                        '{}'.format('\n'.join([c.name
+                                               for c in
+                                    qtmud.connected_clients])))
     return True

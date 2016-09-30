@@ -21,13 +21,12 @@ def deck(player, line):
 def play(player, line):
     """ Play a card in your hand.
 
-        in-game syntax: play <card> [[at] <target>]
-        Pythonic syntax: play(player, line)
+        in-game syntax: play <card> [at <target>]
     """
     output = ''
     card_line = line
     target_line = ''
-    target = line
+    target = None
     valid = False
     if 'at' in line.split(' ') and len(line.split(' ')) > 2:
         card_line = ' '.join(line.split(' ')[0:((line.split(' ').index('at')))])
@@ -38,13 +37,19 @@ def play(player, line):
         valid = True
         card = matches[0]
         output += 'Attempting to play the {} card... '.format(card.name)
-        target = qtmud.search_connected_clients_by_name(target_line)
+        if target_line in ['me', 'self']:
+            target = [player]
+        else:
+            target = fireside.search_connected_players_by_name(target_line)
         if hasattr(card, 'needs_target') and len(target) <= 0:
             output += '...need a target, didn\'t get one... '
             valid = False
-        if hasattr(card, 'needs_singular_target') and len(target) != 1:
-            output += '...need a single target...'
-            valid = False
+        if hasattr(card, 'needs_singular_target'):
+            if len(target) == 1:
+                target = target[0]
+            else:
+                output += '...need a single target...'
+                valid = False
         if valid is True and player.mana <= card.cost:
             valid = False
             output += ('...you need {} to play this but only have {}... '
@@ -63,9 +68,9 @@ def play(player, line):
         player.hand.remove(card)
         fireside.DECK.append(card)
         player.history.append(card.name)
-        card.play(player=player,
-                  target=None)
     qtmud.schedule('send', recipient=player, text=output)
+    if valid is True:
+        card.play(player=player, target=target)
     return True
 
 
@@ -89,11 +94,6 @@ def info(player, line):
     return True
 
 
-def foo(client, line):
-    output = fireside.DECK
-    qtmud.schedule('send', recipient=client, text='{}'.format(output))
-    return True
-
 def discard(client, line):
     qtmud.schedule('send', recipient=client,
                    text='Discard function goes here.')
@@ -102,7 +102,7 @@ def discard(client, line):
 
 def draw(player, line):
     output = ''
-    if len(player.hand) >= 5:
+    if len(player.hand) >= player.max_hand:
         output += 'Can\'t draw any more cards, "play" or "discard" one.'
     else:
         qtmud.schedule('draw', player=player, count=1)

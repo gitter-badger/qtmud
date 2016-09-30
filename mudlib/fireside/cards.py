@@ -1,6 +1,9 @@
 import random
 
+
 import qtmud
+from mudlib import fireside
+
 
 # todo: player accounts
 # search_by_connceted_player
@@ -10,6 +13,8 @@ class Card(object):
     def __init__(self):
         self.name = 'Basic Card'
         self.owner = None
+        self.needs_singular_target = False
+        self.needs_target = False
         self.rarity = 0
         self.cost = 0
 
@@ -163,32 +168,37 @@ class Grunt(Card):
                        text=('Your Grunt boosts your armor by {}'
                              ''.format(self.stats['armor'])))
 
-
 class Neckbeard(Card):
     def __init__(self):
         super(Neckbeard, self).__init__()
         self.name = 'Neckbeard'
         self.owner = None
-        self.rarity = 0
+        self.rarity = 2
         self.cost = 3
         self.ability = ('Shows how much mana every player has.')
 
     def play(self, player, target):
+        players = [p for p in fireside.connected_players]
         qtmud.schedule('send', recipient=player,
-                       text=('This card doesn\'t do anything yet!'))
+                       text=output)
 
-class Pablo():
+
+class Pablo(Card):
     """ Pablo costs 7 mana, and adds 2 points to every player's armor -
     except one. That unfortunate player (can't be the person who played
     Pablo) loses all of their armor. """
     def __init__(self):
+        super(Pablo, self).__init__()
         self.name = 'Pablo'
-        self.owner = None
-        self.rarity = 0
+        self.rarity = 1
         self.cost = 7
+        self.stats = {'armor':2}
+        self.ability = ('Pablo adds {} to every player\'s armor - except one'
+                        'at random, who loses all of theirs.'
+                        ''.format(self.stats['armor']))
 
     def play(self, player, target):
-        players = qtmud.connected_clients
+        players = fireside.connected_players
         if len(players) == 1:
             qtmud.schedule('send', recipient=player,
                            text=('You\'re the only player, so Pablo chills '
@@ -198,45 +208,85 @@ class Pablo():
         random.shuffle(players)
         victim = players.pop()
         if victim == player:
-            while victim == player:
-                players.append(victim)
-                random.shuffle(players)
-                victim = players.pop()
+            _victim = players.pop()
+            players.append(victim)
+            victim = _victim
         victim.armor = 0
         qtmud.schedule('send', recipient=victim,
-                       text=('{player} plays {card.name}, and it destroys all '
-                             'your armor!'))
+                       text=('{} funds Pablo\'s war against you, destroying '
+                             'your armor.'.format(player.name)))
         for p in players:
-            p.armor += 2
+            p.armor += self.stats['armor']
             qtmud.schedule('send',recipient=p,
-                       text=('{player} played {card.name}, so you '
-                             'gained 2 armor.'.format(**locals())))
+                       text=('{} and Pablo are a rising tide. {} armor '
+                             'for everyone.'.format(player.name,
+                                                    self.stats['armor'])))
         return True
 
 
-class PetulantChild():
-    """ Does 10 damage to a player. Normally costs 20, but costs 1 less for
-    each health less than 20 you have."""
+class PetulantChild(Card):
     def __init__(self):
+        super(PetulantChild, self).__init__()
         self.name = 'Petulant Child'
         self.owner = None
-        self.rarity = 0
-        self.cost = 20
+        self.rarity = 5
+        self.cost = 0
+        self.ability = ('Restores the target\'s health to maximum, but costs '
+                        'one more mana the next time its drawn.')
 
     def play(self, player, target):
-        refund = self.cost - (20-player.health)
-        player.health += refund
+        if not target:
+            target = player
+        target.health = target.max_health
+        self.cost += 1
+
+
+class SecretSquirrel(Card):
+    def __init__(self):
+        super(SecretSquirrel, self).__init__()
+        self.name = 'Secret Squirrel'
+        self.rarity = 5
+        self.cost = 3
+        self.needs_singular_target = True
+        self.ability = 'Find the stats & hand of one player.'
+
+    def play(self, player, target):
+        hand_string = ', '.join([c.name for c in target.hand])
+        output = ('{target.name} has {target.health} health, {target.armor} '
+                  'armor, {target.mana} mana, and the following cards in '
+                  'their hand: {hand_string}.'.format(**locals()))
+        qtmud.schedule('send', recipient=player, text=output)
+
+
+class ScoutBalloon(Card):
+    def __init__(self):
+        super(ScoutBalloon, self).__init__()
+        self.name = 'Scout Balloon'
+        self.rarity = 4
+        self.cost = 10
+        self.ability = 'Find the stats & hand of every player'
+
+    def play(self, player, target):
+        reports = list()
+        for target in fireside.connected_players:
+            hand_string = ', '.join([c.name for c in target.hand])
+            reports.append('{target.name} has {target.health} health, '
+                          '{target.armor} armor, {target.mana} mana, '
+                          'and the following cards in their hand:'
+                          '{hand_string}.'.format(**locals()))
+        qtmud.schedule('send', recipient=client,
+                       text='You receive the following reports from your '
+                            'scout balloon:\n{}'
+                            ''.format(' \n'.join(reports)))
 
 
 class MysticGiant(Card):
-    """ Cost: 35, costs 1 less for each card you've played. Does some
-    ridiculous thing."""
     def __init__(self):
         super(MysticGiant, self).__init__()
         self.name = 'Mystic Giant'
         self.rarity = 0
         self._cost = 35
-        self.stats = {'hum' : 2}
+        self.stats = {'armor': 20}
         return
 
     @property
@@ -247,8 +297,8 @@ class MysticGiant(Card):
     def cost(self, value):
         self._cost = value
 
-
     def play(self, player, target):
-        qtmud.schedule('send', recipient=player,
-                       text='This card is owned by {}'.format(player.name))
+        output = ('The mystic giant puts you on his shoulders, protecting you '
+                  'from harm. (+{} armor)'.format(self.stats['armor']))
+        qtmud.schedule('send', recipient=player, text=output)
         return True

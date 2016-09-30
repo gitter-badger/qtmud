@@ -27,12 +27,9 @@ def broadcast(channel, speaker, message):
 
 def client_disconnect(client):
     qtmud.log.debug('disconnecting {} from Fireside.'.format(client.name))
-    for other in qtmud.connected_clients:
-        qtmud.schedule('send',
-                       recipient=other,
-                       text='{} disconnected.'.format(client.name))
     if hasattr(client, 'hand'):
         qtmud.schedule('discard', player=client, all=True)
+    fireside.connected_players.remove(client)
     return True
 
 

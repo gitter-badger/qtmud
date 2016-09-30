@@ -29,6 +29,23 @@ def broadcast(channel, speaker, message):
     return True
 
 
+def client_disconnect(client):
+    mudsocket = qtmud.active_services['mudsocket']
+    qtmud.log.debug('disconnecting {} from qtmud.'.format(client.name))
+    for other in qtmud.connected_clients:
+        qtmud.schedule('send',
+                       recipient=other,
+                       text='{} disconnected.'.format(client.name))
+    try:
+        qtmud.connected_clients.remove(client)
+    except ValueError:
+        pass
+    socket = mudsocket.get_socket_by_thing(client)
+    if socket:
+        mudsocket.clients.pop(mudsocket)
+    return True
+
+
 def client_login_parser(client, line):
     """ Handle log-in for arriving players - right now, just a basic check
     against qtmud.client_accounts to see if the client is there already.
